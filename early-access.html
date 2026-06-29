@@ -6,56 +6,53 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--blue:#0044b3;--blue-dark:#003a99;--ink:#1d1d1f;--muted:#5b5b60;--line:#e3e1dd;--bg:#f6f5f2;--green:#1a7f4b;--green-bg:#e6f4ec}
+:root{--blue:#0044b3;--blue-dark:#003a99;--ink:#1d1d1f;--muted:#5b5b60;--line:#e3e1dd;--bg:#f6f5f2;--green:#1a7f4b}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans",-apple-system,system-ui,sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
-.wrap{max-width:880px;margin:0 auto;padding:48px 22px 64px}
-.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--blue);background:#eaf0fb;border:1px solid #cfdcf0;border-radius:20px;padding:6px 13px}
-h1{font-size:42px;line-height:1.08;font-weight:800;margin:20px 0 14px;letter-spacing:-.01em}
-.sub{font-size:18px;color:var(--muted);max-width:620px}
-.points{display:flex;flex-wrap:wrap;gap:12px;margin:26px 0 4px}
-.pt{display:flex;align-items:flex-start;gap:9px;font-size:14.5px;font-weight:600;background:#fff;border:1px solid var(--line);border-radius:11px;padding:12px 15px;flex:1 1 240px}
-.pt .ck{color:var(--green);font-weight:800;flex:0 0 16px}
-.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:28px 28px 24px;margin-top:30px;box-shadow:0 18px 50px -34px rgba(20,40,70,.5)}
-.card h2{font-size:21px;font-weight:800;margin:0 0 4px}
-.card .cs{font-size:14px;color:var(--muted);margin-bottom:18px}
-.field{margin-bottom:13px}
-.field label{display:block;font-size:13px;font-weight:700;margin-bottom:6px}
-.field input,.field textarea{width:100%;font-family:inherit;font-size:15px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:#fdfdfc;color:var(--ink)}
-.field input:focus,.field textarea:focus{outline:none;border-color:var(--blue)}
-.field textarea{resize:vertical;min-height:70px}
-.btn{width:100%;border:none;background:var(--blue);color:#fff;font-family:inherit;font-size:16px;font-weight:700;padding:14px;border-radius:11px;cursor:pointer;margin-top:4px}
+.wrap{max-width:600px;margin:0 auto;padding:54px 22px 64px}
+h1{font-size:40px;line-height:1.1;font-weight:800;margin:0 0 14px;letter-spacing:-.015em}
+.sub{font-size:17px;color:var(--muted);margin:0}
+.pts{list-style:none;margin:26px 0 4px;padding:0;display:flex;flex-direction:column;gap:12px}
+.pts li{display:flex;align-items:center;gap:11px;font-size:15.5px}
+.pts li .ck{width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:0 0 24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:26px 26px 22px;margin-top:28px;box-shadow:0 18px 50px -34px rgba(20,40,70,.5)}
+form{display:flex;flex-direction:column;gap:11px}
+.field{display:flex;align-items:center;gap:11px;border:1px solid var(--line);border-radius:11px;padding:0 15px;background:#fdfdfc}
+.field:focus-within{border-color:var(--blue)}
+.field svg{width:19px;height:19px;flex:0 0 19px}
+.field input{border:none;background:none;outline:none;flex:1;font-family:inherit;font-size:15.5px;padding:15px 0;color:var(--ink)}
+.btn{border:none;background:var(--blue);color:#fff;font-family:inherit;font-size:16px;font-weight:700;padding:15px;border-radius:12px;cursor:pointer;margin-top:5px}
 .btn:hover{background:var(--blue-dark)}
-.micro{font-size:12.5px;color:var(--muted);text-align:center;margin-top:12px}
-.success{display:none;text-align:center;padding:30px 10px}
+.success{display:none;text-align:center;padding:26px 8px}
 .success .big{font-size:40px}
 .success h2{font-size:22px;margin:10px 0 6px}
 .success p{color:var(--muted);font-size:15px;margin:0}
-.foot{text-align:center;font-size:13px;color:var(--muted);margin-top:30px}
-@media(max-width:600px){h1{font-size:32px}}
+.foot{text-align:center;font-size:13px;color:var(--muted);margin-top:28px}
+@media(max-width:600px){h1{font-size:31px}}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <span class="eyebrow">&#9889; From JobFairX · Early access</span>
-  <h1>Stop sorting résumés.<br>Get interviews booked.</h1>
-  <p class="sub">JobAgentX is an AI agent that works a role end to end — it sources candidates, screens them against your must-haves, and books the qualified ones straight onto your calendar. You just show up and decide.</p>
-  <div class="points">
-    <div class="pt"><span class="ck">&#10003;</span><span>Qualified interviews — not piles of applications</span></div>
-    <div class="pt"><span class="ck">&#10003;</span><span>Works 24/7 per role · you keep the final say</span></div>
-    <div class="pt"><span class="ck">&#10003;</span><span>Free for our founding users</span></div>
-  </div>
+  <h1>Your AI recruiter that books interviews for you</h1>
+  <p class="sub">Tell JobAgentX who you're hiring once. It continuously sources qualified candidates, screens them, and schedules interviews directly on your calendar — so you can focus on hiring instead of recruiting.</p>
+  <ul class="pts">
+    <li><span class="ck">&#10003;</span>Interviews scheduled <b>&nbsp;automatically</b></li>
+    <li><span class="ck">&#10003;</span><b>No&nbsp;</b> sourcing or resume screening</li>
+    <li><span class="ck">&#10003;</span>AI works <b>&nbsp;24/7&nbsp;</b> for every open role</li>
+  </ul>
 
-  <div class="card" id="card">
+  <div class="card">
     <div id="form-view">
-      <h2>Be one of the first</h2>
-      <div class="cs">We're onboarding a small group of employers before launch. Add your email and we'll get you free early access the moment your agent's ready.</div>
       <form id="eaForm">
-        <div class="field"><label for="email">Work email *</label><input id="email" name="email" type="email" required placeholder="you@company.com"></div>
-        <div class="field"><label for="company">Company</label><input id="company" name="company" type="text" placeholder="Company name"></div>
-        <div class="field"><label for="message">What role are you hiring for, and what would make this a must-have? <span style="color:var(--muted);font-weight:400">(optional)</span></label><textarea id="message" name="message" placeholder="e.g. Registered Nurses, 20+/month — biggest pain is no-shows"></textarea></div>
-        <button class="btn" type="submit" id="submitBtn">Get free early access</button>
-        <div class="micro">Free for founding users. No card. We'll email you when your agent's ready.</div>
+        <div class="field">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#9a9aa0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 5L2 7"/></svg>
+          <input id="email" type="email" required placeholder="Work email *">
+        </div>
+        <div class="field">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#9a9aa0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
+          <input id="first" type="text" placeholder="First name">
+        </div>
+        <button class="btn" type="submit" id="submitBtn">Join the early access list &rarr;</button>
       </form>
     </div>
     <div class="success" id="success-view">
@@ -64,29 +61,25 @@ h1{font-size:42px;line-height:1.08;font-weight:800;margin:20px 0 14px;letter-spa
       <p>Thanks — you're in the founding group. We'll reach out as soon as your agent is ready to start booking interviews.</p>
     </div>
   </div>
-  <div class="foot">JobAgentX is a new product from JobFairX · currently in early access</div>
+  <div class="foot">JobAgentX is a new product from JobFairX</div>
 </div>
 <script>
-/* ===== HubSpot wiring — paste your IDs below =====
-   Create a HubSpot form with fields: Email, Company, Message.
-   Then grab your Portal ID + Form GUID (HubSpot → Marketing → Forms → your form → Share/Embed). */
+/* ===== HubSpot wiring — create a form with fields Email + First name, then paste IDs ===== */
 const HS_PORTAL_ID = 'YOUR_PORTAL_ID';
 const HS_FORM_GUID = 'YOUR_FORM_GUID';
-
 document.getElementById('eaForm').addEventListener('submit', function(e){
   e.preventDefault();
-  var btn=document.getElementById('submitBtn'); btn.disabled=true; btn.textContent='Sending…';
+  var btn=document.getElementById('submitBtn'); btn.disabled=true; btn.textContent='Joining…';
   var fields=[
     {name:'email',value:document.getElementById('email').value.trim()},
-    {name:'company',value:document.getElementById('company').value.trim()},
-    {name:'message',value:document.getElementById('message').value.trim()}
+    {name:'firstname',value:document.getElementById('first').value.trim()}
   ];
   var done=function(){document.getElementById('form-view').style.display='none';document.getElementById('success-view').style.display='block';};
   if(HS_PORTAL_ID==='YOUR_PORTAL_ID'){ console.warn('Set HS_PORTAL_ID / HS_FORM_GUID to go live.'); done(); return; }
   fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+HS_PORTAL_ID+'/'+HS_FORM_GUID,{
     method:'POST',headers:{'Content-Type':'application/json'},
     body:JSON.stringify({fields:fields,context:{pageUri:location.href,pageName:document.title}})
-  }).then(function(r){ done(); }).catch(function(){ done(); });
+  }).then(function(){ done(); }).catch(function(){ done(); });
 });
 </script>
 </body>
