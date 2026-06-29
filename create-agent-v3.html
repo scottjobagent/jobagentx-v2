@@ -815,6 +815,23 @@ textarea.ta{width:100%;box-sizing:border-box;border:1px solid #d4d2d0;border-rad
 .jp-pills{display:flex;flex-wrap:wrap;gap:6px}
 .jp-pill{background:#eef0ec;border-radius:999px;padding:4px 11px;font-size:12.5px;color:#2d2d2d}
 .jp-desc{font-size:13.5px;color:#444;line-height:1.55;white-space:pre-wrap;max-height:150px;overflow:hidden;position:relative}
+
+/* launch animation */
+.launch-ov{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;animation:lfade .25s ease}
+@keyframes lfade{from{opacity:0}to{opacity:1}}
+.launch-box{text-align:center;max-width:440px;padding:24px}
+.launch-orb{width:96px;height:96px;margin:0 auto 28px;position:relative}
+.launch-orb .core{position:absolute;inset:36px;border-radius:50%;background:#0044b3;animation:lpulse 1.4s ease-in-out infinite}
+.launch-orb span{position:absolute;inset:0;border-radius:50%;border:2px solid #0044b3;opacity:0;animation:lring 1.8s ease-out infinite}
+.launch-orb span:nth-child(2){animation-delay:.6s}
+.launch-orb span:nth-child(3){animation-delay:1.2s}
+@keyframes lring{0%{transform:scale(.35);opacity:.65}100%{transform:scale(1);opacity:0}}
+@keyframes lpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.launch-h{font-size:25px;font-weight:800;color:#2d2d2d;margin-bottom:10px}
+.launch-msg{font-size:16px;color:#595959;min-height:24px;transition:opacity .2s}
+.launch-bar{width:240px;height:6px;border-radius:3px;background:#ececec;margin:24px auto 0;overflow:hidden}
+.launch-bar i{display:block;height:100%;background:#0044b3;width:0;animation:lfill 3.2s linear forwards}
+@keyframes lfill{to{width:100%}}
 </style>
 </head>
 <body>
@@ -1155,7 +1172,17 @@ function launch(){
     awaiting:0,confirmed:0,interviewed:0,hires:0,pending:0,metrics:{sourced:0,prequal:0,showRate:0,weekly:[]},
     activity:[{mins:1,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}],candidates:[]};
   AX.add(agent);
-  location.href='interview-room.html?a='+id;
+  showLaunching(A.role);
+}
+function plural(r){if(!r)return 'candidates';return /s$/i.test(r)?r:r+'s';}
+function showLaunching(role){
+  const r=role||'your role';
+  const lines=['Setting up your agent…','Matching qualified '+plural(r)+'…','Screening against your must-haves…','Booking interviews on your calendar…'];
+  const ov=document.createElement('div');ov.className='launch-ov';
+  ov.innerHTML='<div class="launch-box"><div class="launch-orb"><span></span><span></span><span></span><div class="core"></div></div><div class="launch-h">Launching your '+E(r)+' agent</div><div class="launch-msg" id="lmsg">'+E(lines[0])+'</div><div class="launch-bar"><i></i></div></div>';
+  document.body.appendChild(ov);
+  let i=0;const t=setInterval(function(){i++;const el=document.getElementById('lmsg');if(el&&i<lines.length){el.style.opacity=0;setTimeout(function(){el.textContent=lines[i];el.style.opacity=1;},180);}},760);
+  setTimeout(function(){clearInterval(t);location.href='index.html';},3200);
 }
 
 ask('role');
