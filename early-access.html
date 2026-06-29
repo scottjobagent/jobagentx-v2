@@ -52,7 +52,7 @@ form{display:flex;flex-direction:column;gap:11px}
           <svg viewBox="0 0 24 24" fill="none" stroke="#9a9aa0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
           <input id="first" type="text" placeholder="First name">
         </div>
-        <button class="btn" type="submit" id="submitBtn">Join the early access list &rarr;</button>
+        <button class="btn" type="submit" id="submitBtn">Get early access</button>
       </form>
     </div>
     <div class="success" id="success-view">
@@ -69,7 +69,7 @@ const HS_PORTAL_ID = 'YOUR_PORTAL_ID';
 const HS_FORM_GUID = 'YOUR_FORM_GUID';
 document.getElementById('eaForm').addEventListener('submit', function(e){
   e.preventDefault();
-  var btn=document.getElementById('submitBtn'); btn.disabled=true; btn.textContent='Joining…';
+  var btn=document.getElementById('submitBtn'); btn.disabled=true; btn.textContent='Sending…';
   var fields=[
     {name:'email',value:document.getElementById('email').value.trim()},
     {name:'firstname',value:document.getElementById('first').value.trim()}

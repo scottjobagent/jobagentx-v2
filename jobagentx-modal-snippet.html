@@ -41,7 +41,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="#9a9aa0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"/><circle cx="12" cy="7" r="4"/></svg>
           <input id="jax-ea-first" type="text" placeholder="First name">
         </div>
-        <button class="jax-ea-btn" type="submit" id="jax-ea-submit">Join the early access list &rarr;</button>
+        <button class="jax-ea-btn" type="submit" id="jax-ea-submit">Get early access</button>
       </form>
     </div>
     <div id="jax-ea-success">
@@ -90,7 +90,7 @@
   ov.addEventListener('click', function(e){ if(e.target===ov) close(); });
   document.getElementById('jax-ea-formel').addEventListener('submit', function(e){
     e.preventDefault();
-    var b=document.getElementById('jax-ea-submit'); b.disabled=true; b.textContent='Joining…';
+    var b=document.getElementById('jax-ea-submit'); b.disabled=true; b.textContent='Sending…';
     var fields=[
       {name:'email',value:document.getElementById('jax-ea-email').value.trim()},
       {name:'firstname',value:document.getElementById('jax-ea-first').value.trim()}
