@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Interviews</title>
+<title>JobAgentX — Pricing (Bundled)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -744,27 +744,25 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
-      <div class="iv-head"><h1 style="color:var(--ink)">Interviews</h1>
-        <div class="iv-actions">
-          <div class="select" id="agentFilter">All agents <span class="ca">&#9662;</span></div>
-          <div style="position:relative"><button class="dots-btn" onclick="toggleDots(event)"><svg viewBox="0 0 24 24" fill="#0044B3"><circle cx="6" cy="12" r="2.3"></circle><circle cx="12" cy="12" r="2.3"></circle><circle cx="18" cy="12" r="2.3"></circle></svg></button>
-            <div class="dots-menu" id="dotsMenu"><button class="dots-menu-item" onclick="dmi('ivModal')">Add interviewers</button><button class="dots-menu-item" onclick="dmi('vtModal')">Test video and audio <svg class="external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 3h7v7"></path><path d="M10 14L21 3"></path><path d="M21 14v5a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5"></path></svg></button></div></div>
-        </div>
+      <div class="compare-row"><div class="compare-bar"><span class="cb-tag">Pricing model</span><a class="cb-opt" href="pricing.html">Linear (per role)</a><a class="cb-opt on" href="pricing-bundled.html">Bundled + plateau</a></div></div>
+      <div class="pr-head">
+        <h1>Scales with your hiring — then stops</h1>
+        <p>Start free. Add roles as you grow, and the price per role bends down fast. Hit unlimited and stop counting reqs. Never pay per seat.</p>
       </div>
-      <div class="subtabs" id="tabs"></div>
-      <div class="lpanel" id="content"></div>
+      <div class="pr-toggle-row">
+        <div class="seg"><button class="on" id="seg-mo" onclick="setCycle('mo')">Monthly</button><button id="seg-yr" onclick="setCycle('yr')">Annual <span class="save">Save 20%</span></button></div>
+        <div class="pr-users">&#128101; Unlimited users on every plan — invite your whole team free</div>
+      </div>
+      <div id="grid"></div>
+      <div class="pr-foot">Hiring at higher volume or need ATS, SSO, and hiring-manager seats? <a href="#" onclick="contactSales();return false;">Talk to sales &rarr;</a></div>
     </div>
   </main>
 </div>
-
-<div class="overlay" id="declineModal"><div class="modal"><h3>Decline interview</h3><p>Decline the request from <b id="d_name">this candidate</b>? They’ll be removed from your list.</p><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('declineModal')">Cancel</button><button class="btn btn-danger btn-sm" onclick="doDecline()">Decline</button></div></div></div>
-<div class="overlay" id="schedModal"><div class="modal"><h3>Propose a new time</h3><div class="setup-field"><label class="setup-label">Time</label><input class="setup-input" placeholder="e.g. Thu 10:00 AM - 10:30 AM"></div><div class="setup-field"><label class="setup-label">Message</label><textarea class="setup-input" rows="3" style="border-radius:10px"></textarea></div><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('schedModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="closeM('schedModal')">Send</button></div></div></div>
-<div class="overlay" id="micModal"><div class="modal"><h3>Join interview</h3><p>Your browser will ask for camera and microphone access so the candidate can see and hear you.</p><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('micModal')">Not now</button><button class="btn btn-primary btn-sm" onclick="closeM('micModal')">Join now</button></div></div></div>
-<div class="overlay" id="recModal"><div class="modal"><h3>Recommend moving forward with <span id="r_name">this candidate</span>?</h3><p>Internal to your team.</p><div class="rec-opts"><label><input type="radio" name="rec">Yes</label><label><input type="radio" name="rec">Maybe</label><label><input type="radio" name="rec">No</label></div><div class="setup-field" style="margin-top:12px"><label class="setup-label">Notes (optional)</label><textarea class="setup-input" rows="3" style="border-radius:10px"></textarea></div><div class="modal-foot"><button class="btn btn-primary btn-sm" onclick="closeM('recModal')">Done</button></div></div></div>
-<div class="overlay" id="notesModal"><div class="modal"><h3>Notes for <span id="n_name">this candidate</span></h3><textarea class="setup-input" rows="5" style="border-radius:10px"></textarea><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('notesModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="closeM('notesModal')">Save</button></div></div></div>
-<div class="overlay" id="ivModal"><div class="modal"><h3>Interview settings</h3><p>Who will be interviewing candidates?</p><div class="email-chips" id="ivchips"></div><div class="row2"><input class="setup-input" id="ivEmail" placeholder="interviewer@company.com"><button class="btn btn-dark btn-sm" onclick="addIv()" style="align-self:center">Add</button></div><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('ivModal')">Done</button></div></div></div>
-<div class="overlay" id="vtModal"><div class="modal wide"><h3>Test video and audio</h3><div class="vt-preview"><div class="cam">SC</div></div><div class="vt-row"><div><label class="setup-hint">Microphone</label><div class="setup-selectwrap"><select class="setup-input"><option>Default — MacBook Pro Mic</option></select><span class="chev">&#9662;</span></div></div><div><label class="setup-hint">Camera</label><div class="setup-selectwrap"><select class="setup-input"><option>MacBook Pro Camera</option></select><span class="chev">&#9662;</span></div></div></div><div class="modal-foot"><button class="btn btn-primary btn-sm" onclick="closeM('vtModal')">Done</button></div></div></div>
-
+<div class="overlay" id="okModal"><div class="modal">
+  <div class="wall-ic">&#10003;</div>
+  <h3 id="okTitle">You're upgraded</h3><p id="okText"></p>
+  <div class="modal-foot"><button class="btn btn-primary btn-sm" onclick="location.href='index.html'">Go to dashboard</button></div>
+</div></div>
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
@@ -919,45 +917,60 @@ try{if(typeof window!=='undefined'){window.AX=AX;window.resetDemo=function(){AX.
 
 </script>
 <script>
-document.getElementById('side').innerHTML=AX.sidebar('interviews');
+const E=AX.esc;
+document.getElementById('side').innerHTML=AX.sidebar('');
 document.getElementById('top').innerHTML=AX.topbar();
-const E=AX.esc; let tab='needs', filter='all', dotsOpen=false;
-const SVG_EMPTY='<svg class="status-card-illustration" viewBox="0 0 140 100" fill="none"><circle cx="55" cy="35" r="10" fill="#8fbc8f" opacity="0.7"></circle><circle cx="62" cy="28" r="8" fill="#7da67d" opacity="0.8"></circle><circle cx="50" cy="28" r="7" fill="#a8d5a8" opacity="0.6"></circle><rect x="54" y="44" width="4" height="16" rx="2" fill="#c17f59"></rect><rect x="80" y="38" width="28" height="4" rx="2" fill="#d4956b"></rect><rect x="104" y="30" width="4" height="36" rx="2" fill="#c17f59"></rect><rect x="80" y="42" width="4" height="24" rx="2" fill="#c17f59"></rect><rect x="70" y="66" width="50" height="6" rx="3" fill="#f0ebe4"></rect><rect x="78" y="72" width="4" height="14" rx="2" fill="#e0d6ca"></rect><rect x="108" y="72" width="4" height="14" rx="2" fill="#e0d6ca"></rect></svg>';
-function all(){let list=[];AX.get().agents.forEach(a=>{if(filter!=='all'&&a.id!==filter)return;(a.candidates||[]).forEach(c=>list.push(Object.assign({aid:a.id,role:a.role},c)));});return list;}
-function bucket(t){const m={needs:'awaiting',upcoming:'upcoming',completed:'interviewed'};return all().filter(c=>c.status===m[t]);}
-function counts(){return {needs:bucket('needs').length,upcoming:bucket('upcoming').length,completed:bucket('completed').length};}
-function nameCell(x){return `<div class="namecell"><div class="ava-c">${E(AX.ini(x.name))}</div><div><div class="nm"><a class="link" href="candidate.html?a=${x.aid}&c=${x.id}">${E(x.name)}</a></div><div class="links"><a href="candidate.html?a=${x.aid}&c=${x.id}">View profile</a><a href="messaging.html">Message</a></div></div></div>`;}
-function tbl(head,rows){return `<table><thead><tr>${head.map(h=>`<th>${h}</th>`).join('')}</tr></thead><tbody>${rows}</tbody></table>`;}
-function card(i){return `<div class="lcard">${i}</div>`;}
-function empty(h,s){return `<div class="status-card"><div class="status-card-text"><h3>${h}</h3><p>${s}</p></div>${SVG_EMPTY}</div>`;}
-function renderTabs(){const c=counts();const T=[['needs','Needs your response',c.needs],['upcoming','Upcoming',c.upcoming],['completed','Completed',c.completed]];document.getElementById('tabs').innerHTML=T.map(t=>`<div class="subtab ${tab===t[0]?'active':''}" onclick="setTab('${t[0]}')">${t[1]} <span class="cnt">${t[2]}</span></div>`).join('');}
-function render(){
-  renderTabs();const rows=bucket(tab);const c=document.getElementById('content');let h='';
-  if(!rows.length){h={needs:empty('Nothing needs your response','When candidates request interviews outside auto-accept, they’ll appear here to accept, decline, or reschedule.'),upcoming:empty('No upcoming interviews','Booked interviews across your agents will show here with join links and reminders.'),completed:empty('No completed interviews yet','Interviewed candidates will appear here with feedback and notes.')}[tab];}
-  else if(tab==='needs')h=card(`<div class="room-sec-h">Needs your response (${rows.length})</div>`+tbl(['Name','Agent','Requested time','Action'],rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)}</td><td><div class="row2" style="gap:8px;max-width:280px"><button class="btn btn-accept btn-xs" onclick="accept(this)">Accept</button><button class="btn btn-line btn-xs" onclick="openM('schedModal')">Reschedule</button><button class="btn btn-line btn-xs" onclick="decline('${E(x.name)}','${x.aid}','${x.id}')">Decline</button></div></td></tr>`).join('')));
-  else if(tab==='upcoming')h=card(`<div class="room-sec-h">Upcoming interviews (${rows.length})</div>`+tbl(['Name','Agent','Interview time','Action'],rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)}</td><td><div class="row2" style="gap:8px;max-width:300px"><button class="btn btn-accept btn-xs" onclick="openM('micModal')">Join</button><button class="btn btn-line btn-xs" onclick="openM('schedModal')">Reschedule</button><button class="btn btn-line btn-xs">Cancel</button></div></td></tr>`).join('')));
-  else h=card(`<div class="room-sec-h">Completed interviews (${rows.length})</div>`+tbl(['Name','Agent','Interview','Feedback','Notes','Action'],rows.map(x=>`<tr><td>${nameCell(x)}</td><td>${E(x.role)}</td><td>${E(x.time)}</td><td><span class="chip ${x.feedback==='Yes'?'active':'sourcing'}"><span class="dot"></span>${E(x.feedback||'Review')}</span> <a class="tinylink" onclick="rec('${E(x.name)}')">Update</a></td><td><a class="tinylink" onclick="notes('${E(x.name)}')">Notes</a></td><td><a class="link" href="messaging.html">Message</a></td></tr>`).join('')));
-  c.innerHTML=h;
+let cycle='mo';
+const plans=[
+  {id:'free',name:'Free',desc:'See the agent work before you pay.',mo:0,roleLabel:'1 agent',cta:'current',
+   feats:['<b class="lead">1 agent</b> — runs for real','<b>5 candidate unlocks</b>, account-wide',
+     'Unlimited matches delivered (locked preview)','Self-scheduled interviews with anyone you unlock','Unlimited users','Basic dashboard']},
+  {id:'starter',name:'Starter',desc:'Your first role, worked end to end.',mo:495,roles:1,
+   feats:['<b class="lead">1 active agent</b> (1 role)','Unlimited candidate unlocks &amp; interviews',
+     'Full outreach: SMS + email, reminders, no-show recovery','Auto-accept or manual-review mode',
+     'Availability windows &amp; calendar control','Analytics dashboard','Unlimited users','Email support']},
+  {id:'growth',name:'Growth',desc:'Hiring several roles at once.',mo:1500,roles:5,pop:true,
+   feats:['<b class="lead">Everything in Starter, plus:</b>','<b>Up to 5 active agents</b> (5 roles)',
+     '&#8776; $300 per role — the volume bend','Shared team inbox &amp; collaboration',
+     'Deeper hiring analytics by role','Priority support']},
+  {id:'scale',name:'Scale',desc:'Always-on hiring, no limits.',mo:3000,roles:'unlimited',
+   feats:['<b class="lead">Everything in Growth, plus:</b>','<b>Unlimited active agents</b> — stop counting reqs',
+     'Advanced analytics across every role','Onboarding &amp; priority support']},
+  {id:'ent',name:'Enterprise',desc:'Multiple teams, full control.',custom:true,
+   feats:['<b class="lead">Everything in Scale, plus:</b>','ATS + CRM integration','SSO / SCIM provisioning',
+     'Hiring-manager seats &amp; approval workflows','Dedicated CSM, audit logs, custom data retention']}
+];
+function priceBlock(p){
+  if(p.id==='free')return `<div class="price"><span class="amt">$0</span><span class="per">/ forever</span></div><div class="billed">No card required</div><div class="rate">&nbsp;</div>`;
+  if(p.custom)return `<div class="price"><span class="amt">Custom</span></div><div class="billed">Tailored to your volume</div><div class="rate">&nbsp;</div>`;
+  const total=cycle==='yr'?Math.round(p.mo*0.8):p.mo;
+  let rate='&nbsp;';
+  if(p.roles===1)rate=`$${total.toLocaleString()} / agent · 1 role`;
+  else if(typeof p.roles==='number')rate=`&#8776; $${Math.round(total/p.roles).toLocaleString()} / agent · up to ${p.roles} roles`;
+  else rate='Unlimited roles';
+  return `<div class="price"><span class="amt">$${total.toLocaleString()}</span><span class="per">/ mo</span></div>
+    <div class="billed">${cycle==='yr'?'billed annually':'billed monthly'}</div>
+    <div class="rate">${rate}</div>`;
 }
-window.setTab=function(t){tab=t;render();};
-window.accept=function(el){el.closest('td').innerHTML='<span class="chip active"><span class="dot"></span>Accepted</span>';};
-let dn={};
-window.decline=function(n,a,c){dn={a,c};document.getElementById('d_name').textContent=n;openM('declineModal');};
-window.doDecline=function(){AX.updateCandidate(dn.a,dn.c,{status:'declined'});const ag=AX.agent(dn.a);AX.update(dn.a,{awaiting:Math.max(0,(ag.awaiting||0)-1)});closeM('declineModal');render();};
-window.rec=function(n){document.getElementById('r_name').textContent=n;openM('recModal');};
-window.notes=function(n){document.getElementById('n_name').textContent=n;openM('notesModal');};
-window.openM=function(id){if(id==='ivModal')renderIv();document.getElementById(id).classList.add('show');};
-window.closeM=function(id){document.getElementById(id).classList.remove('show');};
-window.toggleDots=function(e){e.stopPropagation();dotsOpen=!dotsOpen;document.getElementById('dotsMenu').classList.toggle('open',dotsOpen);};
-window.dmi=function(id){dotsOpen=false;document.getElementById('dotsMenu').classList.remove('open');openM(id);};
-let ivs=['demo@jobfairx.com (you)'];
-function renderIv(){document.getElementById('ivchips').innerHTML=ivs.map((iv,i)=>`<div class="email-chip">${E(iv)}${i>0?`<span class="x" onclick="rmIv(${i})">&times;</span>`:''}</div>`).join('');}
-window.addIv=function(){const v=document.getElementById('ivEmail').value.trim();if(!/.+@.+\..+/.test(v))return;ivs.push(v);document.getElementById('ivEmail').value='';renderIv();};
-window.rmIv=function(i){ivs.splice(i,1);renderIv();};
-document.getElementById('agentFilter').onclick=function(){const ids=['all',...AX.get().agents.map(a=>a.id)];const i=ids.indexOf(filter);filter=ids[(i+1)%ids.length];this.innerHTML=(filter==='all'?'All agents':E(AX.agent(filter).role))+' <span class="ca">&#9662;</span>';render();};
-document.addEventListener('click',function(){if(dotsOpen){dotsOpen=false;document.getElementById('dotsMenu').classList.remove('open');}});
-[...document.querySelectorAll('.overlay')].forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
-render();
+function ctaBtn(p){
+  if(p.cta==='current')return `<button class="btn btn-line pbtn" disabled style="opacity:.6;cursor:default">Current plan</button>`;
+  if(p.custom)return `<button class="btn btn-dark pbtn" onclick="contactSales()">Contact sales</button>`;
+  return `<button class="btn ${p.pop?'btn-primary':'btn-line'} pbtn" onclick="upgrade('${p.id}','${E(p.name)}')">Choose ${E(p.name)}</button>`;
+}
+function paint(){
+  document.getElementById('grid').innerHTML=`<div class="pr-grid">${plans.map(p=>`
+    <div class="pcard ${p.pop?'pop':''}">${p.pop?'<div class="pop-badge">Most popular</div>':''}
+      <div class="pname">${E(p.name)}</div><div class="pdesc">${p.desc}</div>
+      ${priceBlock(p)}
+      ${ctaBtn(p)}
+      <ul class="feats">${p.feats.map(f=>`<li><span class="ck">&#10003;</span><span>${f}</span></li>`).join('')}</ul>
+    </div>`).join('')}</div>`;
+}
+window.setCycle=function(c){cycle=c;document.getElementById('seg-mo').classList.toggle('on',c==='mo');document.getElementById('seg-yr').classList.toggle('on',c==='yr');paint();};
+window.upgrade=function(id,name){AX.setPlan(id);document.getElementById('okTitle').textContent='You’re on '+name;document.getElementById('okText').innerHTML='Your free limit is lifted — agents will unlock candidates and book interviews without a cap. <span style="color:var(--muted)">(Prototype: no charge.)</span>';document.getElementById('okModal').classList.add('show');};
+window.contactSales=function(){document.getElementById('okTitle').textContent='Thanks — we’ll be in touch';document.getElementById('okText').innerHTML='A specialist will reach out about Enterprise volume, ATS/SSO, and hiring-manager seats. <span style="color:var(--muted)">(Prototype: nothing sent.)</span>';document.querySelector('.wall-ic').innerHTML='&#9993;';document.getElementById('okModal').classList.add('show');};
+document.getElementById('okModal').addEventListener('click',e=>{if(e.target.id==='okModal')e.currentTarget.classList.remove('show');});
+paint();
 </script>
 </body>
 </html>

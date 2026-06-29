@@ -728,6 +728,14 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .reset-demo{font-family:inherit;font-size:12.5px;font-weight:600;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
 .reset-demo:hover{border-color:#9a9a9a;color:var(--text)}
 
+/* pricing model compare bar */
+.compare-bar{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:5px 6px 5px 14px;margin:0 auto 6px;font-size:13px}
+.compare-bar{display:flex;width:max-content}
+.compare-row{display:flex;justify-content:center}
+.compare-bar .cb-tag{color:var(--muted);font-weight:600;margin-right:6px}
+.compare-bar .cb-opt{padding:6px 14px;border-radius:16px;font-weight:700;color:var(--muted);text-decoration:none}
+.compare-bar .cb-opt.on{background:var(--text);color:#fff}
+
 </style>
 </head>
 <body>
@@ -736,6 +744,7 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
+      <div class="compare-row"><div class="compare-bar"><span class="cb-tag">Pricing model</span><a class="cb-opt on" href="pricing.html">Linear (per role)</a><a class="cb-opt" href="pricing-bundled.html">Bundled + plateau</a></div></div>
       <div class="pr-head">
         <h1>Pay by the roles you're hiring</h1>
         <p>One agent works one role end to end — sourcing, screening, and booking pre-qualified interviews. Add a role, add an agent. Never pay per seat.</p>
