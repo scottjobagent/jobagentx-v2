@@ -843,6 +843,22 @@ textarea.ta{width:100%;box-sizing:border-box;border:1px solid #d4d2d0;border-rad
 .launch-bar{width:240px;height:6px;border-radius:3px;background:#ececec;margin:24px auto 0;overflow:hidden}
 .launch-bar i{display:block;height:100%;background:#0044b3;width:0;animation:lfill 3.2s linear forwards}
 @keyframes lfill{to{width:100%}}
+
+/* Metaview-style input bar */
+.ibar{display:flex;align-items:center;gap:11px;border:1px solid #d4d2d0;border-radius:28px;padding:7px 7px 7px 15px;background:#fff}
+.ibar:focus-within{border-color:#0044b3}
+.ibar .iorb{width:26px;height:26px;border-radius:50%;flex:0 0 26px;background:linear-gradient(135deg,#0044b3 0%,#4f86f7 55%,#9b6dff 100%)}
+.ibar .iin{flex:1;min-width:0;border:none;outline:none;background:none;font-family:inherit;font-size:16px;color:#2d2d2d;padding:7px 0}
+.ibar .iin::placeholder{color:#9a9aa0}
+.ibar .isend{width:38px;height:38px;border-radius:50%;border:none;background:#0044b3;cursor:pointer;flex:0 0 38px;display:flex;align-items:center;justify-content:center}
+.ibar .isend:hover{background:#003a99}
+.minicont{margin-top:13px;background:#0044b3;color:#fff;border:none;border-radius:999px;padding:11px 22px;font-weight:700;font-size:14.5px;cursor:pointer;font-family:inherit}
+.minicont:hover{background:#003a99}
+/* empty-state right panel (Metaview) */
+.jp-empty{min-height:74vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 34px}
+.jp-empty .ic{color:#c4c2bd;margin-bottom:16px}
+.jp-empty .h{font-size:15.5px;font-weight:700;color:#2d2d2d;margin-bottom:7px}
+.jp-empty .s{font-size:13.5px;color:#8a8a8a;max-width:300px;line-height:1.55}
 </style>
 </head>
 <body>
@@ -1039,7 +1055,7 @@ const A={role:'',locationType:'in_person',address:'',resideRequired:'no',resideA
   jobType:[],payMode:'range',payMin:'',payMax:'',payRate:'per hour',benefits:[],shift:[],schedule:[],jd:'',
   slot:30,capacity:3,autoAccept:false,resumeRequired:true,interviewers:['demo@jobfairx.com (you)'],recipients:[],screening:[]};
 
-let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false;
+let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false; let locDone=false;
 
 const STAGES={
   role:{q:()=>'Who do you need to hire?',ctrl:'text',ph:'e.g. Registered Nurse',chips:ROLE_CHIPS,field:'role'},
@@ -1085,7 +1101,7 @@ function goNext(stage){
 }
 function ask(stage, instant){
   cur=stage; editingDesc=false; screenAdding=false;
-  if(stage==='jobtype'&&!A.jobType.length)A.jobType=['Full-time'];
+  if(stage==='jobtype'){locDone=true;if(!A.jobType.length)A.jobType=['Full-time'];}
   if(stage==='pay'&&!A.payMin&&!A.payMax){A.payMin='20';A.payMax='28';}
   if(stage==='description'&&!A.jd)A.jd=draftJD(A.role||'this role');
   if(STAGES[stage].ctrl==='multi')multi=A[STAGES[stage].field].slice();
@@ -1104,17 +1120,18 @@ function msgHTML(m){const name=m.who==='bot'?'JobAgentX':'You';const who=m.who==
 function typingHTML(){return '<div class="msg bot"><div class="whorow">'+avatarHTML('bot')+'<span class="nm">JobAgentX</span></div><div class="bub bot typing"><span></span><span></span><span></span></div></div>';}
 function renderMsgs(){let html=msgs.map(msgHTML).join('');if(typing)html+=typingHTML();document.getElementById('msgs-in').innerHTML=html;const m=document.getElementById('msgs');m.scrollTop=m.scrollHeight;}
 function renderCtrl(){document.getElementById('ctrl').innerHTML=controlHTML();const inp=document.getElementById('cin');if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')sendText();};}}
+function ibar(id,ph,fn){return '<div class="ibar"><span class="iorb"></span><input class="iin" id="'+id+'" placeholder="'+ph+'"><button class="isend" onclick="'+fn+'()" aria-label="Send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>';}
 function controlHTML(){
   if(typing)return '';
   const s=STAGES[cur];
   if(cur==='launch')return `<button class="cbtn" style="width:100%" onclick="launch()">Launch agent →</button>`;
-  if(s.ctrl==='text'){return `<div class="crow"><input id="cin" placeholder="${s.ph||''}"><button class="cbtn" onclick="sendText()">Continue →</button></div>${cur==='role'?`<div class="chips" style="margin-top:12px">${ROLE_CHIPS.map(r=>`<span class="chip" onclick="document.getElementById('cin').value='${r}'">${r}</span>`).join('')}</div>`:''}${s.hint?`<div class="cmeta">${s.hint}</div>`:''}`;}
+  if(s.ctrl==='text'){return ibar('cin', s.ph||'Type your answer…','sendText')+(cur==='role'?`<div class="chips" style="margin-top:12px">${ROLE_CHIPS.map(r=>`<span class="chip" onclick="document.getElementById('cin').value='${r}'">${r}</span>`).join('')}</div>`:'')+(s.hint?`<div class="cmeta">${s.hint}</div>`:'');}
   if(s.ctrl==='one')return `<div class="chips">${s.opts.map(o=>`<span class="chip" onclick="pickOne('${o}')">${o}</span>`).join('')}</div>`;
   if(s.ctrl==='yn')return `<div class="chips">${['Yes','No'].map(o=>`<span class="chip" onclick="pickYN('${o}')">${o}</span>`).join('')}</div>`;
-  if(s.ctrl==='multi')return `<div class="cwrap"><div class="chips">${s.opts.map(o=>`<span class="chip ${multi.indexOf(o)>-1?'on':''}" onclick="toggleMulti('${o.replace(/'/g,"\\'")}')">${o}</span>`).join('')}</div><div><button class="cbtn" onclick="confirmMulti()">Continue →</button></div></div>`;
-  if(s.ctrl==='pay')return `<div class="cwrap"><div class="payrow">$ <input id="pmin" placeholder="Min" value="${E(A.payMin)}"> to $ <input id="pmax" placeholder="Max" value="${E(A.payMax)}"> <select class="sel" id="prate">${RATES.map(r=>`<option ${A.payRate===r?'selected':''}>${r}</option>`).join('')}</select></div><div><button class="cbtn" onclick="confirmPay()">Continue →</button></div></div>`;
-  if(s.ctrl==='desc'){if(editingDesc)return `<div class="cwrap"><textarea class="ta" id="cdesc">${E(A.jd)}</textarea><div><button class="cbtn" onclick="descSave()">Save & continue →</button></div></div>`;return `<div class="chips"><span class="chip" onclick="descUse()">Use the draft</span><span class="chip ghost" onclick="descEdit()">Edit it</span></div>`;}
-  if(s.ctrl==='emails')return `<div class="cwrap"><div class="crow"><input id="cin" placeholder="email@company.com, another@company.com"><button class="cbtn" onclick="emailsAdd()">Continue →</button></div><div><span class="chip ghost" onclick="advance()">Skip — just me</span></div></div>`;
+  if(s.ctrl==='multi')return `<div class="cwrap"><div class="chips">${s.opts.map(o=>`<span class="chip ${multi.indexOf(o)>-1?'on':''}" onclick="toggleMulti('${o.replace(/'/g,"\\'")}')">${o}</span>`).join('')}</div><div><button class="minicont" onclick="confirmMulti()">Continue →</button></div></div>`;
+  if(s.ctrl==='pay')return `<div class="cwrap"><div class="payrow">$ <input id="pmin" placeholder="Min" value="${E(A.payMin)}"> to $ <input id="pmax" placeholder="Max" value="${E(A.payMax)}"> <select class="sel" id="prate">${RATES.map(r=>`<option ${A.payRate===r?'selected':''}>${r}</option>`).join('')}</select></div><div><button class="minicont" onclick="confirmPay()">Continue →</button></div></div>`;
+  if(s.ctrl==='desc'){if(editingDesc)return `<div class="cwrap"><textarea class="ta" id="cdesc">${E(A.jd)}</textarea><div><button class="minicont" onclick="descSave()">Save & continue →</button></div></div>`;return `<div class="chips"><span class="chip" onclick="descUse()">Use the draft</span><span class="chip ghost" onclick="descEdit()">Edit it</span></div>`;}
+  if(s.ctrl==='emails')return `<div class="cwrap">`+ibar('cin','email@company.com, another@company.com','emailsAdd')+`<div><span class="chip ghost" onclick="advance()">Skip — just me</span></div></div>`;
   if(s.ctrl==='screen'){
     if(screenAdding)return qBuilder();
     const list=A.screening.length?`<div class="cmeta" style="margin-bottom:10px">${A.screening.length} question${A.screening.length>1?'s':''} added.</div>`:'';
@@ -1162,8 +1179,10 @@ window.togglePrev=function(){const cv=document.getElementById('cv');cv.classList
 /* ---------- live preview ---------- */
 function pills(arr){return arr.length?`<div class="jp-pills">${arr.map(x=>`<span class="jp-pill">${E(x)}</span>`).join('')}</div>`:'<span class="jp-ph">—</span>';}
 function field(k,html){return `<div class="jp-f"><div class="jp-k">${k}</div>${html}</div>`;}
+function postingReady(){return !!(A.role&&locDone);}
 function renderPreview(){
   const el=document.getElementById('prev');
+  if(!postingReady()){el.innerHTML='<div class="jp-empty"><div class="ic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="h">Share a bit more information in the chat</div><div class="s">The first draft of your job posting will be written once you\'ve shared more information in the chat.</div></div>';return;}
   el.innerHTML=`<div class="jp">
     <div class="jp-tag">Job posting</div>
     <div class="jp-title">${A.role?E(A.role):'<span class="jp-ph">Job title</span>'}</div>
