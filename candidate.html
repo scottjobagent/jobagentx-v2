@@ -20,16 +20,16 @@ h2{font-size:20px;font-weight:700;margin:0}
 h3{font-size:16px;font-weight:700;margin:0}
 .app{display:flex;min-height:100vh;align-items:flex-start}
 /* sidebar */
-.sidebar{width:248px;flex:0 0 248px;background:var(--sidebar);color:#fff;display:flex;flex-direction:column;padding:18px 16px;height:100vh;position:sticky;top:0;align-self:flex-start;overflow-y:auto}
-.sb-collapse{display:flex;align-items:center;gap:11px;color:rgba(255,255,255,.9);font-size:15px;font-weight:600;padding:8px 10px;cursor:pointer;margin-bottom:18px}
-.sb-collapse .xi{font-size:16px;font-weight:400}
+.sidebar{width:248px;background:var(--sidebar);color:#fff;display:flex;flex-direction:column;padding:16px 14px;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:20}
+.sb-collapse{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.7);font-size:12.5px;font-weight:600;padding:7px 10px;cursor:pointer;margin-bottom:12px}
+.sb-collapse .xi{font-size:15px;font-weight:400}
 .sb-nav{display:flex;flex-direction:column;gap:4px}
-.sb-nav a{display:flex;align-items:center;gap:13px;padding:14px 16px;border-radius:10px;color:rgba(255,255,255,.85);font-size:17px;font-weight:500}
+.sb-nav a{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:9px;color:rgba(255,255,255,.82);font-size:14px;font-weight:500}
 .sb-nav a:hover{background:rgba(255,255,255,.09);color:#fff}
 .sb-nav a.active{background:rgba(255,255,255,.18);color:#fff;font-weight:700}
-.sb-nav .ic{width:20px;text-align:center;font-size:16px}
+.sb-nav .ic{width:18px;text-align:center;font-size:14.5px}
 /* main */
-.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.main{flex:1;min-width:0;display:flex;flex-direction:column;margin-left:248px}
 .topbar{display:flex;justify-content:flex-end;align-items:center;padding:16px 34px;background:transparent}
 .topbar .user{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--text)}
 .topbar .ava{width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
@@ -208,7 +208,7 @@ textarea{resize:vertical;min-height:130px;line-height:1.55}
 .thread-input{display:flex;gap:9px;padding:14px 20px;border-top:1px solid var(--line)}
 .thread-input input{flex:1}
 .empty{padding:60px 20px;text-align:center;color:var(--muted)}
-@media(max-width:900px){.msg-layout{grid-template-columns:1fr}.sidebar{display:none}.wrap,.topbar{padding-left:18px;padding-right:18px}}
+@media(max-width:900px){.msg-layout{grid-template-columns:1fr}.sidebar{display:none}.main{margin-left:0}.wrap,.topbar{padding-left:18px;padding-right:18px}}
 
 /* dashboard actions status line (matches "Setup complete") */
 .setup-line{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--text);font-weight:400;margin-top:10px}
@@ -230,12 +230,13 @@ textarea{resize:vertical;min-height:130px;line-height:1.55}
 
 /* sidebar collapse */
 .sb-collapse .xi-open{display:none}
-.app.collapsed .sidebar{width:66px;flex:0 0 66px;padding:18px 10px}
+.app.collapsed .sidebar{width:66px;padding:16px 10px}
+.app.collapsed .main{margin-left:66px}
 .app.collapsed .sb-collapse{justify-content:center;gap:0}
 .app.collapsed .sb-collapse .cl-label{display:none}
 .app.collapsed .sb-collapse .xi-close{display:none}
 .app.collapsed .sb-collapse .xi-open{display:inline}
-.app.collapsed .sb-nav a{justify-content:center;padding:14px 0;gap:0}
+.app.collapsed .sb-nav a{justify-content:center;padding:11px 0;gap:0}
 .app.collapsed .sb-nav .lbl{display:none}
 
 /* ===== Create Agent setup flow (matches JobFairX setup-flow-v3) ===== */
@@ -597,6 +598,61 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .hm{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);background:var(--th-bg);border:1px solid var(--line-soft);border-radius:7px;padding:5px 10px}
 .hm.lic{color:var(--green);background:var(--green-bg);border-color:#bfe3cd}
 
+/* ===== Dashboard v2 (Pin overview model) ===== */
+.dash-head{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:20px}
+.dash-head .co{font-size:23px;font-weight:700;line-height:1.15}
+.dash-status{display:flex;align-items:center;gap:8px;margin-top:6px;font-size:13px}
+.dash-status .pulse{width:8px;height:8px;border-radius:50%;background:#1a7f4b;flex:0 0 8px;box-shadow:0 0 0 0 rgba(26,127,75,.5);animation:dpulse 2s infinite}
+@keyframes dpulse{0%{box-shadow:0 0 0 0 rgba(26,127,75,.5)}70%{box-shadow:0 0 0 6px rgba(26,127,75,0)}100%{box-shadow:0 0 0 0 rgba(26,127,75,0)}}
+.dash-status .sm{color:var(--text);font-weight:600}
+.dash-status .sep{color:var(--line)}
+.dash-status .sr{color:var(--amber);font-weight:700}
+.dash-head .right{display:flex;align-items:center;gap:10px}
+.tfilter{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:9px 13px;font-size:13px;font-weight:600;color:var(--text);cursor:pointer}
+.tfilter select{border:none;background:transparent;font-family:inherit;font-size:13px;font-weight:700;color:var(--text);cursor:pointer;outline:none}
+/* compact KPI strip */
+.kstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kstrip .k{background:#fff;border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+.kstrip .k .n{font-size:24px;font-weight:800;line-height:1}
+.kstrip .k .l{font-size:12px;color:var(--muted);margin-top:5px}
+.kstrip .k.alert .n{color:var(--amber)}
+/* dash grid: table + rail */
+.dash-grid{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
+.sec-h{display:flex;justify-content:space-between;align-items:baseline;margin:0 0 12px}
+.sec-h h2{font-size:16px;font-weight:700;margin:0}
+.sec-h a{font-size:13px;color:var(--blue);font-weight:600}
+/* agents table */
+.atbl-wrap{background:#fff;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.atbl{width:100%;border-collapse:collapse}
+.atbl thead th{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:12px 16px;background:var(--th-bg);border-bottom:1px solid var(--line)}
+.atbl thead th.num,.atbl td.num{text-align:right}
+.atbl tbody tr{cursor:pointer;transition:.1s}
+.atbl tbody tr:hover{background:#faf9f7}
+.atbl tbody tr.flag{background:#fff9ef}
+.atbl tbody tr.flag:hover{background:#fdf3df}
+.atbl td{padding:14px 16px;border-bottom:1px solid var(--line-soft);font-size:14px;vertical-align:middle}
+.atbl tbody tr:last-child td{border-bottom:none}
+.atbl .role{font-weight:700;font-size:14.5px}
+.atbl .loc{font-size:12px;color:var(--muted);margin-top:1px}
+.atbl td.num b{font-size:15px;font-weight:800}
+.atbl .nudgecell{white-space:nowrap}
+.atbl .review-btn{display:inline-flex;align-items:center;gap:5px;background:var(--blue);color:#fff;border:none;border-radius:7px;padding:7px 12px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.atbl .ok-pill{font-size:12.5px;color:var(--muted)}
+/* recent activity rail card */
+.rail-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:6px 16px 10px}
+.rail-card .rh{font-size:13px;font-weight:700;padding:13px 0 6px;display:flex;justify-content:space-between;align-items:center}
+.rail-card .rh a{font-size:12px;color:var(--blue);font-weight:600}
+.ra-item{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.ra-item:last-child{border-bottom:none}
+.ra-ic{width:28px;height:28px;border-radius:50%;flex:0 0 28px;display:flex;align-items:center;justify-content:center;background:var(--th-bg);font-size:14px}
+.ra-ic.accent{background:#eef3fb}
+.ra-tx{flex:1;min-width:0}
+.ra-tx .t{font-size:13px;line-height:1.35}
+.ra-tx .s{font-size:11.5px;color:var(--muted);margin-top:1px}
+.ra-tx .ag{color:var(--blue);font-weight:600}
+.ra-time{font-size:11px;color:var(--muted);white-space:nowrap}
+@media(max-width:1100px){.dash-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -733,11 +789,8 @@ const AX=(function(){
   }
   function sidebar(active){
     const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['interviews','interviews.html','&#128101;','Interviews'],['analytics','analytics.html','&#128202;','Analytics'],['messaging','messaging.html','&#128172;','Messaging']];
-    const st=stats();
-    const statusLine=`<div class="sb-status"><span class="sb-pulse"></span><span class="sb-st-main">${st.working} agent${st.working===1?'':'s'} working</span>${st.review>0?`<span class="sb-st-sep">&middot;</span><span class="sb-st-rev">${st.review} need${st.review===1?'s':''} review</span>`:''}</div>`;
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
-      ${statusLine}
       <nav class="sb-nav">${nav.map(n=>`<a href="${n[1]}" class="${active===n[0]?'active':''}"><span class="ic">${n[2]}</span><span class="lbl">${n[3]}</span></a>`).join('')}</nav>
     </aside>`;
   }
