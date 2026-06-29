@@ -776,9 +776,20 @@ body{background:#fff!important}
 .cv-msgs .inner{max-width:640px;margin:0 auto;display:flex;flex-direction:column}
 .cv-ctrl{padding:14px 28px 24px;border-top:1px solid #f0eee9}
 .cv-ctrl .inner{max-width:640px;margin:0 auto}
-.bub{max-width:80%;padding:13px 17px;border-radius:16px;font-size:16px;margin-bottom:12px;line-height:1.5}
-.bub.bot{background:#f4f3f0;color:#2d2d2d;border-bottom-left-radius:5px;align-self:flex-start}
-.bub.me{background:#0044b3;color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+.msg{display:flex;flex-direction:column;margin-bottom:16px}
+.msg.me{align-items:flex-end}.msg.bot{align-items:flex-start}
+.whorow{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.whorow .nm{font-size:13px;font-weight:700;color:#595959}
+.av{width:24px;height:24px;border-radius:50%;flex:0 0 24px}
+.av-bot{background:linear-gradient(135deg,#0044b3 0%,#4f86f7 55%,#9b6dff 100%)}
+.av-me{background:linear-gradient(135deg,#c7d0e0,#9fb0cc)}
+.bub{max-width:82%;padding:13px 17px;border-radius:16px;font-size:16px;line-height:1.5}
+.bub.bot{background:#f4f3f0;color:#2d2d2d;border-bottom-left-radius:5px}
+.bub.me{background:#0044b3;color:#fff;border-bottom-right-radius:5px}
+.bub.typing{display:flex;gap:5px;align-items:center;padding:16px 18px}
+.bub.typing span{width:7px;height:7px;border-radius:50%;background:#9a9aa0;animation:tdot 1s infinite}
+.bub.typing span:nth-child(2){animation-delay:.18s}.bub.typing span:nth-child(3){animation-delay:.36s}
+@keyframes tdot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
 /* controls */
 .crow{display:flex;gap:10px}
 .crow input{flex:1;border:2px solid #a8a8a8;border-radius:12px;padding:14px 18px;font-size:16px;font-family:inherit;color:#2d2d2d}
@@ -1028,7 +1039,7 @@ const A={role:'',locationType:'in_person',address:'',resideRequired:'no',resideA
   jobType:[],payMode:'range',payMin:'',payMax:'',payRate:'per hour',benefits:[],shift:[],schedule:[],jd:'',
   slot:30,capacity:3,autoAccept:false,resumeRequired:true,interviewers:['demo@jobfairx.com (you)'],recipients:[],screening:[]};
 
-let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'};
+let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false;
 
 const STAGES={
   role:{q:()=>'Who do you need to hire?',ctrl:'text',ph:'e.g. Registered Nurse',chips:ROLE_CHIPS,field:'role'},
@@ -1072,23 +1083,29 @@ function goNext(stage){
     default:{const i=LIN.indexOf(stage);return LIN[i+1]||'launch';}
   }
 }
-function ask(stage){
+function ask(stage, instant){
   cur=stage; editingDesc=false; screenAdding=false;
   if(stage==='jobtype'&&!A.jobType.length)A.jobType=['Full-time'];
   if(stage==='pay'&&!A.payMin&&!A.payMax){A.payMin='20';A.payMax='28';}
   if(stage==='description'&&!A.jd)A.jd=draftJD(A.role||'this role');
   if(STAGES[stage].ctrl==='multi')multi=A[STAGES[stage].field].slice();
-  botSay(STAGES[stage].q());
-  renderAll();
+  const text=STAGES[stage].q();
+  if(instant){msgs.push({who:'bot',text:text});renderAll();return;}
+  typing=true; renderAll();
+  setTimeout(function(){typing=false;msgs.push({who:'bot',text:text});renderAll();},850);
 }
 function advance(){ const n=goNext(cur); ask(n); }
 
 /* ---------- render ---------- */
 function renderAll(){renderMsgs();renderCtrl();renderPreview();updateBar();}
 function updateBar(){const order=['role','loctype','address','jobtype','pay','benefits','shift','schedule','description','slot','autoaccept','resume','interviewers','screening','launch'];const i=Math.max(0,order.indexOf(cur));document.getElementById('bar-sub').textContent='· building your job posting';}
-function renderMsgs(){document.getElementById('msgs-in').innerHTML=msgs.map(m=>`<div class="bub ${m.who}">${E(m.text)}</div>`).join('');const m=document.getElementById('msgs');m.scrollTop=m.scrollHeight;}
+function avatarHTML(who){return who==='bot'?'<span class="av av-bot"></span>':'<span class="av av-me"></span>';}
+function msgHTML(m){const name=m.who==='bot'?'JobAgentX':'You';const who=m.who==='bot'?(avatarHTML('bot')+'<span class="nm">'+name+'</span>'):('<span class="nm">'+name+'</span>'+avatarHTML('me'));return '<div class="msg '+m.who+'"><div class="whorow">'+who+'</div><div class="bub '+m.who+'">'+E(m.text)+'</div></div>';}
+function typingHTML(){return '<div class="msg bot"><div class="whorow">'+avatarHTML('bot')+'<span class="nm">JobAgentX</span></div><div class="bub bot typing"><span></span><span></span><span></span></div></div>';}
+function renderMsgs(){let html=msgs.map(msgHTML).join('');if(typing)html+=typingHTML();document.getElementById('msgs-in').innerHTML=html;const m=document.getElementById('msgs');m.scrollTop=m.scrollHeight;}
 function renderCtrl(){document.getElementById('ctrl').innerHTML=controlHTML();const inp=document.getElementById('cin');if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')sendText();};}}
 function controlHTML(){
+  if(typing)return '';
   const s=STAGES[cur];
   if(cur==='launch')return `<button class="cbtn" style="width:100%" onclick="launch()">Launch agent →</button>`;
   if(s.ctrl==='text'){return `<div class="crow"><input id="cin" placeholder="${s.ph||''}"><button class="cbtn" onclick="sendText()">Continue →</button></div>${cur==='role'?`<div class="chips" style="margin-top:12px">${ROLE_CHIPS.map(r=>`<span class="chip" onclick="document.getElementById('cin').value='${r}'">${r}</span>`).join('')}</div>`:''}${s.hint?`<div class="cmeta">${s.hint}</div>`:''}`;}
@@ -1185,7 +1202,7 @@ function showLaunching(role){
   setTimeout(function(){clearInterval(t);location.href='index.html';},3200);
 }
 
-ask('role');
+ask('role', true);
 </script>
 </body>
 </html>
