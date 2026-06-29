@@ -533,6 +533,70 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .rec-badge{background:var(--green-bg);color:var(--green);font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;margin-left:6px;text-transform:none;letter-spacing:0}
 .ai-chip{display:inline-flex;align-items:center;gap:6px;background:#f0f5ff;color:var(--blue);font-size:12px;font-weight:700;padding:3px 10px;border-radius:20px}
 
+/* ===== v2 sidebar live status line ===== */
+.sb-status{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin:2px 8px 16px;padding:9px 12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.09);border-radius:10px;font-size:12px}
+.sb-pulse{width:8px;height:8px;border-radius:50%;background:#3ecf8e;flex:0 0 8px;box-shadow:0 0 0 0 rgba(62,207,142,.6);animation:sbpulse 2s infinite}
+@keyframes sbpulse{0%{box-shadow:0 0 0 0 rgba(62,207,142,.55)}70%{box-shadow:0 0 0 7px rgba(62,207,142,0)}100%{box-shadow:0 0 0 0 rgba(62,207,142,0)}}
+.sb-st-main{color:rgba(255,255,255,.92);font-weight:600}
+.sb-st-sep{color:rgba(255,255,255,.4)}
+.sb-st-rev{color:#ffcf7a;font-weight:600}
+.app.collapsed .sb-status{display:none}
+
+/* ===== Analytics page ===== */
+.an-head{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:22px}
+.an-head h1{font-size:24px;font-weight:700;margin:0}
+.an-head .sub{font-size:13.5px;color:var(--muted);margin-top:4px}
+.an-filter{display:inline-flex;align-items:center;gap:8px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 14px;font-size:13.5px;font-weight:600;color:var(--text);cursor:pointer}
+.an-filter select{border:none;background:transparent;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--blue);cursor:pointer;outline:none}
+.an-kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:26px}
+.an-kpi{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 20px}
+.an-kpi .kl{font-size:12.5px;color:var(--muted);font-weight:600;display:flex;align-items:center;gap:6px}
+.an-kpi .kn{font-size:30px;font-weight:800;color:var(--text);margin-top:7px;line-height:1}
+.an-kpi .kd{font-size:12px;margin-top:7px;font-weight:600}
+.an-kpi .kd.up{color:var(--green)}
+.an-kpi .kd.down{color:var(--red)}
+.an-kpi .kd.flat{color:var(--muted)}
+.an-row{display:grid;grid-template-columns:1.55fr 1fr;gap:18px;margin-bottom:18px}
+.an-card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px 22px}
+.an-card h3{font-size:15px;font-weight:700;margin:0 0 2px}
+.an-card .ch-sub{font-size:12.5px;color:var(--muted);margin-bottom:16px}
+.an-card canvas{max-height:260px}
+.funnel{display:flex;flex-direction:column;gap:11px;margin-top:6px}
+.fn-row{display:flex;align-items:center;gap:12px}
+.fn-row .fl{width:120px;font-size:13px;color:var(--muted);flex:0 0 120px}
+.fn-bar{flex:1;height:30px;background:var(--th-bg);border-radius:7px;overflow:hidden;position:relative}
+.fn-bar i{display:block;height:100%;background:var(--blue);border-radius:7px}
+.fn-row .fv{width:42px;text-align:right;font-weight:800;font-size:14px;flex:0 0 42px}
+.an-tbl{width:100%;border-collapse:collapse;margin-top:4px}
+.an-tbl th{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:10px 14px;border-bottom:1px solid var(--line)}
+.an-tbl td{font-size:13.5px;padding:14px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+.an-tbl tr:last-child td{border-bottom:none}
+.an-tbl td.num{font-weight:700;text-align:right}
+.an-tbl .rolecell{font-weight:700}
+.an-tbl .rolecell .rl{font-size:12px;color:var(--muted);font-weight:400}
+.minibar{display:inline-block;width:64px;height:7px;background:var(--th-bg);border-radius:4px;overflow:hidden;vertical-align:middle;margin-right:8px}
+.minibar i{display:block;height:100%;background:var(--green)}
+
+/* ===== Candidate enrichment ===== */
+.why-card{background:#f7faff;border:1px solid #cfdcf0;border-radius:12px;padding:16px 18px;margin-bottom:18px}
+.why-card .wh{display:flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--blue);text-transform:uppercase;letter-spacing:.3px;margin-bottom:8px}
+.why-card .wt{font-size:14.5px;line-height:1.55;color:var(--text)}
+.why-card .wm{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.why-chip{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid #cfdcf0;border-radius:18px;padding:5px 11px;font-size:12.5px;font-weight:600;color:var(--text)}
+.why-chip .ck{color:var(--green);font-weight:800}
+.why-chip.miss{border-color:#ead9b8;color:var(--amber)}
+.why-chip.miss .ck{color:var(--amber)}
+.signal-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border:1px solid var(--line);border-radius:11px;overflow:hidden;margin-bottom:18px;background:#fff}
+.sig{padding:13px 15px;border-right:1px solid var(--line-soft)}
+.sig:last-child{border-right:none}
+.sig .sl{font-size:11px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.3px;display:flex;align-items:center;gap:5px}
+.sig .sv{font-size:14px;font-weight:700;margin-top:5px}
+.sig .sv.good{color:var(--green)}
+.sig .sv.warn{color:var(--amber)}
+.cd-hdr-meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:9px}
+.hm{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--muted);background:var(--th-bg);border:1px solid var(--line-soft);border-radius:7px;padding:5px 10px}
+.hm.lic{color:var(--green);background:var(--green-bg);border-color:#bfe3cd}
+
 </style>
 </head>
 <body>
@@ -591,6 +655,7 @@ const AX=(function(){
          musthaves:['Active RN license','BLS/ACLS certification','1+ year clinical experience'],
          interviewers:['demo@jobfairx.com (you)','emily.chen@northwind.co'],availability:defAvail(),
          awaiting:3,confirmed:16,interviewed:5,hires:2,
+         metrics:{sourced:142,prequal:38,showRate:88,prevShowRate:83,ttiDays:2.4,prevTtiDays:3.1,costPerIv:31,prevCostPerIv:38,weekly:[{w:'Wk 1',booked:2,interviewed:1},{w:'Wk 2',booked:4,interviewed:2},{w:'Wk 3',booked:3,interviewed:1},{w:'Wk 4',booked:7,interviewed:1}]},
          activity:[
            {mins:12,icon:'ti-calendar-check',accent:true,t:'Booked an interview with Maya Delgado',s:'Thu 10:00 AM · she self-scheduled'},
            {mins:40,icon:'ti-mail',t:'Messaged James Okoro about availability',s:'Auto follow-up #2'},
@@ -600,29 +665,29 @@ const AX=(function(){
            {mins:1440,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}
          ],
          candidates:[
-           cand({id:'c1',name:'Maya Delgado',score:94,status:'upcoming',time:'Thu 10:00 AM',location:'Houston, TX',
+           cand({id:'c1',source:'Sourced — Indeed',firstReply:'14 min',distance:'12 mi from site',license:'CNA — active',avail:'Mornings, Mon–Fri',slot:'confirmed',why:'Maya is the strongest match for this role. She runs a 14-resident memory-care wing as lead aide, holds an active CNA, and lists CPR plus dementia and transfer experience — all of your must-haves. She replied to the agent in 14 minutes and self-scheduled her own interview.',name:'Maya Delgado',score:94,status:'upcoming',time:'Thu 10:00 AM',location:'Houston, TX',
              skills:['CNA Certified','Patient Transfers','Med Reminders','Dementia Care','CPR'],
              experience:[{role:'Care Aide',org:'Sunrise Senior Living',years:'2021–Present',note:'Lead aide on a 14-resident memory-care wing.'},{role:'Home Health Aide',org:'Comfort Keepers',years:'2019–2021',note:'In-home support for 6 recurring clients.'}],
              screening:[{q:'Do you have an active RN/CNA license?',a:'Yes — CNA'},{q:'1+ year of direct care experience?',a:'Yes — 4 years'}],
              activity:[{t:'Self-scheduled interview for Thu 10:00 AM',time:'12m ago'},{t:'Replied to follow-up message',time:'1h ago'},{t:'Pre-qualified by agent',time:'3h ago'},{t:'Sourced by agent',time:'1d ago'}],
              messages:[{from:'recruiter',text:'Hi Maya — your memory-care experience is a strong fit. Open to a short interview this week?'},{from:'candidate',text:'Yes! Mornings work best.'}]}),
-           cand({id:'c2',name:'James Okoro',score:88,status:'awaiting',time:'9:30 AM - 10:00 AM',location:'Houston, TX',
+           cand({id:'c2',source:'Sourced — LinkedIn',firstReply:'2 hr',distance:'9 mi from site',license:'CNA — in progress',avail:'Flexible',slot:'requested',why:'James has 3 years of one-on-one caregiving and strong personal-care and mobility skills. He’s working toward his CNA rather than holding it today, so the agent flagged the license as the one item to confirm before you accept.',name:'James Okoro',score:88,status:'awaiting',time:'9:30 AM - 10:00 AM',location:'Houston, TX',
              skills:['Personal Care','Mobility Support','CPR','Meal Prep'],
              experience:[{role:'Caregiver',org:'BrightStar Care',years:'2020–Present',note:'One-on-one client care, 12-hr shifts.'}],
              screening:[{q:'Do you have an active RN/CNA license?',a:'Working toward CNA'},{q:'1+ year of direct care experience?',a:'Yes — 3 years'}],
              activity:[{t:'Requested an interview',time:'35m ago'},{t:'Pre-qualified by agent',time:'2h ago'},{t:'Sourced by agent',time:'1d ago'}],
              messages:[{from:'recruiter',text:'Hi James — are you certified as a CNA, or working toward it?'}]}),
-           cand({id:'c3',name:'Tasha Nguyen',score:81,status:'awaiting',time:'11:30 AM - 12:00 PM',location:'Houston, TX',
+           cand({id:'c3',source:'Sourced — Indeed',firstReply:'1 hr',distance:'15 mi from site',license:'Med Aide cert',avail:'Daytime',slot:'requested',why:'Tasha administers medications across two wings and brings vitals and documentation experience. She holds a Med Aide certification rather than RN/CNA, which is why her match score is a notch lower than the top candidates.',name:'Tasha Nguyen',score:81,status:'awaiting',time:'11:30 AM - 12:00 PM',location:'Houston, TX',
              skills:['Medication Aide','Vitals','Documentation'],
              experience:[{role:'Medication Aide',org:'Brookdale',years:'2022–Present',note:'Administers meds across two wings.'}],
              screening:[{q:'Do you have an active RN/CNA license?',a:'Med Aide cert'},{q:'1+ year of direct care experience?',a:'Yes — 2 years'}],
              activity:[{t:'Requested an interview',time:'1h ago'},{t:'Sourced by agent',time:'1d ago'}]}),
-           cand({id:'c4',name:'Aisha Mohammed',score:79,status:'awaiting',time:'1:00 PM - 1:30 PM',location:'Remote',
+           cand({id:'c4',source:'Sourced — ZipRecruiter',firstReply:'3 hr',distance:'Remote',license:'RN — active',avail:'Daytime',slot:'requested',why:'Aisha is a licensed RN with 4 years of telehealth triage. She’s remote rather than on-site, so distance is the trade-off, but she clears every must-have including the active license.',name:'Aisha Mohammed',score:79,status:'awaiting',time:'1:00 PM - 1:30 PM',location:'Remote',
              skills:['Telehealth','Triage','EMR'],
              experience:[{role:'RN (Telehealth)',org:'Teladoc',years:'2021–Present',note:'Remote triage and patient education.'}],
              screening:[{q:'Do you have an active RN/CNA license?',a:'Yes — RN'},{q:'1+ year of direct care experience?',a:'Yes — 4 years'}],
              activity:[{t:'Requested an interview',time:'2h ago'},{t:'Sourced by agent',time:'1d ago'}]}),
-           cand({id:'c5',name:'Rachel Foster',score:90,status:'interviewed',time:'Yesterday 2:00 PM',location:'Houston, TX',feedback:'Yes',
+           cand({id:'c5',source:'Sourced — LinkedIn',firstReply:'40 min',distance:'8 mi from site',license:'RN — active',avail:'Daytime',slot:'completed',why:'Rachel is an ICU charge nurse with 6 years of experience and ACLS — well above the bar. She already interviewed with Emily Chen and got a yes.',name:'Rachel Foster',score:90,status:'interviewed',time:'Yesterday 2:00 PM',location:'Houston, TX',feedback:'Yes',
              skills:['ICU','ACLS','Charge Nurse'],
              experience:[{role:'ICU RN',org:'Memorial Hermann',years:'2018–Present',note:'Charge nurse, 6 years ICU.'}],
              screening:[{q:'Do you have an active RN/CNA license?',a:'Yes — RN'},{q:'1+ year of direct care experience?',a:'Yes — 6 years'}],
@@ -633,6 +698,7 @@ const AX=(function(){
          musthaves:['Able to lift 50 lbs','Available for early shifts','Forklift cert a plus'],
          interviewers:['demo@jobfairx.com (you)'],availability:defAvail(),
          awaiting:0,confirmed:0,interviewed:0,hires:0,
+         metrics:{sourced:11,prequal:0,showRate:0,prevShowRate:0,ttiDays:0,prevTtiDays:0,costPerIv:0,prevCostPerIv:0,weekly:[{w:'Wk 1',booked:0,interviewed:0}]},
          activity:[{mins:30,icon:'ti-user-search',t:'Scanning the candidate pool',s:'Matching your must-haves'},{mins:60,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}],
          candidates:[]},
         {id:'a3',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
@@ -640,6 +706,7 @@ const AX=(function(){
          musthaves:['Fluent English + Spanish','Quiet home workspace','Customer service background'],
          interviewers:['demo@jobfairx.com (you)','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
          awaiting:7,confirmed:9,interviewed:2,hires:1,
+         metrics:{sourced:96,prequal:24,showRate:82,prevShowRate:86,ttiDays:1.9,prevTtiDays:2.0,costPerIv:27,prevCostPerIv:25,weekly:[{w:'Wk 1',booked:1,interviewed:0},{w:'Wk 2',booked:3,interviewed:1},{w:'Wk 3',booked:5,interviewed:1}]},
          activity:[
            {mins:25,icon:'ti-calendar-check',accent:true,t:'Booked an interview with Daniel Cho',s:'Thu 11:00 AM · he self-scheduled'},
            {mins:90,icon:'ti-user-search',t:'Sourced 9 new candidates',s:'Bilingual, healthcare CS background'},
@@ -647,13 +714,13 @@ const AX=(function(){
            {mins:2880,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}
          ],
          candidates:[
-           cand({id:'c6',name:'Sofía Ramírez',score:91,status:'awaiting',time:'10:00 AM - 10:30 AM',location:'Remote · Austin, TX',
+           cand({id:'c6',source:'Sourced — Indeed',firstReply:'50 min',distance:'Remote · Austin',license:'N/A',avail:'Daytime CST',slot:'requested',why:'Sofía is fully bilingual (native English + Spanish) with a 95% CSAT in a healthcare support queue — a direct hit on every must-have. She has a quiet home workspace and responded to the agent in under an hour.',name:'Sofía Ramírez',score:91,status:'awaiting',time:'10:00 AM - 10:30 AM',location:'Remote · Austin, TX',
              skills:['English/Spanish','Billing Support','Zendesk','De-escalation'],
              experience:[{role:'Customer Service Rep',org:'Teleperformance',years:'2021–Present',note:'Bilingual healthcare queue, 95% CSAT.'}],
              screening:[{q:'Fluent in English and Spanish?',a:'Yes — both native'},{q:'Quiet home workspace?',a:'Yes'}],
              activity:[{t:'Requested an interview',time:'50m ago'},{t:'Pre-qualified by agent',time:'2h ago'},{t:'Sourced by agent',time:'1d ago'}],
              messages:[{from:'recruiter',text:'Hola Sofía — your bilingual healthcare background is a great fit. Free for a quick interview?'}]}),
-           cand({id:'c7',name:'Daniel Cho',score:79,status:'upcoming',time:'Thu 11:00 AM',location:'Remote · Phoenix, AZ',
+           cand({id:'c7',source:'Sourced — LinkedIn',firstReply:'1.5 hr',distance:'Remote · Phoenix',license:'N/A',avail:'Daytime MST',slot:'confirmed',why:'Daniel is bilingual with 3 years handling 60+ inbound calls a day. He clears the must-haves; his score is moderate because his healthcare-specific experience is lighter than the top candidate. He self-scheduled for Thursday.',name:'Daniel Cho',score:79,status:'upcoming',time:'Thu 11:00 AM',location:'Remote · Phoenix, AZ',
              skills:['English/Spanish','Inbound Calls','CRM'],
              experience:[{role:'Support Agent',org:'Concentrix',years:'2020–2023',note:'60+ inbound calls/day.'}],
              screening:[{q:'Fluent in English and Spanish?',a:'Yes'},{q:'Quiet home workspace?',a:'Yes'}],
@@ -687,16 +754,25 @@ const AX=(function(){
     return out.sort((p,q)=>p.mins-q.mins);
   }
   function ago(m){if(m<60)return m+'m ago';if(m<1440)return Math.round(m/60)+'h ago';const d=Math.round(m/1440);return d===1?'Yesterday':d+'d ago';}
+  function stats(){
+    const ags=get().agents;
+    const working=ags.filter(a=>a.status==='active'||a.status==='sourcing').length;
+    const review=ags.reduce((n,a)=>n+(a.awaiting||0),0);
+    return {working,review,total:ags.length};
+  }
   function sidebar(active){
-    const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['interviews','interviews.html','&#128101;','Interviews'],['messaging','messaging.html','&#128172;','Messaging']];
+    const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['interviews','interviews.html','&#128101;','Interviews'],['analytics','analytics.html','&#128202;','Analytics'],['messaging','messaging.html','&#128172;','Messaging']];
+    const st=stats();
+    const statusLine=`<div class="sb-status"><span class="sb-pulse"></span><span class="sb-st-main">${st.working} agent${st.working===1?'':'s'} working</span>${st.review>0?`<span class="sb-st-sep">&middot;</span><span class="sb-st-rev">${st.review} need${st.review===1?'s':''} review</span>`:''}</div>`;
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
+      ${statusLine}
       <nav class="sb-nav">${nav.map(n=>`<a href="${n[1]}" class="${active===n[0]?'active':''}"><span class="ic">${n[2]}</span><span class="lbl">${n[3]}</span></a>`).join('')}</nav>
     </aside>`;
   }
   function topbar(){return `<div class="topbar"><div class="user">demo@jobfairx.com <span style="color:var(--muted)">&#9662;</span></div></div>`;}
   function icon(n){return ({"ti-calendar-check":"\uD83D\uDCC5","ti-mail":"\u2709\uFE0F","ti-user-search":"\uD83D\uDD0D","ti-checks":"\u2714\uFE0F","ti-user-x":"\u2715","ti-player-play":"\u25B6\uFE0F"})[n]||"\u2022";}
-  return {get,save,reset,agent,update,candidate,updateCandidate,add,qs,esc,ini,nudge,allActivity,ago,icon,sidebar,topbar,defAvail,cand};
+  return {get,save,reset,agent,update,candidate,updateCandidate,add,qs,esc,ini,nudge,allActivity,ago,icon,sidebar,topbar,defAvail,cand,stats};
 })();
 
 </script>

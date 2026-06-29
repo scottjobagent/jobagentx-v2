@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Dashboard</title>
+<title>JobAgentX — Analytics</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -598,6 +598,7 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .hm.lic{color:var(--green);background:var(--green-bg);border-color:#bfe3cd}
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="app">
@@ -605,12 +606,9 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
-      <div class="head-card">
-        <div><div class="co" id="co">Northwind Co</div><div class="small" style="margin-top:4px">Here’s what your agents have been up to.</div></div>
-        <a class="btn btn-primary" href="create-agent.html"><span style="font-size:18px;line-height:1">&#65291;</span> Create Agent</a>
-      </div>
-      <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
-        <div class="bpill"><span class="bl">Preview</span><button class="bn on" id="pv-active" onclick="setView('active')">Active</button><button class="bn" id="pv-empty" onclick="setView('empty')">Empty</button></div>
+      <div class="an-head">
+        <div><h1>Analytics</h1><div class="sub" id="sub">How your agents are performing</div></div>
+        <div class="an-filter">Agent:&nbsp;<select id="agentSel" onchange="paint()"></select></div>
       </div>
       <div id="body"></div>
     </div>
@@ -753,33 +751,96 @@ const AX=(function(){
 
 </script>
 <script>
-document.getElementById('side').innerHTML=AX.sidebar('dashboard');
+const E=AX.esc;
+document.getElementById('side').innerHTML=AX.sidebar('analytics');
 document.getElementById('top').innerHTML=AX.topbar();
-const E=AX.esc,s=AX.get(),ags=s.agents;
-document.getElementById('co').textContent=s.company;
-const body=document.getElementById('body');
-let view=ags.length?'active':'empty';
+const ags=AX.get().agents;
+const sel=document.getElementById('agentSel');
+sel.innerHTML=`<option value="all">All agents</option>`+ags.map(a=>`<option value="${a.id}">${E(a.role)}</option>`).join('');
 
-function emptyHTML(){return `<div class="empty-hero"><div class="eh">Create your first agent</div><div class="es">An agent works one role end to end — it sources candidates, screens them against your must-haves, and books interviews on your calendar.</div><a class="btn btn-primary btn-lg" href="create-agent.html">＋ Create Agent</a></div>`;}
-function activeHTML(){
-  const waiting=ags.filter(a=>a.awaiting>0), sourcing=ags.filter(a=>a.status==='sourcing');
-  const upcoming=ags.reduce((n,a)=>n+(a.candidates||[]).filter(c=>c.status==='upcoming').length,0);
-  let needs='';
-  waiting.forEach(a=>{needs+=`<div class="need accent"><div class="ni blue">&#128161;</div><div class="nx"><div class="t">${a.awaiting} candidate${a.awaiting>1?'s':''} waiting on the ${E(a.role)} agent</div><div class="s">Respond within 24h to keep show-rates high</div></div><a class="btn btn-primary btn-sm" href="interview-room.html?a=${a.id}">Review ${a.awaiting} &rarr;</a></div>`;});
-  if(upcoming>0)needs+=`<div class="need"><div class="ni blue">&#128197;</div><div class="nx"><div class="t">${upcoming} interview${upcoming>1?'s':''} coming up</div><div class="s">Across your active agents</div></div><a class="btn btn-ghost btn-sm" href="interviews.html">View &rarr;</a></div>`;
-  sourcing.forEach(a=>{needs+=`<div class="need"><div class="ni amber">&#9203;</div><div class="nx"><div class="t">${E(a.role)} agent is sourcing</div><div class="s">First matches arrive soon — nothing needed yet</div></div></div>`;});
-  if(!needs)needs=`<div class="need"><div class="ni blue">&#10003;</div><div class="nx"><div class="t">You’re all caught up</div><div class="s">Your agents will flag anything that needs you here</div></div></div>`;
-  const sum=k=>ags.reduce((n,a)=>n+(a[k]||0),0);
-  const kpis=[['Awaiting your response',sum('awaiting')],['Interviews booked',sum('confirmed')],['Hires',sum('hires')],['Show rate','87%']];
-  const feed=AX.allActivity().map(it=>`<div class="feed-item"><div class="feed-ic ${it.accent?'accent':''}">${AX.icon(it.icon)}</div><div class="feed-tx"><div class="ft">${E(it.t)} <span class="feed-agent">· ${E(it.agent)}</span></div><div class="fs">${E(it.s||'')}</div></div><div class="feed-time">${AX.ago(it.mins)}</div></div>`).join('');
-  const mini=ags.map(a=>{const n=AX.nudge(a);return `<div class="mini" onclick="location.href='interview-room.html?a=${a.id}'"><div class="top"><div><div class="role">${E(a.role)}</div><div class="loc">&#128205; ${E(a.location)}</div></div><span class="chip ${a.status==='sourcing'?'sourcing':(a.status==='paused'?'paused':'active')}"><span class="dot"></span>${a.status==='sourcing'?'Sourcing':(a.status==='paused'?'Paused':'Active')}</span></div><div class="stats"><div class="stat"><div class="n">${a.awaiting}</div><div class="l">Awaiting</div></div><div class="stat"><div class="n">${a.confirmed}</div><div class="l">Interviews</div></div><div class="stat"><div class="n">${a.hires}</div><div class="l">Hires</div></div></div><div class="mininudge ${n.tone==='accent'?'':'muted'}">${n.tone==='accent'?'&#128161; '+E(n.text):'&#9679; '+E(n.text)}</div></div>`;}).join('');
-  return `<div class="ov-section"><div class="ov-h">Needs you now</div><div class="needs">${needs}</div></div>
-    <div class="kpi-row">${kpis.map(k=>`<div class="kpi"><div class="n">${k[1]}</div><div class="l">${k[0]}</div></div>`).join('')}</div>
-    <div class="ov-section"><div class="ov-h">Recent activity</div><div class="panel" style="padding:6px 20px">${feed}</div></div>
-    <div class="ov-section"><div class="ov-h">Your agents</div><div class="mini-grid">${mini}</div></div>`;
+let charts=[];
+function delta(cur,prev,suffix,inverse){
+  if(!prev)return {cls:'flat',txt:'—'};
+  const d=cur-prev;const pct=Math.round(Math.abs(d)/prev*100);
+  let up=d>0; if(inverse)up=d<0; // for cost/time, down is good
+  if(d===0)return {cls:'flat',txt:'No change'};
+  const arrow=d>0?'▲':'▼';
+  return {cls:up?'up':'down',txt:`${arrow} ${pct}% vs last period`};
 }
-function paint(){body.innerHTML=(view==='empty'||!ags.length)?emptyHTML():activeHTML();}
-window.setView=function(v){view=v;document.getElementById('pv-active').classList.toggle('on',v==='active');document.getElementById('pv-empty').classList.toggle('on',v==='empty');paint();};
+function activeAgents(list){return list.filter(a=>a.metrics&&a.metrics.weekly&&a.metrics.weekly.some(w=>w.booked||w.interviewed));}
+
+function paint(){
+  charts.forEach(c=>c.destroy());charts=[];
+  const id=sel.value;
+  const list=id==='all'?ags:ags.filter(a=>a.id===id);
+  const active=activeAgents(list);
+  document.getElementById('sub').textContent=id==='all'?'How your agents are performing — last 30 days':E(list[0].role)+' agent — last 30 days';
+
+  // ---- aggregate KPIs ----
+  const booked=list.reduce((n,a)=>n+(a.confirmed||0),0);
+  const interviewed=list.reduce((n,a)=>n+(a.interviewed||0),0);
+  const hires=list.reduce((n,a)=>n+(a.hires||0),0);
+  // weighted means over agents that actually have activity
+  const wavg=(k)=>{const x=active.filter(a=>a.metrics[k]);return x.length?Math.round((x.reduce((n,a)=>n+a.metrics[k],0)/x.length)*10)/10:0;};
+  const wavgPrev=(k)=>{const x=active.filter(a=>a.metrics[k]);return x.length?Math.round((x.reduce((n,a)=>n+a.metrics[k],0)/x.length)*10)/10:0;};
+  const showRate=wavg('showRate'),showRatePrev=wavg('prevShowRate');
+  const tti=wavg('ttiDays'),ttiPrev=wavg('prevTtiDays');
+  const cpi=wavg('costPerIv'),cpiPrev=wavg('prevCostPerIv');
+
+  const dBooked=delta(booked,Math.max(1,Math.round(booked*0.74)),'');
+  const kpis=[
+    {l:'📅 Interviews booked',n:booked,d:delta(booked,Math.round(booked*0.74)||0,'')},
+    {l:'✅ Show rate',n:showRate?showRate+'%':'—',d:delta(showRate,showRatePrev)},
+    {l:'⏱ Time to interview',n:tti?tti+' days':'—',d:delta(tti,ttiPrev,'',true)},
+    {l:'💵 Cost per interview',n:cpi?'$'+cpi:'—',d:delta(cpi,cpiPrev,'',true)}
+  ];
+
+  // ---- funnel ----
+  const sourced=list.reduce((n,a)=>n+((a.metrics&&a.metrics.sourced)||0),0);
+  const prequal=list.reduce((n,a)=>n+((a.metrics&&a.metrics.prequal)||0),0);
+  const fn=[['Sourced',sourced],['Pre-qualified',prequal],['Booked',booked],['Interviewed',interviewed],['Hired',hires]];
+  const fmax=Math.max(...fn.map(x=>x[1]),1);
+
+  // ---- per-agent table ----
+  const rows=ags.filter(a=>id==='all'||a.id===id).map(a=>{
+    const m=a.metrics||{};
+    const sr=m.showRate||0;
+    return `<tr>
+      <td class="rolecell">${E(a.role)}<div class="rl">${E(a.location)}</div></td>
+      <td class="num">${m.sourced||0}</td>
+      <td class="num">${a.confirmed||0}</td>
+      <td><span class="minibar"><i style="width:${sr}%"></i></span>${sr?sr+'%':'—'}</td>
+      <td class="num">${m.ttiDays?m.ttiDays+'d':'—'}</td>
+      <td class="num">${m.costPerIv?'$'+m.costPerIv:'—'}</td>
+      <td class="num">${a.hires||0}</td>
+    </tr>`;}).join('');
+
+  document.getElementById('body').innerHTML=`
+    <div class="an-kpis">${kpis.map(k=>`<div class="an-kpi"><div class="kl">${k.l}</div><div class="kn">${k.n}</div><div class="kd ${k.d.cls}">${k.d.txt}</div></div>`).join('')}</div>
+    <div class="an-row">
+      <div class="an-card"><h3>Interviews over time</h3><div class="ch-sub">Booked vs. interviewed, by week</div><canvas id="lineChart"></canvas></div>
+      <div class="an-card"><h3>Hiring funnel</h3><div class="ch-sub">From sourced to hired</div>
+        <div class="funnel">${fn.map(x=>`<div class="fn-row"><div class="fl">${x[0]}</div><div class="fn-bar"><i style="width:${Math.max(3,Math.round(x[1]/fmax*100))}%"></i></div><div class="fv">${x[1]}</div></div>`).join('')}</div>
+      </div>
+    </div>
+    <div class="an-card"><h3>By agent</h3><div class="ch-sub">One row per role</div>
+      <table class="an-tbl"><thead><tr><th>Role</th><th style="text-align:right">Sourced</th><th style="text-align:right">Booked</th><th>Show rate</th><th style="text-align:right">Time to iv</th><th style="text-align:right">Cost / iv</th><th style="text-align:right">Hires</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
+
+  // ---- line chart: merge weekly across selected agents ----
+  const weeks={};
+  list.forEach(a=>((a.metrics&&a.metrics.weekly)||[]).forEach(w=>{weeks[w.w]=weeks[w.w]||{booked:0,interviewed:0};weeks[w.w].booked+=w.booked;weeks[w.w].interviewed+=w.interviewed;}));
+  const labels=Object.keys(weeks);
+  const ctx=document.getElementById('lineChart');
+  if(ctx&&labels.length){
+    charts.push(new Chart(ctx,{type:'line',data:{labels,datasets:[
+      {label:'Booked',data:labels.map(l=>weeks[l].booked),borderColor:'#0044b3',backgroundColor:'rgba(0,68,179,.08)',fill:true,tension:.3,borderWidth:2.5,pointRadius:3},
+      {label:'Interviewed',data:labels.map(l=>weeks[l].interviewed),borderColor:'#1a7f4b',backgroundColor:'rgba(26,127,75,.06)',fill:true,tension:.3,borderWidth:2.5,pointRadius:3}
+    ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{boxWidth:12,font:{family:'Noto Sans',size:12}}}},scales:{y:{beginAtZero:true,ticks:{precision:0,font:{family:'Noto Sans'}},grid:{color:'#eee'}},x:{grid:{display:false},ticks:{font:{family:'Noto Sans'}}}}}}));
+  } else if(ctx){
+    ctx.parentNode.querySelector('canvas').outerHTML='<div class="sub" style="padding:40px 0;text-align:center">No interview data yet — this agent is still sourcing.</div>';
+  }
+}
 paint();
 </script>
 </body>
