@@ -918,7 +918,7 @@ const AX=(function(){
     return {working,review,total:ags.length};
   }
   function sidebar(active){
-    const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['interviews','interviews.html','&#128101;','Interviews'],['analytics','analytics.html','&#128202;','Analytics'],['messaging','messaging.html','&#128172;','Messaging']];
+    const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['interviews','interviews.html','&#128101;','Interviews'],['analytics','analytics.html','&#128202;','Analytics'],['messaging','messaging.html','&#128172;','Inbox']];
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">${nav.map(n=>`<a href="${n[1]}" class="${active===n[0]?'active':''}"><span class="ic">${n[2]}</span><span class="lbl">${n[3]}</span></a>`).join('')}</nav>
