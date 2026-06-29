@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Candidate</title>
+<title>JobAgentX — Reports</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -748,25 +748,27 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .split-note{display:inline-flex;align-items:center;gap:8px;background:#eef3fb;border:1px solid #cfdcf0;color:var(--blue);border-radius:8px;padding:8px 13px;font-size:12.5px;font-weight:600;margin-bottom:16px}
 
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
 <body>
 <div class="app">
   <div id="side"></div>
   <main class="main">
     <div id="top"></div>
-    <div class="wrap"><a class="back" id="back" href="#">&larr; Interview Room</a><div id="body"></div></div>
+    <div class="wrap">
+      <div class="an-head">
+        <div><h1>Reports</h1><div class="sub" id="sub">How your agents and team are performing</div></div>
+        <div class="an-filter">Agent:&nbsp;<select id="agentSel" onchange="paint()"></select></div>
+      </div>
+      <div class="rtabs">
+        <div class="rtab on" id="t-pipeline" onclick="setTab('pipeline')">Pipeline Insights</div>
+        <div class="rtab" id="t-comms" onclick="setTab('comms')">Communication Insights</div>
+        <div class="rtab" id="t-team" onclick="setTab('team')">Team Activity</div>
+      </div>
+      <div id="body"></div>
+    </div>
   </main>
 </div>
-<div class="overlay" id="declineModal"><div class="modal">
-  <h3>Decline this candidate?</h3><p id="declineText"></p>
-  <div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeDecline()">Keep candidate</button><button class="btn btn-danger btn-sm" id="confirmDecline">Decline</button></div>
-</div></div>
-<div class="overlay" id="wallModal"><div class="modal">
-  <div class="wall-ic">&#128274;</div>
-  <h3>You've used all 5 free unlocks</h3>
-  <p>Upgrade to keep unlocking candidates and booking interviews — no caps. Your agents stay on, working every role until you turn them off.</p>
-  <div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeWall()">Not now</button><button class="btn btn-primary btn-sm" onclick="location.href='pricing.html'">See plans</button></div>
-</div></div>
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
@@ -931,95 +933,102 @@ try{if(typeof window!=='undefined'){window.AX=AX;window.resetDemo=function(){AX.
 
 </script>
 <script>
-document.getElementById('side').innerHTML=AX.sidebar('agents');
+const E=AX.esc;
+document.getElementById('side').innerHTML=AX.sidebar('reports');
 document.getElementById('top').innerHTML=AX.topbar();
-const E=AX.esc, aid=AX.qs('a'), cid=AX.qs('c');
-const a=AX.agent(aid);let c=a&&AX.candidate(aid,cid);
-document.getElementById('back').href='interview-room.html?a='+aid;
-if(!a||!c){document.getElementById('body').innerHTML='<div class="empty">Candidate not found. <a class="link" href="agents.html">Back</a></div>';}else render();
+const S=AX.get(), ags=S.agents;
+const sel=document.getElementById('agentSel');
+sel.innerHTML=`<option value="all">All agents</option>`+ags.map(a=>`<option value="${a.id}">${E(a.role)}</option>`).join('');
+let tab='pipeline', charts=[];
 
-function whyCard(){
-  if(!c.why)return '';
-  const matched=(c.screening||[]).map(sc=>{const ok=/^(yes|working|med aide)/i.test(sc.a)||/yes/i.test(sc.a);return `<span class="why-chip ${ok?'':'miss'}"><span class="ck">${ok?'\u2714':'!'}</span>${E(sc.q.replace(/\?$/,''))}</span>`;}).join('');
-  return `<div class="why-card"><div class="wh">&#10024; Why ${E(c.name.split(' ')[0])} matches</div><div class="wt">${E(c.why)}</div>${matched?`<div class="wm">${matched}</div>`:''}</div>`;
-}
-function signalStrip(){
-  const slotMap={confirmed:['Confirmed','good'],requested:['Awaiting reply','warn'],completed:['Interviewed','good']};
-  const sl=slotMap[c.slot]||['—',''];
-  const sig=[
-    ['&#128269; Source',c.source||'—',''],
-    ['&#9889; First reply',c.firstReply||'—',''],
-    ['&#128197; Interview',sl[0],sl[1]],
-    ['&#128205; Distance',c.distance||'—','']
-  ];
-  return `<div class="signal-strip">${sig.map(x=>`<div class="sig"><div class="sl">${x[0]}</div><div class="sv ${x[2]}">${E(x[1])}</div></div>`).join('')}</div>`;
-}
-function contactBlock(){
-  if(AX.isUnlocked(cid)){
-    return `<div class="contact-box"><div class="cv"><div class="ci"><span class="k">Email</span><a class="link" href="mailto:${E(c.email)}">${E(c.email)}</a></div><div class="ci"><span class="k">Phone</span><span>${E(c.phone)}</span></div></div></div>`;
-  }
-  const left=AX.unlocksLeft();
-  return `<div class="contact-box locked"><div class="lk-tx"><div class="t">&#128274; Contact hidden</div><div class="s">Accept ${E(c.name.split(' ')[0])} to release their email and phone. ${left>0?`<b>${left} free unlock${left===1?'':'s'} left.</b>`:'<b>No free unlocks left.</b>'}</div></div><div class="cv blur"><div class="ci"><span class="k">Email</span><span>hidden@email.com</span></div><div class="ci"><span class="k">Phone</span><span>(•••) •••-••••</span></div></div></div>`;
-}
-function render(){
-  c=AX.candidate(aid,cid);
-  let actions='';
-  if(c.status==='awaiting')actions=`<div class="actions-bar" style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-danger" style="flex:1" onclick="openDecline()">Decline</button><button class="btn btn-primary" style="flex:1" onclick="accept()">${AX.isUnlocked(cid)?'Accept &amp; schedule':'Accept, unlock &amp; schedule'}</button></div>`;
-  else if(c.status==='upcoming')actions=`<div class="banner-scheduled" style="background:#e6eef5;border:1px solid #cdddea;color:var(--ink-2);border-radius:11px;padding:13px 16px;margin-top:18px;font-weight:500">&#128197; Interview scheduled — ${E(c.time)}</div>`;
-  else if(c.status==='interviewed')actions=`<div class="banner-scheduled" style="background:#dff0e6;border:1px solid #bfe3cd;color:var(--green);border-radius:11px;padding:13px 16px;margin-top:18px;font-weight:500">&#10003; Interviewed${c.feedback?' · '+E(c.feedback):''}</div>`;
-  else if(c.status==='declined')actions=`<div class="banner-scheduled" style="background:#eee9e0;border:1px solid var(--line);color:var(--muted);border-radius:11px;padding:13px 16px;margin-top:18px">This candidate was declined.</div>`;
+function listAgents(){const id=sel.value;return id==='all'?ags:ags.filter(a=>a.id===id);}
+function sumPipe(list,k){return list.reduce((n,a)=>n+((a.pipe&&a.pipe[k])||0),0);}
+function sumComms(list,k){return list.reduce((n,a)=>n+((a.comms&&a.comms[k])||0),0);}
+function kstrip(items){return `<div class="an-kpis">${items.map(k=>`<div class="an-kpi"><div class="kl">${k.l}</div><div class="kn">${k.n}</div><div class="kd flat">${k.d||'&nbsp;'}</div></div>`).join('')}</div>`;}
+function funnel(rows){const max=Math.max(...rows.map(r=>r[1]),1);return `<div class="funnel">${rows.map(r=>`<div class="fn-row"><div class="fl">${r[0]}</div><div class="fn-bar"><i style="width:${Math.max(3,Math.round(r[1]/max*100))}%"></i></div><div class="fv">${r[1]}</div></div>`).join('')}</div>`;}
 
+function setTab(t){tab=t;['pipeline','comms','team'].forEach(x=>document.getElementById('t-'+x).classList.toggle('on',x===t));paint();}
+
+function paint(){
+  charts.forEach(c=>c.destroy());charts=[];
+  const list=listAgents();const id=sel.value;
+  document.getElementById('sub').textContent=(id==='all'?'All agents':E(list[0].role))+' · last 30 days';
+  if(tab==='pipeline')renderPipeline(list);
+  else if(tab==='comms')renderComms(list);
+  else renderTeam();
+}
+
+function renderPipeline(list){
+  const k=kstrip([
+    {l:'📥 Delivered',n:sumPipe(list,'delivered')},
+    {l:'👀 Reviewed',n:sumPipe(list,'reviewed')},
+    {l:'✅ Accepted',n:sumPipe(list,'accepted')},
+    {l:'📅 Interviewed',n:sumPipe(list,'interviewed')}
+  ]);
+  const fn=funnel([['Delivered',sumPipe(list,'delivered')],['Reviewed',sumPipe(list,'reviewed')],['Accepted',sumPipe(list,'accepted')],['Scheduled',sumPipe(list,'scheduled')],['Interviewed',sumPipe(list,'interviewed')],['Hired',sumPipe(list,'hires')]]);
+  const rows=ags.filter(a=>sel.value==='all'||a.id===sel.value).map(a=>{const p=a.pipe||{};return `<tr>
+    <td class="pos">${E(a.role)}</td>
+    <td class="num">${p.reviewed||0}</td><td class="num">${p.accepted||0}</td><td class="num">${p.declined||0}</td>
+    <td class="num">${p.rescheduled||0}</td><td class="num">${p.scheduled||0}</td><td class="num">${p.interviewed||0}</td><td class="num">${p.hires||0}</td></tr>`;}).join('');
+  document.getElementById('body').innerHTML=`${k}
+    <div class="an-row">
+      <div class="an-card"><h3>Candidate funnel</h3><div class="ch-sub">Delivered through to hired</div>${fn}</div>
+      <div class="an-card"><h3>What needs you</h3><div class="ch-sub">Pending review across roles</div>${funnel([['Awaiting review',list.reduce((n,a)=>n+(a.awaiting||0),0)],['Locked / ready',list.reduce((n,a)=>n+(a.pending||0),0)]])}</div>
+    </div>
+    <div class="an-card"><h3>By role</h3><div class="ch-sub">Candidate decisions per agent</div>
+      <table class="an-tbl"><thead><tr><th>Role</th><th style="text-align:right">Reviewed</th><th style="text-align:right">Accepted</th><th style="text-align:right">Declined</th><th style="text-align:right">Resched.</th><th style="text-align:right">Scheduled</th><th style="text-align:right">Interviewed</th><th style="text-align:right">Hires</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
+}
+
+function renderComms(list){
+  const rate=(()=>{const m=sumComms(list,'messaged'),r=sumComms(list,'replied');return m?Math.round(r/m*100)+'%':'—';})();
+  const k=kstrip([
+    {l:'✉️ Messages sent',n:sumComms(list,'sent'),d:'by your agent'},
+    {l:'👥 Candidates messaged',n:sumComms(list,'messaged')},
+    {l:'💬 Reply rate',n:rate},
+    {l:'🔔 Reminders sent',n:sumComms(list,'reminders')}
+  ]);
+  const fn=funnel([['Messaged',sumComms(list,'messaged')],['Replied',sumComms(list,'replied')],['Scheduled',sumPipe(list,'scheduled')]]);
+  const rows=ags.filter(a=>sel.value==='all'||a.id===sel.value).map(a=>{const c=a.comms||{};return `<tr>
+    <td class="pos">${E(a.role)}</td>
+    <td class="num">${c.sent||0}</td><td class="num">${c.messaged||0}</td><td class="num">${c.replied||0}</td>
+    <td class="num">${c.replyRate?c.replyRate+'%':'—'}</td><td class="num">${c.invites||0}</td><td class="num">${c.reminders||0}</td><td class="num">${c.noShow||0}</td></tr>`;}).join('');
   document.getElementById('body').innerHTML=`
-  <div class="cd-grid">
-    <div class="card">
-      <div class="cd-head"><div class="ava-c">${E(AX.ini(c.name))}</div>
-        <div style="flex:1"><div class="cd-name">${E(c.name)}</div><div class="cd-sub">${E(c.headline||a.role)} &middot; ${E(c.location||'')}</div>
-          <div class="cd-hdr-meta">${c.license?`<span class="hm lic">&#9989; ${E(c.license)}</span>`:''}${c.avail?`<span class="hm">&#128336; ${E(c.avail)}</span>`:''}${c.distance?`<span class="hm">&#128205; ${E(c.distance)}</span>`:''}</div>
-        </div>
-        <div class="match" style="width:150px;flex:0 0 150px"><div class="mtop"><span>Match</span><b>${c.score}%</b></div><div class="bar"><i style="width:${c.score}%"></i></div></div>
-      </div>
-      ${whyCard()}
-      ${signalStrip()}
-      <div class="cd-section">Experience</div>
-      ${(c.experience||[]).map(x=>`<div class="cd-exp"><div class="r">${E(x.role)}</div><div class="o">${E(x.org)} &middot; ${E(x.years)}</div><div class="n">${E(x.note||'')}</div></div>`).join('')||'<div class="sub">No experience on file.</div>'}
-      <div class="cd-section">Skills</div><div>${(c.skills||[]).map(sk=>`<span class="tag">${E(sk)}</span>`).join('')||'<span class="sub">—</span>'}</div>
-      <div class="cd-section">Screening answers</div>
-      ${(c.screening||[]).map(sc=>`<div class="cd-scr"><span>${E(sc.q)}</span><span class="a">${E(sc.a)}</span></div>`).join('')||'<div class="sub">No screening answers.</div>'}
-      <div class="cd-section">Resume</div>
-      <div class="resume-file" style="display:flex;align-items:center;gap:11px;background:var(--th-bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px"><div class="fi" style="width:34px;height:34px;border-radius:8px;background:#e9e2d5;display:flex;align-items:center;justify-content:center;color:var(--blue);font-weight:700;font-size:12px">PDF</div><div style="flex:1;font-size:13.5px">${E(c.resume)}</div><a class="link" href="#" onclick="alert('Resume preview is mocked.');return false">View</a></div>
-      <div class="cd-section">Contact</div>
-      ${contactBlock()}
-      ${actions}
+    <div class="split-note">⚡ Every number here is your agent working on your behalf — no manual outreach required.</div>
+    ${k}
+    <div class="an-row">
+      <div class="an-card"><h3>Outreach funnel</h3><div class="ch-sub">Messaged → replied → scheduled</div>${fn}</div>
+      <div class="an-card"><h3>No-show recovery</h3><div class="ch-sub">Re-booked after a miss</div>${funnel([['No-show messages',sumComms(list,'noShow')],['Invites sent',sumComms(list,'invites')]])}</div>
     </div>
-    <div>
-      <div class="card" style="margin-bottom:18px">
-        <div class="cd-section" style="margin-top:0">Agent activity for this candidate</div>
-        <div class="timeline">${(c.activity||[]).map(t=>`<div class="tl"><span class="dot"></span><div><div class="tt">${E(t.t)}</div><div class="tm">${E(t.time)}</div></div></div>`).join('')||'<div class="sub">No activity yet.</div>'}</div>
-      </div>
-      <div class="card">
-        <div class="cd-section" style="margin-top:0">Messages</div>
-        <div class="chat-body" id="chatBody" style="max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:11px;padding:6px 0">${renderMsgs()}</div>
-        <div class="thread-input" style="display:flex;gap:9px;padding-top:13px;border-top:1px solid var(--line-soft)"><input class="setup-input" id="msgInput" placeholder="Write a message…" style="flex:1;padding:10px 13px;font-size:14px" onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn btn-primary btn-sm" onclick="sendMsg()">Send</button></div>
-      </div>
-    </div>
-  </div>`;
-  const cb=document.getElementById('chatBody');if(cb)cb.scrollTop=cb.scrollHeight;
+    <div class="an-card"><h3>By role</h3><div class="ch-sub">Agent outreach per role</div>
+      <table class="an-tbl"><thead><tr><th>Role</th><th style="text-align:right">Sent</th><th style="text-align:right">Messaged</th><th style="text-align:right">Replied</th><th style="text-align:right">Reply rate</th><th style="text-align:right">Invites</th><th style="text-align:right">Reminders</th><th style="text-align:right">No-show msgs</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
 }
-function renderMsgs(){if(!c.messages||!c.messages.length)return '<div class="sub" style="text-align:center;margin:auto">No messages yet.</div>';return c.messages.map(m=>`<div class="bub ${m.from==='recruiter'?'me':'them'}" style="max-width:80%;padding:10px 14px;border-radius:14px;font-size:14px;${m.from==='recruiter'?'align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px':'align-self:flex-start;background:#f0eee9;border-bottom-left-radius:4px'}">${E(m.text)}</div>`).join('');}
-window.sendMsg=function(){const i=document.getElementById('msgInput');const t=i.value.trim();if(!t)return;c.messages=c.messages||[];c.messages.push({from:'recruiter',text:t});AX.updateCandidate(aid,cid,{messages:c.messages});i.value='';document.getElementById('chatBody').innerHTML=renderMsgs();const b=document.getElementById('chatBody');b.scrollTop=b.scrollHeight;setTimeout(()=>{c.messages.push({from:'candidate',text:'Got it — thanks!'});AX.updateCandidate(aid,cid,{messages:c.messages});document.getElementById('chatBody').innerHTML=renderMsgs();const b2=document.getElementById('chatBody');if(b2)b2.scrollTop=b2.scrollHeight;},1000);};
-window.accept=function(){
-  if(!AX.isUnlocked(cid)){
-    if(!AX.canUnlock()){openWall();return;}
-    AX.unlock(cid);
-  }
-  const rr=AX.agent(aid);AX.updateCandidate(aid,cid,{status:'upcoming'});AX.update(aid,{confirmed:(rr.confirmed||0)+1,awaiting:Math.max(0,(rr.awaiting||0)-1)});render();
-};
-window.openWall=function(){document.getElementById('wallModal').classList.add('show');};
-window.closeWall=function(){document.getElementById('wallModal').classList.remove('show');};
-window.openDecline=function(){document.getElementById('declineText').innerHTML=`<b>${E(c.name)}</b> will be removed from your matches for <b>${E(a.role)}</b>.`;document.getElementById('declineModal').classList.add('show');};
-window.closeDecline=function(){document.getElementById('declineModal').classList.remove('show');};
-document.getElementById('confirmDecline').onclick=function(){AX.updateCandidate(aid,cid,{status:'declined'});const rr=AX.agent(aid);AX.update(aid,{awaiting:Math.max(0,(rr.awaiting||0)-1)});closeDecline();render();};
-document.getElementById('declineModal').addEventListener('click',e=>{if(e.target.id==='declineModal')closeDecline();});
+
+function renderTeam(){
+  const team=S.team||[];const sum=k=>team.reduce((n,p)=>n+(p[k]||0),0);
+  const k=kstrip([
+    {l:'⚡ All activities',n:sum('reviewed')+sum('approved')+sum('rejected')+sum('rescheduled')+sum('interviews')+sum('emails')},
+    {l:'✅ Approved',n:sum('approved')},
+    {l:'✕ Rejected',n:sum('rejected')},
+    {l:'🎙 Interviews completed',n:sum('interviews')}
+  ]);
+  const rows=team.map(p=>`<tr>
+    <td><div class="who"><span class="av">${E(AX.ini(p.name.replace('You (demo)','You Demo')))}</span>${E(p.name)}</div></td>
+    <td class="num">${p.reviewed}</td><td class="num">${p.approved}</td><td class="num">${p.rejected}</td>
+    <td class="num">${p.rescheduled}</td><td class="num">${p.interviews}</td><td class="num">${p.emails}</td></tr>`).join('');
+  document.getElementById('body').innerHTML=`
+    <div class="split-note" style="background:#fff7e9;border-color:#ead9b8;color:var(--amber)">👤 Team Activity tracks what your humans did — the agent handled the outreach.</div>
+    ${k}
+    <div class="an-card" style="margin-bottom:18px"><h3>All activities over time</h3><div class="ch-sub">Team actions per week</div><canvas id="teamChart" style="max-height:240px"></canvas></div>
+    <div class="an-card"><h3>By person</h3><div class="ch-sub">What each teammate did</div>
+      <table class="an-tbl"><thead><tr><th>Teammate</th><th style="text-align:right">Reviewed</th><th style="text-align:right">Approved</th><th style="text-align:right">Rejected</th><th style="text-align:right">Resched.</th><th style="text-align:right">Interviews</th><th style="text-align:right">Emails</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>`;
+  const wk=S.teamWeekly||[];const ctx=document.getElementById('teamChart');
+  if(ctx&&wk.length){charts.push(new Chart(ctx,{type:'bar',data:{labels:wk.map(w=>w.w),datasets:[{label:'Activities',data:wk.map(w=>w.n),backgroundColor:'#0044b3',borderRadius:5,maxBarThickness:46}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{precision:0,font:{family:'Noto Sans'}},grid:{color:'#eee'}},x:{grid:{display:false},ticks:{font:{family:'Noto Sans'}}}}}}));}
+}
+
+paint();
 </script>
 </body>
 </html>

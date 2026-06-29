@@ -736,6 +736,17 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .compare-bar .cb-opt{padding:6px 14px;border-radius:16px;font-weight:700;color:var(--muted);text-decoration:none}
 .compare-bar .cb-opt.on{background:var(--text);color:#fff}
 
+/* Reports tabs + extras */
+.rtabs{display:flex;gap:2px;border-bottom:1px solid var(--line);margin:4px 0 22px}
+.rtab{padding:11px 16px;font-size:14px;font-weight:700;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap}
+.rtab:hover{color:var(--text)}
+.rtab.on{color:var(--blue);border-bottom-color:var(--blue)}
+.an-note{font-size:12.5px;color:var(--muted);margin:-6px 0 16px}
+.an-tbl td.pos{font-weight:700}
+.an-tbl .who{display:flex;align-items:center;gap:10px;font-weight:700}
+.an-tbl .who .av{width:28px;height:28px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex:0 0 28px}
+.split-note{display:inline-flex;align-items:center;gap:8px;background:#eef3fb;border:1px solid #cfdcf0;color:var(--blue);border-radius:8px;padding:8px 13px;font-size:12.5px;font-weight:600;margin-bottom:16px}
+
 </style>
 </head>
 <body>
@@ -763,7 +774,7 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
-  const KEY='jobagentx_v2u';
+  const KEY='jobagentx_v3';
   function defAvail(){const d=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const o={};d.forEach((x,i)=>o[x]={on:i<5,start:'09:00',end:'17:00'});return o;}
   function cand(o){
     var nm=(o.name||'candidate');var slug=nm.toLowerCase().replace(/[^a-z]+/g,'.').replace(/^\.|\.$/g,'');
@@ -776,12 +787,20 @@ const AX=(function(){
     return {
       company:'Northwind Co',
       plan:'free', freeLimit:5, unlocks:['c1','c5','c7'],
+      team:[
+        {name:'You (demo)',reviewed:20,approved:13,rejected:7,rescheduled:3,interviews:0,emails:4},
+        {name:'Emily Chen',reviewed:14,approved:9,rejected:5,rescheduled:2,interviews:5,emails:3},
+        {name:'Maria Lopez',reviewed:11,approved:7,rejected:4,rescheduled:1,interviews:2,emails:6},
+        {name:'David Park',reviewed:6,approved:3,rejected:3,rescheduled:0,interviews:1,emails:1}
+      ],
+      teamWeekly:[{w:'Wk 1',n:9},{w:'Wk 2',n:14},{w:'Wk 3',n:11},{w:'Wk 4',n:17}],
       agents:[
         {id:'a1',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
          jd:'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team.',
          musthaves:['Active RN license','BLS/ACLS certification','1+ year clinical experience'],
          interviewers:['demo@jobfairx.com (you)','emily.chen@northwind.co'],availability:defAvail(),
          awaiting:3,confirmed:16,interviewed:5,hires:2,
+         pipe:{delivered:38,reviewed:24,accepted:16,declined:6,rescheduled:3,scheduled:16,interviewed:5,hires:2}, comms:{sent:210,messaged:142,replied:88,replyRate:62,invites:38,reminders:41,noShow:9},
          pending:8, metrics:{sourced:142,prequal:38,showRate:88,prevShowRate:83,ttiDays:2.4,prevTtiDays:3.1,costPerIv:31,prevCostPerIv:38,weekly:[{w:'Wk 1',booked:2,interviewed:1},{w:'Wk 2',booked:4,interviewed:2},{w:'Wk 3',booked:3,interviewed:1},{w:'Wk 4',booked:7,interviewed:1}]},
          activity:[
            {mins:12,icon:'ti-calendar-check',accent:true,t:'Booked an interview with Maya Delgado',s:'Thu 10:00 AM · she self-scheduled'},
@@ -825,6 +844,7 @@ const AX=(function(){
          musthaves:['Able to lift 50 lbs','Available for early shifts','Forklift cert a plus'],
          interviewers:['demo@jobfairx.com (you)'],availability:defAvail(),
          awaiting:0,confirmed:0,interviewed:0,hires:0,
+         pipe:{delivered:0,reviewed:0,accepted:0,declined:0,rescheduled:0,scheduled:0,interviewed:0,hires:0}, comms:{sent:12,messaged:11,replied:0,replyRate:0,invites:0,reminders:0,noShow:0},
          pending:0, metrics:{sourced:11,prequal:0,showRate:0,prevShowRate:0,ttiDays:0,prevTtiDays:0,costPerIv:0,prevCostPerIv:0,weekly:[{w:'Wk 1',booked:0,interviewed:0}]},
          activity:[{mins:30,icon:'ti-user-search',t:'Scanning the candidate pool',s:'Matching your must-haves'},{mins:60,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}],
          candidates:[]},
@@ -833,6 +853,7 @@ const AX=(function(){
          musthaves:['Fluent English + Spanish','Quiet home workspace','Customer service background'],
          interviewers:['demo@jobfairx.com (you)','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
          awaiting:7,confirmed:9,interviewed:2,hires:1,
+         pipe:{delivered:24,reviewed:15,accepted:9,declined:4,rescheduled:1,scheduled:9,interviewed:2,hires:1}, comms:{sent:156,messaged:96,replied:61,replyRate:64,invites:24,reminders:28,noShow:5},
          pending:6, metrics:{sourced:96,prequal:24,showRate:82,prevShowRate:86,ttiDays:1.9,prevTtiDays:2.0,costPerIv:27,prevCostPerIv:25,weekly:[{w:'Wk 1',booked:1,interviewed:0},{w:'Wk 2',booked:3,interviewed:1},{w:'Wk 3',booked:5,interviewed:1}]},
          activity:[
            {mins:25,icon:'ti-calendar-check',accent:true,t:'Booked an interview with Daniel Cho',s:'Thu 11:00 AM · he self-scheduled'},
@@ -899,7 +920,7 @@ const AX=(function(){
     return {working,review,total:ags.length};
   }
   function sidebar(active){
-    const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['interviews','interviews.html','&#128101;','Interviews'],['analytics','analytics.html','&#128202;','Analytics'],['messaging','messaging.html','&#128172;','Inbox']];
+    const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['interviews','interviews.html','&#128101;','Interviews'],['reports','reports.html','&#128202;','Reports'],['messaging','messaging.html','&#128172;','Inbox']];
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">${nav.map(n=>`<a href="${n[1]}" class="${active===n[0]?'active':''}"><span class="ic">${n[2]}</span><span class="lbl">${n[3]}</span></a>`).join('')}</nav>
