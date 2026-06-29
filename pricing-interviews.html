@@ -759,15 +759,15 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
     <div class="wrap">
       <div class="compare-row"><div class="compare-bar"><span class="cb-tag">Pricing model</span><a class="cb-opt" href="pricing.html">Linear (per role)</a><a class="cb-opt" href="pricing-bundled.html">Bundled + plateau</a><a class="cb-opt on" href="pricing-interviews.html">Per interview</a></div></div>
       <div class="pr-head">
-        <h1>Unlimited agents. Pay for interviews.</h1>
-        <p>Spin up as many roles as you need. You only pay for the pre-qualified interviews you accept — contact info and scheduling included. <span class="pi-note">Placeholder numbers — tune to your cost per interview.</span></p>
+        <h1>Pay for interviews, not software</h1>
+        <p>Add the roles you're hiring. You only pay for the pre-qualified interviews you accept — contact and scheduling included. <span class="pi-note">Placeholder numbers — tune to your cost per interview.</span></p>
       </div>
       <div class="pr-toggle-row">
         <div class="seg"><button class="on" id="seg-mo" onclick="setCycle('mo')">Monthly</button><button id="seg-yr" onclick="setCycle('yr')">Annual <span class="save">Save 20%</span></button></div>
-        <div class="pr-users">&#128101; Unlimited agents + users on every plan — you only pay per interview booked</div>
+        <div class="pr-users">&#128101; Unlimited users on every plan — invite your whole team free</div>
       </div>
       <div id="grid"></div>
-      <div class="pr-foot">Bucket too small or need ATS, SSO, and hiring-manager seats? <a href="#" onclick="contactSales();return false;">Talk to sales &rarr;</a></div>
+      <div class="pr-foot">Need more roles, more interviews, or ATS / SSO / hiring-manager seats? <a href="#" onclick="contactSales();return false;">Talk to sales &rarr;</a></div>
     </div>
   </main>
 </div>
@@ -945,31 +945,32 @@ document.getElementById('side').innerHTML=AX.sidebar('');
 document.getElementById('top').innerHTML=AX.topbar();
 let cycle='mo';
 const plans=[
-  {id:'free',name:'Free',desc:'Try the agent on one role.',mo:0,ivs:5,
-   feats:['<b class="lead">1 active agent</b>','<b>5 interviews</b> included','Accepting a candidate = contact + booked slot',
-     'See everything else delivered (locked preview)','Unlimited users','Basic dashboard']},
-  {id:'starter',name:'Starter',desc:'Steady hiring across a few roles.',mo:490,ivs:10,
-   feats:['<b class="lead">Unlimited active agents</b> (fair use)','<b>10 interviews / mo</b> — contact + scheduling included',
-     'Full agent outreach: SMS + email, reminders, no-show recovery','Auto-accept or manual-review mode',
-     'Reports &amp; analytics','Unlimited users','Email support']},
-  {id:'growth',name:'Growth',desc:'Always-on across many roles.',mo:1200,ivs:30,pop:true,
-   feats:['<b class="lead">Everything in Starter, plus:</b>','<b>30 interviews / mo</b>','Lower per-interview rate',
-     'Team inbox &amp; collaboration','Priority support']},
-  {id:'scale',name:'Scale',desc:'High-volume, continuous hiring.',mo:3000,ivs:100,
-   feats:['<b class="lead">Everything in Growth, plus:</b>','<b>100 interviews / mo</b>','Best per-interview rate',
-     'Deeper reports by role &amp; team','Priority support']},
+  {id:'free',name:'Free',desc:'Try the agent on one role.',mo:0,
+   feats:['<b class="lead">1 active agent</b> (1 role)','<b>5 interviews</b> to start','Accepting a candidate = contact + booked slot',
+     'Then keep your pipeline — locked &amp; free until you upgrade','Unlimited users','Basic dashboard']},
+  {id:'starter',name:'Starter',desc:'Steady hiring on a few roles.',mo:495,ivs:10,agents:3,
+   extra:['Full agent outreach: SMS + email, reminders, no-show recovery','Auto-accept or manual-review mode','Reports &amp; analytics','Unlimited users','Email support']},
+  {id:'growth',name:'Growth',desc:'Always-on across several roles.',mo:1200,ivs:30,agents:10,pop:true,lead:'Everything in Starter, plus:',
+   extra:['Team inbox &amp; collaboration','Priority support']},
+  {id:'scale',name:'Scale',desc:'High-volume, continuous hiring.',mo:3000,ivs:100,agents:25,lead:'Everything in Growth, plus:',
+   extra:['Deeper reports by role &amp; team','Priority support']},
   {id:'ent',name:'Enterprise',desc:'Volume and multiple teams.',custom:true,
-   feats:['<b class="lead">Everything in Scale, plus:</b>','Custom interview volume','ATS + CRM integration',
-     'SSO / SCIM provisioning','Hiring-manager seats &amp; approval workflows','Dedicated CSM, audit logs, custom retention']}
+   feats:['<b class="lead">Everything in Scale, plus:</b>','Unlimited roles + custom interview volume','ATS + CRM integration','SSO / SCIM provisioning','Hiring-manager seats &amp; approval workflows','Dedicated CSM, audit logs, custom retention']}
 ];
+function totalFor(p){return cycle==='yr'?Math.round(p.mo*0.8):p.mo;}
+function featsFor(p){
+  if(p.feats)return p.feats;
+  const total=totalFor(p);const out=[];
+  if(p.lead)out.push('<b class="lead">'+p.lead+'</b>');
+  out.push('<b>Up to '+p.agents+' active role'+(p.agents>1?'s':'')+'</b>');
+  out.push('<b>'+p.ivs+' interviews / mo</b>');
+  out.push('&#8776; $'+Math.round(total/p.ivs)+' per interview · contact + scheduling included');
+  return out.concat(p.extra||[]);
+}
 function priceBlock(p){
-  if(p.id==='free')return `<div class="price"><span class="amt">$0</span><span class="per">/ forever</span></div><div class="billed"><b>5 interviews</b> included</div><div class="rate">No card required</div>`;
-  if(p.custom)return `<div class="price"><span class="amt">Custom</span></div><div class="billed">Volume interview pricing</div><div class="rate">&nbsp;</div>`;
-  const total=cycle==='yr'?Math.round(p.mo*0.8):p.mo;
-  const per=Math.round(total/p.ivs);
-  return `<div class="price"><span class="amt">$${total.toLocaleString()}</span><span class="per">/ mo</span></div>
-    <div class="billed"><b>${p.ivs} interviews / mo</b> · ${cycle==='yr'?'billed annually':'billed monthly'}</div>
-    <div class="rate">&#8776; $${per} / interview · contact + scheduling included</div>`;
+  if(p.id==='free')return `<div class="price"><span class="amt">$0</span><span class="per">/ forever</span></div><div class="billed">No card required</div>`;
+  if(p.custom)return `<div class="price"><span class="amt">Custom</span></div><div class="billed">Volume interview pricing</div>`;
+  return `<div class="price"><span class="amt">$${totalFor(p).toLocaleString()}</span><span class="per">/ mo</span></div><div class="billed">${cycle==='yr'?'billed annually':'billed monthly'}</div>`;
 }
 function ctaBtn(p){
   if(p.cta==='current'||p.id==='free')return `<button class="btn btn-line pbtn" disabled style="opacity:.6;cursor:default">Current plan</button>`;
@@ -982,12 +983,12 @@ function paint(){
       <div class="pname">${E(p.name)}</div><div class="pdesc">${p.desc}</div>
       ${priceBlock(p)}
       ${ctaBtn(p)}
-      <ul class="feats">${p.feats.map(f=>`<li><span class="ck">&#10003;</span><span>${f}</span></li>`).join('')}</ul>
+      <ul class="feats">${featsFor(p).map(ff=>`<li><span class="ck">&#10003;</span><span>${ff}</span></li>`).join('')}</ul>
     </div>`).join('')}</div>`;
 }
 window.setCycle=function(c){cycle=c;document.getElementById('seg-mo').classList.toggle('on',c==='mo');document.getElementById('seg-yr').classList.toggle('on',c==='yr');paint();};
 window.upgrade=function(id,name){AX.setPlan(id);document.getElementById('okTitle').textContent='You’re on '+name;document.getElementById('okText').innerHTML='Your interview bucket is active — accept candidates and the contact info unlocks automatically. <span style="color:var(--muted)">(Prototype: no charge.)</span>';document.getElementById('okModal').classList.add('show');};
-window.contactSales=function(){document.getElementById('okTitle').textContent='Thanks — we’ll be in touch';document.getElementById('okText').innerHTML='A specialist will reach out about volume interview pricing, ATS/SSO, and hiring-manager seats. <span style="color:var(--muted)">(Prototype: nothing sent.)</span>';document.querySelector('.wall-ic').innerHTML='&#9993;';document.getElementById('okModal').classList.add('show');};
+window.contactSales=function(){document.getElementById('okTitle').textContent='Thanks — we’ll be in touch';document.getElementById('okText').innerHTML='A specialist will reach out about volume interview pricing, more roles, ATS/SSO, and hiring-manager seats. <span style="color:var(--muted)">(Prototype: nothing sent.)</span>';document.querySelector('.wall-ic').innerHTML='&#9993;';document.getElementById('okModal').classList.add('show');};
 document.getElementById('okModal').addEventListener('click',e=>{if(e.target.id==='okModal')e.currentTarget.classList.remove('show');});
 paint();
 </script>
