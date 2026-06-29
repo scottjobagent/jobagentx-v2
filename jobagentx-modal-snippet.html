@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JobAgentX early-access modal — preview & snippet</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>body{font-family:"Noto Sans",system-ui,sans-serif;margin:0;background:#f6f5f2;color:#1d1d1f}
+.guide{max-width:760px;margin:0 auto;padding:34px 22px}
+.guide h1{font-size:22px}.guide code{background:#eee;padding:1px 6px;border-radius:5px;font-size:13px}
+.guide ol{line-height:1.7;font-size:14.5px;color:#333}.guide .note{background:#fff7e9;border:1px solid #ead9b8;border-radius:10px;padding:12px 15px;font-size:13.5px;color:#7a5b1e}</style>
+</head>
+<body>
+<div class="guide">
+  <h1>JobAgentX early-access modal</h1>
+  <p style="color:#5b5b60">Open this file in a browser to preview the modal (it pops after ~5s). To deploy: copy everything between the <b>COPY FROM HERE</b> / <b>TO HERE</b> markers in this file's source and paste it right before <code>&lt;/body&gt;</code> on your JobFairX marketing pages and inside the app.</p>
+  <ol>
+    <li>Create a HubSpot form with fields <b>Email, Company, Message</b>.</li>
+    <li>In the snippet, set <code>HS_PORTAL_ID</code> and <code>HS_FORM_GUID</code> (HubSpot → Marketing → Forms → Share/Embed).</li>
+    <li>Point <code>LEARN_MORE_URL</code> at your live early-access page.</li>
+    <li>Paste the block before <code>&lt;/body&gt;</code>. It shows once per visitor (remembers via localStorage), is dismissible, and won't re-nag.</li>
+  </ol>
+  <div class="note">Tweak <code>SHOW_AFTER_MS</code> (default 5000) for timing. It will not appear during the same session after a visitor dismisses or submits, so it won't interrupt your core JobFairX flow repeatedly.</div>
+  <button onclick="document.getElementById('jax-ea-overlay').classList.add('jax-show')" style="margin-top:16px;border:none;background:#0044b3;color:#fff;font-family:inherit;font-weight:700;font-size:14.5px;padding:12px 20px;border-radius:11px;cursor:pointer">&#9654; Preview the modal</button>
+</div>
+
+<!-- ================= COPY FROM HERE ================= -->
+<div id="jax-ea-overlay" aria-hidden="true">
+  <div class="jax-ea-modal" role="dialog" aria-modal="true" aria-label="JobAgentX early access">
+    <button class="jax-ea-x" type="button" aria-label="Close">&times;</button>
+    <div id="jax-ea-form">
+      <div class="jax-ea-eyebrow">&#9889; New from JobFairX</div>
+      <h3 class="jax-ea-h">Meet JobAgentX — interviews booked for you</h3>
+      <p class="jax-ea-sub">An AI agent that sources, screens, and books pre-qualified candidates onto your calendar — so you skip the résumé pile and just show up to interview. You stay in full control.</p>
+      <ul class="jax-ea-pts">
+        <li><span>&#10003;</span> Qualified interviews, not applications</li>
+        <li><span>&#10003;</span> Works 24/7 per role</li>
+        <li><span>&#10003;</span> Free for founding users</li>
+      </ul>
+      <form id="jax-ea-formel">
+        <input id="jax-ea-email" type="email" required placeholder="Work email *">
+        <input id="jax-ea-company" type="text" placeholder="Company (optional)">
+        <input id="jax-ea-message" type="text" placeholder="What role are you hiring for? (optional)">
+        <button class="jax-ea-btn" type="submit" id="jax-ea-submit">Get free early access</button>
+      </form>
+      <div class="jax-ea-row"><a href="#" id="jax-ea-later">Maybe later</a><a href="#" id="jax-ea-learn" target="_blank" rel="noopener">Learn more &rarr;</a></div>
+    </div>
+    <div id="jax-ea-success">
+      <div class="jax-ea-big">&#127881;</div>
+      <h3 class="jax-ea-h">You're on the list</h3>
+      <p class="jax-ea-sub">Thanks — you're in the founding group. We'll reach out the moment your agent is ready.</p>
+      <button class="jax-ea-btn" type="button" id="jax-ea-done">Done</button>
+    </div>
+  </div>
+</div>
+<style>
+#jax-ea-overlay{display:none;position:fixed;inset:0;z-index:99999;background:rgba(20,28,42,.55);align-items:center;justify-content:center;padding:18px;font-family:"Noto Sans",-apple-system,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+#jax-ea-overlay.jax-show{display:flex}
+#jax-ea-overlay .jax-ea-modal{position:relative;width:100%;max-width:430px;background:#fff;border-radius:16px;padding:30px 28px 24px;box-shadow:0 30px 80px -30px rgba(0,0,0,.55);color:#1d1d1f}
+#jax-ea-overlay .jax-ea-x{position:absolute;top:14px;right:16px;border:none;background:none;font-size:24px;line-height:1;color:#9a9aa0;cursor:pointer}
+#jax-ea-overlay .jax-ea-eyebrow{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:#0044b3;background:#eaf0fb;border:1px solid #cfdcf0;border-radius:16px;padding:5px 11px}
+#jax-ea-overlay .jax-ea-h{font-size:21px;font-weight:800;margin:14px 0 8px;line-height:1.2}
+#jax-ea-overlay .jax-ea-sub{font-size:14.5px;color:#5b5b60;margin:0 0 14px}
+#jax-ea-overlay .jax-ea-pts{list-style:none;margin:0 0 16px;padding:0;display:flex;flex-direction:column;gap:7px}
+#jax-ea-overlay .jax-ea-pts li{font-size:14px;font-weight:600;display:flex;gap:8px;align-items:center}
+#jax-ea-overlay .jax-ea-pts li span{color:#1a7f4b;font-weight:800}
+#jax-ea-overlay form{display:flex;flex-direction:column;gap:9px}
+#jax-ea-overlay input{width:100%;box-sizing:border-box;font-family:inherit;font-size:15px;padding:12px 14px;border:1px solid #e3e1dd;border-radius:10px;background:#fdfdfc}
+#jax-ea-overlay input:focus{outline:none;border-color:#0044b3}
+#jax-ea-overlay .jax-ea-btn{border:none;background:#0044b3;color:#fff;font-family:inherit;font-size:15.5px;font-weight:700;padding:13px;border-radius:11px;cursor:pointer;margin-top:2px}
+#jax-ea-overlay .jax-ea-btn:hover{background:#003a99}
+#jax-ea-overlay .jax-ea-row{display:flex;justify-content:space-between;align-items:center;margin-top:13px}
+#jax-ea-overlay .jax-ea-row a{font-size:13px;color:#5b5b60;text-decoration:none;font-weight:600}
+#jax-ea-overlay .jax-ea-row a#jax-ea-learn{color:#0044b3}
+#jax-ea-overlay #jax-ea-success{display:none;text-align:center}
+#jax-ea-overlay #jax-ea-success .jax-ea-big{font-size:38px}
+</style>
+<script>
+(function(){
+  var SHOW_AFTER_MS = 5000;
+  var HS_PORTAL_ID  = 'YOUR_PORTAL_ID';
+  var HS_FORM_GUID  = 'YOUR_FORM_GUID';
+  var LEARN_MORE_URL = 'https://scottjobagent.github.io/jobagentx-v2/early-access.html';
+  var SEEN_KEY = 'jax_ea_seen';
+  var ov=document.getElementById('jax-ea-overlay');
+  if(!ov) return;
+  document.getElementById('jax-ea-learn').setAttribute('href', LEARN_MORE_URL);
+  function seen(){ try{return localStorage.getItem(SEEN_KEY)==='1';}catch(e){return false;} }
+  function markSeen(){ try{localStorage.setItem(SEEN_KEY,'1');}catch(e){} }
+  function open(){ if(seen()) return; ov.classList.add('jax-show'); ov.setAttribute('aria-hidden','false'); }
+  function close(){ ov.classList.remove('jax-show'); ov.setAttribute('aria-hidden','true'); markSeen(); }
+  if(!seen()) setTimeout(open, SHOW_AFTER_MS);
+  ov.querySelector('.jax-ea-x').addEventListener('click', close);
+  document.getElementById('jax-ea-later').addEventListener('click', function(e){e.preventDefault();close();});
+  document.getElementById('jax-ea-done').addEventListener('click', close);
+  ov.addEventListener('click', function(e){ if(e.target===ov) close(); });
+  document.getElementById('jax-ea-formel').addEventListener('submit', function(e){
+    e.preventDefault();
+    var b=document.getElementById('jax-ea-submit'); b.disabled=true; b.textContent='Sending…';
+    var fields=[
+      {name:'email',value:document.getElementById('jax-ea-email').value.trim()},
+      {name:'company',value:document.getElementById('jax-ea-company').value.trim()},
+      {name:'message',value:document.getElementById('jax-ea-message').value.trim()}
+    ];
+    var win=function(){ document.getElementById('jax-ea-form').style.display='none'; document.getElementById('jax-ea-success').style.display='block'; markSeen(); };
+    if(HS_PORTAL_ID==='YOUR_PORTAL_ID'){ console.warn('JobAgentX modal: set HS_PORTAL_ID / HS_FORM_GUID to go live.'); win(); return; }
+    fetch('https://api.hsforms.com/submissions/v3/integration/submit/'+HS_PORTAL_ID+'/'+HS_FORM_GUID,{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({fields:fields,context:{pageUri:location.href,pageName:document.title}})
+    }).then(function(){ win(); }).catch(function(){ win(); });
+  });
+})();
+</script>
+<!-- ================= TO HERE ================= -->
+</body></html>
