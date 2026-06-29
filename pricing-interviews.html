@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Create an Agent</title>
+<title>JobAgentX — Pricing (Per interview)</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -757,41 +757,25 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
-      <a class="back" href="index.html" id="back">&larr; Agents</a>
-
-      <!-- chat front door -->
-      <section id="s_chat">
-        <div class="chat-hero">
-          <h1>Who do you need to hire?</h1>
-          <div class="sub">Describe the role in a sentence — your agent drafts the rest, then you review and launch.</div>
-          <div class="chat-box">
-            <textarea id="prompt" placeholder="e.g. I need to hire registered nurses in Houston, TX — must have an active RN license and 1+ year of experience." onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey))draft()"></textarea>
-            <button class="btn btn-primary chat-send" onclick="draft()">Draft my agent &rarr;</button>
-          </div>
-          <div class="chat-chips" id="chips"></div>
-        </div>
-      </section>
-
-      <!-- drafting -->
-      <section id="s_draft" style="display:none">
-        <div class="draft-hero"><div class="spinner lg" style="margin:0 auto 16px"></div><div id="draftMsg">Reading your role and drafting the agent…</div></div>
-      </section>
-
-      <!-- review -->
-      <section id="s_review" style="display:none">
-        <div class="ai-chip">&#10024; Drafted by AI — edit anything</div>
-        <h1 class="review-head" id="revTitle">Your agent</h1>
-        <div class="sub" style="margin-bottom:20px">Review what your agent will do, then launch. It starts sourcing immediately.</div>
-        <div id="reviewBody"></div>
-        <div class="setup-foot"><button class="btn btn-primary btn-lg" id="launchBtn" onclick="launch()">&#9654; Launch agent</button></div>
-      </section>
+      <div class="compare-row"><div class="compare-bar"><span class="cb-tag">Pricing model</span><a class="cb-opt" href="pricing.html">Linear (per role)</a><a class="cb-opt" href="pricing-bundled.html">Bundled + plateau</a><a class="cb-opt on" href="pricing-interviews.html">Per interview</a></div></div>
+      <div class="pr-head">
+        <h1>Unlimited agents. Pay for interviews.</h1>
+        <p>Spin up as many roles as you need. You only pay for the pre-qualified interviews you accept — contact info and scheduling included. <span class="pi-note">Placeholder numbers — tune to your cost per interview.</span></p>
+      </div>
+      <div class="pr-toggle-row">
+        <div class="seg"><button class="on" id="seg-mo" onclick="setCycle('mo')">Monthly</button><button id="seg-yr" onclick="setCycle('yr')">Annual <span class="save">Save 20%</span></button></div>
+        <div class="pr-users">&#128101; Unlimited agents + users on every plan — you only pay per interview booked</div>
+      </div>
+      <div id="grid"></div>
+      <div class="pr-foot">Bucket too small or need ATS, SSO, and hiring-manager seats? <a href="#" onclick="contactSales();return false;">Talk to sales &rarr;</a></div>
     </div>
   </main>
 </div>
-
-<!-- custom message modal -->
-<div class="overlay" id="cmModal"><div class="modal wide"><h3>Welcome message</h3><p>Sent automatically when a candidate is matched. Make it sound like you.</p><textarea class="setup-input" id="cmText" rows="5" style="border-radius:10px"></textarea><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('cmModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="saveCm()">Save</button></div></div></div>
-
+<div class="overlay" id="okModal"><div class="modal">
+  <div class="wall-ic">&#10003;</div>
+  <h3 id="okTitle">You're upgraded</h3><p id="okText"></p>
+  <div class="modal-foot"><button class="btn btn-primary btn-sm" onclick="location.href='index.html'">Go to dashboard</button></div>
+</div></div>
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
@@ -956,125 +940,56 @@ try{if(typeof window!=='undefined'){window.AX=AX;window.resetDemo=function(){AX.
 
 </script>
 <script>
-/* v2 — conversational Create Agent */
-document.getElementById('side').innerHTML=AX.sidebar('agents');
-document.getElementById('top').innerHTML=AX.topbar();
 const E=AX.esc;
-const TITLES=['Registered Nurse','Certified Nursing Assistant','Medical Assistant','Caregiver','Warehouse Associate','Forklift Operator','Bilingual Call Center Rep','Customer Service Representative','Delivery Driver','Line Cook','Security Officer'];
-const JD={
-  nurse:'We’re hiring compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team. Full-time, competitive pay, strong benefits.',
-  warehouse:'Pick, pack, and ship orders in a fast-paced distribution center. Operate scanners, keep your zone organized, and hit daily throughput targets.',
-  'call center':'Handle inbound customer calls with empathy and accuracy. Resolve billing and scheduling questions and keep customer satisfaction high.',
-  caregiver:'Support daily living for residents — mobility, meals, medication reminders, and companionship — with patience and warmth on every shift.',
-  driver:'Run daily delivery routes safely and on time. Load and unload, follow the manifest, and give every customer a friendly handoff.'
-};
-let agent={role:'',location:'',musthaves:[],jd:'',availability:AX.defAvail(),slot:'30',autoAccept:true,
-  channels:{sms:true,email:true},msg:{matched:true,reminders:true,noshow:true},customMsg:'Hi {name} — you’ve been matched for our {role} role. Pick a time that works and we’ll see you then!',
-  interviewers:['demo@jobfairx.com (you)']};
-
-document.getElementById('chips').innerHTML=['Registered Nurse','Warehouse Associate','Bilingual Call Center Rep','Caregiver'].map(t=>`<span class="chat-chip" onclick="useChip('${t}')">${t}</span>`).join('');
-window.useChip=function(t){document.getElementById('prompt').value='I need to hire '+(/nurse|caregiver/i.test(t)?'a ':'')+t+(/nurse/i.test(t)?'s in Houston, TX — must have an active RN license and 1+ year of experience':' — must be reliable and available for shifts');draft();};
-
-function parse(text){
-  const t=text.trim();
-  let role=TITLES.find(x=>t.toLowerCase().includes(x.toLowerCase()))||'';
-  if(!role){const m=t.match(/hire (?:a |an |some )?([A-Za-z][A-Za-z \/]+?)(?:\s+(?:in|with|who|that|—|-|,)|$)/i);role=m?m[1].trim().replace(/s$/,''):'New role';role=role.replace(/\b\w/g,c=>c.toUpperCase());}
-  let location='';const lm=t.match(/in ([A-Z][a-zA-Z]+(?:,?\s*[A-Z]{2})?)/);if(lm)location=lm[1];
-  if(/\bremote\b/i.test(t))location=location?location+' · Remote OK':'Remote (US)';
-  if(!location)location='—';
-  const mh=[];
-  if(/licen[sc]e|certif|cna|rn\b|bls|acls/i.test(t))mh.push('Active license / certification');
-  if(/year|yrs|experience/i.test(t))mh.push('1+ year of experience');
-  if(/bilingual|spanish/i.test(t))mh.push('Bilingual (English/Spanish)');
-  if(/lift|50/i.test(t))mh.push('Able to lift 50 lbs');
-  if(!mh.length)mh.push('Reliable, available for shifts');
-  const key=Object.keys(JD).find(k=>t.toLowerCase().includes(k)|| (k==='nurse'&&/nurse|rn|cna/i.test(t)));
-  const jd=key?JD[key]:`We’re hiring a ${role} to join our team. You’ll own the day-to-day of this role and bring reliability and care to everything you do. We’ll train the right person on the specifics.`;
-  return {role,location,musthaves:mh,jd};
+document.getElementById('side').innerHTML=AX.sidebar('');
+document.getElementById('top').innerHTML=AX.topbar();
+let cycle='mo';
+const plans=[
+  {id:'free',name:'Free',desc:'Try the agent on one role.',mo:0,ivs:5,
+   feats:['<b class="lead">1 active agent</b>','<b>5 interviews</b> included','Accepting a candidate = contact + booked slot',
+     'See everything else delivered (locked preview)','Unlimited users','Basic dashboard']},
+  {id:'starter',name:'Starter',desc:'Steady hiring across a few roles.',mo:490,ivs:10,
+   feats:['<b class="lead">Unlimited active agents</b> (fair use)','<b>10 interviews / mo</b> — contact + scheduling included',
+     'Full agent outreach: SMS + email, reminders, no-show recovery','Auto-accept or manual-review mode',
+     'Reports &amp; analytics','Unlimited users','Email support']},
+  {id:'growth',name:'Growth',desc:'Always-on across many roles.',mo:1200,ivs:30,pop:true,
+   feats:['<b class="lead">Everything in Starter, plus:</b>','<b>30 interviews / mo</b>','Lower per-interview rate',
+     'Team inbox &amp; collaboration','Priority support']},
+  {id:'scale',name:'Scale',desc:'High-volume, continuous hiring.',mo:3000,ivs:100,
+   feats:['<b class="lead">Everything in Growth, plus:</b>','<b>100 interviews / mo</b>','Best per-interview rate',
+     'Deeper reports by role &amp; team','Priority support']},
+  {id:'ent',name:'Enterprise',desc:'Volume and multiple teams.',custom:true,
+   feats:['<b class="lead">Everything in Scale, plus:</b>','Custom interview volume','ATS + CRM integration',
+     'SSO / SCIM provisioning','Hiring-manager seats &amp; approval workflows','Dedicated CSM, audit logs, custom retention']}
+];
+function priceBlock(p){
+  if(p.id==='free')return `<div class="price"><span class="amt">$0</span><span class="per">/ forever</span></div><div class="billed"><b>5 interviews</b> included</div><div class="rate">No card required</div>`;
+  if(p.custom)return `<div class="price"><span class="amt">Custom</span></div><div class="billed">Volume interview pricing</div><div class="rate">&nbsp;</div>`;
+  const total=cycle==='yr'?Math.round(p.mo*0.8):p.mo;
+  const per=Math.round(total/p.ivs);
+  return `<div class="price"><span class="amt">$${total.toLocaleString()}</span><span class="per">/ mo</span></div>
+    <div class="billed"><b>${p.ivs} interviews / mo</b> · ${cycle==='yr'?'billed annually':'billed monthly'}</div>
+    <div class="rate">&#8776; $${per} / interview · contact + scheduling included</div>`;
 }
-
-window.draft=function(){
-  const text=document.getElementById('prompt').value.trim();
-  if(text.length<3){document.getElementById('prompt').focus();return;}
-  const p=parse(text);agent.role=p.role;agent.location=p.location;agent.musthaves=p.musthaves;agent.jd=p.jd;
-  document.getElementById('s_chat').style.display='none';
-  document.getElementById('s_draft').style.display='block';
-  document.getElementById('back').style.display='none';
-  setTimeout(()=>{document.getElementById('draftMsg').textContent='Sourcing strategy, screening questions, and messaging ready.';},900);
-  setTimeout(()=>{document.getElementById('s_draft').style.display='none';renderReview();document.getElementById('s_review').style.display='block';window.scrollTo(0,0);},1700);
-};
-
-function availSummary(){const d=Object.keys(agent.availability).filter(k=>agent.availability[k].on);return d.length?d.map(k=>`<span class="tag">${k} ${agent.availability[k].start}–${agent.availability[k].end}</span>`).join(''):'<span style="color:var(--amber)">No days set</span>';}
-
-function renderReview(){
-  document.getElementById('revTitle').textContent=agent.role+' agent';
-  document.getElementById('reviewBody').innerHTML=`
-    <div class="rev-card"><h3>The role</h3>
-      <div class="setup-field"><label class="setup-label">Job title</label><input class="setup-input" id="f_role" value="${E(agent.role)}"></div>
-      <div class="setup-field"><label class="setup-label">Location</label><input class="setup-input" id="f_loc" value="${E(agent.location)}"></div>
-      <div class="setup-field"><label class="setup-label">Must-haves</label><div class="mh" id="mhList"></div><span class="addlink" id="addMh">＋ Add</span></div>
-      <div class="setup-field" style="margin-bottom:0"><label class="setup-label">Job description <span class="ai-chip">&#10024; AI draft</span></label><textarea class="setup-input" id="f_jd" rows="4" style="border-radius:10px">${E(agent.jd)}</textarea></div>
-    </div>
-
-    <div class="rev-card"><h3>Interview availability</h3>
-      <div class="setup-hint" style="margin-bottom:12px">Your agent only books interviews inside these windows. Wider availability = more interviews.</div>
-      <div class="avail" id="avail"></div>
-    </div>
-
-    <div class="rev-card"><h3>Interview handling</h3>
-      <div class="setup-field"><label class="setup-label">Time slot length</label>
-        <div class="setup-selectwrap" style="max-width:220px"><select class="setup-input" id="f_slot"><option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="60">60 minutes</option></select><span class="chev">&#9662;</span></div></div>
-      <label class="setup-label">When a candidate books</label>
-      <div class="mode-opts">
-        <div class="mode-opt ${agent.autoAccept?'sel':''}" id="mo-auto" onclick="setMode(true)"><div class="mo-t">Auto-accept <span class="rec-badge">Recommended</span></div><div class="mo-s">Confirm instantly for candidates who pass your must-haves. Highest show-rate.</div></div>
-        <div class="mode-opt ${agent.autoAccept?'':'sel'}" id="mo-manual" onclick="setMode(false)"><div class="mo-t">Manual review</div><div class="mo-s">Requests wait in “Needs your response” for you to accept or decline.</div></div>
-      </div>
-    </div>
-
-    <div class="rev-card"><h3>Messaging</h3>
-      <div class="msg-toggle"><div><div class="mt-t">Text + email</div><div class="mt-s">Texting drives the highest show-rates for shift roles.</div></div>
-        <span style="display:flex;gap:10px"><label class="toggle"><input type="checkbox" id="ch_sms" ${agent.channels.sms?'checked':''}><span class="tk"></span></label></span></div>
-      <div class="msg-toggle"><div><div class="mt-t">Matched invite</div><div class="mt-s">Tell candidates they’ve been matched and invite them to book.</div></div><label class="toggle"><input type="checkbox" id="m_matched" ${agent.msg.matched?'checked':''}><span class="tk"></span></label></div>
-      <div class="msg-toggle"><div><div class="mt-t">Reminders</div><div class="mt-s">Confirmation, 24h, and 1h before each interview.</div></div><label class="toggle"><input type="checkbox" id="m_rem" ${agent.msg.reminders?'checked':''}><span class="tk"></span></label></div>
-      <div class="msg-toggle"><div><div class="mt-t">No-show recovery</div><div class="mt-s">Auto follow-up to rebook anyone who misses or doesn’t book.</div></div><label class="toggle"><input type="checkbox" id="m_noshow" ${agent.msg.noshow?'checked':''}><span class="tk"></span></label></div>
-      <div class="msg-toggle"><div><div class="mt-t">Welcome message</div><div class="mt-s" id="cmPreview">${E(agent.customMsg)}</div></div><button class="btn btn-ghost btn-sm" onclick="openM('cmModal')">Edit</button></div>
-    </div>
-
-    <div class="rev-card"><h3>Who conducts interviews</h3>
-      <div class="setup-hint" style="margin-bottom:10px">Your team runs the interviews. Add as many as you need.</div>
-      <div class="email-chips" id="ivchips"></div>
-      <div class="row2"><input class="setup-input" id="ivEmail" placeholder="interviewer@company.com"><button class="btn btn-dark btn-sm" onclick="addIv()" style="align-self:center">Add</button></div>
-    </div>`;
-  renderMh();renderAvail();renderIv();
+function ctaBtn(p){
+  if(p.cta==='current'||p.id==='free')return `<button class="btn btn-line pbtn" disabled style="opacity:.6;cursor:default">Current plan</button>`;
+  if(p.custom)return `<button class="btn btn-dark pbtn" onclick="contactSales()">Contact sales</button>`;
+  return `<button class="btn ${p.pop?'btn-primary':'btn-line'} pbtn" onclick="upgrade('${p.id}','${E(p.name)}')">Choose ${E(p.name)}</button>`;
 }
-function renderMh(){document.getElementById('mhList').innerHTML=agent.musthaves.map((m,i)=>`<div class="mh-item"><input class="setup-input" value="${E(m)}" oninput="agent.musthaves[${i}]=this.value"><span class="x" onclick="agent.musthaves.splice(${i},1);renderMh()">&times;</span></div>`).join('');document.getElementById('addMh').onclick=()=>{agent.musthaves.push('');renderMh();};}
-function renderAvail(){document.getElementById('avail').innerHTML=Object.keys(agent.availability).map(d=>{const x=agent.availability[d];return `<div class="day ${x.on?'':'off'}" id="row-${d}"><label class="toggle"><input type="checkbox" ${x.on?'checked':''} onchange="agent.availability['${d}'].on=this.checked;document.getElementById('row-${d}').className='day '+(this.checked?'':'off')"><span class="tk"></span></label><span class="dn">${d}</span><div class="times"><input type="time" value="${x.start}" onchange="agent.availability['${d}'].start=this.value"><span class="muted">to</span><input type="time" value="${x.end}" onchange="agent.availability['${d}'].end=this.value"></div></div>`;}).join('');}
-function renderIv(){document.getElementById('ivchips').innerHTML=agent.interviewers.map((iv,i)=>`<div class="email-chip">${E(iv)}${i>0?`<span class="x" onclick="agent.interviewers.splice(${i},1);renderIv()">&times;</span>`:''}</div>`).join('');}
-window.addIv=function(){const v=document.getElementById('ivEmail').value.trim();if(!/.+@.+\..+/.test(v))return;agent.interviewers.push(v);document.getElementById('ivEmail').value='';renderIv();};
-window.setMode=function(on){agent.autoAccept=on;document.getElementById('mo-auto').classList.toggle('sel',on);document.getElementById('mo-manual').classList.toggle('sel',!on);};
-window.openM=function(id){if(id==='cmModal')document.getElementById('cmText').value=agent.customMsg;document.getElementById(id).classList.add('show');};
-window.closeM=function(id){document.getElementById(id).classList.remove('show');};
-window.saveCm=function(){agent.customMsg=document.getElementById('cmText').value;document.getElementById('cmPreview').textContent=agent.customMsg;closeM('cmModal');};
-
-window.launch=function(){
-  agent.role=document.getElementById('f_role').value.trim()||agent.role;
-  agent.location=document.getElementById('f_loc').value.trim()||agent.location;
-  agent.jd=document.getElementById('f_jd').value.trim();
-  agent.slot=document.getElementById('f_slot').value;
-  agent.autoAccept=document.getElementById('mo-auto').classList.contains('sel');
-  agent.channels.sms=document.getElementById('ch_sms').checked;
-  agent.msg={matched:document.getElementById('m_matched').checked,reminders:document.getElementById('m_rem').checked,noshow:document.getElementById('m_noshow').checked};
-  const btn=document.getElementById('launchBtn');btn.disabled=true;btn.textContent='Launching…';
-  const id='a'+Date.now().toString(36);
-  AX.add({id,role:agent.role,location:agent.location,status:'sourcing',jd:agent.jd,musthaves:agent.musthaves.filter(Boolean),
-    interviewers:agent.interviewers.slice(),availability:agent.availability,slot:agent.slot,autoAccept:agent.autoAccept,
-    channels:agent.channels,messaging:agent.msg,customMsg:agent.customMsg,
-    awaiting:0,confirmed:0,interviewed:0,hires:0,candidates:[],
-    activity:[{mins:1,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}]});
-  setTimeout(()=>{location.href='index.html';},700);
-};
-[...document.querySelectorAll('.overlay')].forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
-
+function paint(){
+  document.getElementById('grid').innerHTML=`<div class="pr-grid">${plans.map(p=>`
+    <div class="pcard ${p.pop?'pop':''}">${p.pop?'<div class="pop-badge">Most popular</div>':''}
+      <div class="pname">${E(p.name)}</div><div class="pdesc">${p.desc}</div>
+      ${priceBlock(p)}
+      ${ctaBtn(p)}
+      <ul class="feats">${p.feats.map(f=>`<li><span class="ck">&#10003;</span><span>${f}</span></li>`).join('')}</ul>
+    </div>`).join('')}</div>`;
+}
+window.setCycle=function(c){cycle=c;document.getElementById('seg-mo').classList.toggle('on',c==='mo');document.getElementById('seg-yr').classList.toggle('on',c==='yr');paint();};
+window.upgrade=function(id,name){AX.setPlan(id);document.getElementById('okTitle').textContent='You’re on '+name;document.getElementById('okText').innerHTML='Your interview bucket is active — accept candidates and the contact info unlocks automatically. <span style="color:var(--muted)">(Prototype: no charge.)</span>';document.getElementById('okModal').classList.add('show');};
+window.contactSales=function(){document.getElementById('okTitle').textContent='Thanks — we’ll be in touch';document.getElementById('okText').innerHTML='A specialist will reach out about volume interview pricing, ATS/SSO, and hiring-manager seats. <span style="color:var(--muted)">(Prototype: nothing sent.)</span>';document.querySelector('.wall-ic').innerHTML='&#9993;';document.getElementById('okModal').classList.add('show');};
+document.getElementById('okModal').addEventListener('click',e=>{if(e.target.id==='okModal')e.currentTarget.classList.remove('show');});
+paint();
 </script>
 </body>
 </html>
