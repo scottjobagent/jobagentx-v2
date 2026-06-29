@@ -835,6 +835,23 @@ body{background:#fff!important}
 .cw-ov.show{display:flex}
 .cw-ov .m{background:#fff;border-radius:14px;max-width:460px;width:100%;padding:26px}
 .cw-ov .m h3{font-size:20px;font-weight:800;margin:0 0 16px}
+
+/* front-door chat */
+.cw-chat{max-width:600px;margin:0 auto;padding:42px 24px 30px;min-height:62vh;display:flex;flex-direction:column}
+.cw-chat .msgs{display:flex;flex-direction:column;flex:1}
+.cw-chat .bub{max-width:82%;padding:13px 17px;border-radius:16px;font-size:16px;margin-bottom:12px;line-height:1.45}
+.cw-chat .bub.bot{background:#f4f3f0;color:#2d2d2d;border-bottom-left-radius:5px;align-self:flex-start}
+.cw-chat .bub.me{background:#0044b3;color:#fff;border-bottom-right-radius:5px;align-self:flex-end}
+.cw-chat .ctrl{margin-top:14px}
+.cw-chat .qbtns{display:flex;flex-wrap:wrap;gap:10px}
+.cw-chat .qbtn{border:1.5px solid #d4d2d0;border-radius:999px;padding:11px 18px;font-size:15px;font-weight:600;color:#2d2d2d;background:#fff;cursor:pointer}
+.cw-chat .qbtn:hover{border-color:#0044b3;color:#0044b3}
+.cw-chat .crow{display:flex;gap:10px}
+.cw-chat .crow input{flex:1;border:2px solid #a8a8a8;border-radius:12px;padding:14px 18px;font-size:16px;font-family:inherit;color:#2d2d2d}
+.cw-chat .crow input:focus{outline:none;border-color:#0044b3}
+.cw-chat .echips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.cw-chat .echip{border:1px solid #d4d2d0;border-radius:999px;padding:7px 14px;font-size:13.5px;color:#2d2d2d;background:#fff;cursor:pointer}
+.cw-chat .echip:hover{border-color:#0044b3;color:#0044b3}
 </style>
 </head>
 <body>
@@ -1056,7 +1073,7 @@ function draftJD(role){return `Job Summary\nWe are seeking a dedicated ${role} t
 /* ---------- render ---------- */
 function render(){
   const stage=document.getElementById('stage');
-  if(step===0){ stage.innerHTML=heroHTML(); bindHero(); return; }
+  if(step===0){ renderChat(); return; }
   stage.innerHTML=`<div class="cw">
     <div class="crumb">Create agent · Step ${step} of 6 · <b>${E(STEPS[step-1])}</b></div>
     <div id="cwbody"></div>
@@ -1069,14 +1086,39 @@ function render(){
   afterRender();
 }
 
-function heroHTML(){return `<div class="cw-hero">
-  <h1>Who do you need to hire?</h1>
-  <p>Tell us the role and we'll set up an agent to source, screen, and book interviews for it.</p>
-  <div class="hbox"><input id="hero-input" placeholder="e.g. Registered Nurse" value="${E(A.role)}"><button class="btn-primary" onclick="startFromHero()">Start &rarr;</button></div>
-  <div class="hchips">${['Registered Nurse','Warehouse Associate','Bilingual Call Center Rep','Sales Associate','Customer Service Rep'].map(r=>`<button class="hchip" onclick="document.getElementById('hero-input').value='${r}'">${r}</button>`).join('')}</div>
-</div>`;}
-function bindHero(){const i=document.getElementById('hero-input');if(i){i.focus();i.onkeydown=e=>{if(e.key==='Enter')startFromHero();};}}
-window.startFromHero=function(){const v=document.getElementById('hero-input').value.trim();if(!v)return;A.role=v;if(!A.jd)A.jd=draftJD(v);step=1;render();};
+let chatMsgs=[{who:'bot',text:'Who do you need to hire?'}];
+let chatStage='title';
+function botSay(t){chatMsgs.push({who:'bot',text:t});}
+function meSay(t){chatMsgs.push({who:'me',text:t});}
+function chatPlaceholder(){return {title:'e.g. Registered Nurse',address:'Street address or ZIP code',resideArea:'State, region, or city',startAddr:'Street address'}[chatStage]||'Type your answer';}
+function chatControl(){
+  if(chatStage==='loctype')return `<div class="qbtns">${['In person','Fully remote','Hybrid','On the road'].map(o=>`<button class="qbtn" onclick="chatLocType('${o}')">${o}</button>`).join('')}</div>`;
+  if(chatStage==='resideYN'||chatStage==='startYN')return `<div class="qbtns">${['Yes','No'].map(o=>`<button class="qbtn" onclick="chatYN('${o}')">${o}</button>`).join('')}</div>`;
+  if(chatStage==='done')return `<button class="btn-primary" onclick="step=1;render()">Continue to setup &rarr;</button>`;
+  const chips=chatStage==='title'?`<div class="echips">${['Registered Nurse','Warehouse Associate','Bilingual Call Center Rep','Sales Associate','Customer Service Rep'].map(r=>`<button class="echip" onclick="document.getElementById('chat-input').value='${r}'">${r}</button>`).join('')}</div>`:'';
+  return `<div class="crow"><input id="chat-input" placeholder="${chatPlaceholder()}"><button class="btn-primary" onclick="chatText()">Send &rarr;</button></div>${chips}`;
+}
+function renderChat(){
+  document.getElementById('stage').innerHTML=`<div class="cw-chat"><div class="msgs" id="msgs">${chatMsgs.map(m=>`<div class="bub ${m.who}">${E(m.text)}</div>`).join('')}</div><div class="ctrl">${chatControl()}</div></div>`;
+  const inp=document.getElementById('chat-input');if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')chatText();};}
+  const m=document.getElementById('msgs');if(m)m.scrollTop=m.scrollHeight;
+}
+function finishChat(){botSay("Perfect — I've drafted your agent. Review the details and we'll launch it.");chatStage='done';}
+window.chatText=function(){const v=document.getElementById('chat-input').value.trim();if(!v)return;meSay(v);
+  if(chatStage==='title'){A.role=v;if(!A.jd)A.jd=draftJD(v);botSay('Got it — a '+v+'. Where is this role based?');chatStage='loctype';}
+  else if(chatStage==='address'){A.address=v;finishChat();}
+  else if(chatStage==='resideArea'){A.resideArea=v;finishChat();}
+  else if(chatStage==='startAddr'){A.startAddress=v;finishChat();}
+  renderChat();};
+window.chatLocType=function(label){meSay(label);const map={'In person':'in_person','Fully remote':'remote','Hybrid':'hybrid','On the road':'on_road'};A.locationType=map[label];
+  if(A.locationType==='in_person'||A.locationType==='hybrid'){botSay("What's the job location? Enter a street address or ZIP code.");chatStage='address';}
+  else if(A.locationType==='remote'){botSay('Are employees required to reside in a specific location?');chatStage='resideYN';}
+  else{botSay('Does this job have a consistent starting location?');chatStage='startYN';}
+  renderChat();};
+window.chatYN=function(v){meSay(v);
+  if(chatStage==='resideYN'){A.resideRequired=v==='Yes'?'yes':'no';if(v==='Yes'){botSay('In what location must employees reside?');chatStage='resideArea';}else finishChat();}
+  else if(chatStage==='startYN'){A.consistentStart=v==='Yes'?'yes':'no';if(v==='Yes'){botSay('Enter the street address of the starting location.');chatStage='startAddr';}else finishChat();}
+  renderChat();};
 
 /* ----- step 1: role & location ----- */
 function stepLocation(){
@@ -1084,8 +1126,7 @@ function stepLocation(){
   let branch='';
   if(lt==='in_person'||lt==='hybrid'){
     branch=`<label class="lbl">What is the job location? <span class="req">*</span></label><div class="hint">Enter a street address or ZIP code</div>
-      <input class="inp" id="f-address" placeholder="Street address" value="${E(A.address)}">
-      <label class="lbl">ZIP code</label><input class="inp" id="f-zip" placeholder="ZIP code" value="${E(A.zip)}">`;
+      <input class="inp" id="f-loc" placeholder="Enter a street address or ZIP code" value="${E(A.address)}">`;
   } else if(lt==='remote'){
     branch=`<label class="lbl">Are employees required to reside in a specific location?</label>
       <label class="opt"><input type="radio" name="reside" value="yes" ${A.resideRequired==='yes'?'checked':''} onclick="A.resideRequired='yes';render()"><span class="ot">Yes</span></label>
@@ -1113,8 +1154,7 @@ function stepLocation(){
 function collectLoc(){
   const g=id=>{const e=document.getElementById(id);return e?e.value.trim():undefined;};
   if(g('f-title')!==undefined)A.role=g('f-title');
-  if(g('f-address')!==undefined)A.address=g('f-address');
-  if(g('f-zip')!==undefined)A.zip=g('f-zip');
+  if(g('f-loc')!==undefined)A.address=g('f-loc');
   if(g('f-reside')!==undefined)A.resideArea=g('f-reside');
   if(g('f-start')!==undefined)A.startAddress=g('f-start');
 }
