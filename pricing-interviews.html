@@ -749,6 +749,15 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 
 .pi-note{display:inline-block;font-size:12px;font-weight:600;color:var(--amber);background:#fff7e9;border:1px solid #ead9b8;border-radius:6px;padding:2px 8px;margin-top:6px}
 
+/* Enterprise full-width banner (per-interview pricing) */
+.ent-banner{display:flex;align-items:center;justify-content:space-between;gap:24px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 28px;margin-top:16px}
+.ent-banner .ent-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ent-banner .ent-name{font-size:18px;font-weight:800}
+.ent-banner .ent-tag{font-size:13px;color:var(--muted);font-weight:600}
+.ent-banner .ent-feats{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6}
+.ent-banner .ent-btn{flex:0 0 auto;white-space:nowrap}
+@media(max-width:760px){.ent-banner{flex-direction:column;align-items:flex-start}}
+
 </style>
 </head>
 <body>
@@ -767,6 +776,13 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
         <div class="pr-users">&#128101; Unlimited users on every plan — invite your whole team free</div>
       </div>
       <div id="grid"></div>
+      <div class="ent-banner">
+        <div class="ent-l">
+          <div class="ent-row"><span class="ent-name">Enterprise</span><span class="ent-tag">Contact us for more roles &amp; interviews</span></div>
+          <div class="ent-feats">Unlimited roles &middot; Custom interview volume &middot; ATS + CRM integration &middot; SSO / SCIM &middot; Hiring-manager seats &middot; Dedicated CSM &middot; Audit logs</div>
+        </div>
+        <button class="btn btn-dark ent-btn" onclick="contactSales()">Contact sales</button>
+      </div>
       <div class="pr-foot">Need more roles, more interviews, or ATS / SSO / hiring-manager seats? <a href="#" onclick="contactSales();return false;">Talk to sales &rarr;</a></div>
     </div>
   </main>
@@ -948,33 +964,28 @@ const plans=[
   {id:'free',name:'Free',desc:'Try the agent on one role.',mo:0,
    feats:['<b class="lead">1 active agent</b> (1 role)','<b>5 interviews</b> to start','Accepting a candidate = contact + booked slot',
      'Then keep your pipeline — locked &amp; free until you upgrade','Unlimited users','Basic dashboard']},
-  {id:'starter',name:'Starter',desc:'Steady hiring on a few roles.',mo:495,ivs:10,agents:3,
-   extra:['Full agent outreach: SMS + email, reminders, no-show recovery','Auto-accept or manual-review mode','Reports &amp; analytics','Unlimited users','Email support']},
-  {id:'growth',name:'Growth',desc:'Always-on across several roles.',mo:1200,ivs:30,agents:10,pop:true,lead:'Everything in Starter, plus:',
+  {id:'starter',name:'Starter',desc:'Steady hiring on a couple of roles.',mo:495,ivs:10,agents:2,
+   extra:['Contact + scheduling included','<b>Your AI agent automates the whole role</b> — sources candidates, runs outreach, and books + schedules interviews on the platform','SMS + email, reminders &amp; no-show recovery','Auto-accept or manual-review mode','Reports &amp; analytics','Unlimited users','Email support']},
+  {id:'growth',name:'Growth',desc:'Always-on across several roles.',mo:1200,ivs:30,agents:4,pop:true,lead:'Everything in Starter, plus:',
    extra:['Team inbox &amp; collaboration','Priority support']},
-  {id:'scale',name:'Scale',desc:'High-volume, continuous hiring.',mo:3000,ivs:100,agents:25,lead:'Everything in Growth, plus:',
-   extra:['Deeper reports by role &amp; team','Priority support']},
-  {id:'ent',name:'Enterprise',desc:'Volume and multiple teams.',custom:true,
-   feats:['<b class="lead">Everything in Scale, plus:</b>','Unlimited roles + custom interview volume','ATS + CRM integration','SSO / SCIM provisioning','Hiring-manager seats &amp; approval workflows','Dedicated CSM, audit logs, custom retention']}
+  {id:'scale',name:'Scale',desc:'High-volume, continuous hiring.',mo:3000,ivs:100,agents:6,lead:'Everything in Growth, plus:',
+   extra:['Deeper reports by role &amp; team','Priority support']}
 ];
 function totalFor(p){return cycle==='yr'?Math.round(p.mo*0.8):p.mo;}
 function featsFor(p){
   if(p.feats)return p.feats;
-  const total=totalFor(p);const out=[];
+  const out=[];
   if(p.lead)out.push('<b class="lead">'+p.lead+'</b>');
   out.push('<b>Up to '+p.agents+' active role'+(p.agents>1?'s':'')+'</b>');
-  out.push('<b>'+p.ivs+' interviews / mo</b>');
-  out.push('&#8776; $'+Math.round(total/p.ivs)+' per interview · contact + scheduling included');
+  out.push('<b>'+p.ivs+'+ interviews / mo</b>');
   return out.concat(p.extra||[]);
 }
 function priceBlock(p){
   if(p.id==='free')return `<div class="price"><span class="amt">$0</span><span class="per">/ forever</span></div><div class="billed">No card required</div>`;
-  if(p.custom)return `<div class="price"><span class="amt">Custom</span></div><div class="billed">Volume interview pricing</div>`;
   return `<div class="price"><span class="amt">$${totalFor(p).toLocaleString()}</span><span class="per">/ mo</span></div><div class="billed">${cycle==='yr'?'billed annually':'billed monthly'}</div>`;
 }
 function ctaBtn(p){
-  if(p.cta==='current'||p.id==='free')return `<button class="btn btn-line pbtn" disabled style="opacity:.6;cursor:default">Current plan</button>`;
-  if(p.custom)return `<button class="btn btn-dark pbtn" onclick="contactSales()">Contact sales</button>`;
+  if(p.id==='free')return `<button class="btn btn-line pbtn" disabled style="opacity:.6;cursor:default">Current plan</button>`;
   return `<button class="btn ${p.pop?'btn-primary':'btn-line'} pbtn" onclick="upgrade('${p.id}','${E(p.name)}')">Choose ${E(p.name)}</button>`;
 }
 function paint(){
