@@ -653,6 +653,77 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .ra-time{font-size:11px;color:var(--muted);white-space:nowrap}
 @media(max-width:1100px){.dash-grid{grid-template-columns:1fr}}
 
+/* ===== Plan / upgrade UI ===== */
+.sb-foot{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:8px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:9px;padding:9px 11px;font-size:12.5px;color:rgba(255,255,255,.85)}
+.sb-foot:hover{background:rgba(255,255,255,.1)}
+.sb-foot .sf-l{display:flex;align-items:center;gap:7px;font-weight:600}
+.sb-foot .sf-dot{width:7px;height:7px;border-radius:50%;background:#cbb26a}
+.sb-foot .sf-up{color:#7fb0ff;font-weight:700}
+.app.collapsed .sb-foot .sf-l span:not(.sf-dot),.app.collapsed .sb-foot .sf-up{display:none}
+.app.collapsed .sb-foot{justify-content:center;padding:9px 0}
+/* dashboard free meter */
+.free-meter{display:inline-flex;align-items:center;gap:10px;margin-top:7px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:7px 12px;font-size:12.5px}
+.free-meter .track{width:84px;height:7px;border-radius:4px;background:var(--th-bg);overflow:hidden}
+.free-meter .track i{display:block;height:100%;background:var(--blue)}
+.free-meter b{font-weight:800}
+.free-meter a{color:var(--blue);font-weight:700}
+.free-meter .sepd{color:var(--line)}
+/* locked candidate teaser */
+.locked-teaser{margin-top:14px;border:1px dashed var(--line);border-radius:12px;background:var(--th-bg);padding:16px 18px}
+.locked-teaser .lt-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.locked-teaser .lt-t{font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:8px}
+.locked-teaser .lt-s{font-size:12.5px;color:var(--muted);margin-top:2px}
+.locked-rows{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+.locked-row{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--line-soft);border-radius:9px;padding:11px 13px}
+.locked-row .lr-ava{width:34px;height:34px;border-radius:50%;background:#e7e3db;flex:0 0 34px}
+.locked-row .lr-bars{flex:1;display:flex;flex-direction:column;gap:6px}
+.locked-row .lr-bar{height:9px;border-radius:5px;background:#e7e3db}
+.locked-row .lr-bar.s{width:38%}.locked-row .lr-bar.m{width:62%}
+.locked-row .lr-lock{color:var(--muted);font-size:15px;filter:blur(.2px)}
+.blurname{filter:blur(4px);user-select:none;color:var(--muted);font-weight:600}
+/* contact gate block */
+.contact-box{border:1px solid var(--line);border-radius:11px;padding:14px 16px;background:#fff}
+.contact-box.locked{background:var(--th-bg);border-style:dashed;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.contact-box .cv{font-size:14px;display:flex;flex-direction:column;gap:6px}
+.contact-box .cv .ci{display:flex;align-items:center;gap:9px}
+.contact-box .cv .ci .k{color:var(--muted);width:54px;font-size:12.5px}
+.contact-box .lk-tx .t{font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:7px}
+.contact-box .lk-tx .s{font-size:12px;color:var(--muted);margin-top:2px}
+.contact-box .blur{filter:blur(5px);user-select:none}
+/* upgrade wall modal reuse .overlay/.modal; badge */
+.wall-ic{width:46px;height:46px;border-radius:12px;background:#eef3fb;color:var(--blue);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:12px}
+
+/* ===== Pricing page ===== */
+.pr-head{text-align:center;max-width:680px;margin:6px auto 8px}
+.pr-head h1{font-size:30px;font-weight:800;margin:0 0 8px}
+.pr-head p{font-size:15px;color:var(--muted);margin:0}
+.pr-toggle-row{display:flex;flex-direction:column;align-items:center;gap:12px;margin:22px 0 6px}
+.seg{display:inline-flex;background:var(--text);border-radius:22px;padding:5px}
+.seg button{border:none;background:transparent;font-family:inherit;font-size:13.5px;font-weight:700;color:rgba(255,255,255,.72);padding:8px 18px;border-radius:18px;cursor:pointer;display:flex;align-items:center;gap:7px}
+.seg button.on{background:#fff;color:var(--text)}
+.seg .save{background:var(--green-bg);color:var(--green);font-size:11px;font-weight:800;padding:2px 7px;border-radius:10px}
+.pr-users{font-size:13px;color:var(--text);font-weight:600;display:inline-flex;align-items:center;gap:8px;background:var(--green-bg);border:1px solid #bfe3cd;color:var(--green);padding:7px 14px;border-radius:20px}
+.pr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:24px;align-items:stretch}
+.pcard{background:#fff;border:1px solid var(--line);border-radius:14px;padding:24px 22px;display:flex;flex-direction:column;position:relative}
+.pcard.pop{border:2px solid var(--blue);box-shadow:0 12px 34px -20px rgba(0,68,179,.5)}
+.pcard .pop-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--blue);color:#fff;font-size:11px;font-weight:800;letter-spacing:.04em;padding:5px 12px;border-radius:20px;text-transform:uppercase}
+.pcard .pname{font-size:18px;font-weight:800}
+.pcard .pdesc{font-size:12.5px;color:var(--muted);margin-top:3px;min-height:32px}
+.pcard .price{margin-top:14px;display:flex;align-items:baseline;gap:6px}
+.pcard .price .amt{font-size:32px;font-weight:800;line-height:1}
+.pcard .price .per{font-size:13px;color:var(--muted)}
+.pcard .billed{font-size:11.5px;color:var(--muted);margin-top:5px;min-height:16px}
+.pcard .rate{font-size:11.5px;color:var(--blue);font-weight:700;margin-top:4px;min-height:15px}
+.pcard .pbtn{margin-top:18px;width:100%;justify-content:center}
+.pcard .feats{list-style:none;margin:18px 0 0;padding:16px 0 0;border-top:1px solid var(--line-soft);display:flex;flex-direction:column;gap:10px}
+.pcard .feats li{display:flex;gap:9px;font-size:13px;line-height:1.4}
+.pcard .feats li .ck{color:var(--green);font-weight:800;flex:0 0 14px}
+.pcard .feats .lead{font-weight:700;color:var(--text)}
+.pr-foot{text-align:center;font-size:13px;color:var(--muted);margin-top:26px}
+.pr-foot a{color:var(--blue);font-weight:700}
+@media(max-width:1050px){.pr-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.pr-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -667,22 +738,35 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <h3>Decline this candidate?</h3><p id="declineText"></p>
   <div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeDecline()">Keep candidate</button><button class="btn btn-danger btn-sm" id="confirmDecline">Decline</button></div>
 </div></div>
+<div class="overlay" id="wallModal"><div class="modal">
+  <div class="wall-ic">&#128274;</div>
+  <h3>You've used all 5 free unlocks</h3>
+  <p>Upgrade to keep unlocking candidates and booking interviews — no caps. Your agents stay on, working every role until you turn them off.</p>
+  <div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeWall()">Not now</button><button class="btn btn-primary btn-sm" onclick="location.href='pricing.html'">See plans</button></div>
+</div></div>
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
   const KEY='jobagentx_v2';
   function defAvail(){const d=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];const o={};d.forEach((x,i)=>o[x]={on:i<5,start:'09:00',end:'17:00'});return o;}
-  function cand(o){return Object.assign({score:80,skills:[],experience:[],screening:[],activity:[],messages:[],resume:(o.name||'candidate').toLowerCase().replace(/[^a-z]+/g,'_')+'.pdf'},o);}
+  function cand(o){
+    var nm=(o.name||'candidate');var slug=nm.toLowerCase().replace(/[^a-z]+/g,'.').replace(/^\.|\.$/g,'');
+    var seed=0;for(var i=0;i<nm.length;i++)seed=(seed*31+nm.charCodeAt(i))>>>0;
+    var area=['713','832','281','469','602'][seed%5];var mid=200+(seed%800);var last=1000+(seed%9000);
+    return Object.assign({score:80,skills:[],experience:[],screening:[],activity:[],messages:[],
+      email:slug+'@gmail.com',phone:'('+area+') '+mid+'-'+last,
+      resume:nm.toLowerCase().replace(/[^a-z]+/g,'_')+'.pdf'},o);}
   function seed(){
     return {
       company:'Northwind Co',
+      plan:'free', freeLimit:5, unlocks:['c1','c5','c7'],
       agents:[
         {id:'a1',role:'Registered Nurse',location:'Houston, TX · Remote OK',status:'active',
          jd:'We are seeking compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team.',
          musthaves:['Active RN license','BLS/ACLS certification','1+ year clinical experience'],
          interviewers:['demo@jobfairx.com (you)','emily.chen@northwind.co'],availability:defAvail(),
          awaiting:3,confirmed:16,interviewed:5,hires:2,
-         metrics:{sourced:142,prequal:38,showRate:88,prevShowRate:83,ttiDays:2.4,prevTtiDays:3.1,costPerIv:31,prevCostPerIv:38,weekly:[{w:'Wk 1',booked:2,interviewed:1},{w:'Wk 2',booked:4,interviewed:2},{w:'Wk 3',booked:3,interviewed:1},{w:'Wk 4',booked:7,interviewed:1}]},
+         pending:8, metrics:{sourced:142,prequal:38,showRate:88,prevShowRate:83,ttiDays:2.4,prevTtiDays:3.1,costPerIv:31,prevCostPerIv:38,weekly:[{w:'Wk 1',booked:2,interviewed:1},{w:'Wk 2',booked:4,interviewed:2},{w:'Wk 3',booked:3,interviewed:1},{w:'Wk 4',booked:7,interviewed:1}]},
          activity:[
            {mins:12,icon:'ti-calendar-check',accent:true,t:'Booked an interview with Maya Delgado',s:'Thu 10:00 AM · she self-scheduled'},
            {mins:40,icon:'ti-mail',t:'Messaged James Okoro about availability',s:'Auto follow-up #2'},
@@ -725,7 +809,7 @@ const AX=(function(){
          musthaves:['Able to lift 50 lbs','Available for early shifts','Forklift cert a plus'],
          interviewers:['demo@jobfairx.com (you)'],availability:defAvail(),
          awaiting:0,confirmed:0,interviewed:0,hires:0,
-         metrics:{sourced:11,prequal:0,showRate:0,prevShowRate:0,ttiDays:0,prevTtiDays:0,costPerIv:0,prevCostPerIv:0,weekly:[{w:'Wk 1',booked:0,interviewed:0}]},
+         pending:0, metrics:{sourced:11,prequal:0,showRate:0,prevShowRate:0,ttiDays:0,prevTtiDays:0,costPerIv:0,prevCostPerIv:0,weekly:[{w:'Wk 1',booked:0,interviewed:0}]},
          activity:[{mins:30,icon:'ti-user-search',t:'Scanning the candidate pool',s:'Matching your must-haves'},{mins:60,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}],
          candidates:[]},
         {id:'a3',role:'Bilingual Call Center Rep',location:'Remote (US)',status:'active',
@@ -733,7 +817,7 @@ const AX=(function(){
          musthaves:['Fluent English + Spanish','Quiet home workspace','Customer service background'],
          interviewers:['demo@jobfairx.com (you)','maria.lopez@northwind.co','david.park@northwind.co'],availability:defAvail(),
          awaiting:7,confirmed:9,interviewed:2,hires:1,
-         metrics:{sourced:96,prequal:24,showRate:82,prevShowRate:86,ttiDays:1.9,prevTtiDays:2.0,costPerIv:27,prevCostPerIv:25,weekly:[{w:'Wk 1',booked:1,interviewed:0},{w:'Wk 2',booked:3,interviewed:1},{w:'Wk 3',booked:5,interviewed:1}]},
+         pending:6, metrics:{sourced:96,prequal:24,showRate:82,prevShowRate:86,ttiDays:1.9,prevTtiDays:2.0,costPerIv:27,prevCostPerIv:25,weekly:[{w:'Wk 1',booked:1,interviewed:0},{w:'Wk 2',booked:3,interviewed:1},{w:'Wk 3',booked:5,interviewed:1}]},
          activity:[
            {mins:25,icon:'ti-calendar-check',accent:true,t:'Booked an interview with Daniel Cho',s:'Thu 11:00 AM · he self-scheduled'},
            {mins:90,icon:'ti-user-search',t:'Sourced 9 new candidates',s:'Bilingual, healthcare CS background'},
@@ -760,6 +844,17 @@ const AX=(function(){
   function get(){let s=sessionStorage.getItem(KEY);if(!s){const d=seed();sessionStorage.setItem(KEY,JSON.stringify(d));return d;}return JSON.parse(s);}
   function save(s){sessionStorage.setItem(KEY,JSON.stringify(s));}
   function reset(){sessionStorage.removeItem(KEY);}
+  /* ---- plan & free-unlock (account-wide) ---- */
+  function plan(){return get().plan||'free';}
+  function freeLimit(){return get().freeLimit||5;}
+  function unlocks(){return get().unlocks||[];}
+  function unlocksUsed(){return unlocks().length;}
+  function unlocksLeft(){return Math.max(0,freeLimit()-unlocksUsed());}
+  function isPaid(){return plan()!=='free';}
+  function isUnlocked(cid){return isPaid()||unlocks().indexOf(cid)>-1;}
+  function canUnlock(){return isPaid()||unlocksUsed()<freeLimit();}
+  function unlock(cid){const st=get();st.unlocks=st.unlocks||[];if(st.unlocks.indexOf(cid)>-1)return true;if(!isPaid()&&st.unlocks.length>=(st.freeLimit||5))return false;st.unlocks.push(cid);save(st);return true;}
+  function setPlan(p){const st=get();st.plan=p;save(st);return st;}
   function agent(id){return get().agents.find(a=>a.id===id);}
   function update(id,patch){const s=get();const a=s.agents.find(x=>x.id===id);if(a)Object.assign(a,patch);save(s);return a;}
   function candidate(aid,cid){return (agent(aid).candidates||[]).find(c=>c.id===cid);}
@@ -792,11 +887,12 @@ const AX=(function(){
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">${nav.map(n=>`<a href="${n[1]}" class="${active===n[0]?'active':''}"><span class="ic">${n[2]}</span><span class="lbl">${n[3]}</span></a>`).join('')}</nav>
+      ${plan()==='free'?`<a class="sb-foot" href="pricing.html"><span class="sf-l"><span class="sf-dot"></span>Free plan</span><span class="sf-up">Upgrade</span></a>`:''}
     </aside>`;
   }
   function topbar(){return `<div class="topbar"><div class="user">demo@jobfairx.com <span style="color:var(--muted)">&#9662;</span></div></div>`;}
   function icon(n){return ({"ti-calendar-check":"\uD83D\uDCC5","ti-mail":"\u2709\uFE0F","ti-user-search":"\uD83D\uDD0D","ti-checks":"\u2714\uFE0F","ti-user-x":"\u2715","ti-player-play":"\u25B6\uFE0F"})[n]||"\u2022";}
-  return {get,save,reset,agent,update,candidate,updateCandidate,add,qs,esc,ini,nudge,allActivity,ago,icon,sidebar,topbar,defAvail,cand,stats};
+  return {get,save,reset,agent,update,candidate,updateCandidate,add,qs,esc,ini,nudge,allActivity,ago,icon,sidebar,topbar,defAvail,cand,stats,plan,freeLimit,unlocks,unlocksUsed,unlocksLeft,isPaid,isUnlocked,canUnlock,unlock,setPlan};
 })();
 
 </script>
@@ -824,10 +920,17 @@ function signalStrip(){
   ];
   return `<div class="signal-strip">${sig.map(x=>`<div class="sig"><div class="sl">${x[0]}</div><div class="sv ${x[2]}">${E(x[1])}</div></div>`).join('')}</div>`;
 }
+function contactBlock(){
+  if(AX.isUnlocked(cid)){
+    return `<div class="contact-box"><div class="cv"><div class="ci"><span class="k">Email</span><a class="link" href="mailto:${E(c.email)}">${E(c.email)}</a></div><div class="ci"><span class="k">Phone</span><span>${E(c.phone)}</span></div></div></div>`;
+  }
+  const left=AX.unlocksLeft();
+  return `<div class="contact-box locked"><div class="lk-tx"><div class="t">&#128274; Contact hidden</div><div class="s">Accept ${E(c.name.split(' ')[0])} to release their email and phone. ${left>0?`<b>${left} free unlock${left===1?'':'s'} left.</b>`:'<b>No free unlocks left.</b>'}</div></div><div class="cv blur"><div class="ci"><span class="k">Email</span><span>hidden@email.com</span></div><div class="ci"><span class="k">Phone</span><span>(•••) •••-••••</span></div></div></div>`;
+}
 function render(){
   c=AX.candidate(aid,cid);
   let actions='';
-  if(c.status==='awaiting')actions=`<div class="actions-bar" style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-danger" style="flex:1" onclick="openDecline()">Decline</button><button class="btn btn-primary" style="flex:1" onclick="accept()">Accept &amp; schedule</button></div>`;
+  if(c.status==='awaiting')actions=`<div class="actions-bar" style="display:flex;gap:10px;margin-top:20px"><button class="btn btn-danger" style="flex:1" onclick="openDecline()">Decline</button><button class="btn btn-primary" style="flex:1" onclick="accept()">${AX.isUnlocked(cid)?'Accept &amp; schedule':'Accept, unlock &amp; schedule'}</button></div>`;
   else if(c.status==='upcoming')actions=`<div class="banner-scheduled" style="background:#e6eef5;border:1px solid #cdddea;color:var(--ink-2);border-radius:11px;padding:13px 16px;margin-top:18px;font-weight:500">&#128197; Interview scheduled — ${E(c.time)}</div>`;
   else if(c.status==='interviewed')actions=`<div class="banner-scheduled" style="background:#dff0e6;border:1px solid #bfe3cd;color:var(--green);border-radius:11px;padding:13px 16px;margin-top:18px;font-weight:500">&#10003; Interviewed${c.feedback?' · '+E(c.feedback):''}</div>`;
   else if(c.status==='declined')actions=`<div class="banner-scheduled" style="background:#eee9e0;border:1px solid var(--line);color:var(--muted);border-radius:11px;padding:13px 16px;margin-top:18px">This candidate was declined.</div>`;
@@ -850,6 +953,8 @@ function render(){
       ${(c.screening||[]).map(sc=>`<div class="cd-scr"><span>${E(sc.q)}</span><span class="a">${E(sc.a)}</span></div>`).join('')||'<div class="sub">No screening answers.</div>'}
       <div class="cd-section">Resume</div>
       <div class="resume-file" style="display:flex;align-items:center;gap:11px;background:var(--th-bg);border:1px solid var(--line);border-radius:10px;padding:12px 14px"><div class="fi" style="width:34px;height:34px;border-radius:8px;background:#e9e2d5;display:flex;align-items:center;justify-content:center;color:var(--blue);font-weight:700;font-size:12px">PDF</div><div style="flex:1;font-size:13.5px">${E(c.resume)}</div><a class="link" href="#" onclick="alert('Resume preview is mocked.');return false">View</a></div>
+      <div class="cd-section">Contact</div>
+      ${contactBlock()}
       ${actions}
     </div>
     <div>
@@ -868,7 +973,15 @@ function render(){
 }
 function renderMsgs(){if(!c.messages||!c.messages.length)return '<div class="sub" style="text-align:center;margin:auto">No messages yet.</div>';return c.messages.map(m=>`<div class="bub ${m.from==='recruiter'?'me':'them'}" style="max-width:80%;padding:10px 14px;border-radius:14px;font-size:14px;${m.from==='recruiter'?'align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px':'align-self:flex-start;background:#f0eee9;border-bottom-left-radius:4px'}">${E(m.text)}</div>`).join('');}
 window.sendMsg=function(){const i=document.getElementById('msgInput');const t=i.value.trim();if(!t)return;c.messages=c.messages||[];c.messages.push({from:'recruiter',text:t});AX.updateCandidate(aid,cid,{messages:c.messages});i.value='';document.getElementById('chatBody').innerHTML=renderMsgs();const b=document.getElementById('chatBody');b.scrollTop=b.scrollHeight;setTimeout(()=>{c.messages.push({from:'candidate',text:'Got it — thanks!'});AX.updateCandidate(aid,cid,{messages:c.messages});document.getElementById('chatBody').innerHTML=renderMsgs();const b2=document.getElementById('chatBody');if(b2)b2.scrollTop=b2.scrollHeight;},1000);};
-window.accept=function(){const rr=AX.agent(aid);AX.updateCandidate(aid,cid,{status:'upcoming'});AX.update(aid,{confirmed:(rr.confirmed||0)+1,awaiting:Math.max(0,(rr.awaiting||0)-1)});render();};
+window.accept=function(){
+  if(!AX.isUnlocked(cid)){
+    if(!AX.canUnlock()){openWall();return;}
+    AX.unlock(cid);
+  }
+  const rr=AX.agent(aid);AX.updateCandidate(aid,cid,{status:'upcoming'});AX.update(aid,{confirmed:(rr.confirmed||0)+1,awaiting:Math.max(0,(rr.awaiting||0)-1)});render();
+};
+window.openWall=function(){document.getElementById('wallModal').classList.add('show');};
+window.closeWall=function(){document.getElementById('wallModal').classList.remove('show');};
 window.openDecline=function(){document.getElementById('declineText').innerHTML=`<b>${E(c.name)}</b> will be removed from your matches for <b>${E(a.role)}</b>.`;document.getElementById('declineModal').classList.add('show');};
 window.closeDecline=function(){document.getElementById('declineModal').classList.remove('show');};
 document.getElementById('confirmDecline').onclick=function(){AX.updateCandidate(aid,cid,{status:'declined'});const rr=AX.agent(aid);AX.update(aid,{awaiting:Math.max(0,(rr.awaiting||0)-1)});closeDecline();render();};

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Messaging</title>
+<title>JobAgentX — Pricing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -732,21 +732,24 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
-      <div class="page-head"><h1>Messages</h1>
-        <div style="display:flex;gap:10px">
-          <div class="select" id="fAgent">All agents <span class="ca">&#9662;</span></div>
-        </div>
+      <div class="pr-head">
+        <h1>Pay by the roles you're hiring</h1>
+        <p>One agent works one role end to end — sourcing, screening, and booking pre-qualified interviews. Add a role, add an agent. Never pay per seat.</p>
       </div>
-      <div class="msg-layout">
-        <div class="msg-list">
-          <div class="msg-search"><input type="text" placeholder="Search conversations…"></div>
-          <div id="convs" style="overflow-y:auto"></div>
-        </div>
-        <div class="thread" id="thread"></div>
+      <div class="pr-toggle-row">
+        <div class="seg"><button class="on" id="seg-mo" onclick="setCycle('mo')">Monthly</button><button id="seg-yr" onclick="setCycle('yr')">Annual <span class="save">Save 20%</span></button></div>
+        <div class="pr-users">&#128101; Unlimited users on every plan — invite your whole team free</div>
       </div>
+      <div id="grid"></div>
+      <div class="pr-foot">Hiring at higher volume or need ATS, SSO, and hiring-manager seats? <a href="#" onclick="contactSales();return false;">Talk to sales &rarr;</a></div>
     </div>
   </main>
 </div>
+<div class="overlay" id="okModal"><div class="modal">
+  <div class="wall-ic">&#10003;</div>
+  <h3 id="okTitle">You're upgraded</h3><p id="okText"></p>
+  <div class="modal-foot"><button class="btn btn-primary btn-sm" onclick="location.href='index.html'">Go to dashboard</button></div>
+</div></div>
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
@@ -900,54 +903,59 @@ const AX=(function(){
 
 </script>
 <script>
-document.getElementById('side').innerHTML=AX.sidebar('messaging');
-document.getElementById('top').innerHTML=AX.topbar();
 const E=AX.esc;
-let convos=[
-  {id:'m1',name:'Sofía Ramírez',agent:'Bilingual Call Center Rep',role:'Bilingual Call Center Rep',time:'Today',msgs:[
-    {f:'me',t:'Hola Sofía — thanks for your interest in the Bilingual Call Center Rep role. Your healthcare background is a strong fit. Are you free for a short interview this week?'},
-    {f:'them',t:'Hi! Yes, I’m available — mornings work best for me.'},
-    {f:'me',t:'Perfect. Pick any open morning slot in the scheduler and you’re set. Looking forward to it!'}
-  ]},
-  {id:'m2',name:'Tamara Williams',agent:'Registered Nurse',role:'Registered Nurse',time:'Today',msgs:[
-    {f:'me',t:'Hi Tamara — I’d love to move your Registered Nurse application forward. Does Thursday morning work?'},
-    {f:'them',t:'Thursday is perfect, thank you!'}
-  ]},
-  {id:'m3',name:'Daniel Cho',agent:'Bilingual Call Center Rep',role:'Bilingual Call Center Rep',time:'Yesterday',msgs:[
-    {f:'me',t:'Hi Daniel — you’re confirmed for Thursday at 10:00 AM. Talk soon!'}
-  ]},
-  {id:'m4',name:'Marcus Johnson',agent:'Registered Nurse',role:'Registered Nurse',time:'Mon',msgs:[
-    {f:'them',t:'Hi, is the position remote-friendly?'},
-    {f:'me',t:'Hi Marcus — yes, this role offers remote flexibility. Want me to send interview times?'}
-  ]}
+document.getElementById('side').innerHTML=AX.sidebar('');
+document.getElementById('top').innerHTML=AX.topbar();
+let cycle='mo';
+const plans=[
+  {id:'free',name:'Free',desc:'See the agent work before you pay.',agents:1,mo:0,
+   cta:'current',
+   feats:['<b class="lead">1 agent</b> — runs for real',
+     '<b>5 candidate unlocks</b>, account-wide','Unlimited matches delivered (locked preview)',
+     'Self-scheduled interviews with anyone you unlock','Unlimited users','Basic dashboard']},
+  {id:'solo',name:'Solo',desc:'One role, worked end to end.',agents:1,mo:495,
+   feats:['<b class="lead">1 active agent</b> (1 role)','Unlimited candidate unlocks &amp; interviews',
+     'Full outreach: SMS + email, reminders, no-show recovery','Auto-accept or manual-review mode',
+     'Availability windows &amp; calendar control','Analytics dashboard','Unlimited users','Email support']},
+  {id:'duo',name:'Duo',desc:'Hiring a couple of roles at once.',agents:2,mo:890,
+   feats:['<b class="lead">Everything in Solo, plus:</b>','<b>2 active agents</b> (2 roles)',
+     'Shared team inbox &amp; collaboration','Priority support']},
+  {id:'squad',name:'Squad',desc:'Always-on hiring across roles.',agents:3,mo:1275,pop:true,
+   feats:['<b class="lead">Everything in Duo, plus:</b>','<b>3 active agents</b> (3 roles)',
+     'Deeper hiring analytics — funnel, cost &amp; time-to-interview by role','Priority support']},
+  {id:'ent',name:'Enterprise',desc:'High volume and multiple teams.',agents:'4+',custom:true,
+   feats:['<b class="lead">Everything in Squad, plus:</b>','Volume agents / roles',
+     'ATS + CRM integration','SSO / SCIM provisioning','Hiring-manager seats &amp; approval workflows',
+     'Dedicated CSM, audit logs, custom data retention']}
 ];
-let active='m1', filter='all';
-const s=AX.get();
-
-function renderList(){
-  const list=convos.filter(c=>filter==='all'||c.agent===filter);
-  document.getElementById('convs').innerHTML=list.map(c=>`
-    <div class="conv ${c.id===active?'active':''}" onclick="open_('${c.id}')">
-      <div class="top"><span class="nm">${E(c.name)}</span><span class="tm">${E(c.time)}</span></div>
-      <div class="role">${E(c.role)}</div>
-      <div class="pv">${E(c.msgs[c.msgs.length-1].t)}</div>
-    </div>`).join('')||'<div class="empty">No conversations.</div>';
+function priceBlock(p){
+  if(p.id==='free')return `<div class="price"><span class="amt">$0</span><span class="per">/ forever</span></div><div class="billed">No card required</div><div class="rate">&nbsp;</div>`;
+  if(p.custom)return `<div class="price"><span class="amt">Custom</span></div><div class="billed">Tailored to your volume</div><div class="rate">&nbsp;</div>`;
+  const total=cycle==='yr'?Math.round(p.mo*0.8):p.mo;
+  const rate=Math.round(total/p.agents);
+  return `<div class="price"><span class="amt">$${total.toLocaleString()}</span><span class="per">/ mo</span></div>
+    <div class="billed">${cycle==='yr'?'billed annually':'billed monthly'}</div>
+    <div class="rate">$${rate.toLocaleString()} / agent ${p.agents>1?'· '+p.agents+' roles':''}</div>`;
 }
-function renderThread(){
-  const c=convos.find(x=>x.id===active);
-  if(!c){document.getElementById('thread').innerHTML='<div class="empty">Select a conversation.</div>';return;}
-  document.getElementById('thread').innerHTML=`
-    <div class="thread-head"><div><div class="strong">${E(c.name)}</div><div class="small">${E(c.role)}</div></div>
-      <a class="link" href="#" onclick="return rsm()">View resume</a></div>
-    <div class="thread-body" id="tb">${c.msgs.map(m=>`<div class="bub ${m.f==='me'?'me':'them'}">${E(m.t)}</div>`).join('')}</div>
-    <div class="thread-input"><input type="text" id="mi" placeholder="Write a message…" onkeydown="if(event.key==='Enter')send()"><button class="btn btn-primary btn-sm" onclick="send()">Send</button></div>`;
-  const tb=document.getElementById('tb');if(tb)tb.scrollTop=tb.scrollHeight;
+function ctaBtn(p){
+  if(p.cta==='current')return `<button class="btn btn-line pbtn" disabled style="opacity:.6;cursor:default">Current plan</button>`;
+  if(p.custom)return `<button class="btn btn-dark pbtn" onclick="contactSales()">Contact sales</button>`;
+  return `<button class="btn ${p.pop?'btn-primary':'btn-line'} pbtn" onclick="upgrade('${p.id}','${E(p.name)}')">Upgrade to ${E(p.name)}</button>`;
 }
-window.open_=function(id){active=id;renderList();renderThread();};
-window.send=function(){const i=document.getElementById('mi');const t=i.value.trim();if(!t)return;const c=convos.find(x=>x.id===active);c.msgs.push({f:'me',t});c.time='Now';i.value='';renderThread();renderList();setTimeout(()=>{c.msgs.push({f:'them',t:'Sounds good — thank you!'});renderThread();renderList();},1000);};
-window.rsm=function(){alert('Resume preview is mocked in this prototype.');return false;};
-document.getElementById('fAgent').onclick=function(){const names=['all',...[...new Set(convos.map(c=>c.agent))]];const i=names.indexOf(filter);filter=names[(i+1)%names.length];this.innerHTML=(filter==='all'?'All agents':E(filter))+' <span class="ca">&#9662;</span>';renderList();};
-renderList();renderThread();
+function paint(){
+  document.getElementById('grid').innerHTML=`<div class="pr-grid">${plans.map(p=>`
+    <div class="pcard ${p.pop?'pop':''}">${p.pop?'<div class="pop-badge">Most popular</div>':''}
+      <div class="pname">${E(p.name)}</div><div class="pdesc">${p.desc}</div>
+      ${priceBlock(p)}
+      ${ctaBtn(p)}
+      <ul class="feats">${p.feats.map(f=>`<li><span class="ck">&#10003;</span><span>${f}</span></li>`).join('')}</ul>
+    </div>`).join('')}</div>`;
+}
+window.setCycle=function(c){cycle=c;document.getElementById('seg-mo').classList.toggle('on',c==='mo');document.getElementById('seg-yr').classList.toggle('on',c==='yr');paint();};
+window.upgrade=function(id,name){AX.setPlan(id);document.getElementById('okTitle').textContent='You’re on '+name;document.getElementById('okText').innerHTML='Your free limit is lifted — agents will unlock candidates and book interviews without a cap. <span style="color:var(--muted)">(Prototype: no charge.)</span>';document.getElementById('okModal').classList.add('show');};
+window.contactSales=function(){document.getElementById('okTitle').textContent='Thanks — we’ll be in touch';document.getElementById('okText').innerHTML='A specialist will reach out about Enterprise volume, ATS/SSO, and hiring-manager seats. <span style="color:var(--muted)">(Prototype: nothing sent.)</span>';document.querySelector('.wall-ic').innerHTML='&#9993;';document.getElementById('okModal').classList.add('show');};
+document.getElementById('okModal').addEventListener('click',e=>{if(e.target.id==='okModal')e.currentTarget.classList.remove('show');});
+paint();
 </script>
 </body>
 </html>
