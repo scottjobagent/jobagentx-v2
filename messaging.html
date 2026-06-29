@@ -30,7 +30,7 @@ h3{font-size:16px;font-weight:700;margin:0}
 .sb-nav .ic{width:18px;text-align:center;font-size:14.5px}
 /* main */
 .main{flex:1;min-width:0;display:flex;flex-direction:column;margin-left:248px}
-.topbar{display:flex;justify-content:flex-end;align-items:center;padding:16px 34px;background:transparent}
+.topbar{display:flex;justify-content:flex-end;align-items:center;gap:14px;padding:16px 34px;background:transparent}
 .topbar .user{display:flex;align-items:center;gap:7px;font-size:14px;color:var(--text)}
 .topbar .ava{width:30px;height:30px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
 .wrap{padding:30px 34px 60px;max-width:1240px;width:100%}
@@ -724,6 +724,10 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 @media(max-width:1050px){.pr-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:620px){.pr-grid{grid-template-columns:1fr}}
 
+/* demo reset control */
+.reset-demo{font-family:inherit;font-size:12.5px;font-weight:600;color:var(--muted);background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 12px;cursor:pointer}
+.reset-demo:hover{border-color:#9a9a9a;color:var(--text)}
+
 </style>
 </head>
 <body>
@@ -893,10 +897,11 @@ const AX=(function(){
       ${plan()==='free'?`<a class="sb-foot" href="pricing.html"><span class="sf-l"><span class="sf-dot"></span>Free plan</span><span class="sf-up">Upgrade</span></a>`:''}
     </aside>`;
   }
-  function topbar(){return `<div class="topbar"><div class="user">demo@jobfairx.com <span style="color:var(--muted)">&#9662;</span></div></div>`;}
+  function topbar(){return `<div class="topbar"><button class="reset-demo" onclick="resetDemo()" title="Reset the prototype to its starting state (free plan, 3 of 5 unlocks)">&#8634; Reset demo</button><div class="user">demo@jobfairx.com <span style="color:var(--muted)">&#9662;</span></div></div>`;}
   function icon(n){return ({"ti-calendar-check":"\uD83D\uDCC5","ti-mail":"\u2709\uFE0F","ti-user-search":"\uD83D\uDD0D","ti-checks":"\u2714\uFE0F","ti-user-x":"\u2715","ti-player-play":"\u25B6\uFE0F"})[n]||"\u2022";}
   return {get,save,reset,agent,update,candidate,updateCandidate,add,qs,esc,ini,nudge,allActivity,ago,icon,sidebar,topbar,defAvail,cand,stats,plan,freeLimit,unlocks,unlocksUsed,unlocksLeft,isPaid,isUnlocked,canUnlock,unlock,setPlan};
 })();
+try{if(typeof window!=='undefined'){window.AX=AX;window.resetDemo=function(){AX.reset();location.reload();};}}catch(e){}
 
 </script>
 <script>
