@@ -859,6 +859,23 @@ textarea.ta{width:100%;box-sizing:border-box;border:1px solid #d4d2d0;border-rad
 .jp-empty .ic{color:#c4c2bd;margin-bottom:16px}
 .jp-empty .h{font-size:15.5px;font-weight:700;color:#2d2d2d;margin-bottom:7px}
 .jp-empty .s{font-size:13.5px;color:#8a8a8a;max-width:300px;line-height:1.55}
+
+/* ---- Claude-style entry hero (white) ---- */
+.hero{height:calc(100vh - 62px);position:relative;display:flex;flex-direction:column;background:#fff}
+.hero-back{position:absolute;top:20px;left:28px;color:#0044b3;font-weight:700;font-size:14px;text-decoration:none}
+.hero-back:hover{text-decoration:underline}
+.hero-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px 6vh;width:100%;max-width:680px;margin:0 auto}
+.hero-orb{width:50px;height:50px;border-radius:50%;margin-bottom:22px;background:linear-gradient(135deg,#0044b3 0%,#4f86f7 55%,#9b6dff 100%);box-shadow:0 4px 18px rgba(0,68,179,.22);animation:horb 3.2s ease-in-out infinite}
+@keyframes horb{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.hero h1{font-size:40px;font-weight:800;color:#2d2d2d;margin:0 0 14px;letter-spacing:-.6px;line-height:1.1}
+.hero-sub{font-size:17px;color:#595959;margin:0 0 32px;line-height:1.55;max-width:540px}
+.hbar{display:flex;align-items:center;gap:10px;width:100%;max-width:600px;border:1px solid #d4d2d0;border-radius:30px;padding:10px 10px 10px 22px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:border-color .15s,box-shadow .15s}
+.hbar:focus-within{border-color:#0044b3;box-shadow:0 3px 14px rgba(0,68,179,.12)}
+.hin{flex:1;min-width:0;border:none;outline:none;font-family:inherit;font-size:17px;color:#2d2d2d;background:none;padding:9px 0}
+.hin::placeholder{color:#9a9aa0}
+.hsend{width:44px;height:44px;border-radius:50%;border:none;background:#0044b3;cursor:pointer;flex:0 0 44px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.hsend:hover{background:#003a99}
+.hchips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px}
 </style>
 </head>
 <body>
@@ -866,7 +883,20 @@ textarea.ta{width:100%;box-sizing:border-box;border:1px solid #d4d2d0;border-rad
   <div id="side"></div>
   <main class="main cw-main">
     <div id="top"></div>
-    <div class="cv" id="cv">
+    <section class="hero" id="hero">
+      <a class="hero-back" href="index.html">&larr; Agents</a>
+      <div class="hero-mid">
+        <div class="hero-orb"></div>
+        <h1>Who do you need to hire?</h1>
+        <p class="hero-sub">Describe the role &mdash; your agent drafts the job post, screens applicants, and books interviews for you.</p>
+        <div class="hbar">
+          <input class="hin" id="heroIn" placeholder="e.g. Registered Nurse in Houston, TX">
+          <button class="hsend" onclick="startFromHero()" aria-label="Start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+        </div>
+        <div class="hchips" id="heroChips"></div>
+      </div>
+    </section>
+    <div class="cv" id="cv" style="display:none">
       <div class="cv-left">
         <div class="cv-bar"><div class="ttl">Create agent <span id="bar-sub"></span></div><button class="cv-toggle" id="ptog" onclick="togglePrev()">Hide posting</button></div>
         <div class="cv-msgs" id="msgs"><div class="inner" id="msgs-in"></div></div>
@@ -1221,7 +1251,21 @@ function showLaunching(role){
   setTimeout(function(){clearInterval(t);location.href='index.html';},3200);
 }
 
-ask('role', true);
+/* ---- Claude-style entry ---- */
+window.startFromHero=function(preset){
+  const v=(preset||document.getElementById('heroIn').value).trim();
+  if(!v)return;
+  A.role=v; A.jd=draftJD(v);
+  document.getElementById('hero').style.display='none';
+  document.getElementById('cv').style.display='flex';
+  msgs.push({who:'bot',text:STAGES.role.q()});
+  msgs.push({who:'me',text:v});
+  ask('loctype');
+};
+document.getElementById('heroChips').innerHTML=ROLE_CHIPS.map(r=>`<span class="chip" onclick="startFromHero('${r.replace(/'/g,"\\'")}')">${r}</span>`).join('');
+const _hin=document.getElementById('heroIn');
+_hin.onkeydown=e=>{if(e.key==='Enter')startFromHero();};
+_hin.focus();
 </script>
 </body>
 </html>

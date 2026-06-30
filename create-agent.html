@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Create an Agent</title>
+<title>JobAgentX — Create Agent</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -759,48 +759,153 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 @media(max-width:760px){.ent-banner{flex-direction:column;align-items:flex-start}}
 
 </style>
+<style>
+body{background:#fff!important}
+.app{background:#fff}
+.cw-main{background:#fff!important;min-height:100vh}
+.cw-main .topbar{background:#fff}
+/* split conversation view */
+.cv{display:flex;height:calc(100vh - 62px);overflow:hidden}
+.cv-left{flex:1;min-width:0;display:flex;flex-direction:column}
+.cv-bar{display:flex;align-items:center;justify-content:space-between;padding:14px 28px 6px}
+.cv-bar .ttl{font-size:14px;font-weight:700;color:#2d2d2d}
+.cv-bar .ttl span{color:#595959;font-weight:600}
+.cv-toggle{border:1px solid #d4d2d0;background:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;color:#2d2d2d;cursor:pointer;font-family:inherit}
+.cv-toggle:hover{border-color:#0044b3;color:#0044b3}
+.cv-msgs{flex:1;overflow-y:auto;padding:10px 28px}
+.cv-msgs .inner{max-width:640px;margin:0 auto;display:flex;flex-direction:column}
+.cv-ctrl{padding:14px 28px 24px;border-top:1px solid #f0eee9}
+.cv-ctrl .inner{max-width:640px;margin:0 auto}
+.msg{display:flex;flex-direction:column;margin-bottom:16px}
+.msg.me{align-items:flex-end}.msg.bot{align-items:flex-start}
+.whorow{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.whorow .nm{font-size:13px;font-weight:700;color:#595959}
+.av{width:24px;height:24px;border-radius:50%;flex:0 0 24px}
+.av-bot{background:linear-gradient(135deg,#0044b3 0%,#4f86f7 55%,#9b6dff 100%)}
+.av-me{background:linear-gradient(135deg,#c7d0e0,#9fb0cc)}
+.bub{max-width:82%;padding:13px 17px;border-radius:16px;font-size:16px;line-height:1.5}
+.bub.bot{background:#f4f3f0;color:#2d2d2d;border-bottom-left-radius:5px}
+.bub.me{background:#0044b3;color:#fff;border-bottom-right-radius:5px}
+.bub.typing{display:flex;gap:5px;align-items:center;padding:16px 18px}
+.bub.typing span{width:7px;height:7px;border-radius:50%;background:#9a9aa0;animation:tdot 1s infinite}
+.bub.typing span:nth-child(2){animation-delay:.18s}.bub.typing span:nth-child(3){animation-delay:.36s}
+@keyframes tdot{0%,60%,100%{opacity:.3;transform:translateY(0)}30%{opacity:1;transform:translateY(-4px)}}
+/* controls */
+.crow{display:flex;gap:10px}
+.crow input{flex:1;border:2px solid #a8a8a8;border-radius:12px;padding:14px 18px;font-size:16px;font-family:inherit;color:#2d2d2d}
+.crow input:focus{outline:none;border-color:#0044b3}
+.cbtn{background:#0044b3;color:#fff;border:none;border-radius:12px;padding:14px 26px;font-weight:700;font-size:16px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.cbtn:hover{background:#003a99}
+.cbtn.sm{padding:11px 18px;font-size:14px;border-radius:10px}
+.chips{display:flex;flex-wrap:wrap;gap:9px}
+.chip{border:1.5px solid #d4d2d0;border-radius:999px;padding:11px 18px;font-size:15px;font-weight:600;color:#2d2d2d;background:#fff;cursor:pointer;user-select:none}
+.chip:hover{border-color:#0044b3;color:#0044b3}
+.chip.on{background:#eef3fb;border-color:#0044b3;color:#0044b3}
+.chip.on::before{content:"\2713 ";font-weight:800}
+.chip.ghost{border-style:dashed;color:#595959}
+.cmeta{font-size:12.5px;color:#595959;margin-top:9px}
+.cwrap{display:flex;flex-direction:column;gap:12px}
+.payrow{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.payrow input{width:120px;border:2px solid #a8a8a8;border-radius:10px;padding:11px 14px;font-size:15px;font-family:inherit}
+.sel{border:1px solid #d4d2d0;border-radius:8px;padding:11px 14px;font-size:15px;font-family:inherit;background:#fff;cursor:pointer}
+textarea.ta{width:100%;box-sizing:border-box;border:1px solid #d4d2d0;border-radius:10px;padding:13px 15px;font-size:15px;font-family:inherit;line-height:1.55;min-height:170px;resize:vertical}
+.qbuild{border:1px solid #e7e5e1;border-radius:12px;padding:16px;background:#fafaf8}
+.qbuild .qlbl{font-size:13px;font-weight:700;margin:12px 0 5px}
+.qbuild .qlbl:first-child{margin-top:0}
+/* live job posting preview */
+.cv-prev{flex:0 0 430px;border-left:1px solid #e7e5e1;background:#faf9f7;overflow-y:auto;transition:flex-basis .26s ease, padding .26s ease}
+.cv.collapsed .cv-prev{flex-basis:0;padding:0;border:none;overflow:hidden}
+.jp{padding:26px 28px}
+.jp-tag{font-size:11.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:#0044b3}
+.jp-title{font-size:24px;font-weight:800;color:#2d2d2d;margin:8px 0 3px;line-height:1.15}
+.jp-loc{font-size:14px;color:#595959;margin-bottom:18px}
+.jp-f{border-top:1px solid #ece9e3;padding:13px 0}
+.jp-k{font-size:11.5px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;color:#8a8a8a;margin-bottom:5px}
+.jp-v{font-size:14.5px;color:#2d2d2d;line-height:1.5}
+.jp-ph{color:#bdbbb6;font-size:14.5px}
+.jp-pills{display:flex;flex-wrap:wrap;gap:6px}
+.jp-pill{background:#eef0ec;border-radius:999px;padding:4px 11px;font-size:12.5px;color:#2d2d2d}
+.jp-desc{font-size:13.5px;color:#444;line-height:1.55;white-space:pre-wrap;max-height:150px;overflow:hidden;position:relative}
+
+/* launch animation */
+.launch-ov{position:fixed;inset:0;background:#fff;display:flex;align-items:center;justify-content:center;z-index:9999;animation:lfade .25s ease}
+@keyframes lfade{from{opacity:0}to{opacity:1}}
+.launch-box{text-align:center;max-width:440px;padding:24px}
+.launch-orb{width:96px;height:96px;margin:0 auto 28px;position:relative}
+.launch-orb .core{position:absolute;inset:36px;border-radius:50%;background:#0044b3;animation:lpulse 1.4s ease-in-out infinite}
+.launch-orb span{position:absolute;inset:0;border-radius:50%;border:2px solid #0044b3;opacity:0;animation:lring 1.8s ease-out infinite}
+.launch-orb span:nth-child(2){animation-delay:.6s}
+.launch-orb span:nth-child(3){animation-delay:1.2s}
+@keyframes lring{0%{transform:scale(.35);opacity:.65}100%{transform:scale(1);opacity:0}}
+@keyframes lpulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+.launch-h{font-size:25px;font-weight:800;color:#2d2d2d;margin-bottom:10px}
+.launch-msg{font-size:16px;color:#595959;min-height:24px;transition:opacity .2s}
+.launch-bar{width:240px;height:6px;border-radius:3px;background:#ececec;margin:24px auto 0;overflow:hidden}
+.launch-bar i{display:block;height:100%;background:#0044b3;width:0;animation:lfill 3.2s linear forwards}
+@keyframes lfill{to{width:100%}}
+
+/* Metaview-style input bar */
+.ibar{display:flex;align-items:center;gap:11px;border:1px solid #d4d2d0;border-radius:28px;padding:7px 7px 7px 15px;background:#fff}
+.ibar:focus-within{border-color:#0044b3}
+.ibar .iorb{width:26px;height:26px;border-radius:50%;flex:0 0 26px;background:linear-gradient(135deg,#0044b3 0%,#4f86f7 55%,#9b6dff 100%)}
+.ibar .iin{flex:1;min-width:0;border:none;outline:none;background:none;font-family:inherit;font-size:16px;color:#2d2d2d;padding:7px 0}
+.ibar .iin::placeholder{color:#9a9aa0}
+.ibar .isend{width:38px;height:38px;border-radius:50%;border:none;background:#0044b3;cursor:pointer;flex:0 0 38px;display:flex;align-items:center;justify-content:center}
+.ibar .isend:hover{background:#003a99}
+.minicont{margin-top:13px;background:#0044b3;color:#fff;border:none;border-radius:999px;padding:11px 22px;font-weight:700;font-size:14.5px;cursor:pointer;font-family:inherit}
+.minicont:hover{background:#003a99}
+/* empty-state right panel (Metaview) */
+.jp-empty{min-height:74vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 34px}
+.jp-empty .ic{color:#c4c2bd;margin-bottom:16px}
+.jp-empty .h{font-size:15.5px;font-weight:700;color:#2d2d2d;margin-bottom:7px}
+.jp-empty .s{font-size:13.5px;color:#8a8a8a;max-width:300px;line-height:1.55}
+
+/* ---- Claude-style entry hero (white) ---- */
+.hero{height:calc(100vh - 62px);position:relative;display:flex;flex-direction:column;background:#fff}
+.hero-back{position:absolute;top:20px;left:28px;color:#0044b3;font-weight:700;font-size:14px;text-decoration:none}
+.hero-back:hover{text-decoration:underline}
+.hero-mid{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 24px 6vh;width:100%;max-width:680px;margin:0 auto}
+.hero-orb{width:50px;height:50px;border-radius:50%;margin-bottom:22px;background:linear-gradient(135deg,#0044b3 0%,#4f86f7 55%,#9b6dff 100%);box-shadow:0 4px 18px rgba(0,68,179,.22);animation:horb 3.2s ease-in-out infinite}
+@keyframes horb{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.hero h1{font-size:40px;font-weight:800;color:#2d2d2d;margin:0 0 14px;letter-spacing:-.6px;line-height:1.1}
+.hero-sub{font-size:17px;color:#595959;margin:0 0 32px;line-height:1.55;max-width:540px}
+.hbar{display:flex;align-items:center;gap:10px;width:100%;max-width:600px;border:1px solid #d4d2d0;border-radius:30px;padding:10px 10px 10px 22px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.05);transition:border-color .15s,box-shadow .15s}
+.hbar:focus-within{border-color:#0044b3;box-shadow:0 3px 14px rgba(0,68,179,.12)}
+.hin{flex:1;min-width:0;border:none;outline:none;font-family:inherit;font-size:17px;color:#2d2d2d;background:none;padding:9px 0}
+.hin::placeholder{color:#9a9aa0}
+.hsend{width:44px;height:44px;border-radius:50%;border:none;background:#0044b3;cursor:pointer;flex:0 0 44px;display:flex;align-items:center;justify-content:center;transition:background .15s}
+.hsend:hover{background:#003a99}
+.hchips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin-top:24px}
+</style>
 </head>
 <body>
 <div class="app">
   <div id="side"></div>
-  <main class="main">
+  <main class="main cw-main">
     <div id="top"></div>
-    <div class="wrap">
-      <a class="back" href="index.html" id="back">&larr; Agents</a>
-
-      <!-- chat front door -->
-      <section id="s_chat">
-        <div class="chat-hero">
-          <h1>Who do you need to hire?</h1>
-          <div class="sub">Describe the role in a sentence — your agent drafts the rest, then you review and launch.</div>
-          <div class="chat-box">
-            <textarea id="prompt" placeholder="e.g. I need to hire registered nurses in Houston, TX — must have an active RN license and 1+ year of experience." onkeydown="if(event.key==='Enter'&&(event.metaKey||event.ctrlKey))draft()"></textarea>
-            <button class="btn btn-primary chat-send" onclick="draft()">Draft my agent &rarr;</button>
-          </div>
-          <div class="chat-chips" id="chips"></div>
+    <section class="hero" id="hero">
+      <a class="hero-back" href="index.html">&larr; Agents</a>
+      <div class="hero-mid">
+        <div class="hero-orb"></div>
+        <h1>Who do you need to hire?</h1>
+        <p class="hero-sub">Describe the role &mdash; your agent drafts the job post, screens applicants, and books interviews for you.</p>
+        <div class="hbar">
+          <input class="hin" id="heroIn" placeholder="e.g. Registered Nurse in Houston, TX">
+          <button class="hsend" onclick="startFromHero()" aria-label="Start"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
         </div>
-      </section>
-
-      <!-- drafting -->
-      <section id="s_draft" style="display:none">
-        <div class="draft-hero"><div class="spinner lg" style="margin:0 auto 16px"></div><div id="draftMsg">Reading your role and drafting the agent…</div></div>
-      </section>
-
-      <!-- review -->
-      <section id="s_review" style="display:none">
-        <div class="ai-chip">&#10024; Drafted by AI — edit anything</div>
-        <h1 class="review-head" id="revTitle">Your agent</h1>
-        <div class="sub" style="margin-bottom:20px">Review what your agent will do, then launch. It starts sourcing immediately.</div>
-        <div id="reviewBody"></div>
-        <div class="setup-foot"><button class="btn btn-primary btn-lg" id="launchBtn" onclick="launch()">&#9654; Launch agent</button></div>
-      </section>
+        <div class="hchips" id="heroChips"></div>
+      </div>
+    </section>
+    <div class="cv" id="cv" style="display:none">
+      <div class="cv-left">
+        <div class="cv-bar"><div class="ttl">Create agent <span id="bar-sub"></span></div><button class="cv-toggle" id="ptog" onclick="togglePrev()">Hide posting</button></div>
+        <div class="cv-msgs" id="msgs"><div class="inner" id="msgs-in"></div></div>
+        <div class="cv-ctrl"><div class="inner" id="ctrl"></div></div>
+      </div>
+      <div class="cv-prev" id="prev"></div>
     </div>
   </main>
 </div>
-
-<!-- custom message modal -->
-<div class="overlay" id="cmModal"><div class="modal wide"><h3>Welcome message</h3><p>Sent automatically when a candidate is matched. Make it sound like you.</p><textarea class="setup-input" id="cmText" rows="5" style="border-radius:10px"></textarea><div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeM('cmModal')">Cancel</button><button class="btn btn-primary btn-sm" onclick="saveCm()">Save</button></div></div></div>
-
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
@@ -965,125 +1070,202 @@ try{if(typeof window!=='undefined'){window.AX=AX;window.resetDemo=function(){AX.
 
 </script>
 <script>
-/* v2 — conversational Create Agent */
+const E=AX.esc;
 document.getElementById('side').innerHTML=AX.sidebar('agents');
 document.getElementById('top').innerHTML=AX.topbar();
-const E=AX.esc;
-const TITLES=['Registered Nurse','Certified Nursing Assistant','Medical Assistant','Caregiver','Warehouse Associate','Forklift Operator','Bilingual Call Center Rep','Customer Service Representative','Delivery Driver','Line Cook','Security Officer'];
-const JD={
-  nurse:'We’re hiring compassionate Registered Nurses to deliver patient-centered care, administer treatments, and collaborate with the care team. Full-time, competitive pay, strong benefits.',
-  warehouse:'Pick, pack, and ship orders in a fast-paced distribution center. Operate scanners, keep your zone organized, and hit daily throughput targets.',
-  'call center':'Handle inbound customer calls with empathy and accuracy. Resolve billing and scheduling questions and keep customer satisfaction high.',
-  caregiver:'Support daily living for residents — mobility, meals, medication reminders, and companionship — with patience and warmth on every shift.',
-  driver:'Run daily delivery routes safely and on time. Load and unload, follow the manifest, and give every customer a friendly handoff.'
+
+const JOB_TYPES=['Full-time','Part-time','Contract','Temporary','Internship'];
+const BENEFITS=['Health insurance','Paid time off','Dental insurance','401(k)','Vision insurance','Flexible schedule','Tuition reimbursement','Life insurance','401(k) matching','Retirement plan','Referral program','Employee discount','Flexible spending account','Health savings account','Relocation assistance','Parental leave','Professional development assistance','Employee assistance program','Other'];
+const SHIFTS=['Day shift','Night shift','Evening shift','Overnight shift','Other','None'];
+const SCHEDULES=['Weekly as needed','Monday to Friday','Rotating weekends','Every weekend','No weekends','Choose your own hours','3×12','5×8','4×10','4×12','Other','None'];
+const RATES=['per hour','per day','per week','per month','per year'];
+const ROLE_CHIPS=['Registered Nurse','Warehouse Associate','Bilingual Call Center Rep','Sales Associate','Customer Service Rep'];
+
+const A={role:'',locationType:'in_person',address:'',resideRequired:'no',resideArea:'',consistentStart:'no',startAddress:'',
+  jobType:[],payMode:'range',payMin:'',payMax:'',payRate:'per hour',benefits:[],shift:[],schedule:[],jd:'',
+  slot:30,capacity:3,autoAccept:false,resumeRequired:true,interviewers:['demo@jobfairx.com (you)'],recipients:[],screening:[]};
+
+let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false; let locDone=false;
+
+const STAGES={
+  role:{q:()=>'Who do you need to hire?',ctrl:'text',ph:'e.g. Registered Nurse',chips:ROLE_CHIPS,field:'role'},
+  loctype:{q:()=>`Got it — a ${A.role}. Where is this role based?`,ctrl:'one',opts:['In person','Fully remote','Hybrid','On the road']},
+  address:{q:()=>"What's the job location?",hint:'Enter a street address or ZIP code',ctrl:'text',ph:'Street address or ZIP code',field:'address'},
+  resideYN:{q:()=>'Are employees required to reside in a specific location?',ctrl:'yn'},
+  resideArea:{q:()=>'In what location must employees reside?',ctrl:'text',ph:'State, region, or city',field:'resideArea'},
+  startYN:{q:()=>'Does this job have a consistent starting location?',ctrl:'yn'},
+  startAddr:{q:()=>'What is the street address of the starting location?',ctrl:'text',ph:'Street address',field:'startAddress'},
+  jobtype:{q:()=>'What type of role is this? Pick any that apply.',ctrl:'multi',opts:JOB_TYPES,field:'jobType'},
+  pay:{q:()=>'What does this role pay? We pre-filled an estimate — adjust it.',ctrl:'pay'},
+  benefits:{q:()=>'Which benefits come with the role?',ctrl:'multi',opts:BENEFITS,field:'benefits'},
+  shift:{q:()=>'What standard shift?',ctrl:'multi',opts:SHIFTS,field:'shift'},
+  schedule:{q:()=>'And the weekly schedule?',ctrl:'multi',opts:SCHEDULES,field:'schedule'},
+  description:{q:()=>"I drafted a job description — it's in the posting on the right. Use it, or edit it?",ctrl:'desc'},
+  slot:{q:()=>'How long should each interview be?',ctrl:'one',opts:['15 minutes','30 minutes','60 minutes']},
+  autoaccept:{q:()=>'Auto-accept interview requests? Candidates get confirmed instantly when they pick a time.',ctrl:'yn'},
+  resume:{q:()=>'Require candidates to attach a resume?',ctrl:'yn'},
+  interviewers:{q:()=>"Who else will interview candidates? Add their emails, or skip — you're included by default.",ctrl:'emails'},
+  screening:{q:()=>'Last thing — want screening questions that filter candidates by your must-haves?',ctrl:'screen'},
+  launch:{q:()=>`That's everything. Your ${A.role} agent is ready to start sourcing and booking interviews.`,ctrl:'launch'}
 };
-let agent={role:'',location:'',musthaves:[],jd:'',availability:AX.defAvail(),slot:'30',autoAccept:true,
-  channels:{sms:true,email:true},msg:{matched:true,reminders:true,noshow:true},customMsg:'Hi {name} — you’ve been matched for our {role} role. Pick a time that works and we’ll see you then!',
-  interviewers:['demo@jobfairx.com (you)']};
+const LIN=['jobtype','pay','benefits','shift','schedule','description','slot','autoaccept','resume','interviewers','screening','launch'];
 
-document.getElementById('chips').innerHTML=['Registered Nurse','Warehouse Associate','Bilingual Call Center Rep','Caregiver'].map(t=>`<span class="chat-chip" onclick="useChip('${t}')">${t}</span>`).join('');
-window.useChip=function(t){document.getElementById('prompt').value='I need to hire '+(/nurse|caregiver/i.test(t)?'a ':'')+t+(/nurse/i.test(t)?'s in Houston, TX — must have an active RN license and 1+ year of experience':' — must be reliable and available for shifts');draft();};
+function draftJD(role){return `Job Summary\nWe are seeking a dedicated ${role} to join our team. In this role you will deliver high-quality work, collaborate with colleagues, and serve our clients with excellence.\n\nResponsibilities\n• Perform the core duties of the ${role} role to a high standard\n• Communicate clearly with team members and stakeholders\n• Follow procedures, safety, and quality guidelines\n• Contribute to a positive, productive work environment\n\nRequirements\n• Relevant experience or certification for a ${role}\n• Reliability and strong communication skills\n• Ability to work scheduled shifts`;}
+function locText(){if(A.locationType==='in_person'||A.locationType==='hybrid')return (A.locationType==='hybrid'?'Hybrid · ':'In person · ')+(A.address||'');if(A.locationType==='remote')return 'Remote'+(A.resideRequired==='yes'&&A.resideArea?(' · must reside in '+A.resideArea):'');if(A.locationType==='on_road')return 'On the road'+(A.consistentStart==='yes'&&A.startAddress?(' · starts at '+A.startAddress):'');return '';}
+function payText(){const mn=A.payMin,mx=A.payMax;if(mn&&mx)return `$${mn} – $${mx} ${A.payRate}`;if(mn)return `From $${mn} ${A.payRate}`;if(mx)return `Up to $${mx} ${A.payRate}`;return '';}
 
-function parse(text){
-  const t=text.trim();
-  let role=TITLES.find(x=>t.toLowerCase().includes(x.toLowerCase()))||'';
-  if(!role){const m=t.match(/hire (?:a |an |some )?([A-Za-z][A-Za-z \/]+?)(?:\s+(?:in|with|who|that|—|-|,)|$)/i);role=m?m[1].trim().replace(/s$/,''):'New role';role=role.replace(/\b\w/g,c=>c.toUpperCase());}
-  let location='';const lm=t.match(/in ([A-Z][a-zA-Z]+(?:,?\s*[A-Z]{2})?)/);if(lm)location=lm[1];
-  if(/\bremote\b/i.test(t))location=location?location+' · Remote OK':'Remote (US)';
-  if(!location)location='—';
-  const mh=[];
-  if(/licen[sc]e|certif|cna|rn\b|bls|acls/i.test(t))mh.push('Active license / certification');
-  if(/year|yrs|experience/i.test(t))mh.push('1+ year of experience');
-  if(/bilingual|spanish/i.test(t))mh.push('Bilingual (English/Spanish)');
-  if(/lift|50/i.test(t))mh.push('Able to lift 50 lbs');
-  if(!mh.length)mh.push('Reliable, available for shifts');
-  const key=Object.keys(JD).find(k=>t.toLowerCase().includes(k)|| (k==='nurse'&&/nurse|rn|cna/i.test(t)));
-  const jd=key?JD[key]:`We’re hiring a ${role} to join our team. You’ll own the day-to-day of this role and bring reliability and care to everything you do. We’ll train the right person on the specifics.`;
-  return {role,location,musthaves:mh,jd};
+function botSay(t){msgs.push({who:'bot',text:t});}
+function meSay(t){msgs.push({who:'me',text:t});}
+
+function goNext(stage){
+  switch(stage){
+    case 'role':return 'loctype';
+    case 'loctype':return A.locationType==='remote'?'resideYN':(A.locationType==='on_road'?'startYN':'address');
+    case 'address':return 'jobtype';
+    case 'resideYN':return A.resideRequired==='yes'?'resideArea':'jobtype';
+    case 'resideArea':return 'jobtype';
+    case 'startYN':return A.consistentStart==='yes'?'startAddr':'jobtype';
+    case 'startAddr':return 'jobtype';
+    default:{const i=LIN.indexOf(stage);return LIN[i+1]||'launch';}
+  }
+}
+function ask(stage, instant){
+  cur=stage; editingDesc=false; screenAdding=false;
+  if(stage==='jobtype'){locDone=true;if(!A.jobType.length)A.jobType=['Full-time'];}
+  if(stage==='pay'&&!A.payMin&&!A.payMax){A.payMin='20';A.payMax='28';}
+  if(stage==='description'&&!A.jd)A.jd=draftJD(A.role||'this role');
+  if(STAGES[stage].ctrl==='multi')multi=A[STAGES[stage].field].slice();
+  const text=STAGES[stage].q();
+  if(instant){msgs.push({who:'bot',text:text});renderAll();return;}
+  typing=true; renderAll();
+  setTimeout(function(){typing=false;msgs.push({who:'bot',text:text});renderAll();},850);
+}
+function advance(){ const n=goNext(cur); ask(n); }
+
+/* ---------- render ---------- */
+function renderAll(){renderMsgs();renderCtrl();renderPreview();updateBar();}
+function updateBar(){const order=['role','loctype','address','jobtype','pay','benefits','shift','schedule','description','slot','autoaccept','resume','interviewers','screening','launch'];const i=Math.max(0,order.indexOf(cur));document.getElementById('bar-sub').textContent='· building your job posting';}
+function avatarHTML(who){return who==='bot'?'<span class="av av-bot"></span>':'<span class="av av-me"></span>';}
+function msgHTML(m){const name=m.who==='bot'?'JobAgentX':'You';const who=m.who==='bot'?(avatarHTML('bot')+'<span class="nm">'+name+'</span>'):('<span class="nm">'+name+'</span>'+avatarHTML('me'));return '<div class="msg '+m.who+'"><div class="whorow">'+who+'</div><div class="bub '+m.who+'">'+E(m.text)+'</div></div>';}
+function typingHTML(){return '<div class="msg bot"><div class="whorow">'+avatarHTML('bot')+'<span class="nm">JobAgentX</span></div><div class="bub bot typing"><span></span><span></span><span></span></div></div>';}
+function renderMsgs(){let html=msgs.map(msgHTML).join('');if(typing)html+=typingHTML();document.getElementById('msgs-in').innerHTML=html;const m=document.getElementById('msgs');m.scrollTop=m.scrollHeight;}
+function renderCtrl(){document.getElementById('ctrl').innerHTML=controlHTML();const inp=document.getElementById('cin');if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')sendText();};}}
+function ibar(id,ph,fn){return '<div class="ibar"><span class="iorb"></span><input class="iin" id="'+id+'" placeholder="'+ph+'"><button class="isend" onclick="'+fn+'()" aria-label="Send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>';}
+function controlHTML(){
+  if(typing)return '';
+  const s=STAGES[cur];
+  if(cur==='launch')return `<button class="cbtn" style="width:100%" onclick="launch()">Launch agent →</button>`;
+  if(s.ctrl==='text'){return ibar('cin', s.ph||'Type your answer…','sendText')+(cur==='role'?`<div class="chips" style="margin-top:12px">${ROLE_CHIPS.map(r=>`<span class="chip" onclick="document.getElementById('cin').value='${r}'">${r}</span>`).join('')}</div>`:'')+(s.hint?`<div class="cmeta">${s.hint}</div>`:'');}
+  if(s.ctrl==='one')return `<div class="chips">${s.opts.map(o=>`<span class="chip" onclick="pickOne('${o}')">${o}</span>`).join('')}</div>`;
+  if(s.ctrl==='yn')return `<div class="chips">${['Yes','No'].map(o=>`<span class="chip" onclick="pickYN('${o}')">${o}</span>`).join('')}</div>`;
+  if(s.ctrl==='multi')return `<div class="cwrap"><div class="chips">${s.opts.map(o=>`<span class="chip ${multi.indexOf(o)>-1?'on':''}" onclick="toggleMulti('${o.replace(/'/g,"\\'")}')">${o}</span>`).join('')}</div><div><button class="minicont" onclick="confirmMulti()">Continue →</button></div></div>`;
+  if(s.ctrl==='pay')return `<div class="cwrap"><div class="payrow">$ <input id="pmin" placeholder="Min" value="${E(A.payMin)}"> to $ <input id="pmax" placeholder="Max" value="${E(A.payMax)}"> <select class="sel" id="prate">${RATES.map(r=>`<option ${A.payRate===r?'selected':''}>${r}</option>`).join('')}</select></div><div><button class="minicont" onclick="confirmPay()">Continue →</button></div></div>`;
+  if(s.ctrl==='desc'){if(editingDesc)return `<div class="cwrap"><textarea class="ta" id="cdesc">${E(A.jd)}</textarea><div><button class="minicont" onclick="descSave()">Save & continue →</button></div></div>`;return `<div class="chips"><span class="chip" onclick="descUse()">Use the draft</span><span class="chip ghost" onclick="descEdit()">Edit it</span></div>`;}
+  if(s.ctrl==='emails')return `<div class="cwrap">`+ibar('cin','email@company.com, another@company.com','emailsAdd')+`<div><span class="chip ghost" onclick="advance()">Skip — just me</span></div></div>`;
+  if(s.ctrl==='screen'){
+    if(screenAdding)return qBuilder();
+    const list=A.screening.length?`<div class="cmeta" style="margin-bottom:10px">${A.screening.length} question${A.screening.length>1?'s':''} added.</div>`:'';
+    return `${list}<div class="chips"><span class="chip" onclick="screenOpen()">＋ Add a question</span><span class="chip ghost" onclick="advance()">${A.screening.length?'Done':'Skip'}</span></div>`;
+  }
+  return '';
+}
+function qBuilder(){
+  return `<div class="qbuild">
+    <div class="qlbl">Question</div><input class="crow" style="width:100%;box-sizing:border-box;border:2px solid #a8a8a8;border-radius:10px;padding:11px 14px;font-size:15px;font-family:inherit" id="qtext" placeholder="e.g. Do you have an active RN license?" value="${E(qDraft.text||'')}">
+    <div class="qlbl">Response type</div><div class="chips"><span class="chip ${qDraft.type==='yesno'?'on':''}" onclick="qSet('type','yesno')">Yes / No</span><span class="chip ${qDraft.type==='numeric'?'on':''}" onclick="qSet('type','numeric')">Numeric</span></div>
+    ${qDraft.type==='yesno'?`<div class="qlbl">Required answer</div><div class="chips"><span class="chip ${qDraft.resp!=='No'?'on':''}" onclick="qSet('resp','Yes')">Yes</span><span class="chip ${qDraft.resp==='No'?'on':''}" onclick="qSet('resp','No')">No</span></div>`:`<div class="qlbl">Required minimum</div><select class="sel" id="qmin">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<option ${qDraft.min==n?'selected':''}>${n}</option>`).join('')}</select>`}
+    <div class="qlbl">Must-have?</div><div class="chips"><span class="chip ${qDraft.must==='yes'?'on':''}" onclick="qSet('must','yes')">Must-have (filter out)</span><span class="chip ${qDraft.must!=='yes'?'on':''}" onclick="qSet('must','no')">Just collect</span></div>
+    <div style="display:flex;gap:10px;margin-top:16px"><button class="cbtn sm" onclick="qSave()">Add question</button><button class="chip ghost" onclick="screenAdding=false;renderCtrl()">Cancel</button></div>
+  </div>`;
 }
 
-window.draft=function(){
-  const text=document.getElementById('prompt').value.trim();
-  if(text.length<3){document.getElementById('prompt').focus();return;}
-  const p=parse(text);agent.role=p.role;agent.location=p.location;agent.musthaves=p.musthaves;agent.jd=p.jd;
-  document.getElementById('s_chat').style.display='none';
-  document.getElementById('s_draft').style.display='block';
-  document.getElementById('back').style.display='none';
-  setTimeout(()=>{document.getElementById('draftMsg').textContent='Sourcing strategy, screening questions, and messaging ready.';},900);
-  setTimeout(()=>{document.getElementById('s_draft').style.display='none';renderReview();document.getElementById('s_review').style.display='block';window.scrollTo(0,0);},1700);
-};
+/* ---------- handlers ---------- */
+window.sendText=function(){const v=document.getElementById('cin').value.trim();if(!v)return;const f=STAGES[cur].field;A[f]=v;meSay(v);
+  if(cur==='role'&&!A.jd)A.jd=draftJD(v);
+  advance();};
+window.pickOne=function(label){
+  if(cur==='loctype'){const map={'In person':'in_person','Fully remote':'remote','Hybrid':'hybrid','On the road':'on_road'};A.locationType=map[label];}
+  if(cur==='slot')A.slot=parseInt(label);
+  meSay(label);advance();};
+window.pickYN=function(v){meSay(v);const yes=v==='Yes';
+  if(cur==='resideYN'){A.resideRequired=yes?'yes':'no';}
+  else if(cur==='startYN'){A.consistentStart=yes?'yes':'no';}
+  else if(cur==='autoaccept'){A.autoAccept=yes;}
+  else if(cur==='resume'){A.resumeRequired=yes;}
+  advance();};
+window.toggleMulti=function(v){const i=multi.indexOf(v);if(i>-1)multi.splice(i,1);else multi.push(v);renderCtrl();renderPreview();const f=STAGES[cur].field;A[f]=multi.slice();};
+window.confirmMulti=function(){const f=STAGES[cur].field;A[f]=multi.slice();meSay(multi.length?multi.join(', '):'None');advance();};
+window.confirmPay=function(){A.payMin=document.getElementById('pmin').value.trim();A.payMax=document.getElementById('pmax').value.trim();A.payRate=document.getElementById('prate').value;meSay(payText()||'—');advance();};
+window.descUse=function(){meSay('Use the draft');advance();};
+window.descEdit=function(){editingDesc=true;renderCtrl();};
+window.descSave=function(){A.jd=document.getElementById('cdesc').value;meSay('Edited the description');advance();};
+window.emailsAdd=function(){const v=document.getElementById('cin').value.trim();if(v){v.split(/[ ,;]+/).filter(x=>/.+@.+\..+/.test(x)).forEach(e=>A.interviewers.push(e));meSay(v);}else meSay('Just me');advance();};
+window.screenOpen=function(){qDraft={type:'yesno',resp:'Yes',must:'no'};screenAdding=true;renderCtrl();};
+window.qSet=function(k,v){const t=document.getElementById('qtext');if(t)qDraft.text=t.value;qDraft[k]=v;renderCtrl();};
+window.qSave=function(){const text=document.getElementById('qtext').value.trim();if(!text)return;const q={question:text,type:qDraft.type,must:qDraft.must};if(qDraft.type==='yesno')q.resp=qDraft.resp||'Yes';else q.min=document.getElementById('qmin').value;A.screening.push(q);screenAdding=false;meSay('Added: '+text);renderAll();};
+window.advance=advance;
+window.togglePrev=function(){const cv=document.getElementById('cv');cv.classList.toggle('collapsed');document.getElementById('ptog').textContent=cv.classList.contains('collapsed')?'Show posting':'Hide posting';};
 
-function availSummary(){const d=Object.keys(agent.availability).filter(k=>agent.availability[k].on);return d.length?d.map(k=>`<span class="tag">${k} ${agent.availability[k].start}–${agent.availability[k].end}</span>`).join(''):'<span style="color:var(--amber)">No days set</span>';}
-
-function renderReview(){
-  document.getElementById('revTitle').textContent=agent.role+' agent';
-  document.getElementById('reviewBody').innerHTML=`
-    <div class="rev-card"><h3>The role</h3>
-      <div class="setup-field"><label class="setup-label">Job title</label><input class="setup-input" id="f_role" value="${E(agent.role)}"></div>
-      <div class="setup-field"><label class="setup-label">Location</label><input class="setup-input" id="f_loc" value="${E(agent.location)}"></div>
-      <div class="setup-field"><label class="setup-label">Must-haves</label><div class="mh" id="mhList"></div><span class="addlink" id="addMh">＋ Add</span></div>
-      <div class="setup-field" style="margin-bottom:0"><label class="setup-label">Job description <span class="ai-chip">&#10024; AI draft</span></label><textarea class="setup-input" id="f_jd" rows="4" style="border-radius:10px">${E(agent.jd)}</textarea></div>
-    </div>
-
-    <div class="rev-card"><h3>Interview availability</h3>
-      <div class="setup-hint" style="margin-bottom:12px">Your agent only books interviews inside these windows. Wider availability = more interviews.</div>
-      <div class="avail" id="avail"></div>
-    </div>
-
-    <div class="rev-card"><h3>Interview handling</h3>
-      <div class="setup-field"><label class="setup-label">Time slot length</label>
-        <div class="setup-selectwrap" style="max-width:220px"><select class="setup-input" id="f_slot"><option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="60">60 minutes</option></select><span class="chev">&#9662;</span></div></div>
-      <label class="setup-label">When a candidate books</label>
-      <div class="mode-opts">
-        <div class="mode-opt ${agent.autoAccept?'sel':''}" id="mo-auto" onclick="setMode(true)"><div class="mo-t">Auto-accept <span class="rec-badge">Recommended</span></div><div class="mo-s">Confirm instantly for candidates who pass your must-haves. Highest show-rate.</div></div>
-        <div class="mode-opt ${agent.autoAccept?'':'sel'}" id="mo-manual" onclick="setMode(false)"><div class="mo-t">Manual review</div><div class="mo-s">Requests wait in “Needs your response” for you to accept or decline.</div></div>
-      </div>
-    </div>
-
-    <div class="rev-card"><h3>Messaging</h3>
-      <div class="msg-toggle"><div><div class="mt-t">Text + email</div><div class="mt-s">Texting drives the highest show-rates for shift roles.</div></div>
-        <span style="display:flex;gap:10px"><label class="toggle"><input type="checkbox" id="ch_sms" ${agent.channels.sms?'checked':''}><span class="tk"></span></label></span></div>
-      <div class="msg-toggle"><div><div class="mt-t">Matched invite</div><div class="mt-s">Tell candidates they’ve been matched and invite them to book.</div></div><label class="toggle"><input type="checkbox" id="m_matched" ${agent.msg.matched?'checked':''}><span class="tk"></span></label></div>
-      <div class="msg-toggle"><div><div class="mt-t">Reminders</div><div class="mt-s">Confirmation, 24h, and 1h before each interview.</div></div><label class="toggle"><input type="checkbox" id="m_rem" ${agent.msg.reminders?'checked':''}><span class="tk"></span></label></div>
-      <div class="msg-toggle"><div><div class="mt-t">No-show recovery</div><div class="mt-s">Auto follow-up to rebook anyone who misses or doesn’t book.</div></div><label class="toggle"><input type="checkbox" id="m_noshow" ${agent.msg.noshow?'checked':''}><span class="tk"></span></label></div>
-      <div class="msg-toggle"><div><div class="mt-t">Welcome message</div><div class="mt-s" id="cmPreview">${E(agent.customMsg)}</div></div><button class="btn btn-ghost btn-sm" onclick="openM('cmModal')">Edit</button></div>
-    </div>
-
-    <div class="rev-card"><h3>Who conducts interviews</h3>
-      <div class="setup-hint" style="margin-bottom:10px">Your team runs the interviews. Add as many as you need.</div>
-      <div class="email-chips" id="ivchips"></div>
-      <div class="row2"><input class="setup-input" id="ivEmail" placeholder="interviewer@company.com"><button class="btn btn-dark btn-sm" onclick="addIv()" style="align-self:center">Add</button></div>
-    </div>`;
-  renderMh();renderAvail();renderIv();
+/* ---------- live preview ---------- */
+function pills(arr){return arr.length?`<div class="jp-pills">${arr.map(x=>`<span class="jp-pill">${E(x)}</span>`).join('')}</div>`:'<span class="jp-ph">—</span>';}
+function field(k,html){return `<div class="jp-f"><div class="jp-k">${k}</div>${html}</div>`;}
+function postingReady(){return !!(A.role&&locDone);}
+function renderPreview(){
+  const el=document.getElementById('prev');
+  if(!postingReady()){el.innerHTML='<div class="jp-empty"><div class="ic"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div class="h">Share a bit more information in the chat</div><div class="s">The first draft of your job posting will be written once you\'ve shared more information in the chat.</div></div>';return;}
+  el.innerHTML=`<div class="jp">
+    <div class="jp-tag">Job posting</div>
+    <div class="jp-title">${A.role?E(A.role):'<span class="jp-ph">Job title</span>'}</div>
+    <div class="jp-loc">${locText()?E(locText()):'<span class="jp-ph">Location</span>'}</div>
+    ${field('Job type', A.jobType.length?`<div class="jp-v">${E(A.jobType.join(', '))}</div>`:'<span class="jp-ph">—</span>')}
+    ${field('Pay', payText()?`<div class="jp-v">${E(payText())}</div>`:'<span class="jp-ph">—</span>')}
+    ${field('Benefits', pills(A.benefits))}
+    ${field('Shift &amp; schedule', (A.shift.length||A.schedule.length)?`<div class="jp-v">${E([A.shift.join(', '),A.schedule.join(', ')].filter(Boolean).join(' · '))}</div>`:'<span class="jp-ph">—</span>')}
+    ${field('Description', A.jd?`<div class="jp-desc">${E(A.jd)}</div>`:'<span class="jp-ph">A description will appear here</span>')}
+    ${field('Interviews', `<div class="jp-v">${A.slot} min · ${A.autoAccept?'auto-accept':'manual review'} · resume ${A.resumeRequired?'required':'optional'}</div>`)}
+    ${field('Screening', A.screening.length?`<div class="jp-v">${A.screening.map(q=>E(q.question)).join('<br>')}</div>`:'<span class="jp-ph">None yet</span>')}
+  </div>`;
 }
-function renderMh(){document.getElementById('mhList').innerHTML=agent.musthaves.map((m,i)=>`<div class="mh-item"><input class="setup-input" value="${E(m)}" oninput="agent.musthaves[${i}]=this.value"><span class="x" onclick="agent.musthaves.splice(${i},1);renderMh()">&times;</span></div>`).join('');document.getElementById('addMh').onclick=()=>{agent.musthaves.push('');renderMh();};}
-function renderAvail(){document.getElementById('avail').innerHTML=Object.keys(agent.availability).map(d=>{const x=agent.availability[d];return `<div class="day ${x.on?'':'off'}" id="row-${d}"><label class="toggle"><input type="checkbox" ${x.on?'checked':''} onchange="agent.availability['${d}'].on=this.checked;document.getElementById('row-${d}').className='day '+(this.checked?'':'off')"><span class="tk"></span></label><span class="dn">${d}</span><div class="times"><input type="time" value="${x.start}" onchange="agent.availability['${d}'].start=this.value"><span class="muted">to</span><input type="time" value="${x.end}" onchange="agent.availability['${d}'].end=this.value"></div></div>`;}).join('');}
-function renderIv(){document.getElementById('ivchips').innerHTML=agent.interviewers.map((iv,i)=>`<div class="email-chip">${E(iv)}${i>0?`<span class="x" onclick="agent.interviewers.splice(${i},1);renderIv()">&times;</span>`:''}</div>`).join('');}
-window.addIv=function(){const v=document.getElementById('ivEmail').value.trim();if(!/.+@.+\..+/.test(v))return;agent.interviewers.push(v);document.getElementById('ivEmail').value='';renderIv();};
-window.setMode=function(on){agent.autoAccept=on;document.getElementById('mo-auto').classList.toggle('sel',on);document.getElementById('mo-manual').classList.toggle('sel',!on);};
-window.openM=function(id){if(id==='cmModal')document.getElementById('cmText').value=agent.customMsg;document.getElementById(id).classList.add('show');};
-window.closeM=function(id){document.getElementById(id).classList.remove('show');};
-window.saveCm=function(){agent.customMsg=document.getElementById('cmText').value;document.getElementById('cmPreview').textContent=agent.customMsg;closeM('cmModal');};
 
-window.launch=function(){
-  agent.role=document.getElementById('f_role').value.trim()||agent.role;
-  agent.location=document.getElementById('f_loc').value.trim()||agent.location;
-  agent.jd=document.getElementById('f_jd').value.trim();
-  agent.slot=document.getElementById('f_slot').value;
-  agent.autoAccept=document.getElementById('mo-auto').classList.contains('sel');
-  agent.channels.sms=document.getElementById('ch_sms').checked;
-  agent.msg={matched:document.getElementById('m_matched').checked,reminders:document.getElementById('m_rem').checked,noshow:document.getElementById('m_noshow').checked};
-  const btn=document.getElementById('launchBtn');btn.disabled=true;btn.textContent='Launching…';
+/* ---------- launch ---------- */
+function launch(){
   const id='a'+Date.now().toString(36);
-  AX.add({id,role:agent.role,location:agent.location,status:'sourcing',jd:agent.jd,musthaves:agent.musthaves.filter(Boolean),
-    interviewers:agent.interviewers.slice(),availability:agent.availability,slot:agent.slot,autoAccept:agent.autoAccept,
-    channels:agent.channels,messaging:agent.msg,customMsg:agent.customMsg,
-    awaiting:0,confirmed:0,interviewed:0,hires:0,candidates:[],
-    activity:[{mins:1,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}]});
-  setTimeout(()=>{location.href='index.html';},700);
-};
-[...document.querySelectorAll('.overlay')].forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('show');}));
+  const agent={id:id,role:A.role,location:locText(),status:'sourcing',jd:A.jd,
+    musthaves:A.screening.filter(q=>q.must==='yes').map(q=>q.question),
+    locationType:A.locationType,address:A.address,jobType:A.jobType,pay:payText(),benefits:A.benefits,shift:A.shift,schedule:A.schedule,
+    interviewers:A.interviewers,recipients:A.recipients,availability:AX.defAvail(),
+    interview:{slot:A.slot,capacity:A.capacity,autoAccept:A.autoAccept,resumeRequired:A.resumeRequired},screening:A.screening,
+    awaiting:0,confirmed:0,interviewed:0,hires:0,pending:0,metrics:{sourced:0,prequal:0,showRate:0,weekly:[]},
+    activity:[{mins:1,icon:'ti-player-play',t:'Started sourcing for this role',s:'Agent launched'}],candidates:[]};
+  AX.add(agent);
+  showLaunching(A.role);
+}
+function plural(r){if(!r)return 'candidates';return /s$/i.test(r)?r:r+'s';}
+function showLaunching(role){
+  const r=role||'your role';
+  const lines=['Setting up your agent…','Matching qualified '+plural(r)+'…','Screening against your must-haves…','Booking interviews on your calendar…'];
+  const ov=document.createElement('div');ov.className='launch-ov';
+  ov.innerHTML='<div class="launch-box"><div class="launch-orb"><span></span><span></span><span></span><div class="core"></div></div><div class="launch-h">Launching your '+E(r)+' agent</div><div class="launch-msg" id="lmsg">'+E(lines[0])+'</div><div class="launch-bar"><i></i></div></div>';
+  document.body.appendChild(ov);
+  let i=0;const t=setInterval(function(){i++;const el=document.getElementById('lmsg');if(el&&i<lines.length){el.style.opacity=0;setTimeout(function(){el.textContent=lines[i];el.style.opacity=1;},180);}},760);
+  setTimeout(function(){clearInterval(t);location.href='index.html';},3200);
+}
 
+/* ---- Claude-style entry ---- */
+window.startFromHero=function(preset){
+  const v=(preset||document.getElementById('heroIn').value).trim();
+  if(!v)return;
+  A.role=v; A.jd=draftJD(v);
+  document.getElementById('hero').style.display='none';
+  document.getElementById('cv').style.display='flex';
+  msgs.push({who:'bot',text:STAGES.role.q()});
+  msgs.push({who:'me',text:v});
+  ask('loctype');
+};
+document.getElementById('heroChips').innerHTML=ROLE_CHIPS.map(r=>`<span class="chip" onclick="startFromHero('${r.replace(/'/g,"\\'")}')">${r}</span>`).join('');
+const _hin=document.getElementById('heroIn');
+_hin.onkeydown=e=>{if(e.key==='Enter')startFromHero();};
+_hin.focus();
 </script>
 </body>
 </html>
