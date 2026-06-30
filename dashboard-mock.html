@@ -832,6 +832,17 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .np-tx .tm{font-size:11.5px;color:var(--muted);margin-top:2px}
 .np-foot{padding:11px 16px;text-align:center}
 .np-foot a{font-size:13px;font-weight:700;color:var(--blue);text-decoration:none;cursor:pointer}
+
+.oc-card{margin-bottom:18px}
+.an-h .oc-meta{font-size:12px;color:var(--muted);font-weight:600;text-transform:none;letter-spacing:0}
+.oc-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:8px}
+.oc{border-radius:12px;padding:16px 18px;border:1px solid}
+.oc .ocn{font-size:30px;font-weight:800;line-height:1;letter-spacing:-1px}
+.oc .ocl{font-size:14px;font-weight:800;margin-top:7px}
+.oc .ocs{font-size:12px;margin-top:3px;opacity:.85;font-weight:600}
+.oc.yes{background:#e9f6ef;border-color:#bfe3cd;color:#1a7f4b}
+.oc.maybe{background:#fdf6e3;border-color:#f0e0a8;color:#b7791f}
+.oc.no{background:#fbeae8;border-color:#f0ccc6;color:#c0392b}
 </style>
 </head>
 <body>
@@ -1075,10 +1086,20 @@ function pipelineHTML(empty){
   const row=(lb,v,cls,note)=>`<div class="fn-row"><div class="lb">${lb}</div><div class="bar"><i class="${cls}" style="width:${w(v)}"></i><span class="vv ${v/max<0.18?'dark':''}">${v}</span></div>${note?`<div class="note">${note}</div>`:''}</div>`;
   return `<div class="an-card ${empty?'muted-card':''}"><div class="an-h"><div class="t">Candidate pipeline</div><a href="candidates.html">View all &rarr;</a></div>
     <div class="fn">${row('Sourced',sourced,'fn-c1')}${row('Accepted',accepted,'fn-c2',declined?declined+' declined':'')}${row('Interviewed',interviewed,'fn-c3')}</div>
-    <div class="decis"><div class="dl">Marked after interview</div><div class="dpills"><span class="dp yes">&#10003; Yes ${yes}</span><span class="dp maybe">~ Maybe ${maybe}</span><span class="dp no">&#10007; No ${no}</span></div></div>
   </div>`;
 }
 
+function outcomesHTML(empty){
+  const interviewed=empty?0:sumPipe('interviewed');
+  const yes=empty?0:sum('hires');
+  const rem=Math.max(0,interviewed-yes);
+  const no=empty?0:Math.floor(rem/2);
+  const maybe=empty?0:(rem-no);
+  const tile=(n,lbl,sub,cls)=>`<div class="oc ${cls}"><div class="ocn">${n}</div><div class="ocl">${lbl}</div><div class="ocs">${sub}</div></div>`;
+  return `<div class="an-card oc-card ${empty?'muted-card':''}"><div class="an-h"><div class="t">Interview outcomes</div><span class="oc-meta">${empty?'After each interview your team marks the candidate':(interviewed+' interviewed \u00b7 marked by your team')}</span></div>
+    <div class="oc-tiles">${tile(yes,'&#10003; Yes','moving forward','yes')}${tile(maybe,'~ Maybe','on the fence','maybe')}${tile(no,'&#10007; No','passed','no')}</div>
+  </div>`;
+}
 function trendCardHTML(empty){
   const total=empty?0:sum('confirmed');
   const delta=empty?`<span class="an-delta flat">no data yet</span>`:`<span class="an-delta up">&#9650; up vs. prior period</span>`;
@@ -1124,6 +1145,7 @@ function paint(){
   statusBar();
   const empty=(view==='empty'||!ags.length);
   body.innerHTML=`<div class="an-row ${empty?'erow':''}">${trendCardHTML(empty)}${pipelineHTML(empty)}</div>
+    ${outcomesHTML(empty)}
     <div class="dash-grid">
       <div><div class="sec-h"><h2>Your agents</h2>${empty?'':'<a href="agents.html">View all &rarr;</a>'}</div>${agentsTable(empty)}</div>
       ${activityRail(empty)}
