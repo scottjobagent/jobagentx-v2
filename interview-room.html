@@ -749,6 +749,15 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 
 .pi-note{display:inline-block;font-size:12px;font-weight:600;color:var(--amber);background:#fff7e9;border:1px solid #ead9b8;border-radius:6px;padding:2px 8px;margin-top:6px}
 
+/* Enterprise full-width banner (per-interview pricing) */
+.ent-banner{display:flex;align-items:center;justify-content:space-between;gap:24px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 28px;margin-top:16px}
+.ent-banner .ent-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.ent-banner .ent-name{font-size:18px;font-weight:800}
+.ent-banner .ent-tag{font-size:13px;color:var(--muted);font-weight:600}
+.ent-banner .ent-feats{font-size:13px;color:var(--muted);margin-top:8px;line-height:1.6}
+.ent-banner .ent-btn{flex:0 0 auto;white-space:nowrap}
+@media(max-width:760px){.ent-banner{flex-direction:column;align-items:flex-start}}
+
 </style>
 </head>
 <body>
@@ -920,7 +929,7 @@ const AX=(function(){
     return {working,review,total:ags.length};
   }
   function sidebar(active){
-    const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['interviews','interviews.html','&#128101;','Interviews'],['reports','reports.html','&#128202;','Reports'],['messaging','messaging.html','&#128172;','Inbox']];
+    const nav=[['dashboard','index.html','&#9636;','Dashboard'],['agents','agents.html','&#9638;','Agents'],['candidates','candidates.html','&#128100;','Candidates'],['interviews','interviews.html','&#128101;','Interviews'],['reports','reports.html','&#128202;','Reports'],['messaging','messaging.html','&#128172;','Inbox']];
     return `<aside class="sidebar">
       <div class="sb-collapse" onclick="document.querySelector('.app').classList.toggle('collapsed')"><span class="xi xi-close">&times;</span><span class="xi xi-open">&#9776;</span><span class="cl-label">Collapse</span></div>
       <nav class="sb-nav">${nav.map(n=>`<a href="${n[1]}" class="${active===n[0]?'active':''}"><span class="ic">${n[2]}</span><span class="lbl">${n[3]}</span></a>`).join('')}</nav>

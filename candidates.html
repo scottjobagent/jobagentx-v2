@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>JobAgentX — Agents</title>
+<title>JobAgentX — Candidates</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
@@ -759,6 +759,26 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 @media(max-width:760px){.ent-banner{flex-direction:column;align-items:flex-start}}
 
 </style>
+<style>
+.cd-filters{display:flex;gap:12px;align-items:center;margin:4px 0 18px;flex-wrap:wrap}
+.cd-filters .fsel{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 13px;font-size:13.5px;font-weight:600}
+.cd-filters .fsel select{border:none;background:transparent;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--blue);cursor:pointer;outline:none}
+.ctbl{width:100%;border-collapse:collapse}
+.ctbl thead th{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:13px 18px;background:var(--th-bg);border-bottom:1px solid var(--line)}
+.ctbl tbody tr{cursor:pointer;transition:.1s}
+.ctbl tbody tr:hover{background:#faf9f7}
+.ctbl td{padding:15px 18px;border-bottom:1px solid var(--line-soft);font-size:14px;vertical-align:middle}
+.ctbl tbody tr:last-child td{border-bottom:none}
+.cd-name{display:flex;align-items:center;gap:12px}
+.cd-name .av{width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex:0 0 38px}
+.cd-name .nm{font-weight:700}
+.cd-name .meta{font-size:12px;color:var(--muted);margin-top:1px}
+.cd-why{font-size:13px;color:var(--muted);max-width:340px;line-height:1.45}
+.cd-match{display:flex;align-items:center;gap:9px}
+.cd-match .bar{width:64px;height:7px;border-radius:4px;background:var(--th-bg);overflow:hidden}
+.cd-match .bar i{display:block;height:100%;background:var(--green)}
+.cd-match b{font-size:14px;font-weight:800}
+</style>
 </head>
 <body>
 <div class="app">
@@ -766,19 +786,10 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
-      <div class="head-card">
-        <div class="co" id="co">Northwind Co</div>
-        <a class="btn btn-primary" href="create-agent.html"><span style="font-size:18px;line-height:1">&#65291;</span> Create Agent</a>
+      <div class="dash-head">
+        <div><div class="co">Candidates</div><div class="small" style="margin-top:4px">Everyone your agents sourced and screened — the full funnel, so you can see exactly who was found and why they qualified.</div></div>
       </div>
-      <div class="tabs">
-        <button class="tab active">Active agents <span class="cnt" id="activeCnt"></span></button>
-        <button class="tab">Paused <span class="cnt">0</span></button>
-        <div class="spacer"></div>
-        <div class="select">Filter agents <span class="ca">&#9662;</span></div>
-      </div>
-      <div class="panel"><table><thead><tr>
-        <th style="width:130px">Actions</th><th>Agent Details</th><th>Interview Room</th><th>Interview Setup</th><th>Candidates</th>
-      </tr></thead><tbody id="rows"></tbody></table></div>
+      <div id="body"></div>
     </div>
   </main>
 </div>
@@ -946,27 +957,59 @@ try{if(typeof window!=='undefined'){window.AX=AX;window.resetDemo=function(){AX.
 
 </script>
 <script>
-document.getElementById('side').innerHTML=AX.sidebar('agents');
+const E=AX.esc;
+document.getElementById('side').innerHTML=AX.sidebar('candidates');
 document.getElementById('top').innerHTML=AX.topbar();
-const E=AX.esc,s=AX.get();
-document.getElementById('co').textContent=s.company;
-document.getElementById('activeCnt').textContent=s.agents.filter(a=>a.status!=='paused').length;
-function statusLine(a){const m={sourcing:['amber','Sourcing'],paused:['gray','Paused']}[a.status]||['green','Active'];return `<div class="setup-line"><span class="dot ${m[0]}"></span>${m[1]}</div>`;}
-function ivText(a){const n=a.interviewers.length;return `<div class="strong">${n} interviewer${n>1?'s':''}</div><div class="small mt6">${n} of 5 interviewers</div>`;}
-function candCell(a){if(a.status==='sourcing')return '<div class="sub">Sourcing first candidates&hellip;</div>';return `<div class="cand-count"><div class="awaiting"><span class="dot"></span>${a.awaiting} awaiting response</div><div class="mt6">${a.confirmed} confirmed interviews</div><a class="link mt6" style="display:inline-block" href="interview-room.html?a=${a.id}">Manage candidates</a></div>`;}
-function roomCell(a){if(a.status==='sourcing')return '<div class="sub">Opens once sourcing starts</div>';return `<div>Virtual interviews</div><a class="link" href="interview-room.html?a=${a.id}">Open Interview Room</a>`;}
-function nudgeRow(a){
-  const n=AX.nudge(a);
-  if(n.tone==='accent')return `<tr class="nudge-row"><td colspan="5"><div class="nudge accent"><span class="nb">&#128161;</span><span class="nt"><b>Next best action:</b> ${E(n.text)} <span class="ns">· ${E(n.sub)}</span></span><a class="act" href="${n.target}">${E(n.label)} &rarr;</a></div></td></tr>`;
-  return `<tr class="nudge-row"><td colspan="5"><div class="nudge muted"><span class="nb" style="color:var(--muted)">&#9679;</span><span class="nt">${E(n.text)}</span></div></td></tr>`;
+const ags=AX.get().agents;
+let roleF='all', statF='all';
+
+function allCands(){const out=[];ags.forEach(a=>(a.candidates||[]).forEach(c=>{if(c.status!=='declined')out.push(Object.assign({_role:a.role,_aid:a.id},c));}));return out;}
+const STAT={awaiting:['Needs your review','#b7791f','#fdf6e3'],upcoming:['Interview scheduled','#0044b3','#eef3fb'],interviewed:['Interviewed','#1a7f4b','#e6f4ec']};
+function badge(c){const m=STAT[c.status];if(!m)return '';return `<span class="chip" style="background:${m[2]};color:${m[1]}"><span class="dot" style="background:${m[1]}"></span>${m[0]}${c.status==='interviewed'&&c.feedback?' · '+E(c.feedback):''}</span>`;}
+function statusKey(c){return c.status;}
+
+function render(){
+  const body=document.getElementById('body');
+  const sum=k=>ags.reduce((n,a)=>n+(a[k]||0),0);
+  const sourced=ags.reduce((n,a)=>n+((a.metrics&&a.metrics.sourced)||0),0);
+  const pending=ags.reduce((n,a)=>n+(a.pending||0),0);
+  const qualified=allCands().length+pending;
+  const kpis=[['📥 Sourced',sourced],['✅ Qualified',qualified],['👀 Awaiting your review',sum('awaiting')],['📅 Interviews booked',sum('confirmed')]];
+
+  // filters
+  let rows=allCands();
+  if(roleF!=='all')rows=rows.filter(c=>c._aid===roleF);
+  if(statF!=='all')rows=rows.filter(c=>c.status===statF);
+  rows.sort((a,b)=>(b.score||0)-(a.score||0));
+
+  const roleOpts=`<option value="all">All roles</option>`+ags.map(a=>`<option value="${a.id}" ${roleF===a.id?'selected':''}>${E(a.role)}</option>`).join('');
+  const statOpts=[['all','All statuses'],['awaiting','Needs review'],['upcoming','Scheduled'],['interviewed','Interviewed']].map(s=>`<option value="${s[0]}" ${statF===s[0]?'selected':''}>${s[1]}</option>`).join('');
+
+  const tbl=rows.length?`<div class="atbl-wrap"><table class="ctbl">
+    <thead><tr><th>Candidate</th><th>Why qualified</th><th>Match</th><th>Status</th><th></th></tr></thead>
+    <tbody>${rows.map(c=>`<tr onclick="location.href='candidate.html?a=${c._aid}&c=${c.id}'">
+      <td><div class="cd-name"><div class="av">${E(AX.ini(c.name))}</div><div><div class="nm">${E(c.name)}</div><div class="meta">${E(c._role)} · ${E(c.location||'')}</div></div></div></td>
+      <td><div class="cd-why">${c.why?E(c.why.length>120?c.why.slice(0,120)+'…':c.why):'<span style="color:var(--line)">—</span>'}</div></td>
+      <td><div class="cd-match"><span class="bar"><i style="width:${c.score||0}%"></i></span><b>${c.score||0}%</b></div></td>
+      <td>${badge(c)}</td>
+      <td><a class="link" href="candidate.html?a=${c._aid}&c=${c.id}">View →</a></td>
+    </tr>`).join('')}</tbody></table></div>`:`<div class="panel" style="padding:36px;text-align:center;color:var(--muted)">No candidates match these filters.</div>`;
+
+  // locked teaser (free plan)
+  let locked='';
+  if(AX.plan()==='free'&&pending>0&&(roleF==='all'||((ags.find(a=>a.id===roleF)||{}).pending>0))){
+    const n=roleF==='all'?pending:(ags.find(a=>a.id===roleF).pending);
+    locked=`<div class="locked-teaser" style="margin-top:16px"><div class="lt-head"><div><div class="lt-t">&#128274; ${n} more qualified candidate${n>1?'s':''} ready</div><div class="lt-s">Your agents pre-screened them against your must-haves. Upgrade to unlock and book interviews.</div></div><a class="btn btn-primary btn-sm" href="pricing-interviews.html">Upgrade to unlock</a></div>
+      <div class="locked-rows">${Array.from({length:Math.min(3,n)}).map(()=>`<div class="locked-row"><div class="lr-ava"></div><div class="lr-bars"><div class="lr-bar m"></div><div class="lr-bar s"></div></div><div class="lr-lock">&#128274;</div></div>`).join('')}</div></div>`;
+  }
+
+  body.innerHTML=`<div class="kstrip">${kpis.map(k=>`<div class="k"><div class="n">${k[1]}</div><div class="l">${k[0]}</div></div>`).join('')}</div>
+    <div class="cd-filters"><div class="fsel">Role:&nbsp;<select onchange="setRole(this.value)">${roleOpts}</select></div><div class="fsel">Status:&nbsp;<select onchange="setStat(this.value)">${statOpts}</select></div></div>
+    ${tbl}${locked}`;
 }
-document.getElementById('rows').innerHTML=s.agents.map(a=>`
-  <tr>
-    <td><div class="act"><div class="row"><span class="iconbtn" title="Edit" onclick="location.href='create-agent.html'">&#9998;</span><span class="iconbtn" title="More">&#8943;</span></div>${statusLine(a)}</div></td>
-    <td><div class="strong" style="font-size:15px">${E(a.role)}</div><div class="small mt6">&#128205; ${E(a.location)}</div></td>
-    <td>${roomCell(a)}</td><td>${ivText(a)}</td><td>${candCell(a)}</td>
-  </tr>
-  ${nudgeRow(a)}`).join('');
+window.setRole=function(v){roleF=v;render();};
+window.setStat=function(v){statF=v;render();};
+render();
 </script>
 </body>
 </html>
