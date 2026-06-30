@@ -853,6 +853,27 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 
 .atbl .role{font-weight:500}
 .atbl td.num b{font-weight:600}
+
+.pp{display:flex;flex-direction:column;gap:11px}
+.pp-row{display:flex;align-items:center;gap:14px;text-decoration:none;color:inherit;padding:2px 0;border-radius:7px}
+.pp-lb{width:148px;flex:0 0 148px;font-size:13.5px;font-weight:600;color:var(--muted)}
+.pp-bar{flex:1;height:9px;border-radius:5px;background:#eef2f8;overflow:hidden}
+.pp-bar i{display:block;height:100%;border-radius:5px;background:#b7cbee}
+.pp-v{width:104px;flex:0 0 104px;text-align:right;font-size:15px;font-weight:800;color:var(--text)}
+.pp-v .pp-sub{font-size:11.5px;font-weight:600;color:var(--muted)}
+.pp-link .pp-lb{color:var(--blue);font-weight:700}
+.pp-link .pp-bar i{background:#9db8e8}
+.pp-link:hover{background:#f4f8ff}
+.pp-link:hover .pp-lb{text-decoration:underline}
+.pp-chev{font-weight:800}
+.pp-out{margin-top:16px;border-top:1px solid var(--line-soft);padding-top:14px}
+.pp-out .ppl{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px}
+.pp-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pp-t{background:#fafafa;border:1px solid var(--line);border-radius:11px;padding:13px 15px}
+.pp-tn{font-size:24px;font-weight:800;color:var(--text);line-height:1}
+.pp-tl{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--muted);margin-top:7px}
+.pp-tl .d{width:9px;height:9px;border-radius:50%;display:inline-block}
+.pp-tl .d.g{background:#1a7f4b}.pp-tl .d.a{background:#b7791f}.pp-tl .d.r{background:#c0392b}
 </style>
 </head>
 <body>
@@ -1084,6 +1105,7 @@ function statusBar(){
 
 function pipelineHTML(empty){
   const sourced=empty?0:sumM('sourced');
+  const awaiting=empty?0:sum('awaiting');
   const accepted=empty?0:sumPipe('accepted');
   const declined=empty?0:sumPipe('declined');
   const interviewed=empty?0:sumPipe('interviewed');
@@ -1092,11 +1114,19 @@ function pipelineHTML(empty){
   const no=empty?0:Math.floor(rem/2);
   const maybe=empty?0:(rem-no);
   const max=Math.max(sourced,1);
-  const w=v=>Math.max(empty?0:6,Math.round(v/max*100))+'%';
-  const row=(lb,v,cls,note)=>`<div class="fn-row"><div class="lb">${lb}</div><div class="bar"><i class="${cls}" style="width:${w(v)}"></i><span class="vv ${v/max<0.18?'dark':''}">${v}</span></div>${note?`<div class="note">${note}</div>`:''}</div>`;
+  const w=v=>(empty?0:Math.max(4,Math.round(v/max*100)))+'%';
+  const row=(lb,v,note,opts)=>{opts=opts||{};const inner=`<div class="pp-lb">${lb}${opts.chev?' <span class="pp-chev">&rarr;</span>':''}</div><div class="pp-bar"><i style="width:${w(v)}"></i></div><div class="pp-v">${v}${note?` <span class="pp-sub">${note}</span>`:''}</div>`;return opts.link?`<a class="pp-row pp-link" href="${opts.link}">${inner}</a>`:`<div class="pp-row">${inner}</div>`;};
+  const tile=(n,lbl,cls)=>`<div class="pp-t"><div class="pp-tn">${n}</div><div class="pp-tl"><span class="d ${cls}"></span>${lbl}</div></div>`;
   return `<div class="an-card ${empty?'muted-card':''}"><div class="an-h"><div class="t">Candidate pipeline</div><a href="candidates.html">View all &rarr;</a></div>
-    <div class="fn">${row('Sourced',sourced,'fn-c1')}${row('Accepted',accepted,'fn-c2',declined?declined+' declined':'')}${row('Interviewed',interviewed,'fn-c3')}</div>
-    <div class="pout"><div class="pl">Marked after interview</div><div class="pdots"><span class="pd"><i class="g"></i>${yes} Yes</span><span class="pd"><i class="a"></i>${maybe} Maybe</span><span class="pd"><i class="r"></i>${no} No</span></div></div>
+    <div class="pp">
+      ${row('Sourced',sourced)}
+      ${row('Awaiting your review',awaiting,'',{link:'candidates.html',chev:true})}
+      ${row('Accepted',accepted,declined?('&middot; '+declined+' declined'):'')}
+      ${row('Interviewed',interviewed)}
+    </div>
+    <div class="pp-out"><div class="ppl">Marked after interview</div>
+      <div class="pp-tiles">${tile(yes,'Yes','g')}${tile(maybe,'Maybe','a')}${tile(no,'No','r')}</div>
+    </div>
   </div>`;
 }
 
