@@ -774,19 +774,46 @@ body{background:#fff!important}
 .cv-toggle:hover{border-color:#0044b3;color:#0044b3}
 .cv-msgs{flex:1;min-height:0;overflow-y:auto;padding:10px 28px;display:flex;flex-direction:column}
 .cv-msgs .inner{max-width:640px;width:100%;margin:auto auto 0;display:flex;flex-direction:column}
-.cv-compose{flex:0 0 auto;border-top:1px solid #f0eee9;padding:12px 28px 18px;background:#fff}
+.cv-compose{flex:0 0 auto;border-top:1px solid #f0eee9;padding:14px 28px 18px;background:#fff}
 .cv-compose .inner-c{max-width:640px;margin:0 auto}
-.cv-tray{display:flex;flex-direction:column;max-height:44vh;overflow-y:auto}
-.cv-tray:not(:empty){margin-bottom:11px}
+#ctrlzone{display:flex;flex-direction:column}
+.tray-above{margin-bottom:11px}
+.tray-above:empty{margin:0}
+.footrow{display:flex;align-items:center;justify-content:space-between;margin-top:14px}
+.foot-back{border:none;background:none;color:#595959;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit;padding:8px 2px}
+.foot-back:hover{color:#0044b3}
+.foot-cont{margin-left:auto;background:#0044b3;color:#fff;border:none;border-radius:999px;padding:11px 26px;font-weight:700;font-size:14.5px;cursor:pointer;font-family:inherit}
+.foot-cont:hover{background:#003a99}
 .ac-list{border:1px solid #e2e0db;border-radius:13px;overflow:hidden;background:#fff}
 .ac-item{display:flex;align-items:center;gap:9px;padding:12px 15px;font-size:15px;cursor:pointer;border-bottom:1px solid #f2f0eb;color:#2d2d2d}
 .ac-item:last-child{border-bottom:none}
 .ac-item:hover{background:#eef3fb}
 .ac-pin{opacity:.7}
 .ac-hint,.ac-empty{font-size:13px;color:#8a8a8a;padding:6px 4px}
-.ibar.off{background:#f5f4f1;border-color:#e6e4df}
-.ibar.off .iin{color:#a9a7a2}
-.ibar .isend.off{background:#d2d0cb;cursor:default;width:38px;height:38px;border-radius:50%;flex:0 0 38px;display:flex;align-items:center;justify-content:center}
+.paywrap{display:flex;flex-direction:column;gap:12px}
+.paylbl{font-size:13px;font-weight:700;color:#2d2d2d}
+.seg{display:inline-flex;flex-wrap:wrap;gap:5px;background:#f1efea;border-radius:10px;padding:4px;align-self:flex-start}
+.seg button{border:none;background:none;font-family:inherit;font-size:13px;font-weight:700;color:#595959;padding:8px 13px;border-radius:7px;cursor:pointer}
+.seg button.on{background:#fff;color:#0044b3;box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.payf{display:flex;align-items:flex-end;gap:12px;flex-wrap:wrap}
+.payf label{display:flex;flex-direction:column;gap:5px;font-size:12.5px;font-weight:700;color:#595959}
+.payto{padding-bottom:12px;color:#8a8a8a;font-weight:600}
+.pin{display:flex;align-items:center;border:2px solid #a8a8a8;border-radius:10px;padding:0 12px;background:#fff}
+.pin:focus-within{border-color:#0044b3}
+.pin span{color:#8a8a8a}
+.pin input{border:none;outline:none;font-family:inherit;font-size:16px;padding:11px 6px;width:88px;background:none}
+.payrate select{border:1px solid #d4d2d0;border-radius:8px;padding:11px 12px;font-size:15px;font-family:inherit;background:#fff}
+.paymeta{font-size:12px;color:#8a8a8a}
+.scr-list{display:flex;flex-direction:column;gap:8px;margin-bottom:12px}
+.scr-item{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#f4f3f0;border:1px solid #e7e5e1;border-radius:10px;padding:11px 14px;font-size:14px;color:#2d2d2d}
+.scr-x{border:none;background:none;color:#8a8a8a;font-size:19px;cursor:pointer;line-height:1}
+.scr-x:hover{color:#c0392b}
+.addq{border:1.5px dashed #c4c2bd;background:#fff;border-radius:10px;padding:11px 16px;font-size:14px;font-weight:700;color:#0044b3;cursor:pointer;font-family:inherit;align-self:flex-start}
+.addq:hover{border-color:#0044b3}
+.qinput{width:100%;box-sizing:border-box;border:2px solid #a8a8a8;border-radius:10px;padding:11px 14px;font-size:15px;font-family:inherit}
+.qinput:focus{outline:none;border-color:#0044b3}
+.qfoot{display:flex;align-items:center;justify-content:space-between;margin-top:16px}
+.qfoot .ghost{border:none;background:none;color:#595959;font-weight:700;cursor:pointer;font-family:inherit;font-size:14px}
 .msg{display:flex;flex-direction:column;margin-bottom:16px}
 .msg.me{align-items:flex-end}.msg.bot{align-items:flex-start}
 .whorow{display:flex;align-items:center;gap:8px;margin-bottom:5px}
@@ -911,7 +938,7 @@ textarea.ta{width:100%;box-sizing:border-box;border:1px solid #d4d2d0;border-rad
       <div class="cv-left">
         <div class="cv-bar"><div class="ttl">Create agent <span id="bar-sub"></span></div><button class="cv-toggle" id="ptog" onclick="togglePrev()">Hide posting</button></div>
         <div class="cv-msgs" id="msgs"><div class="inner" id="msgs-in"></div></div>
-        <div class="cv-compose"><div class="inner-c"><div class="cv-tray" id="tray"></div><div id="bar"></div></div></div>
+        <div class="cv-compose"><div class="inner-c"><div id="ctrlzone"></div><div id="footer"></div></div></div>
       </div>
       <div class="cv-prev" id="prev"></div>
     </div>
@@ -1095,10 +1122,10 @@ const PLACES=['Houston, TX 77002','Houston, TX 77019','Houston, TX 77036','Houst
 const STAB={Alabama:'AL',Alaska:'AK',Arizona:'AZ',Arkansas:'AR',California:'CA',Colorado:'CO',Connecticut:'CT',Delaware:'DE','District of Columbia':'DC',Florida:'FL',Georgia:'GA',Hawaii:'HI',Idaho:'ID',Illinois:'IL',Indiana:'IN',Iowa:'IA',Kansas:'KS',Kentucky:'KY',Louisiana:'LA',Maine:'ME',Maryland:'MD',Massachusetts:'MA',Michigan:'MI',Minnesota:'MN',Mississippi:'MS',Missouri:'MO',Montana:'MT',Nebraska:'NE',Nevada:'NV','New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY','North Carolina':'NC','North Dakota':'ND',Ohio:'OH',Oklahoma:'OK',Oregon:'OR',Pennsylvania:'PA','Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD',Tennessee:'TN',Texas:'TX',Utah:'UT',Vermont:'VT',Virginia:'VA',Washington:'WA','West Virginia':'WV',Wisconsin:'WI',Wyoming:'WY','Puerto Rico':'PR'};
 
 const A={role:'',locationType:'in_person',address:'',resideRequired:'no',resideArea:'',consistentStart:'no',startAddress:'',
-  jobType:[],payMode:'range',payMin:'',payMax:'',payRate:'per hour',benefits:[],shift:[],schedule:[],jd:'',
+  jobType:[],payMode:'range',payMin:'',payMax:'',payAmount:'',payRate:'per hour',benefits:[],shift:[],schedule:[],jd:'',
   slot:30,capacity:3,autoAccept:false,resumeRequired:true,interviewers:['demo@jobfairx.com (you)'],recipients:[],screening:[]};
 
-let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false; let locDone=false; let acQuery=''; let acResults=[]; let acLoading=false; let acTimer=null; let acReqId=0;
+let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false; let locDone=false; let acQuery=''; let history=[]; let acResults=[]; let acLoading=false; let acTimer=null; let acReqId=0;
 
 const STAGES={
   role:{q:()=>'Who do you need to hire?',ctrl:'text',ph:'e.g. Registered Nurse',chips:ROLE_CHIPS,field:'role'},
@@ -1108,11 +1135,11 @@ const STAGES={
   resideArea:{q:()=>'In what location must employees reside?',ctrl:'text',ph:'State, region, or city',field:'resideArea'},
   startYN:{q:()=>'Does this job have a consistent starting location?',ctrl:'yn'},
   startAddr:{q:()=>'What is the street address of the starting location?',ctrl:'text',ph:'Street address',field:'startAddress'},
-  jobtype:{q:()=>'What type of role is this? Pick any that apply.',ctrl:'multi',opts:JOB_TYPES,field:'jobType'},
+  jobtype:{q:()=>'What type of role is this?',ctrl:'single',opts:JOB_TYPES,field:'jobType'},
   pay:{q:()=>'What does this role pay? We pre-filled an estimate — adjust it.',ctrl:'pay'},
   benefits:{q:()=>'Which benefits come with the role?',ctrl:'multi',opts:BENEFITS,field:'benefits'},
-  shift:{q:()=>'What standard shift?',ctrl:'multi',opts:SHIFTS,field:'shift'},
-  schedule:{q:()=>'And the weekly schedule?',ctrl:'multi',opts:SCHEDULES,field:'schedule'},
+  shift:{q:()=>'What standard shift?',ctrl:'single',opts:SHIFTS,field:'shift'},
+  schedule:{q:()=>'And the weekly schedule?',ctrl:'single',opts:SCHEDULES,field:'schedule'},
   description:{q:()=>"I drafted a job description — it's in the posting on the right. Use it, or edit it?",ctrl:'desc'},
   slot:{q:()=>'How long should each interview be?',ctrl:'one',opts:['15 minutes','30 minutes','60 minutes']},
   autoaccept:{q:()=>'Auto-accept interview requests? Candidates get confirmed instantly when they pick a time.',ctrl:'yn'},
@@ -1125,7 +1152,7 @@ const LIN=['jobtype','pay','benefits','shift','schedule','description','slot','a
 
 function draftJD(role){return `Job Summary\nWe are seeking a dedicated ${role} to join our team. In this role you will deliver high-quality work, collaborate with colleagues, and serve our clients with excellence.\n\nResponsibilities\n• Perform the core duties of the ${role} role to a high standard\n• Communicate clearly with team members and stakeholders\n• Follow procedures, safety, and quality guidelines\n• Contribute to a positive, productive work environment\n\nRequirements\n• Relevant experience or certification for a ${role}\n• Reliability and strong communication skills\n• Ability to work scheduled shifts`;}
 function locText(){if(A.locationType==='in_person'||A.locationType==='hybrid')return (A.locationType==='hybrid'?'Hybrid · ':'In person · ')+(A.address||'');if(A.locationType==='remote')return 'Remote'+(A.resideRequired==='yes'&&A.resideArea?(' · must reside in '+A.resideArea):'');if(A.locationType==='on_road')return 'On the road'+(A.consistentStart==='yes'&&A.startAddress?(' · starts at '+A.startAddress):'');return '';}
-function payText(){const mn=A.payMin,mx=A.payMax;if(mn&&mx)return `$${mn} – $${mx} ${A.payRate}`;if(mn)return `From $${mn} ${A.payRate}`;if(mx)return `Up to $${mx} ${A.payRate}`;return '';}
+function payText(){const r=A.payRate;if(A.payMode==='range'){if(A.payMin&&A.payMax)return `$${A.payMin} – $${A.payMax} ${r}`;if(A.payMin)return `From $${A.payMin} ${r}`;if(A.payMax)return `Up to $${A.payMax} ${r}`;return '';}if(A.payMode==='starting')return A.payAmount?`From $${A.payAmount} ${r}`:'';if(A.payMode==='max')return A.payAmount?`Up to $${A.payAmount} ${r}`:'';if(A.payMode==='exact')return A.payAmount?`$${A.payAmount} ${r}`:'';return '';}
 
 function botSay(t){msgs.push({who:'bot',text:t});}
 function meSay(t){msgs.push({who:'me',text:t});}
@@ -1153,32 +1180,21 @@ function ask(stage, instant){
   typing=true; renderAll();
   setTimeout(function(){typing=false;msgs.push({who:'bot',text:text});renderAll();},850);
 }
-function advance(){ const n=goNext(cur); ask(n); }
+function advance(){ history.push(cur); const n=goNext(cur); ask(n); }
 
 /* ---------- render ---------- */
 function renderAll(){renderMsgs();renderCompose();renderPreview();updateBar();}
-function updateBar(){const order=['role','loctype','address','jobtype','pay','benefits','shift','schedule','description','slot','autoaccept','resume','interviewers','screening','launch'];const i=Math.max(0,order.indexOf(cur));document.getElementById('bar-sub').textContent='· building your job posting';}
+function updateBar(){const b=document.getElementById('bar-sub');if(b)b.textContent='· building your job posting';}
 function avatarHTML(who){return who==='bot'?'<span class="av av-bot"></span>':'<span class="av av-me"></span>';}
 function msgHTML(m){const name=m.who==='bot'?'JobAgentX':'You';const who=m.who==='bot'?(avatarHTML('bot')+'<span class="nm">'+name+'</span>'):('<span class="nm">'+name+'</span>'+avatarHTML('me'));return '<div class="msg '+m.who+'"><div class="whorow">'+who+'</div><div class="bub '+m.who+'">'+E(m.text)+'</div></div>';}
 function typingHTML(){return '<div class="msg bot"><div class="whorow">'+avatarHTML('bot')+'<span class="nm">JobAgentX</span></div><div class="bub bot typing"><span></span><span></span><span></span></div></div>';}
 function renderMsgs(){let html=msgs.map(msgHTML).join('');if(typing)html+=typingHTML();document.getElementById('msgs-in').innerHTML=html;scrollMsgs();}
 function scrollMsgs(){const m=document.getElementById('msgs');if(m)m.scrollTop=m.scrollHeight;}
-function barMode(st){
-  if(st==='role')return{mode:'type',ph:'e.g. Registered Nurse'};
-  if(st==='interviewers')return{mode:'type',ph:'Add an email, e.g. emily@company.com'};
-  if(st==='resideArea')return{mode:'type',ph:'e.g. Texas, or Greater Houston'};
-  if(st==='address'||st==='startAddr')return{mode:'auto',ph:'Search a city or ZIP code…'};
-  const off={loctype:'Choose where the role is based above',resideYN:'Choose Yes or No above',startYN:'Choose Yes or No above',jobtype:'Pick the role types above',pay:'Set the pay range above',benefits:'Pick the benefits above',shift:'Pick a shift above',schedule:'Pick a schedule above',description:'Use or edit the draft above',slot:'Pick an interview length above',autoaccept:'Choose Yes or No above',resume:'Choose Yes or No above',screening:'Add a question above, or continue',launch:'Tap Launch agent above'};
-  return{mode:'off',ph:off[st]||'Pick an option above'};
-}
+
+function isAuto(st){return st==='address'||st==='startAddr';}
+function isTyping(st){return st==='role'||st==='interviewers'||st==='resideArea'||isAuto(st);}
+
 const ARROW='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
-function barHTML(){
-  const m=barMode(cur);
-  if(typing||m.mode==='off')return '<div class="ibar off"><span class="iorb"></span><input class="iin" disabled placeholder="'+(typing?'JobAgentX is typing…':E(m.ph))+'"><span class="isend off">'+ARROW+'</span></div>';
-  const fn=m.mode==='auto'?'acSubmit':(cur==='interviewers'?'emailsAdd':'sendText');
-  const oninput=m.mode==='auto'?' oninput="acType(this.value)"':'';
-  return '<div class="ibar"><span class="iorb"></span><input class="iin" id="cin" autocomplete="off" placeholder="'+E(m.ph)+'"'+oninput+'><button class="isend" onclick="'+fn+'()" aria-label="Send">'+ARROW+'</button></div>';
-}
 function offlineMatches(q){const s=q.toLowerCase();return PLACES.filter(p=>p.toLowerCase().includes(s)).slice(0,6);}
 function acListHTML(){
   const q=(acQuery||'').trim();
@@ -1187,17 +1203,6 @@ function acListHTML(){
   if(!acResults.length)return '<div class="ac-empty">No match yet — keep typing a city or ZIP.</div>';
   return '<div class="ac-list">'+acResults.map(p=>'<div class="ac-item" onclick="acPick(\''+p.replace(/'/g,"\\'")+'\')"><span class="ac-pin">📍</span>'+E(p)+'</div>').join('')+'</div>'+(acLoading?'<div class="ac-hint">Searching…</div>':'');
 }
-function trayHTML(){return controlHTML();}
-function renderCompose(){
-  document.getElementById('tray').innerHTML=typing?'':trayHTML();
-  document.getElementById('bar').innerHTML=barHTML();
-  const inp=document.getElementById('cin');
-  if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter'){const m=barMode(cur);if(m.mode==='auto')acSubmit();else if(cur==='interviewers')emailsAdd();else sendText();}};}
-  scrollMsgs();
-}
-function renderTray(){document.getElementById('tray').innerHTML=trayHTML();}
-function renderCtrl(){renderCompose();}
-window.acType=function(v){acQuery=v;const q=(v||'').trim();if(acTimer)clearTimeout(acTimer);if(q.length<2){acResults=[];acLoading=false;renderTray();return;}acTimer=setTimeout(function(){fetchPlaces(q);},260);renderTray();};
 function fetchPlaces(q){
   const id=++acReqId; acLoading=true; renderTray();
   if(typeof fetch==='undefined'){acResults=offlineMatches(q);acLoading=false;renderTray();return;}
@@ -1210,62 +1215,124 @@ function fetchPlaces(q){
     acLoading=false; renderTray();
   }).catch(function(){if(id!==acReqId)return;acResults=offlineMatches(q);acLoading=false;renderTray();});
 }
-window.acPick=function(p){const f=STAGES[cur].field;A[f]=p;meSay(p);advance();};
+window.acType=function(v){acQuery=v;const q=(v||'').trim();if(acTimer)clearTimeout(acTimer);if(q.length<2){acResults=[];acLoading=false;renderTray();return;}acTimer=setTimeout(function(){fetchPlaces(q);},260);renderTray();};
+window.acPick=function(p){A[STAGES[cur].field]=p;meSay(p);advance();};
 window.acSubmit=function(){if(acResults.length){acPick(acResults[0]);return;}const q=(acQuery||'').trim();if(q.length<2)return;const off=offlineMatches(q);if(off.length)acPick(off[0]);};
 window.pickText=function(v){const i=document.getElementById('cin');if(i)i.value=v;sendText();};
-function ibar(id,ph,fn){return '<div class="ibar"><span class="iorb"></span><input class="iin" id="'+id+'" placeholder="'+ph+'"><button class="isend" onclick="'+fn+'()" aria-label="Send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>';}
-function controlHTML(){
-  if(typing)return '';
+
+/* ---- bottom compose: bar for typing steps, controls for pick steps ---- */
+function aboveHTML(){if(isAuto(cur))return acListHTML();if(cur==='role')return `<div class="chips">${ROLE_CHIPS.map(r=>`<span class="chip" onclick="pickText('${r.replace(/'/g,"\\'")}')">${E(r)}</span>`).join('')}</div>`;if(cur==='interviewers')return `<div class="chips"><span class="chip ghost" onclick="advance()">Skip — just me</span></div>`;return '';}
+function barHTML(){
+  const ph=isAuto(cur)?'Search a city or ZIP code…':(cur==='interviewers'?'Add an email, e.g. emily@company.com':(cur==='resideArea'?'e.g. Texas, or Greater Houston':'Type your answer…'));
+  const fn=isAuto(cur)?'acSubmit':(cur==='interviewers'?'emailsAdd':'sendText');
+  const oninput=isAuto(cur)?' oninput="acType(this.value)"':'';
+  return '<div class="ibar"><span class="iorb"></span><input class="iin" id="cin" autocomplete="off" placeholder="'+E(ph)+'"'+oninput+'><button class="isend" onclick="'+fn+'()" aria-label="Send">'+ARROW+'</button></div>';
+}
+function renderCompose(){
+  const zone=document.getElementById('ctrlzone');
+  if(typing){zone.innerHTML='';document.getElementById('footer').innerHTML=footerHTML();return;}
+  if(isTyping(cur)){
+    zone.innerHTML=`<div class="tray-above" id="trayabove">${aboveHTML()}</div>`+barHTML();
+    const inp=document.getElementById('cin');
+    if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter'){if(isAuto(cur))acSubmit();else if(cur==='interviewers')emailsAdd();else sendText();}};}
+  } else {
+    zone.innerHTML=pickControlHTML();
+  }
+  document.getElementById('footer').innerHTML=footerHTML();
+  scrollMsgs();
+}
+function renderTray(){const ta=document.getElementById('trayabove');if(ta)ta.innerHTML=aboveHTML();}
+function renderPickZone(){if(typing||isTyping(cur))return;document.getElementById('ctrlzone').innerHTML=pickControlHTML();document.getElementById('footer').innerHTML=footerHTML();}
+function renderCtrl(){renderCompose();}
+
+function footerHTML(){
+  const back=history.length?`<button class="foot-back" onclick="goBack()">← Back</button>`:'';
+  let cont='';
+  if(stepNeedsContinue()){const lbl=(cur==='description'&&editingDesc)?'Save →':'Continue →';cont=`<button class="foot-cont" onclick="footerContinue()">${lbl}</button>`;}
+  if(!back&&!cont)return '';
+  return `<div class="footrow">${back||'<span></span>'}${cont}</div>`;
+}
+function stepNeedsContinue(){
+  if(typing||isTyping(cur))return false;
+  if(cur==='benefits')return true;
+  if(cur==='pay')return true;
+  if(cur==='description'&&editingDesc)return true;
+  if(cur==='screening'&&!screenAdding)return true;
+  return false;
+}
+window.footerContinue=function(){
+  if(cur==='benefits')confirmMulti();
+  else if(cur==='pay')confirmPay();
+  else if(cur==='description')descSave();
+  else if(cur==='screening')screenDone();
+};
+window.goBack=function(){
+  if(!history.length)return;
+  const prev=history.pop();
+  for(let i=msgs.length-1;i>=0;i--){if(msgs[i].who==='bot'){msgs.splice(i,1);break;}}
+  for(let i=msgs.length-1;i>=0;i--){if(msgs[i].who==='me'){msgs.splice(i,1);break;}}
+  cur=prev;typing=false;acQuery='';acResults=[];acLoading=false;editingDesc=false;screenAdding=false;
+  if(STAGES[cur].ctrl==='multi')multi=A[STAGES[cur].field].slice();
+  renderAll();
+};
+
+/* ---- pick controls ---- */
+function pickControlHTML(){
   const s=STAGES[cur];
   if(cur==='launch')return `<button class="cbtn" style="width:100%" onclick="launch()">Launch agent →</button>`;
-  if(s.ctrl==='text'){if(barMode(cur).mode==='auto')return acListHTML();if(cur==='role')return `<div class="chips">${ROLE_CHIPS.map(r=>`<span class="chip" onclick="pickText('${r.replace(/'/g,"\\'")}')">${E(r)}</span>`).join('')}</div>`;return s.hint?`<div class="cmeta">${E(s.hint)}</div>`:'';}
-  if(s.ctrl==='one')return `<div class="chips">${s.opts.map(o=>`<span class="chip" onclick="pickOne('${o}')">${o}</span>`).join('')}</div>`;
+  if(s.ctrl==='one')return `<div class="chips chips-wrap">${s.opts.map(o=>`<span class="chip" onclick="pickOne('${o.replace(/'/g,"\\'")}')">${E(o)}</span>`).join('')}</div>`;
   if(s.ctrl==='yn')return `<div class="chips">${['Yes','No'].map(o=>`<span class="chip" onclick="pickYN('${o}')">${o}</span>`).join('')}</div>`;
-  if(s.ctrl==='multi')return `<div class="cwrap"><div class="chips">${s.opts.map(o=>`<span class="chip ${multi.indexOf(o)>-1?'on':''}" onclick="toggleMulti('${o.replace(/'/g,"\\'")}')">${o}</span>`).join('')}</div><div><button class="minicont" onclick="confirmMulti()">Continue →</button></div></div>`;
-  if(s.ctrl==='pay')return `<div class="cwrap"><div class="payrow">$ <input id="pmin" placeholder="Min" value="${E(A.payMin)}"> to $ <input id="pmax" placeholder="Max" value="${E(A.payMax)}"> <select class="sel" id="prate">${RATES.map(r=>`<option ${A.payRate===r?'selected':''}>${r}</option>`).join('')}</select></div><div><button class="minicont" onclick="confirmPay()">Continue →</button></div></div>`;
-  if(s.ctrl==='desc'){if(editingDesc)return `<div class="cwrap"><textarea class="ta" id="cdesc">${E(A.jd)}</textarea><div><button class="minicont" onclick="descSave()">Save & continue →</button></div></div>`;return `<div class="chips"><span class="chip" onclick="descUse()">Use the draft</span><span class="chip ghost" onclick="descEdit()">Edit it</span></div>`;}
-  if(s.ctrl==='emails')return `<div class="chips"><span class="chip ghost" onclick="advance()">Skip — just me</span></div>`;
-  if(s.ctrl==='screen'){
-    if(screenAdding)return qBuilder();
-    const list=A.screening.length?`<div class="cmeta" style="margin-bottom:10px">${A.screening.length} question${A.screening.length>1?'s':''} added.</div>`:'';
-    return `${list}<div class="chips"><span class="chip" onclick="screenOpen()">＋ Add a question</span><span class="chip ghost" onclick="advance()">${A.screening.length?'Done':'Skip'}</span></div>`;
-  }
+  if(s.ctrl==='single')return `<div class="chips chips-wrap">${s.opts.map(o=>`<span class="chip ${(A[s.field][0]===o)?'on':''}" onclick="pickSingle('${o.replace(/'/g,"\\'")}')">${E(o)}</span>`).join('')}</div>`;
+  if(s.ctrl==='multi')return `<div class="chips chips-wrap">${s.opts.map(o=>`<span class="chip ${multi.indexOf(o)>-1?'on':''}" onclick="toggleMulti('${o.replace(/'/g,"\\'")}')">${E(o)}</span>`).join('')}</div>`;
+  if(s.ctrl==='pay')return payControlHTML();
+  if(s.ctrl==='desc'){if(editingDesc)return `<textarea class="ta" id="cdesc">${E(A.jd)}</textarea>`;return `<div class="chips"><span class="chip" onclick="descUse()">Use this draft</span><span class="chip ghost" onclick="descEdit()">Edit it</span></div>`;}
+  if(s.ctrl==='screen')return screenControlHTML();
   return '';
+}
+function payControlHTML(){
+  const modes=[['range','Range'],['starting','Starting amount'],['max','Maximum amount'],['exact','Exact amount']];
+  const seg=`<div class="seg">${modes.map(m=>`<button class="${A.payMode===m[0]?'on':''}" onclick="setPayMode('${m[0]}')">${m[1]}</button>`).join('')}</div>`;
+  const rate=`<label class="payrate">Rate<select class="sel" id="prate">${RATES.map(r=>`<option ${A.payRate===r?'selected':''}>${r}</option>`).join('')}</select></label>`;
+  let fields;
+  if(A.payMode==='range')fields=`<div class="payf"><label>Minimum<div class="pin"><span>$</span><input id="pmin" inputmode="decimal" value="${E(A.payMin)}"></div></label><span class="payto">to</span><label>Maximum<div class="pin"><span>$</span><input id="pmax" inputmode="decimal" value="${E(A.payMax)}"></div></label>${rate}</div>`;
+  else fields=`<div class="payf"><label>Amount<div class="pin"><span>$</span><input id="pamt" inputmode="decimal" value="${E(A.payAmount||A.payMin||A.payMax||'')}"></div></label>${rate}</div>`;
+  return `<div class="paywrap"><div class="paylbl">Show pay by</div>${seg}${fields}<div class="paymeta">We pre-filled an estimate — adjust it, and check your local minimum wage.</div></div>`;
+}
+function screenControlHTML(){
+  if(screenAdding)return qBuilder();
+  const list=A.screening.length?`<div class="scr-list">${A.screening.map((q,i)=>`<div class="scr-item"><span>${E(q.question)}${q.must==='yes'?' · <b style="color:#0044b3">must-have</b>':''}</span><button class="scr-x" onclick="screenRemove(${i})" aria-label="Remove">×</button></div>`).join('')}</div>`:`<div class="cmeta" style="margin-bottom:11px">No screening questions yet — add one to filter candidates by your must-haves, or continue.</div>`;
+  return `${list}<button class="addq" onclick="screenOpen()">＋ Add a question</button>`;
 }
 function qBuilder(){
   return `<div class="qbuild">
-    <div class="qlbl">Question</div><input class="crow" style="width:100%;box-sizing:border-box;border:2px solid #a8a8a8;border-radius:10px;padding:11px 14px;font-size:15px;font-family:inherit" id="qtext" placeholder="e.g. Do you have an active RN license?" value="${E(qDraft.text||'')}">
+    <div class="qlbl">Question</div><input class="qinput" id="qtext" placeholder="e.g. Do you have an active RN license?" value="${E(qDraft.text||'')}">
     <div class="qlbl">Response type</div><div class="chips"><span class="chip ${qDraft.type==='yesno'?'on':''}" onclick="qSet('type','yesno')">Yes / No</span><span class="chip ${qDraft.type==='numeric'?'on':''}" onclick="qSet('type','numeric')">Numeric</span></div>
     ${qDraft.type==='yesno'?`<div class="qlbl">Required answer</div><div class="chips"><span class="chip ${qDraft.resp!=='No'?'on':''}" onclick="qSet('resp','Yes')">Yes</span><span class="chip ${qDraft.resp==='No'?'on':''}" onclick="qSet('resp','No')">No</span></div>`:`<div class="qlbl">Required minimum</div><select class="sel" id="qmin">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<option ${qDraft.min==n?'selected':''}>${n}</option>`).join('')}</select>`}
     <div class="qlbl">Must-have?</div><div class="chips"><span class="chip ${qDraft.must==='yes'?'on':''}" onclick="qSet('must','yes')">Must-have (filter out)</span><span class="chip ${qDraft.must!=='yes'?'on':''}" onclick="qSet('must','no')">Just collect</span></div>
-    <div style="display:flex;gap:10px;margin-top:16px"><button class="cbtn sm" onclick="qSave()">Add question</button><button class="chip ghost" onclick="screenAdding=false;renderCtrl()">Cancel</button></div>
+    <div class="qfoot"><button class="ghost" onclick="screenCancel()">Cancel</button><button class="foot-cont" onclick="qSave()">Add question</button></div>
   </div>`;
 }
 
 /* ---------- handlers ---------- */
-window.sendText=function(){const v=document.getElementById('cin').value.trim();if(!v)return;const f=STAGES[cur].field;A[f]=v;meSay(v);
-  if(cur==='role'&&!A.jd)A.jd=draftJD(v);
-  advance();};
-window.pickOne=function(label){
-  if(cur==='loctype'){const map={'In person':'in_person','Fully remote':'remote','Hybrid':'hybrid','On the road':'on_road'};A.locationType=map[label];}
-  if(cur==='slot')A.slot=parseInt(label);
-  meSay(label);advance();};
-window.pickYN=function(v){meSay(v);const yes=v==='Yes';
-  if(cur==='resideYN'){A.resideRequired=yes?'yes':'no';}
-  else if(cur==='startYN'){A.consistentStart=yes?'yes':'no';}
-  else if(cur==='autoaccept'){A.autoAccept=yes;}
-  else if(cur==='resume'){A.resumeRequired=yes;}
-  advance();};
-window.toggleMulti=function(v){const i=multi.indexOf(v);if(i>-1)multi.splice(i,1);else multi.push(v);renderCtrl();renderPreview();const f=STAGES[cur].field;A[f]=multi.slice();};
-window.confirmMulti=function(){const f=STAGES[cur].field;A[f]=multi.slice();meSay(multi.length?multi.join(', '):'None');advance();};
-window.confirmPay=function(){A.payMin=document.getElementById('pmin').value.trim();A.payMax=document.getElementById('pmax').value.trim();A.payRate=document.getElementById('prate').value;meSay(payText()||'—');advance();};
-window.descUse=function(){meSay('Use the draft');advance();};
-window.descEdit=function(){editingDesc=true;renderCtrl();};
-window.descSave=function(){A.jd=document.getElementById('cdesc').value;meSay('Edited the description');advance();};
+window.sendText=function(){const v=document.getElementById('cin').value.trim();if(!v)return;A[STAGES[cur].field]=v;meSay(v);if(cur==='role'&&!A.jd)A.jd=draftJD(v);advance();};
+window.pickOne=function(label){if(cur==='loctype'){const map={'In person':'in_person','Fully remote':'remote','Hybrid':'hybrid','On the road':'on_road'};A.locationType=map[label];}if(cur==='slot')A.slot=parseInt(label);meSay(label);advance();};
+window.pickYN=function(v){meSay(v);const yes=v==='Yes';if(cur==='resideYN')A.resideRequired=yes?'yes':'no';else if(cur==='startYN')A.consistentStart=yes?'yes':'no';else if(cur==='autoaccept')A.autoAccept=yes;else if(cur==='resume')A.resumeRequired=yes;advance();};
+window.pickSingle=function(o){A[STAGES[cur].field]=[o];meSay(o);advance();};
+window.toggleMulti=function(v){const i=multi.indexOf(v);if(i>-1)multi.splice(i,1);else multi.push(v);A[STAGES[cur].field]=multi.slice();renderPickZone();renderPreview();};
+window.confirmMulti=function(){A[STAGES[cur].field]=multi.slice();meSay(multi.length?multi.join(', '):'None');advance();};
+function capturePay(){const mn=document.getElementById('pmin'),mx=document.getElementById('pmax'),am=document.getElementById('pamt'),rt=document.getElementById('prate');if(rt)A.payRate=rt.value;if(mn)A.payMin=mn.value.trim();if(mx)A.payMax=mx.value.trim();if(am)A.payAmount=am.value.trim();}
+window.setPayMode=function(m){capturePay();A.payMode=m;renderPickZone();renderPreview();};
+window.confirmPay=function(){capturePay();meSay(payText()||'—');advance();};
+window.descUse=function(){meSay('Using this draft');advance();};
+window.descEdit=function(){editingDesc=true;renderCompose();};
+window.descSave=function(){const t=document.getElementById('cdesc');if(t)A.jd=t.value;meSay('Edited the job description');advance();};
 window.emailsAdd=function(){const v=document.getElementById('cin').value.trim();if(v){v.split(/[ ,;]+/).filter(x=>/.+@.+\..+/.test(x)).forEach(e=>A.interviewers.push(e));meSay(v);}else meSay('Just me');advance();};
-window.screenOpen=function(){qDraft={type:'yesno',resp:'Yes',must:'no'};screenAdding=true;renderCtrl();};
-window.qSet=function(k,v){const t=document.getElementById('qtext');if(t)qDraft.text=t.value;qDraft[k]=v;renderCtrl();};
-window.qSave=function(){const text=document.getElementById('qtext').value.trim();if(!text)return;const q={question:text,type:qDraft.type,must:qDraft.must};if(qDraft.type==='yesno')q.resp=qDraft.resp||'Yes';else q.min=document.getElementById('qmin').value;A.screening.push(q);screenAdding=false;meSay('Added: '+text);renderAll();};
+window.screenOpen=function(){qDraft={type:'yesno',resp:'Yes',must:'no'};screenAdding=true;renderPickZone();};
+window.screenCancel=function(){screenAdding=false;renderPickZone();};
+window.screenRemove=function(i){A.screening.splice(i,1);renderPickZone();renderPreview();};
+window.qSet=function(k,v){const t=document.getElementById('qtext');if(t)qDraft.text=t.value;qDraft[k]=v;renderPickZone();};
+window.qSave=function(){const t=document.getElementById('qtext');const text=(t?t.value:'').trim();if(!text)return;const q={question:text,type:qDraft.type,must:qDraft.must};if(qDraft.type==='yesno')q.resp=qDraft.resp||'Yes';else q.min=(document.getElementById('qmin')||{}).value||'1';A.screening.push(q);screenAdding=false;renderPickZone();renderPreview();};
+window.screenDone=function(){meSay(A.screening.length?(A.screening.length+' screening question'+(A.screening.length>1?'s':'')+' added'):'No screening');advance();};
 window.advance=advance;
 window.togglePrev=function(){const cv=document.getElementById('cv');cv.classList.toggle('collapsed');document.getElementById('ptog').textContent=cv.classList.contains('collapsed')?'Show posting':'Hide posting';};
 
