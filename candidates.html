@@ -760,24 +760,101 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 
 </style>
 <style>
-.cd-filters{display:flex;gap:12px;align-items:center;margin:4px 0 18px;flex-wrap:wrap}
+/* ---- header row ---- */
+.cd-topbar{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.demo-wrap{text-align:right}
+.demo-lbl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px}
+.demo-seg{display:inline-flex;background:var(--th-bg);border:1px solid var(--line);border-radius:10px;padding:3px}
+.demo-seg button{border:none;background:none;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--muted);padding:7px 13px;border-radius:7px;cursor:pointer;white-space:nowrap}
+.demo-seg button.on{background:#fff;color:var(--blue);box-shadow:0 1px 2px rgba(0,0,0,.07)}
+/* ---- filters ---- */
+.cd-filters{display:flex;gap:12px;align-items:center;margin:4px 0 16px;flex-wrap:wrap}
 .cd-filters .fsel{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:9px 13px;font-size:13.5px;font-weight:600}
 .cd-filters .fsel select{border:none;background:transparent;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--blue);cursor:pointer;outline:none}
+/* ---- table ---- */
 .ctbl{width:100%;border-collapse:collapse}
 .ctbl thead th{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;text-align:left;padding:13px 18px;background:var(--th-bg);border-bottom:1px solid var(--line)}
 .ctbl tbody tr{cursor:pointer;transition:.1s}
 .ctbl tbody tr:hover{background:#faf9f7}
-.ctbl td{padding:15px 18px;border-bottom:1px solid var(--line-soft);font-size:14px;vertical-align:middle}
+.ctbl td{padding:16px 18px;border-bottom:1px solid var(--line-soft);font-size:14px;vertical-align:middle}
 .ctbl tbody tr:last-child td{border-bottom:none}
-.cd-name{display:flex;align-items:center;gap:12px}
-.cd-name .av{width:38px;height:38px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex:0 0 38px}
-.cd-name .nm{font-weight:700}
-.cd-name .meta{font-size:12px;color:var(--muted);margin-top:1px}
+.cd-nm{font-weight:800;font-size:18px;color:var(--text);line-height:1.15;letter-spacing:-.2px}
+.cd-meta{font-size:12.5px;color:var(--muted);margin-top:3px;font-weight:600}
 .cd-why{font-size:13px;color:var(--muted);max-width:340px;line-height:1.45}
 .cd-match{display:flex;align-items:center;gap:9px}
 .cd-match .bar{width:64px;height:7px;border-radius:4px;background:var(--th-bg);overflow:hidden}
 .cd-match .bar i{display:block;height:100%;background:var(--green)}
 .cd-match b{font-size:14px;font-weight:800}
+.cd-chev{color:var(--line);font-size:18px}
+.ctbl tbody tr:hover .cd-chev{color:var(--muted)}
+/* ---- slide-out drawer ---- */
+.scrim{position:fixed;inset:0;background:rgba(24,21,17,.34);opacity:0;visibility:hidden;transition:opacity .2s;z-index:80}
+.scrim.show{opacity:1;visibility:visible}
+.drawer{position:fixed;top:0;right:0;height:100vh;width:min(560px,96vw);background:#fff;box-shadow:-10px 0 44px rgba(0,0,0,.17);transform:translateX(100%);transition:transform .26s cubic-bezier(.4,0,.2,1);z-index:81;display:flex;flex-direction:column}
+.drawer.show{transform:none}
+.dr-top{display:flex;align-items:center;justify-content:space-between;padding:15px 22px;border-bottom:1px solid var(--line-soft);flex:0 0 auto}
+.dr-status{font-size:12.5px;font-weight:700}
+.dr-x{width:34px;height:34px;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:pointer;font-size:17px;color:var(--muted);display:flex;align-items:center;justify-content:center}
+.dr-x:hover{background:var(--th-bg);color:var(--text)}
+.dr-body{flex:1;overflow-y:auto;padding:22px 24px 28px}
+.dr-name{font-size:25px;font-weight:800;color:var(--text);letter-spacing:-.4px;line-height:1.1}
+.dr-sub{font-size:14px;color:var(--muted);margin-top:3px;font-weight:600}
+.dr-matchline{display:flex;align-items:center;gap:8px;margin-top:11px;font-size:13.5px;color:var(--muted);font-weight:700}
+.dr-matchline .bar{width:90px;height:7px;border-radius:4px;background:var(--th-bg);overflow:hidden}
+.dr-matchline .bar i{display:block;height:100%;background:var(--green)}
+.dr-matchline b{color:var(--text);font-size:14px}
+.dr-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:14px}
+.dr-pill{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:6px 12px;font-size:12.5px;font-weight:600;color:var(--text);background:#fff}
+.dr-pill.lic{background:#e6f4ec;border-color:#bfe3cd;color:#1a7f4b}
+.dr-actions{display:flex;gap:10px;margin:18px 0 6px}
+.dr-actions .btn{flex:1}
+.dr-sched{display:flex;align-items:center;gap:10px;background:#eef3fb;border:1px solid #cfe0f5;border-radius:11px;padding:13px 15px;margin:18px 0 6px;font-weight:700;color:var(--blue);font-size:14px}
+.dr-sched .x{font-size:18px}
+.dr-sched small{display:block;font-weight:600;color:var(--muted);font-size:12.5px;margin-top:2px}
+.dr-banner{border-radius:11px;padding:13px 16px;margin:18px 0 6px;font-weight:600;font-size:13.5px}
+.dr-banner.good{background:#dff0e6;border:1px solid #bfe3cd;color:#1a7f4b}
+.dr-banner.gone{background:#eee9e0;border:1px solid var(--line);color:var(--muted)}
+.dr-sec{font-size:11.5px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin:24px 0 11px}
+.why-card2{background:#f6f7fb;border:1px solid #e4e8f2;border-radius:13px;padding:16px 17px}
+.why-card2 .wh{font-size:13px;font-weight:800;color:var(--blue);margin-bottom:7px}
+.why-card2 .wt{font-size:14px;line-height:1.55;color:var(--text)}
+.why-card2 .wm{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.why-chip{display:inline-flex;align-items:center;gap:5px;background:#fff;border:1px solid #cfe0f5;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600;color:var(--text)}
+.why-chip .ck{color:#1a7f4b;font-weight:800}
+.why-chip.miss{border-color:#f0d9a8}.why-chip.miss .ck{color:#b7791f}
+.sig-strip{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line-soft);border:1px solid var(--line-soft);border-radius:11px;overflow:hidden;margin-top:4px}
+.sig-strip .sg{background:#fff;padding:12px 14px}
+.sig-strip .sl{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.3px;margin-bottom:3px}
+.sig-strip .sv{font-size:14px;font-weight:700;color:var(--text)}
+.sig-strip .sv.good{color:#1a7f4b}.sig-strip .sv.warn{color:#b7791f}
+.contact2{border:1px solid var(--line);border-radius:11px;padding:14px 16px}
+.contact2 .ci{display:flex;justify-content:space-between;font-size:13.5px;padding:4px 0}
+.contact2 .ci .k{color:var(--muted);font-weight:600}
+.contact2.locked{background:var(--th-bg)}
+.contact2 .blur{filter:blur(5px);user-select:none;pointer-events:none;opacity:.7}
+.lk-tx .t{font-weight:800;font-size:14px;margin-bottom:3px}
+.lk-tx .s{font-size:12.5px;color:var(--muted);line-height:1.45;margin-bottom:11px}
+.notes-ta{width:100%;box-sizing:border-box;border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13.5px;font-family:inherit;line-height:1.5;min-height:84px;resize:vertical;color:var(--text)}
+.notes-ta:focus{outline:none;border-color:var(--blue)}
+.notes-saved{font-size:11.5px;color:#1a7f4b;font-weight:700;margin-top:6px;opacity:0;transition:opacity .2s}
+.notes-saved.show{opacity:1}
+.exp .r{font-weight:700;font-size:14px}
+.exp .o{font-size:12.5px;color:var(--muted);margin:1px 0 3px}
+.exp .n{font-size:13px;color:var(--text);line-height:1.45;margin-bottom:13px}
+.tag{display:inline-block;background:var(--th-bg);border:1px solid var(--line);border-radius:7px;padding:5px 10px;font-size:12.5px;margin:0 6px 6px 0;font-weight:600}
+.scr-row{display:flex;justify-content:space-between;gap:14px;font-size:13px;padding:8px 0;border-bottom:1px solid var(--line-soft)}
+.scr-row .a{font-weight:700;color:var(--text);text-align:right}
+.tl2{display:flex;gap:11px;padding:4px 0 12px;position:relative}
+.tl2 .dot{width:9px;height:9px;border-radius:50%;background:var(--blue);flex:0 0 9px;margin-top:4px}
+.tl2 .tt{font-size:13.5px;font-weight:600;color:var(--text);line-height:1.35}
+.tl2 .tm{font-size:11.5px;color:var(--muted);margin-top:1px}
+.chat2{max-height:240px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:4px 0}
+.bub2{max-width:80%;padding:10px 14px;border-radius:14px;font-size:13.5px;line-height:1.45}
+.bub2.me{align-self:flex-end;background:var(--blue);color:#fff;border-bottom-right-radius:4px}
+.bub2.them{align-self:flex-start;background:#f0eee9;border-bottom-left-radius:4px}
+.chat2-in{display:flex;gap:9px;padding-top:12px;border-top:1px solid var(--line-soft);margin-top:6px}
+.chat2-in input{flex:1;border:1px solid var(--line);border-radius:9px;padding:10px 13px;font-size:13.5px;font-family:inherit}
+.chat2-in input:focus{outline:none;border-color:var(--blue)}
 </style>
 </head>
 <body>
@@ -786,13 +863,27 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
   <main class="main">
     <div id="top"></div>
     <div class="wrap">
-      <div class="dash-head">
-        <div><div class="co">Candidates</div><div class="small" style="margin-top:4px">Everyone your agents sourced and screened — the full funnel, so you can see exactly who was found and why they qualified.</div></div>
+      <div class="cd-topbar">
+        <div><div class="co">Candidates</div><div class="small" style="margin-top:4px;max-width:560px">Everyone your agents sourced and screened — the full funnel, so you can see exactly who was found and why they qualified.</div></div>
+        <div class="demo-wrap"><div class="demo-lbl">Demo view</div><div class="demo-seg" id="demoSeg"></div></div>
       </div>
       <div id="body"></div>
     </div>
   </main>
 </div>
+
+<!-- slide-out -->
+<div class="scrim" id="scrim" onclick="closePanel()"></div>
+<aside class="drawer" id="drawer"><div class="dr-top"><div class="dr-status" id="drStatus"></div><button class="dr-x" onclick="closePanel()" aria-label="Close">&times;</button></div><div class="dr-body" id="drBody"></div></aside>
+
+<!-- upgrade wall -->
+<div class="overlay" id="wallModal"><div class="modal">
+  <div class="wall-ic">&#128274;</div>
+  <h3>You've used all 5 free unlocks</h3>
+  <p>Upgrade to keep unlocking candidates and booking interviews — no caps. Your agents stay on, working every role until you turn them off.</p>
+  <div class="modal-foot"><button class="btn btn-ghost btn-sm" onclick="closeWall()">Not now</button><button class="btn btn-primary btn-sm" onclick="location.href='pricing-interviews.html'">See plans</button></div>
+</div></div>
+
 <script>
 /* JobAgentX — shared mock data + helpers (sessionStorage) */
 const AX=(function(){
@@ -960,45 +1051,60 @@ try{if(typeof window!=='undefined'){window.AX=AX;window.resetDemo=function(){AX.
 const E=AX.esc;
 document.getElementById('side').innerHTML=AX.sidebar('candidates');
 document.getElementById('top').innerHTML=AX.topbar();
-const ags=AX.get().agents;
-let roleF='all', statF='all';
+let roleF='all', statF='all', openAid=null, openCid=null, declineArm=false;
 
-function allCands(){const out=[];ags.forEach(a=>(a.candidates||[]).forEach(c=>{if(c.status!=='declined')out.push(Object.assign({_role:a.role,_aid:a.id},c));}));return out;}
+function ags(){return AX.get().agents;}
+function allCands(){const out=[];ags().forEach(a=>(a.candidates||[]).forEach(c=>{if(c.status!=='declined')out.push(Object.assign({_role:a.role,_aid:a.id},c));}));return out;}
 const STAT={awaiting:['Needs your review','#b7791f','#fdf6e3'],upcoming:['Interview scheduled','#0044b3','#eef3fb'],interviewed:['Interviewed','#1a7f4b','#e6f4ec']};
 function badge(c){const m=STAT[c.status];if(!m)return '';return `<span class="chip" style="background:${m[2]};color:${m[1]}"><span class="dot" style="background:${m[1]}"></span>${m[0]}${c.status==='interviewed'&&c.feedback?' · '+E(c.feedback):''}</span>`;}
-function statusKey(c){return c.status;}
 
+/* ---------- demo plan toggle ---------- */
+function curView(){if(AX.isPaid())return 'paid';return AX.unlocksLeft()===0?'free0':'free';}
+function setView(v){const st=AX.get();
+  if(v==='paid'){st.plan='paid';}
+  else if(v==='free'){st.plan='free';st.unlocks=['c1','c5','c7'];}
+  else if(v==='free0'){st.plan='free';st.unlocks=['c1','c5','c7','c6','c2'];}
+  AX.save(st);
+  document.getElementById('top').innerHTML=AX.topbar();
+  document.getElementById('side').innerHTML=AX.sidebar('candidates');
+  if(openCid)renderPanel();
+  render();
+}
+window.setView=setView;
+function renderSeg(){const v=curView();const opts=[['paid','Paid'],['free','Free · credits left'],['free0','Free · no credits']];
+  document.getElementById('demoSeg').innerHTML=opts.map(o=>`<button class="${v===o[0]?'on':''}" onclick="setView('${o[0]}')">${o[1]}</button>`).join('');}
+
+/* ---------- list ---------- */
 function render(){
+  renderSeg();
   const body=document.getElementById('body');
-  const sum=k=>ags.reduce((n,a)=>n+(a[k]||0),0);
-  const sourced=ags.reduce((n,a)=>n+((a.metrics&&a.metrics.sourced)||0),0);
-  const pending=ags.reduce((n,a)=>n+(a.pending||0),0);
+  const sum=k=>ags().reduce((n,a)=>n+(a[k]||0),0);
+  const sourced=ags().reduce((n,a)=>n+((a.metrics&&a.metrics.sourced)||0),0);
+  const pending=ags().reduce((n,a)=>n+(a.pending||0),0);
   const qualified=allCands().length+pending;
   const kpis=[['📥 Sourced',sourced],['✅ Qualified',qualified],['👀 Awaiting your review',sum('awaiting')],['📅 Interviews booked',sum('confirmed')]];
 
-  // filters
   let rows=allCands();
   if(roleF!=='all')rows=rows.filter(c=>c._aid===roleF);
   if(statF!=='all')rows=rows.filter(c=>c.status===statF);
   rows.sort((a,b)=>(b.score||0)-(a.score||0));
 
-  const roleOpts=`<option value="all">All roles</option>`+ags.map(a=>`<option value="${a.id}" ${roleF===a.id?'selected':''}>${E(a.role)}</option>`).join('');
+  const roleOpts=`<option value="all">All roles</option>`+ags().map(a=>`<option value="${a.id}" ${roleF===a.id?'selected':''}>${E(a.role)}</option>`).join('');
   const statOpts=[['all','All statuses'],['awaiting','Needs review'],['upcoming','Scheduled'],['interviewed','Interviewed']].map(s=>`<option value="${s[0]}" ${statF===s[0]?'selected':''}>${s[1]}</option>`).join('');
 
   const tbl=rows.length?`<div class="atbl-wrap"><table class="ctbl">
     <thead><tr><th>Candidate</th><th>Why qualified</th><th>Match</th><th>Status</th><th></th></tr></thead>
-    <tbody>${rows.map(c=>`<tr onclick="location.href='candidate.html?a=${c._aid}&c=${c.id}'">
-      <td><div class="cd-name"><div class="av">${E(AX.ini(c.name))}</div><div><div class="nm">${E(c.name)}</div><div class="meta">${E(c._role)} · ${E(c.location||'')}</div></div></div></td>
-      <td><div class="cd-why">${c.why?E(c.why.length>120?c.why.slice(0,120)+'…':c.why):'<span style="color:var(--line)">—</span>'}</div></td>
+    <tbody>${rows.map(c=>`<tr onclick="openPanel('${c._aid}','${c.id}')">
+      <td><div class="cd-nm">${E(c.name)}</div><div class="cd-meta">${E(c._role)} · ${E(c.location||'')}</div></td>
+      <td><div class="cd-why">${c.why?E(c.why.length>118?c.why.slice(0,118)+'…':c.why):'<span style="color:var(--line)">—</span>'}</div></td>
       <td><div class="cd-match"><span class="bar"><i style="width:${c.score||0}%"></i></span><b>${c.score||0}%</b></div></td>
       <td>${badge(c)}</td>
-      <td><a class="link" href="candidate.html?a=${c._aid}&c=${c.id}">View →</a></td>
+      <td><span class="cd-chev">›</span></td>
     </tr>`).join('')}</tbody></table></div>`:`<div class="panel" style="padding:36px;text-align:center;color:var(--muted)">No candidates match these filters.</div>`;
 
-  // locked teaser (free plan)
   let locked='';
-  if(AX.plan()==='free'&&pending>0&&(roleF==='all'||((ags.find(a=>a.id===roleF)||{}).pending>0))){
-    const n=roleF==='all'?pending:(ags.find(a=>a.id===roleF).pending);
+  if(AX.plan()==='free'&&pending>0&&(roleF==='all'||((ags().find(a=>a.id===roleF)||{}).pending>0))){
+    const n=roleF==='all'?pending:(ags().find(a=>a.id===roleF).pending);
     locked=`<div class="locked-teaser" style="margin-top:16px"><div class="lt-head"><div><div class="lt-t">&#128274; ${n} more qualified candidate${n>1?'s':''} ready</div><div class="lt-s">Your agents pre-screened them against your must-haves. Upgrade to unlock and book interviews.</div></div><a class="btn btn-primary btn-sm" href="pricing-interviews.html">Upgrade to unlock</a></div>
       <div class="locked-rows">${Array.from({length:Math.min(3,n)}).map(()=>`<div class="locked-row"><div class="lr-ava"></div><div class="lr-bars"><div class="lr-bar m"></div><div class="lr-bar s"></div></div><div class="lr-lock">&#128274;</div></div>`).join('')}</div></div>`;
   }
@@ -1009,6 +1115,86 @@ function render(){
 }
 window.setRole=function(v){roleF=v;render();};
 window.setStat=function(v){statF=v;render();};
+
+/* ---------- slide-out panel ---------- */
+window.openPanel=function(aid,cid){openAid=aid;openCid=cid;declineArm=false;renderPanel();document.getElementById('scrim').classList.add('show');document.getElementById('drawer').classList.add('show');};
+window.closePanel=function(){openAid=null;openCid=null;document.getElementById('scrim').classList.remove('show');document.getElementById('drawer').classList.remove('show');};
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&openCid)closePanel();});
+
+function whyCard(c){
+  if(!c.why)return '';
+  const matched=(c.screening||[]).map(sc=>{const ok=/^(yes|working|med aide)/i.test(sc.a)||/yes/i.test(sc.a);return `<span class="why-chip ${ok?'':'miss'}"><span class="ck">${ok?'✔':'!'}</span>${E(sc.q.replace(/\?$/,''))}</span>`;}).join('');
+  return `<div class="why-card2"><div class="wh">&#10024; Why ${E(c.name.split(' ')[0])} matches</div><div class="wt">${E(c.why)}</div>${matched?`<div class="wm">${matched}</div>`:''}</div>`;
+}
+function sigStrip(c){
+  const slotMap={confirmed:['Confirmed','good'],requested:['Awaiting reply','warn'],completed:['Interviewed','good']};
+  const sl=slotMap[c.slot]||['—',''];
+  const sig=[['&#128269; Source',c.source||'—',''],['&#9889; First reply',c.firstReply||'—',''],['&#128197; Interview',sl[0],sl[1]],['&#128205; Distance',c.distance||'—','']];
+  return `<div class="sig-strip">${sig.map(x=>`<div class="sg"><div class="sl">${x[0]}</div><div class="sv ${x[2]}">${E(x[1])}</div></div>`).join('')}</div>`;
+}
+function contactBlock(c){
+  if(AX.isUnlocked(c.id))return `<div class="contact2"><div class="ci"><span class="k">Email</span><a class="link" href="mailto:${E(c.email)}">${E(c.email)}</a></div><div class="ci"><span class="k">Phone</span><span>${E(c.phone)}</span></div></div>`;
+  const left=AX.unlocksLeft();
+  return `<div class="contact2 locked"><div class="lk-tx"><div class="t">&#128274; Contact hidden</div><div class="s">Accept ${E(c.name.split(' ')[0])} to release their email and phone. ${left>0?`<b>${left} free unlock${left===1?'':'s'} left.</b>`:'<b>No free unlocks left.</b>'}</div></div><div class="ci blur"><span class="k">Email</span><span>hidden@email.com</span></div><div class="ci blur"><span class="k">Phone</span><span>(•••) •••-••••</span></div></div>`;
+}
+function actionRow(c){
+  if(c.status==='awaiting'){
+    const acc=AX.isUnlocked(c.id)?'Accept interview':(AX.canUnlock()?'Accept, unlock &amp; schedule':'Accept interview');
+    return `<div class="dr-actions"><button class="btn ${declineArm?'btn-danger':'btn-ghost'}" onclick="declineStep()">${declineArm?'Confirm decline':'Decline'}</button><button class="btn btn-primary" onclick="accept()">${acc}</button></div>`;
+  }
+  if(c.status==='upcoming')return `<div class="dr-sched"><span class="x">&#128197;</span><div>Interview scheduled<small>${E(c.time||'Time TBD')}</small></div></div><div class="dr-actions"><button class="btn ${declineArm?'btn-danger':'btn-ghost'}" style="flex:0 0 auto" onclick="declineStep()">${declineArm?'Confirm cancel':'Cancel interview'}</button></div>`;
+  if(c.status==='interviewed')return `<div class="dr-banner good">&#10003; Interviewed${c.feedback?' · '+E(c.feedback):''}</div>`;
+  return '';
+}
+function renderPanel(){
+  const c=AX.candidate(openAid,openCid);const a=AX.agent(openAid);
+  if(!c||!a){document.getElementById('drBody').innerHTML='<div class="sub">Candidate not found.</div>';return;}
+  document.getElementById('drStatus').innerHTML=badge(c)||'';
+  const pills=[c.license?`<span class="dr-pill lic">&#9989; ${E(c.license)}</span>`:'',c.avail?`<span class="dr-pill">&#128336; ${E(c.avail)}</span>`:'',c.distance?`<span class="dr-pill">&#128205; ${E(c.distance)}</span>`:''].join('');
+  document.getElementById('drBody').innerHTML=`
+    <div class="dr-name">${E(c.name)}</div>
+    <div class="dr-sub">${E(c.headline||a.role)} &middot; ${E(c.location||'')}</div>
+    <div class="dr-matchline"><span class="bar"><i style="width:${c.score}%"></i></span> Match <b>${c.score}%</b></div>
+    <div class="dr-chips">${pills}</div>
+    ${actionRow(c)}
+    ${whyCard(c)}
+    <div class="dr-sec">Signals</div>${sigStrip(c)}
+    <div class="dr-sec">Contact</div>${contactBlock(c)}
+    <div class="dr-sec">Your notes</div>
+    <textarea class="notes-ta" id="notesTa" placeholder="Add a private note about this candidate…" oninput="notesDirty()">${E(c.notes||'')}</textarea>
+    <div class="notes-saved" id="notesSaved">Saved ✓</div>
+    <div class="dr-sec">Experience</div>
+    ${(c.experience||[]).map(x=>`<div class="exp"><div class="r">${E(x.role)}</div><div class="o">${E(x.org)} &middot; ${E(x.years)}</div><div class="n">${E(x.note||'')}</div></div>`).join('')||'<div class="sub">No experience on file.</div>'}
+    <div class="dr-sec">Skills</div><div>${(c.skills||[]).map(sk=>`<span class="tag">${E(sk)}</span>`).join('')||'<span class="sub">—</span>'}</div>
+    <div class="dr-sec">Screening answers</div>
+    ${(c.screening||[]).map(sc=>`<div class="scr-row"><span>${E(sc.q)}</span><span class="a">${E(sc.a)}</span></div>`).join('')||'<div class="sub">No screening answers.</div>'}
+    <div class="dr-sec">Agent activity for this candidate</div>
+    ${(c.activity||[]).map(t=>`<div class="tl2"><span class="dot"></span><div><div class="tt">${E(t.t)}</div><div class="tm">${E(t.time)}</div></div></div>`).join('')||'<div class="sub">No activity yet.</div>'}
+    <div class="dr-sec">Messages</div>
+    <div class="chat2" id="chat2">${renderMsgs(c)}</div>
+    <div class="chat2-in"><input id="msgInput" placeholder="Write a message…" onkeydown="if(event.key==='Enter')sendMsg()"><button class="btn btn-primary btn-sm" onclick="sendMsg()">Send</button></div>`;
+  const cb=document.getElementById('chat2');if(cb)cb.scrollTop=cb.scrollHeight;
+}
+function renderMsgs(c){if(!c.messages||!c.messages.length)return '<div class="sub" style="text-align:center;margin:auto">No messages yet.</div>';return c.messages.map(m=>`<div class="bub2 ${m.from==='recruiter'?'me':'them'}">${E(m.text)}</div>`).join('');}
+
+let notesTimer=null;
+window.notesDirty=function(){const v=document.getElementById('notesTa').value;AX.updateCandidate(openAid,openCid,{notes:v});clearTimeout(notesTimer);notesTimer=setTimeout(()=>{const s=document.getElementById('notesSaved');if(s){s.classList.add('show');setTimeout(()=>s.classList.remove('show'),1400);}},450);};
+window.sendMsg=function(){const i=document.getElementById('msgInput');const t=i.value.trim();if(!t)return;const c=AX.candidate(openAid,openCid);c.messages=c.messages||[];c.messages.push({from:'recruiter',text:t});AX.updateCandidate(openAid,openCid,{messages:c.messages});i.value='';document.getElementById('chat2').innerHTML=renderMsgs(c);const b=document.getElementById('chat2');b.scrollTop=b.scrollHeight;setTimeout(()=>{c.messages.push({from:'candidate',text:'Got it — thanks!'});AX.updateCandidate(openAid,openCid,{messages:c.messages});const ch=document.getElementById('chat2');if(ch){ch.innerHTML=renderMsgs(c);ch.scrollTop=ch.scrollHeight;}},1000);};
+window.accept=function(){
+  if(!AX.isUnlocked(openCid)){if(!AX.canUnlock()){openWall();return;}AX.unlock(openCid);}
+  const rr=AX.agent(openAid);AX.updateCandidate(openAid,openCid,{status:'upcoming'});AX.update(openAid,{confirmed:(rr.confirmed||0)+1,awaiting:Math.max(0,(rr.awaiting||0)-1)});
+  declineArm=false;renderPanel();render();
+};
+window.declineStep=function(){if(!declineArm){declineArm=true;renderPanel();return;}
+  const rr=AX.agent(openAid);const c=AX.candidate(openAid,openCid);const wasUp=c.status==='upcoming';
+  AX.updateCandidate(openAid,openCid,{status:'declined'});
+  AX.update(openAid,{awaiting:wasUp?rr.awaiting:Math.max(0,(rr.awaiting||0)-1),confirmed:wasUp?Math.max(0,(rr.confirmed||0)-1):rr.confirmed});
+  closePanel();render();
+};
+window.openWall=function(){document.getElementById('wallModal').classList.add('show');};
+window.closeWall=function(){document.getElementById('wallModal').classList.remove('show');};
+document.getElementById('wallModal').addEventListener('click',e=>{if(e.target.id==='wallModal')closeWall();});
+
 render();
 </script>
 </body>
