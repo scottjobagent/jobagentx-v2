@@ -878,6 +878,10 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .atbl .st{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:#2d2d2d}
 .atbl .st-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:0 0 8px}
 .atbl .loc{font-size:12.5px;color:var(--muted);margin-top:2px}
+
+.agents-card{padding:0;overflow:hidden}
+.agents-card .rh{padding:13px 18px 10px}
+.agents-card .atbl{width:100%}
 </style>
 </head>
 <body>
@@ -1167,23 +1171,23 @@ function drawChart(empty){
 
 function agentsTable(empty){
   if(empty){
-    return `<div class="atbl-wrap"><table class="atbl">
+    return `<table class="atbl">
       <thead><tr><th>Role</th><th>Status</th><th class="num">Awaiting</th><th class="num">Interviews</th><th class="num">Show rate</th><th class="num">Hires</th><th></th></tr></thead>
       <tbody><tr><td colspan="7"><div class="empty-table-cta"><div class="h">Create your first agent</div><div class="s">An agent works one role end to end — it sources candidates, screens them against your must-haves, and books interviews on your calendar.</div><a class="btn btn-primary" href="create-agent.html">&#65291; Create Agent</a></div></td></tr></tbody>
-    </table></div>`;
+    </table>`;
   }
   const rows=ags.map(a=>{
     const m=a.metrics||{};const flag=a.awaiting>0;
     const stMap={active:['Active','#1a7f4b'],sourcing:['Sourcing','#b7791f'],paused:['Paused','#8a8a8a']};const _st=stMap[a.status]||stMap.active;const status='<span class="st"><span class="st-dot" style="background:'+_st[1]+'"></span>'+_st[0]+'</span>';
     const action=flag?`<button class="review-btn" onclick="event.stopPropagation();location.href='interview-room.html?a=${a.id}'">Review</button>`:(a.status==='sourcing'?`<span class="ok-pill">Sourcing…</span>`:`<span class="ok-pill">All caught up</span>`);
     return `<tr class="${flag?'flag':''}" onclick="location.href='interview-room.html?a=${a.id}'"><td><div class="role">${E(a.role)}</div><div class="loc">${E(a.location)}</div></td><td>${status}</td><td class="num"><b>${a.awaiting}</b></td><td class="num"><b>${a.confirmed}</b></td><td class="num">${m.showRate?m.showRate+'%':'—'}</td><td class="num"><b>${a.hires}</b></td><td class="nudgecell">${action}</td></tr>`;}).join('');
-  return `<div class="atbl-wrap"><table class="atbl"><thead><tr><th>Role</th><th>Status</th><th class="num">Awaiting</th><th class="num">Interviews</th><th class="num">Show rate</th><th class="num">Hires</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<table class="atbl"><thead><tr><th>Role</th><th>Status</th><th class="num">Awaiting</th><th class="num">Interviews</th><th class="num">Show rate</th><th class="num">Hires</th><th></th></tr></thead><tbody>${rows}</tbody></table>`;
 }
 
 function activityRail(empty){
   if(empty)return `<div class="rail-card"><div class="rh">Recent activity</div><div class="sub" style="padding:16px 2px;line-height:1.5">Your agents' activity — sourcing, messages, and booked interviews — will appear here once they're live.</div></div>`;
   const feed=AX.allActivity().slice(0,5).map(it=>`<div class="ra-item"><div class="ra-ic ${it.accent?'accent':''}">${AX.icon(it.icon)}</div><div class="ra-tx"><div class="t">${E(it.t)} <span class="ag">&middot; ${E(it.agent)}</span></div><div class="s">${E(it.s||'')}</div></div><div class="ra-time">${AX.ago(it.mins)}</div></div>`).join('');
-  return `<div class="rail-card"><div class="rh">Recent activity <a href="interviews.html">View all</a></div>${feed}</div>`;
+  return `<div class="rail-card"><div class="rh">Recent activity <a href="interviews.html">View all &rarr;</a></div>${feed}</div>`;
 }
 
 function paint(){
@@ -1191,7 +1195,7 @@ function paint(){
   const empty=(view==='empty'||!ags.length);
   body.innerHTML=`<div class="an-row ${empty?'erow':''}">${trendCardHTML(empty)}${pipelineHTML(empty)}</div>
     <div class="dash-grid">
-      <div><div class="sec-h"><h2>Your agents</h2>${empty?'':'<a href="agents.html">View all &rarr;</a>'}</div>${agentsTable(empty)}</div>
+      <div class="rail-card agents-card"><div class="rh">Your agents <a href="agents.html">View all &rarr;</a></div>${agentsTable(empty)}</div>
       ${activityRail(empty)}
     </div>`;
   drawChart(empty);
