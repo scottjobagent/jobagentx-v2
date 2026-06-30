@@ -772,10 +772,21 @@ body{background:#fff!important}
 .cv-bar .ttl span{color:#595959;font-weight:600}
 .cv-toggle{border:1px solid #d4d2d0;background:#fff;border-radius:999px;padding:7px 14px;font-size:13px;font-weight:700;color:#2d2d2d;cursor:pointer;font-family:inherit}
 .cv-toggle:hover{border-color:#0044b3;color:#0044b3}
-.cv-msgs{flex:1;overflow-y:auto;padding:10px 28px}
-.cv-msgs .inner{max-width:640px;margin:0 auto;display:flex;flex-direction:column}
-.cv-ctrl{padding:14px 28px 24px;border-top:1px solid #f0eee9}
-.cv-ctrl .inner{max-width:640px;margin:0 auto}
+.cv-msgs{flex:1;min-height:0;overflow-y:auto;padding:10px 28px;display:flex;flex-direction:column}
+.cv-msgs .inner{max-width:640px;width:100%;margin:auto auto 0;display:flex;flex-direction:column}
+.cv-compose{flex:0 0 auto;border-top:1px solid #f0eee9;padding:12px 28px 18px;background:#fff}
+.cv-compose .inner-c{max-width:640px;margin:0 auto}
+.cv-tray{display:flex;flex-direction:column;max-height:44vh;overflow-y:auto}
+.cv-tray:not(:empty){margin-bottom:11px}
+.ac-list{border:1px solid #e2e0db;border-radius:13px;overflow:hidden;background:#fff}
+.ac-item{display:flex;align-items:center;gap:9px;padding:12px 15px;font-size:15px;cursor:pointer;border-bottom:1px solid #f2f0eb;color:#2d2d2d}
+.ac-item:last-child{border-bottom:none}
+.ac-item:hover{background:#eef3fb}
+.ac-pin{opacity:.7}
+.ac-hint,.ac-empty{font-size:13px;color:#8a8a8a;padding:6px 4px}
+.ibar.off{background:#f5f4f1;border-color:#e6e4df}
+.ibar.off .iin{color:#a9a7a2}
+.ibar .isend.off{background:#d2d0cb;cursor:default;width:38px;height:38px;border-radius:50%;flex:0 0 38px;display:flex;align-items:center;justify-content:center}
 .msg{display:flex;flex-direction:column;margin-bottom:16px}
 .msg.me{align-items:flex-end}.msg.bot{align-items:flex-start}
 .whorow{display:flex;align-items:center;gap:8px;margin-bottom:5px}
@@ -900,7 +911,7 @@ textarea.ta{width:100%;box-sizing:border-box;border:1px solid #d4d2d0;border-rad
       <div class="cv-left">
         <div class="cv-bar"><div class="ttl">Create agent <span id="bar-sub"></span></div><button class="cv-toggle" id="ptog" onclick="togglePrev()">Hide posting</button></div>
         <div class="cv-msgs" id="msgs"><div class="inner" id="msgs-in"></div></div>
-        <div class="cv-ctrl"><div class="inner" id="ctrl"></div></div>
+        <div class="cv-compose"><div class="inner-c"><div class="cv-tray" id="tray"></div><div id="bar"></div></div></div>
       </div>
       <div class="cv-prev" id="prev"></div>
     </div>
@@ -1080,12 +1091,13 @@ const SHIFTS=['Day shift','Night shift','Evening shift','Overnight shift','Other
 const SCHEDULES=['Weekly as needed','Monday to Friday','Rotating weekends','Every weekend','No weekends','Choose your own hours','3×12','5×8','4×10','4×12','Other','None'];
 const RATES=['per hour','per day','per week','per month','per year'];
 const ROLE_CHIPS=['Registered Nurse','Warehouse Associate','Bilingual Call Center Rep','Sales Associate','Customer Service Rep'];
+const PLACES=['Houston, TX 77002','Houston, TX 77019','Houston, TX 77036','Houston, TX 77084','Dallas, TX 75201','Dallas, TX 75204','Austin, TX 78701','Austin, TX 78704','San Antonio, TX 78205','Fort Worth, TX 76102','Phoenix, AZ 85004','Phoenix, AZ 85013','Atlanta, GA 30303','Charlotte, NC 28202','Chicago, IL 60601','Miami, FL 33101','Denver, CO 80202','Remote \u2014 United States'];
 
 const A={role:'',locationType:'in_person',address:'',resideRequired:'no',resideArea:'',consistentStart:'no',startAddress:'',
   jobType:[],payMode:'range',payMin:'',payMax:'',payRate:'per hour',benefits:[],shift:[],schedule:[],jd:'',
   slot:30,capacity:3,autoAccept:false,resumeRequired:true,interviewers:['demo@jobfairx.com (you)'],recipients:[],screening:[]};
 
-let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false; let locDone=false;
+let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false; let locDone=false; let acQuery='';
 
 const STAGES={
   role:{q:()=>'Who do you need to hire?',ctrl:'text',ph:'e.g. Registered Nurse',chips:ROLE_CHIPS,field:'role'},
@@ -1130,7 +1142,7 @@ function goNext(stage){
   }
 }
 function ask(stage, instant){
-  cur=stage; editingDesc=false; screenAdding=false;
+  cur=stage; editingDesc=false; screenAdding=false; acQuery='';
   if(stage==='jobtype'){locDone=true;if(!A.jobType.length)A.jobType=['Full-time'];}
   if(stage==='pay'&&!A.payMin&&!A.payMax){A.payMin='20';A.payMax='28';}
   if(stage==='description'&&!A.jd)A.jd=draftJD(A.role||'this role');
@@ -1143,25 +1155,62 @@ function ask(stage, instant){
 function advance(){ const n=goNext(cur); ask(n); }
 
 /* ---------- render ---------- */
-function renderAll(){renderMsgs();renderCtrl();renderPreview();updateBar();}
+function renderAll(){renderMsgs();renderCompose();renderPreview();updateBar();}
 function updateBar(){const order=['role','loctype','address','jobtype','pay','benefits','shift','schedule','description','slot','autoaccept','resume','interviewers','screening','launch'];const i=Math.max(0,order.indexOf(cur));document.getElementById('bar-sub').textContent='· building your job posting';}
 function avatarHTML(who){return who==='bot'?'<span class="av av-bot"></span>':'<span class="av av-me"></span>';}
 function msgHTML(m){const name=m.who==='bot'?'JobAgentX':'You';const who=m.who==='bot'?(avatarHTML('bot')+'<span class="nm">'+name+'</span>'):('<span class="nm">'+name+'</span>'+avatarHTML('me'));return '<div class="msg '+m.who+'"><div class="whorow">'+who+'</div><div class="bub '+m.who+'">'+E(m.text)+'</div></div>';}
 function typingHTML(){return '<div class="msg bot"><div class="whorow">'+avatarHTML('bot')+'<span class="nm">JobAgentX</span></div><div class="bub bot typing"><span></span><span></span><span></span></div></div>';}
-function renderMsgs(){let html=msgs.map(msgHTML).join('');if(typing)html+=typingHTML();document.getElementById('msgs-in').innerHTML=html;const m=document.getElementById('msgs');m.scrollTop=m.scrollHeight;}
-function renderCtrl(){document.getElementById('ctrl').innerHTML=controlHTML();const inp=document.getElementById('cin');if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter')sendText();};}}
+function renderMsgs(){let html=msgs.map(msgHTML).join('');if(typing)html+=typingHTML();document.getElementById('msgs-in').innerHTML=html;scrollMsgs();}
+function scrollMsgs(){const m=document.getElementById('msgs');if(m)m.scrollTop=m.scrollHeight;}
+function barMode(st){
+  if(st==='role')return{mode:'type',ph:'e.g. Registered Nurse'};
+  if(st==='interviewers')return{mode:'type',ph:'Add an email, e.g. emily@company.com'};
+  if(st==='resideArea')return{mode:'type',ph:'e.g. Texas, or Greater Houston'};
+  if(st==='address'||st==='startAddr')return{mode:'auto',ph:'Search a city or ZIP code…'};
+  const off={loctype:'Choose where the role is based above',resideYN:'Choose Yes or No above',startYN:'Choose Yes or No above',jobtype:'Pick the role types above',pay:'Set the pay range above',benefits:'Pick the benefits above',shift:'Pick a shift above',schedule:'Pick a schedule above',description:'Use or edit the draft above',slot:'Pick an interview length above',autoaccept:'Choose Yes or No above',resume:'Choose Yes or No above',screening:'Add a question above, or continue',launch:'Tap Launch agent above'};
+  return{mode:'off',ph:off[st]||'Pick an option above'};
+}
+const ARROW='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>';
+function barHTML(){
+  const m=barMode(cur);
+  if(typing||m.mode==='off')return '<div class="ibar off"><span class="iorb"></span><input class="iin" disabled placeholder="'+(typing?'JobAgentX is typing…':E(m.ph))+'"><span class="isend off">'+ARROW+'</span></div>';
+  const fn=m.mode==='auto'?'acSubmit':(cur==='interviewers'?'emailsAdd':'sendText');
+  const oninput=m.mode==='auto'?' oninput="acType(this.value)"':'';
+  return '<div class="ibar"><span class="iorb"></span><input class="iin" id="cin" autocomplete="off" placeholder="'+E(m.ph)+'"'+oninput+'><button class="isend" onclick="'+fn+'()" aria-label="Send">'+ARROW+'</button></div>';
+}
+function acListHTML(){
+  const q=(acQuery||'').trim().toLowerCase();
+  if(!q)return '<div class="ac-hint">Start typing a city or ZIP — then pick the match so we get it right.</div>';
+  const res=PLACES.filter(p=>p.toLowerCase().includes(q)).slice(0,6);
+  if(!res.length)return '<div class="ac-empty">No match yet — keep typing a city or ZIP.</div>';
+  return '<div class="ac-list">'+res.map(p=>'<div class="ac-item" onclick="acPick(\''+p.replace(/'/g,"\\'")+'\')"><span class="ac-pin">📍</span>'+E(p)+'</div>').join('')+'</div>';
+}
+function trayHTML(){return controlHTML();}
+function renderCompose(){
+  document.getElementById('tray').innerHTML=typing?'':trayHTML();
+  document.getElementById('bar').innerHTML=barHTML();
+  const inp=document.getElementById('cin');
+  if(inp){inp.focus();inp.onkeydown=e=>{if(e.key==='Enter'){const m=barMode(cur);if(m.mode==='auto')acSubmit();else if(cur==='interviewers')emailsAdd();else sendText();}};}
+  scrollMsgs();
+}
+function renderTray(){document.getElementById('tray').innerHTML=trayHTML();}
+function renderCtrl(){renderCompose();}
+window.acType=function(v){acQuery=v;renderTray();};
+window.acPick=function(p){const f=STAGES[cur].field;A[f]=p;meSay(p);advance();};
+window.acSubmit=function(){const q=(acQuery||'').trim().toLowerCase();if(!q)return;const top=PLACES.filter(p=>p.toLowerCase().includes(q))[0];if(top)acPick(top);};
+window.pickText=function(v){const i=document.getElementById('cin');if(i)i.value=v;sendText();};
 function ibar(id,ph,fn){return '<div class="ibar"><span class="iorb"></span><input class="iin" id="'+id+'" placeholder="'+ph+'"><button class="isend" onclick="'+fn+'()" aria-label="Send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>';}
 function controlHTML(){
   if(typing)return '';
   const s=STAGES[cur];
   if(cur==='launch')return `<button class="cbtn" style="width:100%" onclick="launch()">Launch agent →</button>`;
-  if(s.ctrl==='text'){return ibar('cin', s.ph||'Type your answer…','sendText')+(cur==='role'?`<div class="chips" style="margin-top:12px">${ROLE_CHIPS.map(r=>`<span class="chip" onclick="document.getElementById('cin').value='${r}'">${r}</span>`).join('')}</div>`:'')+(s.hint?`<div class="cmeta">${s.hint}</div>`:'');}
+  if(s.ctrl==='text'){if(barMode(cur).mode==='auto')return acListHTML();if(cur==='role')return `<div class="chips">${ROLE_CHIPS.map(r=>`<span class="chip" onclick="pickText('${r.replace(/'/g,"\\'")}')">${E(r)}</span>`).join('')}</div>`;return s.hint?`<div class="cmeta">${E(s.hint)}</div>`:'';}
   if(s.ctrl==='one')return `<div class="chips">${s.opts.map(o=>`<span class="chip" onclick="pickOne('${o}')">${o}</span>`).join('')}</div>`;
   if(s.ctrl==='yn')return `<div class="chips">${['Yes','No'].map(o=>`<span class="chip" onclick="pickYN('${o}')">${o}</span>`).join('')}</div>`;
   if(s.ctrl==='multi')return `<div class="cwrap"><div class="chips">${s.opts.map(o=>`<span class="chip ${multi.indexOf(o)>-1?'on':''}" onclick="toggleMulti('${o.replace(/'/g,"\\'")}')">${o}</span>`).join('')}</div><div><button class="minicont" onclick="confirmMulti()">Continue →</button></div></div>`;
   if(s.ctrl==='pay')return `<div class="cwrap"><div class="payrow">$ <input id="pmin" placeholder="Min" value="${E(A.payMin)}"> to $ <input id="pmax" placeholder="Max" value="${E(A.payMax)}"> <select class="sel" id="prate">${RATES.map(r=>`<option ${A.payRate===r?'selected':''}>${r}</option>`).join('')}</select></div><div><button class="minicont" onclick="confirmPay()">Continue →</button></div></div>`;
   if(s.ctrl==='desc'){if(editingDesc)return `<div class="cwrap"><textarea class="ta" id="cdesc">${E(A.jd)}</textarea><div><button class="minicont" onclick="descSave()">Save & continue →</button></div></div>`;return `<div class="chips"><span class="chip" onclick="descUse()">Use the draft</span><span class="chip ghost" onclick="descEdit()">Edit it</span></div>`;}
-  if(s.ctrl==='emails')return `<div class="cwrap">`+ibar('cin','email@company.com, another@company.com','emailsAdd')+`<div><span class="chip ghost" onclick="advance()">Skip — just me</span></div></div>`;
+  if(s.ctrl==='emails')return `<div class="chips"><span class="chip ghost" onclick="advance()">Skip — just me</span></div>`;
   if(s.ctrl==='screen'){
     if(screenAdding)return qBuilder();
     const list=A.screening.length?`<div class="cmeta" style="margin-bottom:10px">${A.screening.length} question${A.screening.length>1?'s':''} added.</div>`:'';
