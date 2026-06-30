@@ -811,6 +811,27 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .dp.maybe{background:#fdf6e3;color:#b7791f}
 .dp.no{background:#fbeae8;color:#c0392b}
 .dembar{display:flex;align-items:center;gap:10px}
+
+.hbtn{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--line);border-radius:9px;padding:8px 12px;font-size:13px;font-weight:700;color:var(--text);cursor:pointer;font-family:inherit}
+.hbtn:hover{border-color:#0044b3;color:#0044b3}
+.hbtn.icon{padding:8px 11px;font-size:15px;position:relative}
+.hbtn .nd{position:absolute;top:5px;right:7px;width:8px;height:8px;border-radius:50%;background:#e85d4e;border:1.5px solid #fff}
+.bell-wrap{position:relative}
+.notif-pop{position:absolute;top:46px;right:0;width:344px;background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 14px 40px rgba(0,0,0,.17);z-index:60;display:none;overflow:hidden}
+.notif-pop.show{display:block}
+.np-h{display:flex;align-items:center;justify-content:space-between;padding:13px 16px;border-bottom:1px solid var(--line-soft)}
+.np-h .t{font-size:14px;font-weight:800;color:var(--text)}
+.np-h a{font-size:12px;font-weight:700;color:var(--blue);text-decoration:none;cursor:pointer}
+.np-list{max-height:330px;overflow-y:auto}
+.np-item{display:flex;gap:11px;padding:12px 16px;border-bottom:1px solid var(--line-soft);cursor:pointer}
+.np-item:hover{background:#faf9f7}
+.np-item.unread{background:#f4f8ff}
+.np-ic{width:30px;height:30px;border-radius:8px;background:var(--th-bg);display:flex;align-items:center;justify-content:center;flex:0 0 30px;font-size:15px}
+.np-tx{flex:1;min-width:0}
+.np-tx .tt{font-size:13px;line-height:1.42;color:var(--text)}
+.np-tx .tm{font-size:11.5px;color:var(--muted);margin-top:2px}
+.np-foot{padding:11px 16px;text-align:center}
+.np-foot a{font-size:13px;font-weight:700;color:var(--blue);text-decoration:none;cursor:pointer}
 </style>
 </head>
 <body>
@@ -995,11 +1016,27 @@ document.getElementById('side').innerHTML=AX.sidebar('dashboard');
 document.getElementById('top').innerHTML=`<div class="topbar" style="display:flex;align-items:center;gap:14px">
   <div style="flex:1;display:flex;align-items:center"><div class="tfilter">&#128197; <select id="range"><option>Last 7 days</option><option selected>Last 30 days</option><option>Last 90 days</option><option>All time</option></select></div></div>
   <div class="dembar"><div class="bpill"><span class="bl">Preview</span><button class="bn on" id="pv-active" onclick="setView('active')">Active</button><button class="bn" id="pv-empty" onclick="setView('empty')">Empty</button></div><button class="reset-demo" onclick="resetDemo()">&#8634; Reset demo</button></div>
-  <div style="flex:1;display:flex;justify-content:flex-end"><div class="user">demo@jobfairx.com <span style="color:var(--muted)">&#9662;</span></div></div>
+  <div style="flex:1;display:flex;justify-content:flex-end;align-items:center;gap:11px">
+    <button class="hbtn" onclick="alert('Feedback form (mocked).')">&#128226; Feedback</button>
+    <div class="bell-wrap">
+      <button class="hbtn icon" id="bellBtn" onclick="toggleNotif(event)" aria-label="Notifications">&#128276;<span class="nd" id="bellDot"></span></button>
+      <div class="notif-pop" id="notifPop">
+        <div class="np-h"><div class="t">Notifications</div><a onclick="markAllRead()">Mark all read</a></div>
+        <div class="np-list">
+          <div class="np-item unread"><div class="np-ic">&#128197;</div><div class="np-tx"><div class="tt"><b>Maya Delgado</b> self-scheduled an interview &mdash; Thu 10:00 AM</div><div class="tm">12m ago &middot; Registered Nurse</div></div></div>
+          <div class="np-item unread"><div class="np-ic">&#128172;</div><div class="np-tx"><div class="tt"><b>James Okoro</b> replied to your message</div><div class="tm">1h ago &middot; Registered Nurse</div></div></div>
+          <div class="np-item unread"><div class="np-ic">&#128269;</div><div class="np-tx"><div class="tt"><b>Warehouse Associate</b> agent finished sourcing &mdash; 6 new candidates</div><div class="tm">3h ago</div></div></div>
+          <div class="np-item"><div class="np-ic">&#128197;</div><div class="np-tx"><div class="tt"><b>Daniel Cho</b> booked Thursday 11:00 AM</div><div class="tm">25m ago &middot; Bilingual Call Center Rep</div></div></div>
+          <div class="np-item"><div class="np-ic">&#9989;</div><div class="np-tx"><div class="tt"><b>Rachel Foster</b> marked <b style="color:#1a7f4b">Yes</b> after interview</div><div class="tm">1d ago &middot; Registered Nurse</div></div></div>
+        </div>
+        <div class="np-foot"><a href="interviews.html">View all activity</a></div>
+      </div>
+    </div>
+    <div class="user">demo@jobfairx.com <span style="color:var(--muted)">&#9662;</span></div>
+  </div>
 </div>`;
 // --- inject bottom-left cluster (mock of Pin's: notifications, feedback, plan) ---
 (function(){const side=document.getElementById('side');const cluster=`<div class="sb-cluster">
-  <div class="sb-icons"><button class="sb-ic" title="Notifications">&#128276; Alerts<span class="nd"></span></button><button class="sb-ic" title="Send feedback">&#128226; Feedback</button></div>
   <div class="sb-plan"><div class="pr"><span>Free plan</span><a href="pricing-interviews.html">Upgrade</a></div><div class="track"><i style="width:60%"></i></div><div class="u">3 of 5 candidate unlocks used</div></div>
 </div>`;
   const foot=side.querySelector('.sb-foot');
@@ -1093,6 +1130,9 @@ function paint(){
     </div>`;
   drawChart(empty);
 }
+window.toggleNotif=function(e){if(e)e.stopPropagation();document.getElementById('notifPop').classList.toggle('show');};
+window.markAllRead=function(){document.querySelectorAll('.np-item.unread').forEach(function(x){x.classList.remove('unread');});const d=document.getElementById('bellDot');if(d)d.style.display='none';};
+document.addEventListener('click',function(e){const p=document.getElementById('notifPop');const b=document.getElementById('bellBtn');if(p&&p.classList.contains('show')&&!p.contains(e.target)&&b&&!b.contains(e.target))p.classList.remove('show');});
 window.setView=function(v){view=v;document.getElementById('pv-active').classList.toggle('on',v==='active');document.getElementById('pv-empty').classList.toggle('on',v==='empty');paint();};
 paint();
 </script>
