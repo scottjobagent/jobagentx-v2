@@ -1092,12 +1092,13 @@ const SCHEDULES=['Weekly as needed','Monday to Friday','Rotating weekends','Ever
 const RATES=['per hour','per day','per week','per month','per year'];
 const ROLE_CHIPS=['Registered Nurse','Warehouse Associate','Bilingual Call Center Rep','Sales Associate','Customer Service Rep'];
 const PLACES=['Houston, TX 77002','Houston, TX 77019','Houston, TX 77036','Houston, TX 77084','Dallas, TX 75201','Dallas, TX 75204','Austin, TX 78701','Austin, TX 78704','San Antonio, TX 78205','Fort Worth, TX 76102','Phoenix, AZ 85004','Phoenix, AZ 85013','Atlanta, GA 30303','Charlotte, NC 28202','Chicago, IL 60601','Miami, FL 33101','Denver, CO 80202','Remote \u2014 United States'];
+const STAB={Alabama:'AL',Alaska:'AK',Arizona:'AZ',Arkansas:'AR',California:'CA',Colorado:'CO',Connecticut:'CT',Delaware:'DE','District of Columbia':'DC',Florida:'FL',Georgia:'GA',Hawaii:'HI',Idaho:'ID',Illinois:'IL',Indiana:'IN',Iowa:'IA',Kansas:'KS',Kentucky:'KY',Louisiana:'LA',Maine:'ME',Maryland:'MD',Massachusetts:'MA',Michigan:'MI',Minnesota:'MN',Mississippi:'MS',Missouri:'MO',Montana:'MT',Nebraska:'NE',Nevada:'NV','New Hampshire':'NH','New Jersey':'NJ','New Mexico':'NM','New York':'NY','North Carolina':'NC','North Dakota':'ND',Ohio:'OH',Oklahoma:'OK',Oregon:'OR',Pennsylvania:'PA','Rhode Island':'RI','South Carolina':'SC','South Dakota':'SD',Tennessee:'TN',Texas:'TX',Utah:'UT',Vermont:'VT',Virginia:'VA',Washington:'WA','West Virginia':'WV',Wisconsin:'WI',Wyoming:'WY','Puerto Rico':'PR'};
 
 const A={role:'',locationType:'in_person',address:'',resideRequired:'no',resideArea:'',consistentStart:'no',startAddress:'',
   jobType:[],payMode:'range',payMin:'',payMax:'',payRate:'per hour',benefits:[],shift:[],schedule:[],jd:'',
   slot:30,capacity:3,autoAccept:false,resumeRequired:true,interviewers:['demo@jobfairx.com (you)'],recipients:[],screening:[]};
 
-let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false; let locDone=false; let acQuery='';
+let msgs=[]; let cur='role'; let multi=[]; let editingDesc=false; let screenAdding=false; let qDraft={type:'yesno',must:'no'}; let typing=false; let locDone=false; let acQuery=''; let acResults=[]; let acLoading=false; let acTimer=null; let acReqId=0;
 
 const STAGES={
   role:{q:()=>'Who do you need to hire?',ctrl:'text',ph:'e.g. Registered Nurse',chips:ROLE_CHIPS,field:'role'},
@@ -1142,7 +1143,7 @@ function goNext(stage){
   }
 }
 function ask(stage, instant){
-  cur=stage; editingDesc=false; screenAdding=false; acQuery='';
+  cur=stage; editingDesc=false; screenAdding=false; acQuery=''; acResults=[]; acLoading=false;
   if(stage==='jobtype'){locDone=true;if(!A.jobType.length)A.jobType=['Full-time'];}
   if(stage==='pay'&&!A.payMin&&!A.payMax){A.payMin='20';A.payMax='28';}
   if(stage==='description'&&!A.jd)A.jd=draftJD(A.role||'this role');
@@ -1178,12 +1179,13 @@ function barHTML(){
   const oninput=m.mode==='auto'?' oninput="acType(this.value)"':'';
   return '<div class="ibar"><span class="iorb"></span><input class="iin" id="cin" autocomplete="off" placeholder="'+E(m.ph)+'"'+oninput+'><button class="isend" onclick="'+fn+'()" aria-label="Send">'+ARROW+'</button></div>';
 }
+function offlineMatches(q){const s=q.toLowerCase();return PLACES.filter(p=>p.toLowerCase().includes(s)).slice(0,6);}
 function acListHTML(){
-  const q=(acQuery||'').trim().toLowerCase();
-  if(!q)return '<div class="ac-hint">Start typing a city or ZIP — then pick the match so we get it right.</div>';
-  const res=PLACES.filter(p=>p.toLowerCase().includes(q)).slice(0,6);
-  if(!res.length)return '<div class="ac-empty">No match yet — keep typing a city or ZIP.</div>';
-  return '<div class="ac-list">'+res.map(p=>'<div class="ac-item" onclick="acPick(\''+p.replace(/'/g,"\\'")+'\')"><span class="ac-pin">📍</span>'+E(p)+'</div>').join('')+'</div>';
+  const q=(acQuery||'').trim();
+  if(q.length<2)return '<div class="ac-hint">Start typing a city or ZIP — then pick the match so we get it right.</div>';
+  if(acLoading&&!acResults.length)return '<div class="ac-hint">Searching cities &amp; ZIPs…</div>';
+  if(!acResults.length)return '<div class="ac-empty">No match yet — keep typing a city or ZIP.</div>';
+  return '<div class="ac-list">'+acResults.map(p=>'<div class="ac-item" onclick="acPick(\''+p.replace(/'/g,"\\'")+'\')"><span class="ac-pin">📍</span>'+E(p)+'</div>').join('')+'</div>'+(acLoading?'<div class="ac-hint">Searching…</div>':'');
 }
 function trayHTML(){return controlHTML();}
 function renderCompose(){
@@ -1195,9 +1197,21 @@ function renderCompose(){
 }
 function renderTray(){document.getElementById('tray').innerHTML=trayHTML();}
 function renderCtrl(){renderCompose();}
-window.acType=function(v){acQuery=v;renderTray();};
+window.acType=function(v){acQuery=v;const q=(v||'').trim();if(acTimer)clearTimeout(acTimer);if(q.length<2){acResults=[];acLoading=false;renderTray();return;}acTimer=setTimeout(function(){fetchPlaces(q);},260);renderTray();};
+function fetchPlaces(q){
+  const id=++acReqId; acLoading=true; renderTray();
+  if(typeof fetch==='undefined'){acResults=offlineMatches(q);acLoading=false;renderTray();return;}
+  fetch('https://photon.komoot.io/api/?limit=8&lang=en&q='+encodeURIComponent(q)).then(function(r){return r.json();}).then(function(j){
+    if(id!==acReqId)return;
+    const seen={},out=[];
+    (j.features||[]).forEach(function(f){const p=f.properties||{};if(p.countrycode!=='US')return;const st=STAB[p.state]||'';if(!st)return;const city=p.city||p.county||p.district||p.locality||p.name||'';const zip=p.postcode||'';if(!city&&!zip)return;const label=(city?city+', ':'')+st+(zip?' '+zip:'');if(seen[label])return;seen[label]=1;out.push(label);});
+    acResults=out.slice(0,6);
+    if(!acResults.length)acResults=offlineMatches(q);
+    acLoading=false; renderTray();
+  }).catch(function(){if(id!==acReqId)return;acResults=offlineMatches(q);acLoading=false;renderTray();});
+}
 window.acPick=function(p){const f=STAGES[cur].field;A[f]=p;meSay(p);advance();};
-window.acSubmit=function(){const q=(acQuery||'').trim().toLowerCase();if(!q)return;const top=PLACES.filter(p=>p.toLowerCase().includes(q))[0];if(top)acPick(top);};
+window.acSubmit=function(){if(acResults.length){acPick(acResults[0]);return;}const q=(acQuery||'').trim();if(q.length<2)return;const off=offlineMatches(q);if(off.length)acPick(off[0]);};
 window.pickText=function(v){const i=document.getElementById('cin');if(i)i.value=v;sendText();};
 function ibar(id,ph,fn){return '<div class="ibar"><span class="iorb"></span><input class="iin" id="'+id+'" placeholder="'+ph+'"><button class="isend" onclick="'+fn+'()" aria-label="Send"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>';}
 function controlHTML(){
