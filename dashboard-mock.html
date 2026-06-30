@@ -874,6 +874,10 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .pp-tl{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:700;color:var(--muted);margin-top:7px}
 .pp-tl .d{width:9px;height:9px;border-radius:50%;display:inline-block}
 .pp-tl .d.g{background:#1a7f4b}.pp-tl .d.a{background:#b7791f}.pp-tl .d.r{background:#c0392b}
+
+.atbl .st{display:inline-flex;align-items:center;gap:7px;font-size:13.5px;font-weight:600;color:#2d2d2d}
+.atbl .st-dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex:0 0 8px}
+.atbl .loc{font-size:12.5px;color:var(--muted);margin-top:2px}
 </style>
 </head>
 <body>
@@ -1170,9 +1174,9 @@ function agentsTable(empty){
   }
   const rows=ags.map(a=>{
     const m=a.metrics||{};const flag=a.awaiting>0;
-    const status=a.status==='sourcing'?'<span class="chip sourcing"><span class="dot"></span>Sourcing</span>':'<span class="chip active"><span class="dot"></span>Active</span>';
-    const action=flag?`<button class="review-btn" onclick="event.stopPropagation();location.href='interview-room.html?a=${a.id}'">Review ${a.awaiting} &rarr;</button>`:(a.status==='sourcing'?`<span class="ok-pill">Sourcing…</span>`:`<span class="ok-pill">All caught up</span>`);
-    return `<tr class="${flag?'flag':''}" onclick="location.href='interview-room.html?a=${a.id}'"><td><div class="role">${E(a.role)}</div><div class="loc">&#128205; ${E(a.location)}</div></td><td>${status}</td><td class="num"><b>${a.awaiting}</b></td><td class="num"><b>${a.confirmed}</b></td><td class="num">${m.showRate?m.showRate+'%':'—'}</td><td class="num"><b>${a.hires}</b></td><td class="nudgecell">${action}</td></tr>`;}).join('');
+    const stMap={active:['Active','#1a7f4b'],sourcing:['Sourcing','#b7791f'],paused:['Paused','#8a8a8a']};const _st=stMap[a.status]||stMap.active;const status='<span class="st"><span class="st-dot" style="background:'+_st[1]+'"></span>'+_st[0]+'</span>';
+    const action=flag?`<button class="review-btn" onclick="event.stopPropagation();location.href='interview-room.html?a=${a.id}'">Review</button>`:(a.status==='sourcing'?`<span class="ok-pill">Sourcing…</span>`:`<span class="ok-pill">All caught up</span>`);
+    return `<tr class="${flag?'flag':''}" onclick="location.href='interview-room.html?a=${a.id}'"><td><div class="role">${E(a.role)}</div><div class="loc">${E(a.location)}</div></td><td>${status}</td><td class="num"><b>${a.awaiting}</b></td><td class="num"><b>${a.confirmed}</b></td><td class="num">${m.showRate?m.showRate+'%':'—'}</td><td class="num"><b>${a.hires}</b></td><td class="nudgecell">${action}</td></tr>`;}).join('');
   return `<div class="atbl-wrap"><table class="atbl"><thead><tr><th>Role</th><th>Status</th><th class="num">Awaiting</th><th class="num">Interviews</th><th class="num">Show rate</th><th class="num">Hires</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
