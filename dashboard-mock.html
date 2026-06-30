@@ -762,7 +762,7 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
 /* analytics row */
-.an-row{display:grid;grid-template-columns:1.5fr 1fr;gap:18px;margin-bottom:18px}
+.an-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px}
 .an-card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:18px 20px}
 .an-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
 .an-h .t{font-size:13px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px}
@@ -770,9 +770,9 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .an-big{display:flex;align-items:baseline;gap:10px;margin-bottom:2px}
 .an-big .v{font-size:34px;font-weight:800;color:var(--text);letter-spacing:-1px}
 .an-delta{display:inline-flex;align-items:center;gap:4px;font-size:12.5px;font-weight:800;padding:3px 9px;border-radius:999px}
-.an-delta.up{background:#e6f4ec;color:#1a7f4b}.an-delta.flat{background:#eee9e0;color:var(--muted)}
+.an-delta.up{background:#eef0ec;color:#555}.an-delta.flat{background:#eee9e0;color:var(--muted)}
 .an-sub{font-size:12.5px;color:var(--muted);margin-bottom:10px}
-.an-chart{height:120px}
+.an-chart{height:84px}
 /* pipeline funnel */
 .fn{display:flex;flex-direction:column;gap:11px;margin-top:6px}
 .fn-row{display:flex;align-items:center;gap:11px}
@@ -781,7 +781,7 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .fn-row .bar i{display:block;height:100%;border-radius:7px}
 .fn-row .vv{position:absolute;left:10px;top:0;line-height:26px;font-size:13px;font-weight:800;color:#fff}
 .fn-row .vv.dark{color:var(--text)}
-.fn-c1{background:#0044b3}.fn-c2{background:#3f7ad6}.fn-c3{background:#6ea8e6}.fn-c4{background:#1a7f4b}
+.fn-c1,.fn-c2,.fn-c3,.fn-c4{background:#2f63c4}
 /* sidebar bottom cluster */
 .sb-cluster{margin-top:auto;padding:12px 14px 14px;border-top:1px solid rgba(255,255,255,.10)}
 .sb-icons{display:flex;gap:8px;margin-bottom:11px}
@@ -843,6 +843,13 @@ select.setup-input{appearance:none;-webkit-appearance:none;padding-right:44px;cu
 .oc.yes{background:#e9f6ef;border-color:#bfe3cd;color:#1a7f4b}
 .oc.maybe{background:#fdf6e3;border-color:#f0e0a8;color:#b7791f}
 .oc.no{background:#fbeae8;border-color:#f0ccc6;color:#c0392b}
+
+.pout{margin-top:14px;border-top:1px solid var(--line-soft);padding-top:12px}
+.pout .pl{font-size:11.5px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:9px}
+.pdots{display:flex;gap:18px}
+.pd{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--text)}
+.pd i{width:9px;height:9px;border-radius:50%;display:inline-block;flex:0 0 9px}
+.pd i.g{background:#1a7f4b}.pd i.a{background:#b7791f}.pd i.r{background:#c0392b}
 </style>
 </head>
 <body>
@@ -1086,6 +1093,7 @@ function pipelineHTML(empty){
   const row=(lb,v,cls,note)=>`<div class="fn-row"><div class="lb">${lb}</div><div class="bar"><i class="${cls}" style="width:${w(v)}"></i><span class="vv ${v/max<0.18?'dark':''}">${v}</span></div>${note?`<div class="note">${note}</div>`:''}</div>`;
   return `<div class="an-card ${empty?'muted-card':''}"><div class="an-h"><div class="t">Candidate pipeline</div><a href="candidates.html">View all &rarr;</a></div>
     <div class="fn">${row('Sourced',sourced,'fn-c1')}${row('Accepted',accepted,'fn-c2',declined?declined+' declined':'')}${row('Interviewed',interviewed,'fn-c3')}</div>
+    <div class="pout"><div class="pl">Marked after interview</div><div class="pdots"><span class="pd"><i class="g"></i>${yes} Yes</span><span class="pd"><i class="a"></i>${maybe} Maybe</span><span class="pd"><i class="r"></i>${no} No</span></div></div>
   </div>`;
 }
 
@@ -1116,7 +1124,7 @@ function drawChart(empty){
   if(chart)chart.destroy();
   chart=new Chart(ctx,{type:'line',data:{labels:WEEKS,datasets:[
     {label:'Booked',data:booked,borderColor:'#0044b3',backgroundColor:'rgba(0,68,179,.10)',fill:true,tension:.4,borderWidth:2.5,pointRadius:3,pointBackgroundColor:'#0044b3'},
-    {label:'Conducted',data:conducted,borderColor:'#9ab4dd',backgroundColor:'transparent',fill:false,tension:.4,borderWidth:2,pointRadius:0,borderDash:[5,4]}
+    {label:'Conducted',data:conducted,borderColor:'#bdbbb6',backgroundColor:'transparent',fill:false,tension:.4,borderWidth:2,pointRadius:0,borderDash:[5,4]}
   ]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:true,position:'bottom',labels:{boxWidth:10,boxHeight:10,usePointStyle:true,font:{size:11},color:'#595959'}}},scales:{y:{beginAtZero:true,suggestedMax:empty?4:10,grid:{color:'#f0eee9'},ticks:{font:{size:11},color:'#8a8a8a',stepSize:2}},x:{grid:{display:false},ticks:{font:{size:11},color:'#8a8a8a'}}}}});
 }
 
@@ -1145,7 +1153,6 @@ function paint(){
   statusBar();
   const empty=(view==='empty'||!ags.length);
   body.innerHTML=`<div class="an-row ${empty?'erow':''}">${trendCardHTML(empty)}${pipelineHTML(empty)}</div>
-    ${outcomesHTML(empty)}
     <div class="dash-grid">
       <div><div class="sec-h"><h2>Your agents</h2>${empty?'':'<a href="agents.html">View all &rarr;</a>'}</div>${agentsTable(empty)}</div>
       ${activityRail(empty)}
