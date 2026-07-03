@@ -120,6 +120,16 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .uic{border:none;background:none;color:var(--muted);cursor:pointer;width:22px;height:22px;display:flex;align-items:center;justify-content:center;border-radius:5px;flex:0 0 22px}
 .uic:hover{background:#eef0f3;color:var(--ink2)}
 .uic svg{width:15px;height:15px}
+.hero{background:#eef2fd;border:1px solid #e4e9f7;border-radius:10px;padding:32px 30px;margin-bottom:16px}
+.hero h2{margin:0 0 8px;font-size:20px;font-weight:500}
+.hero p{margin:0 0 16px;color:#8b9098;max-width:440px;font-size:13px}
+.hero .cta{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid #dfe3ea;border-radius:7px;padding:8px 12px;font-size:12.5px;font-weight:500;color:#2a4db0;cursor:pointer;font-family:inherit}
+.hero .cta:hover{border-color:#c9cfda}
+.sec-h{font-size:13px;font-weight:500;margin:18px 0 9px}
+.empty{padding:56px 20px;text-align:center}
+.empty svg{width:26px;height:26px;color:#c3c8cf}
+.empty h3{margin:12px 0 5px;font-size:15px;font-weight:500}
+.empty p{margin:0;color:#8b9098;font-size:12.5px}
 .main{flex:1;min-width:0}
 .top{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;border-bottom:1px solid var(--line2);background:var(--bg);position:sticky;top:0;z-index:5}
 .top .lh{display:flex;align-items:center;gap:10px;min-width:0}
@@ -195,44 +205,44 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
     </div>
     <nav class="nav">
       <div class="nav-global" id="navGlobal">
-        <a class="on" data-page="Overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
-        <a data-page="AI Agent"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg><span class="tx">AI Agent</span></a>
-        <a data-page="Sourcing"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.6"/><circle cx="16" cy="12" r="4.6"/></svg><span class="tx">Sourcing</span></a>
-        <a data-page="Candidates"><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span></a>
+        <a class="on" data-page="Overview" onclick="nav(this,'Overview')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
+        <a data-page="AI Agent" onclick="nav(this,'AI Agent')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg><span class="tx">AI Agent</span></a>
+        <a data-page="Sourcing" onclick="nav(this,'Sourcing')"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.6"/><circle cx="16" cy="12" r="4.6"/></svg><span class="tx">Sourcing</span></a>
+        <a data-page="Candidates" onclick="nav(this,'Candidates')"><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span></a>
         <div class="sep"></div>
-        <a data-page="Outreach"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span></a>
+        <a data-page="Outreach" onclick="nav(this,'Outreach')"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span></a>
       </div>
       <div class="nav-job" id="navJob">
-        <a class="on" data-page="Overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
-        <a data-page="AI Agent"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg><span class="tx">AI Agent</span></a>
-        <a data-page="Sourcing"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.6"/><circle cx="16" cy="12" r="4.6"/></svg><span class="tx">Sourcing</span></a>
+        <a class="on" data-page="Overview" onclick="nav(this,'Overview')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
+        <a data-page="AI Agent" onclick="nav(this,'AI Agent')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg><span class="tx">AI Agent</span></a>
+        <a data-page="Sourcing" onclick="nav(this,'Sourcing')"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.6"/><circle cx="16" cy="12" r="4.6"/></svg><span class="tx">Sourcing</span></a>
         <div class="group open" id="grpCand">
-          <a class="grp-head on" data-page="Candidates" onclick="toggleGroup(event,'grpCand')"><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
+          <a class="grp-head on" data-page="Candidates" onclick="toggleGroup(event,'grpCand');nav(this,'Candidates')"><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
           <div class="sub">
-            <a data-page="All Candidates">All Candidates<span class="cnt" style="margin-left:auto">249</span></a>
+            <a data-page="All Candidates" onclick="nav(this,'All Candidates')">All Candidates<span class="cnt" style="margin-left:auto">249</span></a>
             <div class="group g2 open" id="grpOut2">
               <a class="grp-head2 parent" onclick="toggleGroup(event,'grpOut2')"><span class="tx">In Outreach</span><span class="cnt">88</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
               <div class="sub2">
-                <a data-page="Not Started">Not Started<span class="cnt" style="margin-left:auto">40</span></a>
-                <a data-page="In Progress">In Progress<span class="cnt" style="margin-left:auto">41</span></a>
-                <a data-page="Error &amp; Paused">Error &amp; Paused<span class="cnt bad" style="margin-left:auto">7</span></a>
+                <a data-page="Not Started" onclick="nav(this,'Not Started')">Not Started<span class="cnt" style="margin-left:auto">40</span></a>
+                <a data-page="In Progress" onclick="nav(this,'In Progress')">In Progress<span class="cnt" style="margin-left:auto">41</span></a>
+                <a data-page="Error &amp; Paused" onclick="nav(this,'Error &amp; Paused')">Error &amp; Paused<span class="cnt bad" style="margin-left:auto">7</span></a>
               </div>
             </div>
             <div class="group g2 open" id="grpAct2">
               <a class="grp-head2 parent" onclick="toggleGroup(event,'grpAct2')"><span class="tx">Active Candidates</span><span class="cnt">34</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
               <div class="sub2">
-                <a data-page="Replied">Replied<span class="cnt" style="margin-left:auto">22</span></a>
-                <a data-page="Scheduled">Scheduled<span class="cnt" style="margin-left:auto">12</span></a>
+                <a data-page="Replied" onclick="nav(this,'Replied')">Replied<span class="cnt" style="margin-left:auto">22</span></a>
+                <a data-page="Scheduled" onclick="nav(this,'Scheduled')">Scheduled<span class="cnt" style="margin-left:auto">12</span></a>
               </div>
             </div>
-            <a data-page="Archived">Archived<span class="cnt" style="margin-left:auto">15</span></a>
+            <a data-page="Archived" onclick="nav(this,'Archived')">Archived<span class="cnt" style="margin-left:auto">15</span></a>
           </div>
         </div>
-        <a data-page="Outreach"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span></a>
-        <a data-page="Inbox"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg><span class="tx">Inbox</span><span class="cnt">3</span></a>
-        <a data-page="Pipeline"><svg viewBox="0 0 24 24"><path d="M5 4v16M11 4v16M17 4v16"/></svg><span class="tx">Pipeline</span></a>
-        <a data-page="Reports"><svg viewBox="0 0 24 24"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg><span class="tx">Reports</span></a>
-        <a data-page="Job Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.4H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 5 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10.6 3H11a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8z"/></svg><span class="tx">Job Settings</span></a>
+        <a data-page="Outreach" onclick="nav(this,'Outreach')"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span></a>
+        <a data-page="Inbox" onclick="nav(this,'Inbox')"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg><span class="tx">Inbox</span><span class="cnt">3</span></a>
+        <a data-page="Pipeline" onclick="nav(this,'Pipeline')"><svg viewBox="0 0 24 24"><path d="M5 4v16M11 4v16M17 4v16"/></svg><span class="tx">Pipeline</span></a>
+        <a data-page="Reports" onclick="nav(this,'Reports')"><svg viewBox="0 0 24 24"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg><span class="tx">Reports</span></a>
+        <a data-page="Job Settings" onclick="nav(this,'Job Settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.4H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 5 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10.6 3H11a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8z"/></svg><span class="tx">Job Settings</span></a>
       </div>
     </nav>
     <div class="side-sp"></div>
@@ -261,65 +271,55 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
         <button class="btn-p"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New search</button>
       </div>
     </div>
-    <div class="wrap">
-      <div class="krow">
-        <div class="kc"><div class="l">Sourced</div><div class="v">1,284</div></div>
-        <div class="kc"><div class="l">Unlocked</div><div class="v">142</div></div>
-        <div class="kc"><div class="l">Replied</div><div class="v">38</div></div>
-        <div class="kc"><div class="l">Interviews booked</div><div class="v">12</div></div>
-      </div>
-      <div class="card">
-        <div class="ch"><span class="t" id="listT">Active positions</span><a href="#">View all</a></div>
-        <div class="thead"><span class="c-role">Position</span><span class="c-status">Status</span><span class="c-pipe">Pipeline</span></div>
-        <div class="trow" onclick="pickJob('Registered Nurse','Houston, TX')">
-          <span class="c-role"><span class="nm">Registered Nurse <span class="loc">· Houston, TX</span></span></span>
-          <span class="c-status"><span class="dot g"></span>Sourcing</span>
-          <span class="c-pipe">31 unlocked · 9 replied · 3 booked</span>
-        </div>
-        <div class="trow" onclick="pickJob('Bilingual Call Center Rep','Remote (US)')">
-          <span class="c-role"><span class="nm">Bilingual Call Center Rep <span class="loc">· Remote (US)</span></span></span>
-          <span class="c-status"><span class="dot g"></span>Sourcing</span>
-          <span class="c-pipe">44 unlocked · 16 replied · 5 booked</span>
-        </div>
-        <div class="trow" onclick="pickJob('Warehouse Associate','Dallas, TX')">
-          <span class="c-role"><span class="nm">Warehouse Associate <span class="loc">· Dallas, TX</span></span></span>
-          <span class="c-status"><span class="dot w"></span>Paused</span>
-          <span class="c-pipe">12 unlocked · 2 replied · 0 booked</span>
-        </div>
-      </div>
-    </div>
+    <div class="wrap" id="wrap"></div>
   </main>
 </div>
 <div class="scrim" id="scrim" onclick="closeMenu()"></div>
 <script>
+var POSITIONS=[
+ {name:'Registered Nurse',loc:'Houston, TX',status:'Sourcing',dot:'g',pipe:'31 unlocked · 9 replied · 3 booked'},
+ {name:'Bilingual Call Center Rep',loc:'Remote (US)',status:'Sourcing',dot:'g',pipe:'44 unlocked · 16 replied · 5 booked'},
+ {name:'Warehouse Associate',loc:'Dallas, TX',status:'Paused',dot:'w',pipe:'12 unlocked · 2 replied · 0 booked'}
+];
+function posRows(){return POSITIONS.map(function(p){return '<div class="trow" onclick="pickJob(\''+p.name.replace(/'/g,"\\'")+'\',\''+p.loc+'\')"><span class="c-role"><span class="nm">'+p.name+' <span class="loc">· '+p.loc+'</span></span></span><span class="c-status"><span class="dot '+p.dot+'"></span>'+p.status+'</span><span class="c-pipe">'+p.pipe+'</span></div>';}).join('');}
+function overviewHTML(){return '<div class="krow"><div class="kc"><div class="l">Sourced</div><div class="v">1,284</div></div><div class="kc"><div class="l">Unlocked</div><div class="v">142</div></div><div class="kc"><div class="l">Replied</div><div class="v">38</div></div><div class="kc"><div class="l">Interviews booked</div><div class="v">12</div></div></div><div class="card"><div class="ch"><span class="t">Active positions</span><a href="#">View all</a></div><div class="thead"><span class="c-role">Position</span><span class="c-status">Status</span><span class="c-pipe">Pipeline</span></div>'+posRows()+'</div>';}
+function heroHTML(t,sub){return '<div class="hero"><h2>'+t+'</h2><p>'+sub+'</p><button class="cta"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke-width:2.2"><path d="M12 5v14M5 12h14"/></svg>Create New Position</button></div>';}
+function emptyHTML(t,sub){return '<div class="empty"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12h6"/></svg><h3>'+t+'</h3><p>'+sub+'</p></div>';}
+function pageHTML(page){
+ switch(page){
+  case 'Overview': return overviewHTML();
+  case 'AI Agent': return heroHTML('AI Agent works within a job','Select a position below to configure your Agent, review candidates, and monitor activity.')+'<div class="sec-h">Your agents</div>'+emptyHTML('No agents yet','You don\'t have any configured AI Agents.');
+  case 'Sourcing': return heroHTML('Sourcing happens within a job','Select a position below to source candidates, review them, and communicate.')+'<div class="sec-h">Your positions</div><div class="card"><div class="thead"><span class="c-role">Position</span><span class="c-status">Status</span><span class="c-pipe">Pipeline</span></div>'+posRows()+'</div>';
+  case 'Outreach': return emptyHTML('Nothing in queue','As you add candidates to your outreach sequence, steps that need manual review appear here.');
+  case 'Candidates': case 'All Candidates': return emptyHTML('No candidates yet','Sourced candidates for this position will show up here.');
+  case 'Not Started': case 'In Progress': case 'Error & Paused': case 'Replied': case 'Scheduled': case 'Archived': return emptyHTML(page,'Candidates in this state will appear here.');
+  case 'Inbox': return emptyHTML('Inbox is empty','Replies from candidates will appear here.');
+  case 'Pipeline': return emptyHTML('No pipeline yet','Move candidates through stages once you start sourcing.');
+  case 'Reports': return emptyHTML('No data yet','Reports populate as your agents run.');
+  case 'Job Settings': return emptyHTML('Job Settings','Configure this position here.');
+  default: return emptyHTML(page,'This section is coming next.');
+ }
+}
+var CURRENT_JOB=null;
+function render(page){
+ document.getElementById('wrap').innerHTML=pageHTML(page);
+ var h=document.getElementById('pageH');
+ h.innerHTML=page+(CURRENT_JOB?' <span class="crumb">· '+CURRENT_JOB+'</span>':'');
+}
+function nav(el,page){
+ var scope=el.closest('.nav-job')?'navJob':'navGlobal';
+ document.querySelectorAll('#'+scope+' a').forEach(function(a){a.classList.remove('on');});
+ el.classList.add('on');
+ render(page);
+}
 function toggleNav(){document.getElementById('app').classList.toggle('collapsed');}
 function toggleTry(){document.getElementById('tryNext').classList.toggle('closed');}
 function toggleGroup(e,id){e.preventDefault();e.stopPropagation();document.getElementById(id).classList.toggle('open');}
 function toggleMenu(e){e.stopPropagation();var m=document.getElementById('swMenu'),s=document.getElementById('scrim');var open=m.classList.toggle('open');s.classList.toggle('on',open);}
 function closeMenu(){document.getElementById('swMenu').classList.remove('open');document.getElementById('scrim').classList.remove('on');}
-function pickGlobal(){
-  document.getElementById('app').classList.remove('scoped');
-  document.getElementById('swT').textContent='My Positions';
-  document.getElementById('miAll').classList.add('on');
-  document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.remove('on');});
-  setPage('Overview','navGlobal');
-  document.getElementById('pageH').textContent='Overview';
-  document.getElementById('listT').textContent='Active positions';
-  closeMenu();
-}
-function pickJob(name,loc){
-  var app=document.getElementById('app');
-  app.classList.add('scoped');
-  document.getElementById('swT').textContent=name;
-  document.getElementById('miAll').classList.remove('on');
-  document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.toggle('on',p.textContent.indexOf(name)===0);});
-  setPage('Overview','navJob');
-  document.getElementById('pageH').innerHTML='Overview <span class="crumb">· '+name+'</span>';
-  closeMenu();
-}
-function setPage(page,scope){
-  document.querySelectorAll('#'+scope+' a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-page')===page);});
-}
+function pickGlobal(){var app=document.getElementById('app');app.classList.remove('scoped');CURRENT_JOB=null;document.getElementById('swT').textContent='My Positions';document.getElementById('miAll').classList.add('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.remove('on');});document.querySelectorAll('#navGlobal a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-page')==='Overview');});render('Overview');closeMenu();}
+function pickJob(name,loc){var app=document.getElementById('app');app.classList.add('scoped');CURRENT_JOB=name;document.getElementById('swT').textContent=name;document.getElementById('miAll').classList.remove('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.toggle('on',p.textContent.indexOf(name)===0);});document.querySelectorAll('#navJob a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-page')==='Overview');});render('Overview');closeMenu();}
+render('Overview');
 </script>
 </body>
 </html>
