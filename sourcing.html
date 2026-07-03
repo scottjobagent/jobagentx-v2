@@ -11,7 +11,7 @@
   --ink:#1c2128; --ink2:#454b54; --muted:#8b9098; --faint:#aeb4bd;
   --accent:#3159d6; --accent-soft:#eef2fd; --accent-ink:#2a4db0;
   --good:#2f9e6a; --warn:#c08a2e; --bad:#c0392b;
-  --r:7px; --r-lg:9px; --side:210px; --side-min:56px;
+  --r:7px; --r-lg:9px; --side:212px; --side-min:56px;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -19,8 +19,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-se
 a{color:inherit;text-decoration:none}
 svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .app{display:flex;min-height:100vh}
-/* ---------- sidebar ---------- */
-.side{width:var(--side);flex:0 0 var(--side);background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;transition:width .18s ease,flex-basis .18s ease;overflow:hidden}
+.side{width:var(--side);flex:0 0 var(--side);background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;transition:width .18s ease,flex-basis .18s ease;overflow:visible}
 .brand{display:flex;align-items:center;justify-content:space-between;padding:13px 13px 9px;gap:8px}
 .brand .lg{display:flex;align-items:center;gap:8px;min-width:0}
 .brand .mk{width:20px;height:20px;border-radius:5px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;flex:0 0 20px}
@@ -28,25 +27,53 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .collapse-btn{width:22px;height:22px;border-radius:5px;border:none;background:none;color:var(--faint);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 22px}
 .collapse-btn:hover{background:#eef0f3;color:var(--ink2)}
 .collapse-btn svg{width:15px;height:15px}
-.ws{margin:2px 11px 8px;border:1px solid var(--line);border-radius:var(--r);padding:6px 8px;display:flex;align-items:center;gap:7px;background:var(--card);cursor:pointer;white-space:nowrap;overflow:hidden}
+.swx{position:relative;margin:2px 11px 8px}
+.ws{border:1px solid var(--line);border-radius:var(--r);padding:6px 8px;display:flex;align-items:center;gap:7px;background:var(--card);cursor:pointer;white-space:nowrap;overflow:hidden;width:100%}
 .ws:hover{border-color:#d9dce1}
-.ws .av{width:16px;height:16px;border-radius:5px;background:#333941;color:#fff;font-size:9px;font-weight:500;display:flex;align-items:center;justify-content:center;flex:0 0 16px}
-.ws .t{flex:1;font-size:12px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ws .avico{color:var(--muted);width:15px;height:15px;flex:0 0 15px}
+.ws .t{flex:1;font-size:12px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;text-align:left}
 .ws .cx{color:var(--faint);width:13px;height:13px;flex:0 0 13px}
-.nav{padding:2px 11px;display:flex;flex-direction:column;gap:1px;overflow-y:auto}
-.nav .lbl{font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);padding:11px 8px 4px;white-space:nowrap}
+.menu{position:absolute;top:calc(100% + 4px);left:0;width:288px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:0 8px 26px rgba(20,26,40,.13);padding:5px;z-index:40;display:none}
+.menu.open{display:block}
+.menu .mi{display:flex;align-items:center;gap:9px;padding:8px 9px;border-radius:var(--r);cursor:pointer;font-size:12.5px;color:var(--ink)}
+.menu .mi:hover{background:#f2f4f7}
+.menu .mi svg{width:15px;height:15px;color:var(--muted);flex:0 0 15px}
+.menu .mi.on{background:var(--accent-soft);color:var(--accent-ink)}
+.menu .co{display:flex;align-items:center;gap:8px;padding:9px 9px 4px;font-size:11px;font-weight:600;color:var(--muted);letter-spacing:.02em}
+.menu .co .av{width:16px;height:16px;border-radius:5px;background:#333941;color:#fff;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.menu .pos{display:flex;align-items:center;justify-content:space-between;padding:7px 9px 7px 32px;border-radius:var(--r);cursor:pointer;font-size:12.5px}
+.menu .pos:hover{background:#f2f4f7}
+.menu .pos.on{background:var(--accent-soft);color:var(--accent-ink)}
+.menu .pos .st{font-size:10.5px;color:var(--faint);display:flex;align-items:center;gap:5px}
+.menu .pos .st .dot{width:5px;height:5px;border-radius:50%;background:var(--good)}
+.menu .pos .st .dot.w{background:var(--warn)}
+.menu hr{border:none;border-top:1px solid var(--line2);margin:5px 2px}
+.menu .new{color:var(--accent);font-weight:500}
+.menu .new svg{color:var(--accent)}
+.nav{padding:2px 11px;display:flex;flex-direction:column;gap:1px;overflow-y:auto;overflow-x:hidden}
+.nav .sep{height:1px;background:var(--line2);margin:8px 8px}
 .nav a{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:var(--r);color:var(--ink2);font-weight:400;white-space:nowrap;cursor:pointer}
 .nav a:hover{background:#eef0f3}
 .nav a.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:500}
 .nav a svg{width:15px;height:15px;flex:0 0 15px}
 .nav a .tx{flex:1;overflow:hidden;text-overflow:ellipsis}
 .nav a .cnt{font-size:11px;color:var(--faint)}
+.nav a .cnt.bad{color:var(--bad)}
 .nav a .car{width:13px;height:13px;color:var(--faint);transition:transform .16s ease}
-.group.open .grp-head .car{transform:rotate(180deg)}
-.group .sub{display:none;flex-direction:column;gap:1px;margin:1px 0 2px}
-.group.open .sub{display:flex}
+.group.open>.grp-head .car{transform:rotate(180deg)}
+.group>.sub{display:none;flex-direction:column;gap:1px;margin:1px 0 2px}
+.group.open>.sub{display:flex}
 .group .sub a{padding:5px 8px 5px 32px;color:var(--muted);font-size:12px}
 .group .sub a:hover{color:var(--ink2)}
+.group .sub a.parent{color:var(--ink2);justify-content:flex-start}
+.group .sub .g2>.sub2{display:none;flex-direction:column;gap:1px}
+.group .sub .g2.open>.sub2{display:flex}
+.group .sub .g2>.grp-head2 .car{width:12px;height:12px;transition:transform .16s ease}
+.group .sub .g2.open>.grp-head2 .car{transform:rotate(180deg)}
+.group .sub .g2 .sub2 a{padding-left:46px;font-size:11.5px;color:var(--muted)}
+.nav-job{display:none}
+.app.scoped .nav-global{display:none}
+.app.scoped .nav-job{display:flex;flex-direction:column;gap:1px}
 .side-sp{flex:1}
 .trial{margin:8px 11px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;white-space:nowrap;overflow:hidden}
 .trial .tr{display:flex;align-items:center;justify-content:space-between}
@@ -59,15 +86,15 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .urow .av{width:21px;height:21px;border-radius:50%;background:#333941;color:#fff;font-size:9.5px;font-weight:500;display:flex;align-items:center;justify-content:center;flex:0 0 21px}
 .urow .nm{flex:1;font-size:11.5px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis}
 .urow svg{width:14px;height:14px;color:var(--faint);flex:0 0 14px}
-/* collapsed state */
 .app.collapsed .side{width:var(--side-min);flex-basis:var(--side-min)}
 .app.collapsed .brand{justify-content:center;padding:13px 0 9px}
 .app.collapsed .brand .nm,
 .app.collapsed .ws .t,.app.collapsed .ws .cx,
-.app.collapsed .nav .lbl,.app.collapsed .nav a .tx,.app.collapsed .nav a .cnt,.app.collapsed .nav a .car,
+.app.collapsed .nav a .tx,.app.collapsed .nav a .cnt,.app.collapsed .nav a .car,.app.collapsed .nav .sep,
 .app.collapsed .group .sub,
 .app.collapsed .trial .tr,.app.collapsed .trial .u,
 .app.collapsed .urow .nm,.app.collapsed .urow svg{display:none}
+.app.collapsed .swx{margin:2px 8px 8px}
 .app.collapsed .ws{justify-content:center;padding:6px}
 .app.collapsed .nav a{justify-content:center;padding:7px}
 .app.collapsed .trial{padding:8px;text-align:center}
@@ -75,11 +102,11 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .app.collapsed .urow{justify-content:center;padding:9px}
 .app.collapsed .collapse-btn{display:none}
 .app.collapsed .brand .lg{gap:0}
-/* ---------- main ---------- */
 .main{flex:1;min-width:0}
 .top{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;border-bottom:1px solid var(--line2);background:var(--bg);position:sticky;top:0;z-index:5}
-.top .lh{display:flex;align-items:center;gap:10px}
-.top h1{margin:0;font-size:15px;font-weight:500}
+.top .lh{display:flex;align-items:center;gap:10px;min-width:0}
+.top h1{margin:0;font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.top .crumb{color:var(--muted);font-weight:400}
 .icon-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;display:none;align-items:center;justify-content:center}
 .icon-btn svg{width:15px;height:15px}
 .top .r{display:flex;align-items:center;gap:8px}
@@ -109,9 +136,11 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .c-status .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px}
 .dot.g{background:var(--good)}.dot.w{background:var(--warn)}.dot.n{background:var(--faint)}
 .c-pipe{width:200px;text-align:right;font-size:12px;color:var(--muted)}
+.scrim{position:fixed;inset:0;z-index:35;display:none}
+.scrim.on{display:block}
 @media(max-width:920px){
   :root{--side:var(--side-min)}
-  .app .side .brand .nm,.app .side .ws .t,.app .side .ws .cx,.app .side .nav .lbl,.app .side .nav a .tx,.app .side .nav a .cnt,.app .side .nav a .car,.app .side .group .sub,.app .side .trial .tr,.app .side .trial .u,.app .side .urow .nm,.app .side .urow svg{display:none}
+  .app:not(.scoped) .side .brand .nm,.app .side .ws .t,.app .side .ws .cx,.app .side .nav a .tx,.app .side .nav a .cnt,.app .side .nav a .car,.app .side .nav .sep,.app .side .group .sub,.app .side .trial .tr,.app .side .trial .u,.app .side .urow .nm,.app .side .urow svg,.app .side .brand .nm{display:none}
   .app .side .nav a{justify-content:center;padding:7px}.app .side .ws{justify-content:center;padding:6px}.app .side .urow{justify-content:center}.app .side .brand{justify-content:center}.app .side .collapse-btn{display:none}
   .krow{grid-template-columns:repeat(2,1fr)}
   .c-pipe{width:auto}.c-status{width:96px}
@@ -126,21 +155,67 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
       <div class="lg"><div class="mk">J</div><span class="nm">JobAgentX</span></div>
       <button class="collapse-btn" onclick="toggleNav()" aria-label="Collapse"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
     </div>
-    <div class="ws"><div class="av">NW</div><span class="t">Northwind Co</span><svg class="cx" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg></div>
-    <nav class="nav">
-      <a class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
-      <a><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="tx">Sourcing</span></a>
-      <a><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span><span class="cnt">249</span></a>
-      <div class="lbl">Engage</div>
-      <div class="group" id="grp-out">
-        <a class="grp-head" onclick="toggleGroup(event,'grp-out')"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
-        <div class="sub"><a>Sequences</a><a>Templates</a><a>Messages</a></div>
+    <div class="swx">
+      <button class="ws" onclick="toggleMenu(event)">
+        <svg class="avico" viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg>
+        <span class="t" id="swT">My Positions</span>
+        <svg class="cx" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg>
+      </button>
+      <div class="menu" id="swMenu">
+        <div class="mi on" id="miAll" onclick="pickGlobal()">
+          <svg viewBox="0 0 24 24"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 12l9 4 9-4M3 17l9 4 9-4"/></svg>
+          All My Job Positions
+        </div>
+        <hr>
+        <div class="co"><div class="av">NW</div>Northwind Co <span style="color:var(--faint);font-weight:500">(3)</span></div>
+        <div class="pos" onclick="pickJob('Registered Nurse','Houston, TX')"><span>Registered Nurse</span><span class="st"><span class="dot"></span>Sourcing</span></div>
+        <div class="pos" onclick="pickJob('Bilingual Call Center Rep','Remote (US)')"><span>Bilingual Call Center Rep</span><span class="st"><span class="dot"></span>Sourcing</span></div>
+        <div class="pos" onclick="pickJob('Warehouse Associate','Dallas, TX')"><span>Warehouse Associate</span><span class="st"><span class="dot w"></span>Paused</span></div>
+        <hr>
+        <div class="mi new"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New Job Position</div>
       </div>
-      <a><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg><span class="tx">Inbox</span><span class="cnt">3</span></a>
-      <a><svg viewBox="0 0 24 24"><path d="M5 4v16M11 4v16M17 4v16"/></svg><span class="tx">Pipeline</span></a>
-      <div class="lbl">Insights</div>
-      <a><svg viewBox="0 0 24 24"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg><span class="tx">Reports</span></a>
-      <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v4l2.5 2"/></svg><span class="tx">Settings</span></a>
+    </div>
+    <nav class="nav">
+      <div class="nav-global" id="navGlobal">
+        <a class="on" data-page="Overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
+        <a data-page="AI Agent"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg><span class="tx">AI Agent</span></a>
+        <a data-page="Sourcing"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.6"/><circle cx="16" cy="12" r="4.6"/></svg><span class="tx">Sourcing</span></a>
+        <a data-page="Candidates"><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span></a>
+        <div class="sep"></div>
+        <a data-page="Outreach"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span></a>
+      </div>
+      <div class="nav-job" id="navJob">
+        <a class="on" data-page="Overview"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
+        <a data-page="AI Agent"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg><span class="tx">AI Agent</span></a>
+        <a data-page="Sourcing"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.6"/><circle cx="16" cy="12" r="4.6"/></svg><span class="tx">Sourcing</span></a>
+        <div class="group open" id="grpCand">
+          <a class="grp-head on" data-page="Candidates" onclick="toggleGroup(event,'grpCand')"><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
+          <div class="sub">
+            <a data-page="All Candidates">All Candidates<span class="cnt" style="margin-left:auto">249</span></a>
+            <div class="group g2 open" id="grpOut2">
+              <a class="grp-head2 parent" onclick="toggleGroup(event,'grpOut2')"><span class="tx">In Outreach</span><span class="cnt">88</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
+              <div class="sub2">
+                <a data-page="Not Started">Not Started<span class="cnt" style="margin-left:auto">40</span></a>
+                <a data-page="In Progress">In Progress<span class="cnt" style="margin-left:auto">41</span></a>
+                <a data-page="Error &amp; Paused">Error &amp; Paused<span class="cnt bad" style="margin-left:auto">7</span></a>
+              </div>
+            </div>
+            <div class="group g2 open" id="grpAct2">
+              <a class="grp-head2 parent" onclick="toggleGroup(event,'grpAct2')"><span class="tx">Active Candidates</span><span class="cnt">34</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
+              <div class="sub2">
+                <a data-page="Replied">Replied<span class="cnt" style="margin-left:auto">22</span></a>
+                <a data-page="Scheduled">Scheduled<span class="cnt" style="margin-left:auto">12</span></a>
+              </div>
+            </div>
+            <a data-page="Archived">Archived<span class="cnt" style="margin-left:auto">15</span></a>
+          </div>
+        </div>
+        <a data-page="Outreach"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span></a>
+        <a data-page="Inbox"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg><span class="tx">Inbox</span><span class="cnt">3</span></a>
+        <a data-page="Pipeline"><svg viewBox="0 0 24 24"><path d="M5 4v16M11 4v16M17 4v16"/></svg><span class="tx">Pipeline</span></a>
+        <a data-page="Reports"><svg viewBox="0 0 24 24"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg><span class="tx">Reports</span></a>
+        <a data-page="Job Settings"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.4H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 5 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10.6 3H11a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8z"/></svg><span class="tx">Job Settings</span></a>
+      </div>
     </nav>
     <div class="side-sp"></div>
     <div class="trial">
@@ -150,12 +225,11 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
     </div>
     <div class="urow"><div class="av">SL</div><span class="nm">Scott · Northwind</span><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.6 21a2 2 0 0 1-3.2 0"/></svg></div>
   </aside>
-
   <main class="main">
     <div class="top">
       <div class="lh">
         <button class="icon-btn" id="mnav" onclick="toggleNav()" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
-        <h1>Overview</h1>
+        <h1 id="pageH">Overview</h1>
       </div>
       <div class="r">
         <span class="pill"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Last 7 days</span>
@@ -170,19 +244,19 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
         <div class="kc"><div class="l">Interviews booked</div><div class="v">12</div></div>
       </div>
       <div class="card">
-        <div class="ch"><span class="t">Active searches</span><a href="#">View all</a></div>
-        <div class="thead"><span class="c-role">Role</span><span class="c-status">Status</span><span class="c-pipe">Pipeline</span></div>
-        <div class="trow">
+        <div class="ch"><span class="t" id="listT">Active positions</span><a href="#">View all</a></div>
+        <div class="thead"><span class="c-role">Position</span><span class="c-status">Status</span><span class="c-pipe">Pipeline</span></div>
+        <div class="trow" onclick="pickJob('Registered Nurse','Houston, TX')">
           <span class="c-role"><span class="nm">Registered Nurse <span class="loc">· Houston, TX</span></span></span>
           <span class="c-status"><span class="dot g"></span>Sourcing</span>
           <span class="c-pipe">31 unlocked · 9 replied · 3 booked</span>
         </div>
-        <div class="trow">
+        <div class="trow" onclick="pickJob('Bilingual Call Center Rep','Remote (US)')">
           <span class="c-role"><span class="nm">Bilingual Call Center Rep <span class="loc">· Remote (US)</span></span></span>
           <span class="c-status"><span class="dot g"></span>Sourcing</span>
           <span class="c-pipe">44 unlocked · 16 replied · 5 booked</span>
         </div>
-        <div class="trow">
+        <div class="trow" onclick="pickJob('Warehouse Associate','Dallas, TX')">
           <span class="c-role"><span class="nm">Warehouse Associate <span class="loc">· Dallas, TX</span></span></span>
           <span class="c-status"><span class="dot w"></span>Paused</span>
           <span class="c-pipe">12 unlocked · 2 replied · 0 booked</span>
@@ -191,9 +265,35 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
     </div>
   </main>
 </div>
+<div class="scrim" id="scrim" onclick="closeMenu()"></div>
 <script>
 function toggleNav(){document.getElementById('app').classList.toggle('collapsed');}
-function toggleGroup(e,id){e.preventDefault();document.getElementById(id).classList.toggle('open');}
+function toggleGroup(e,id){e.preventDefault();e.stopPropagation();document.getElementById(id).classList.toggle('open');}
+function toggleMenu(e){e.stopPropagation();var m=document.getElementById('swMenu'),s=document.getElementById('scrim');var open=m.classList.toggle('open');s.classList.toggle('on',open);}
+function closeMenu(){document.getElementById('swMenu').classList.remove('open');document.getElementById('scrim').classList.remove('on');}
+function pickGlobal(){
+  document.getElementById('app').classList.remove('scoped');
+  document.getElementById('swT').textContent='My Positions';
+  document.getElementById('miAll').classList.add('on');
+  document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.remove('on');});
+  setPage('Overview','navGlobal');
+  document.getElementById('pageH').textContent='Overview';
+  document.getElementById('listT').textContent='Active positions';
+  closeMenu();
+}
+function pickJob(name,loc){
+  var app=document.getElementById('app');
+  app.classList.add('scoped');
+  document.getElementById('swT').textContent=name;
+  document.getElementById('miAll').classList.remove('on');
+  document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.toggle('on',p.textContent.indexOf(name)===0);});
+  setPage('Overview','navJob');
+  document.getElementById('pageH').innerHTML='Overview <span class="crumb">· '+name+'</span>';
+  closeMenu();
+}
+function setPage(page,scope){
+  document.querySelectorAll('#'+scope+' a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-page')===page);});
+}
 </script>
 </body>
 </html>
