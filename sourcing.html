@@ -4,115 +4,143 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JobAgentX — Sourcing</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#f7f8fa; --panel:#fbfcfd; --card:#ffffff; --line:#e7e9ee; --line-2:#eef0f3;
-  --ink:#161a20; --ink-2:#3f4650; --muted:#7b828d; --faint:#a6acb5;
-  --accent:#3159d6; --accent-soft:#eef2fd; --accent-ink:#274bb5;
-  --good:#1f9d68; --good-soft:#e8f6ef; --warn:#c07d18; --warn-soft:#fbf1e0; --bad:#c0392b;
-  --r:8px; --r-lg:12px;
+  --bg:#f7f8fa; --panel:#fbfcfd; --card:#fff; --line:#e9ebef; --line2:#eef0f3;
+  --ink:#1c2128; --ink2:#454b54; --muted:#8b9098; --faint:#aeb4bd;
+  --accent:#3159d6; --accent-soft:#eef2fd; --accent-ink:#2a4db0;
+  --good:#2f9e6a; --warn:#c08a2e; --bad:#c0392b;
+  --r:7px; --r-lg:9px; --side:210px; --side-min:56px;
 }
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:12.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
+svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .app{display:flex;min-height:100vh}
 /* ---------- sidebar ---------- */
-.side{width:232px;flex:0 0 232px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
-.brand{display:flex;align-items:center;gap:8px;padding:16px 18px 12px}
-.brand .mk{width:22px;height:22px;border-radius:6px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:12px}
-.brand .nm{font-weight:600;font-size:15px;letter-spacing:-.2px}
-.ws{margin:4px 12px 8px;border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;display:flex;align-items:center;gap:8px;cursor:pointer;background:var(--card)}
-.ws:hover{border-color:#d7dae0}
-.ws .av{width:20px;height:20px;border-radius:5px;background:#2b303a;color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center}
-.ws .t{flex:1;min-width:0}
-.ws .t .l1{font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ws .cx{color:var(--faint);font-size:12px}
-.nav{padding:6px 10px;display:flex;flex-direction:column;gap:1px}
-.nav .lbl{font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);padding:12px 10px 5px}
-.nav a{display:flex;align-items:center;gap:10px;padding:7px 10px;border-radius:var(--r);color:var(--ink-2);font-size:13px;font-weight:500}
-.nav a:hover{background:#f0f2f5}
-.nav a.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:600}
-.nav a svg{width:16px;height:16px;flex:0 0 16px;stroke-width:1.7}
-.nav a .cnt{margin-left:auto;font-size:11px;color:var(--faint);font-weight:600}
+.side{width:var(--side);flex:0 0 var(--side);background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;transition:width .18s ease,flex-basis .18s ease;overflow:hidden}
+.brand{display:flex;align-items:center;justify-content:space-between;padding:13px 13px 9px;gap:8px}
+.brand .lg{display:flex;align-items:center;gap:8px;min-width:0}
+.brand .mk{width:20px;height:20px;border-radius:5px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;flex:0 0 20px}
+.brand .nm{font-weight:600;font-size:13px;white-space:nowrap}
+.collapse-btn{width:22px;height:22px;border-radius:5px;border:none;background:none;color:var(--faint);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 22px}
+.collapse-btn:hover{background:#eef0f3;color:var(--ink2)}
+.collapse-btn svg{width:15px;height:15px}
+.ws{margin:2px 11px 8px;border:1px solid var(--line);border-radius:var(--r);padding:6px 8px;display:flex;align-items:center;gap:7px;background:var(--card);cursor:pointer;white-space:nowrap;overflow:hidden}
+.ws:hover{border-color:#d9dce1}
+.ws .av{width:16px;height:16px;border-radius:5px;background:#333941;color:#fff;font-size:9px;font-weight:500;display:flex;align-items:center;justify-content:center;flex:0 0 16px}
+.ws .t{flex:1;font-size:12px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis}
+.ws .cx{color:var(--faint);width:13px;height:13px;flex:0 0 13px}
+.nav{padding:2px 11px;display:flex;flex-direction:column;gap:1px;overflow-y:auto}
+.nav .lbl{font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);padding:11px 8px 4px;white-space:nowrap}
+.nav a{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:var(--r);color:var(--ink2);font-weight:400;white-space:nowrap;cursor:pointer}
+.nav a:hover{background:#eef0f3}
+.nav a.on{background:var(--accent-soft);color:var(--accent-ink);font-weight:500}
+.nav a svg{width:15px;height:15px;flex:0 0 15px}
+.nav a .tx{flex:1;overflow:hidden;text-overflow:ellipsis}
+.nav a .cnt{font-size:11px;color:var(--faint)}
+.nav a .car{width:13px;height:13px;color:var(--faint);transition:transform .16s ease}
+.group.open .grp-head .car{transform:rotate(180deg)}
+.group .sub{display:none;flex-direction:column;gap:1px;margin:1px 0 2px}
+.group.open .sub{display:flex}
+.group .sub a{padding:5px 8px 5px 32px;color:var(--muted);font-size:12px}
+.group .sub a:hover{color:var(--ink2)}
 .side-sp{flex:1}
-.trial{margin:10px 12px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:10px 12px}
+.trial{margin:8px 11px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;white-space:nowrap;overflow:hidden}
 .trial .tr{display:flex;align-items:center;justify-content:space-between}
-.trial .tr .l{font-size:12px;font-weight:600;color:var(--ink)}
-.trial .tr a{font-size:12px;font-weight:600;color:var(--accent)}
-.trial .track{height:4px;border-radius:3px;background:#edeff2;overflow:hidden;margin:8px 0 4px}
+.trial .tr .l{font-size:11.5px;font-weight:500}
+.trial .tr a{font-size:11.5px;font-weight:500;color:var(--accent)}
+.trial .track{height:4px;border-radius:3px;background:#edeff2;overflow:hidden;margin:7px 0 4px}
 .trial .track i{display:block;height:100%;background:var(--accent);width:22%}
-.trial .u{font-size:11px;color:var(--muted)}
-.urow{display:flex;align-items:center;gap:9px;padding:10px 16px;border-top:1px solid var(--line)}
-.urow .av{width:26px;height:26px;border-radius:50%;background:#2b303a;color:#fff;font-size:11px;font-weight:600;display:flex;align-items:center;justify-content:center}
-.urow .nm{flex:1;font-size:12.5px;font-weight:500;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.urow .ic{color:var(--faint);width:16px;height:16px}
+.trial .u{font-size:10.5px;color:var(--muted)}
+.urow{display:flex;align-items:center;gap:8px;padding:8px 13px;border-top:1px solid var(--line);white-space:nowrap;overflow:hidden}
+.urow .av{width:21px;height:21px;border-radius:50%;background:#333941;color:#fff;font-size:9.5px;font-weight:500;display:flex;align-items:center;justify-content:center;flex:0 0 21px}
+.urow .nm{flex:1;font-size:11.5px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis}
+.urow svg{width:14px;height:14px;color:var(--faint);flex:0 0 14px}
+/* collapsed state */
+.app.collapsed .side{width:var(--side-min);flex-basis:var(--side-min)}
+.app.collapsed .brand{justify-content:center;padding:13px 0 9px}
+.app.collapsed .brand .nm,
+.app.collapsed .ws .t,.app.collapsed .ws .cx,
+.app.collapsed .nav .lbl,.app.collapsed .nav a .tx,.app.collapsed .nav a .cnt,.app.collapsed .nav a .car,
+.app.collapsed .group .sub,
+.app.collapsed .trial .tr,.app.collapsed .trial .u,
+.app.collapsed .urow .nm,.app.collapsed .urow svg{display:none}
+.app.collapsed .ws{justify-content:center;padding:6px}
+.app.collapsed .nav a{justify-content:center;padding:7px}
+.app.collapsed .trial{padding:8px;text-align:center}
+.app.collapsed .trial .track{margin:0}
+.app.collapsed .urow{justify-content:center;padding:9px}
+.app.collapsed .collapse-btn{display:none}
+.app.collapsed .brand .lg{gap:0}
 /* ---------- main ---------- */
 .main{flex:1;min-width:0}
-.top{display:flex;align-items:center;justify-content:space-between;padding:16px 26px;border-bottom:1px solid var(--line-2);background:var(--bg);position:sticky;top:0;z-index:5}
-.top h1{margin:0;font-size:18px;font-weight:600;letter-spacing:-.3px}
-.top .r{display:flex;align-items:center;gap:9px}
-.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:6px 11px;font-size:12.5px;font-weight:500;color:var(--ink-2);cursor:pointer}
-.pill:hover{border-color:#d7dae0}
-.pill svg{width:14px;height:14px;color:var(--muted)}
-.btn{display:inline-flex;align-items:center;gap:7px;border-radius:var(--r);padding:8px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid var(--line);background:var(--card);color:var(--ink)}
-.btn:hover{border-color:#d7dae0}
-.btn-p{background:var(--accent);border-color:var(--accent);color:#fff}
-.btn-p:hover{background:#274bb5}
-.wrap{padding:22px 26px 40px;max-width:1180px}
-/* metric row */
-.mrow{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px}
-.mcard{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:15px 16px}
-.mcard .l{font-size:12px;color:var(--muted);font-weight:500}
-.mcard .v{font-size:23px;font-weight:600;letter-spacing:-.5px;margin-top:6px}
-.mcard .d{font-size:11.5px;color:var(--good);font-weight:600;margin-top:3px}
-.mcard .d.flat{color:var(--muted)}
-/* two-col */
-.grid2{display:grid;grid-template-columns:1.5fr 1fr;gap:16px}
+.top{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;border-bottom:1px solid var(--line2);background:var(--bg);position:sticky;top:0;z-index:5}
+.top .lh{display:flex;align-items:center;gap:10px}
+.top h1{margin:0;font-size:15px;font-weight:500}
+.icon-btn{width:26px;height:26px;border-radius:6px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;display:none;align-items:center;justify-content:center}
+.icon-btn svg{width:15px;height:15px}
+.top .r{display:flex;align-items:center;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);border-radius:var(--r);padding:5px 10px;font-size:11.5px;color:var(--ink2);cursor:pointer;white-space:nowrap}
+.pill:hover{border-color:#d9dce1}
+.pill svg{width:13px;height:13px;color:var(--muted)}
+.btn-p{display:inline-flex;align-items:center;gap:6px;background:var(--accent);border:none;color:#fff;border-radius:var(--r);padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap}
+.btn-p:hover{background:var(--accent-ink)}
+.btn-p svg{width:14px;height:14px;stroke-width:2.2}
+.wrap{padding:18px 22px 40px;max-width:1200px}
+.krow{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px}
+.kc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:11px 13px}
+.kc .l{font-size:10.5px;color:var(--muted);letter-spacing:.02em;text-transform:uppercase}
+.kc .v{font-size:19px;font-weight:500;margin-top:5px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden}
-.card .h{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 12px}
-.card .h .t{font-size:13.5px;font-weight:600}
-.card .h a{font-size:12.5px;font-weight:600;color:var(--accent)}
-/* positions list */
-.pos{display:flex;align-items:center;gap:14px;padding:13px 16px;border-top:1px solid var(--line-2);cursor:pointer}
-.pos:hover{background:#fafbfc}
-.pos .ic{width:30px;height:30px;border-radius:7px;background:#eceef2;display:flex;align-items:center;justify-content:center;color:var(--ink-2);font-weight:600;font-size:12px;flex:0 0 30px}
-.pos .mn{flex:1;min-width:0}
-.pos .mn .nm{font-size:13.5px;font-weight:600;color:var(--ink)}
-.pos .mn .sub{font-size:12px;color:var(--muted);margin-top:1px;display:flex;align-items:center;gap:6px}
-.stat{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
-.dot{width:6px;height:6px;border-radius:50%;display:inline-block}
+.ch{display:flex;align-items:center;justify-content:space-between;padding:11px 14px 10px;border-bottom:1px solid var(--line2)}
+.ch .t{font-size:12.5px;font-weight:500}
+.ch a{font-size:11.5px;color:var(--accent)}
+.thead,.trow{display:flex;align-items:center;padding:10px 14px}
+.thead{padding:6px 14px;font-size:10px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;color:var(--faint)}
+.trow{border-top:1px solid var(--line2);cursor:pointer}
+.trow:hover{background:#fafbfc}
+.c-role{flex:1;min-width:0}
+.c-role .nm{font-size:13px;font-weight:500}
+.c-role .nm .loc{color:var(--muted);font-weight:400}
+.c-status{width:120px;font-size:12px;color:var(--ink2)}
+.c-status .dot{display:inline-block;width:6px;height:6px;border-radius:50%;margin-right:6px}
 .dot.g{background:var(--good)}.dot.w{background:var(--warn)}.dot.n{background:var(--faint)}
-.pos .met{display:flex;gap:22px;text-align:right}
-.pos .met .m .n{font-size:14px;font-weight:600;color:var(--ink)}
-.pos .met .m .k{font-size:11px;color:var(--faint);margin-top:1px}
-/* pipeline mini */
-.pl{padding:4px 16px 14px}
-.pl-row{display:flex;align-items:center;gap:10px;padding:9px 0;border-top:1px solid var(--line-2)}
-.pl-row:first-child{border-top:none}
-.pl-row .k{width:96px;font-size:12.5px;color:var(--ink-2);font-weight:500}
-.pl-row .bar{flex:1;height:6px;border-radius:4px;background:#eef0f3;overflow:hidden}
-.pl-row .bar i{display:block;height:100%;border-radius:4px;background:#9db2e8}
-.pl-row .v{width:44px;text-align:right;font-size:13px;font-weight:600}
-.empty-note{padding:22px 16px 26px;text-align:center;color:var(--muted);font-size:12.5px}
+.c-pipe{width:200px;text-align:right;font-size:12px;color:var(--muted)}
+@media(max-width:920px){
+  :root{--side:var(--side-min)}
+  .app .side .brand .nm,.app .side .ws .t,.app .side .ws .cx,.app .side .nav .lbl,.app .side .nav a .tx,.app .side .nav a .cnt,.app .side .nav a .car,.app .side .group .sub,.app .side .trial .tr,.app .side .trial .u,.app .side .urow .nm,.app .side .urow svg{display:none}
+  .app .side .nav a{justify-content:center;padding:7px}.app .side .ws{justify-content:center;padding:6px}.app .side .urow{justify-content:center}.app .side .brand{justify-content:center}.app .side .collapse-btn{display:none}
+  .krow{grid-template-columns:repeat(2,1fr)}
+  .c-pipe{width:auto}.c-status{width:96px}
+}
+@media(max-width:560px){.krow{grid-template-columns:1fr}.c-status{display:none}}
 </style>
 </head>
 <body>
-<div class="app">
+<div class="app" id="app">
   <aside class="side">
-    <div class="brand"><div class="mk">J</div><div class="nm">JobAgentX</div></div>
-    <div class="ws"><div class="av">NW</div><div class="t"><div class="l1">Northwind Co</div></div><span class="cx">⌄</span></div>
+    <div class="brand">
+      <div class="lg"><div class="mk">J</div><span class="nm">JobAgentX</span></div>
+      <button class="collapse-btn" onclick="toggleNav()" aria-label="Collapse"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+    </div>
+    <div class="ws"><div class="av">NW</div><span class="t">Northwind Co</span><svg class="cx" viewBox="0 0 24 24"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg></div>
     <nav class="nav">
-      <a class="on" href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5h16M4 12h16M4 19h10"/></svg>Overview</a>
-      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>Sourcing</a>
-      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M16 21v-2a4 4 0 0 0-8 0v2"/><circle cx="12" cy="7" r="4"/></svg>Candidates<span class="cnt">249</span></a>
+      <a class="on"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
+      <a><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span class="tx">Sourcing</span></a>
+      <a><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span><span class="cnt">249</span></a>
       <div class="lbl">Engage</div>
-      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 4h16v12H8l-4 4z"/></svg>Outreach</a>
-      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 6h16v12H4z"/><path d="m4 7 8 6 8-6"/></svg>Inbox<span class="cnt">3</span></a>
-      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 5v14M9 5v14M14 5v14M19 5v14"/></svg>Pipeline</a>
+      <div class="group" id="grp-out">
+        <a class="grp-head" onclick="toggleGroup(event,'grp-out')"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
+        <div class="sub"><a>Sequences</a><a>Templates</a><a>Messages</a></div>
+      </div>
+      <a><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg><span class="tx">Inbox</span><span class="cnt">3</span></a>
+      <a><svg viewBox="0 0 24 24"><path d="M5 4v16M11 4v16M17 4v16"/></svg><span class="tx">Pipeline</span></a>
       <div class="lbl">Insights</div>
-      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M4 20V10M10 20V4M16 20v-8M22 20H2"/></svg>Reports</a>
-      <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="9"/><path d="M12 8v4l2 2"/></svg>Settings</a>
+      <a><svg viewBox="0 0 24 24"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg><span class="tx">Reports</span></a>
+      <a><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v4l2.5 2"/></svg><span class="tx">Settings</span></a>
     </nav>
     <div class="side-sp"></div>
     <div class="trial">
@@ -120,65 +148,52 @@ a{color:inherit;text-decoration:none}
       <div class="track"><i></i></div>
       <div class="u">11 of 50 unlocks used</div>
     </div>
-    <div class="urow"><div class="av">SL</div><div class="nm">Scott · Northwind</div>
-      <svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
-    </div>
+    <div class="urow"><div class="av">SL</div><span class="nm">Scott · Northwind</span><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.6 21a2 2 0 0 1-3.2 0"/></svg></div>
   </aside>
 
   <main class="main">
     <div class="top">
-      <h1>Overview</h1>
+      <div class="lh">
+        <button class="icon-btn" id="mnav" onclick="toggleNav()" aria-label="Menu"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+        <h1>Overview</h1>
+      </div>
       <div class="r">
-        <span class="pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Last 7 days ⌄</span>
-        <span class="pill">All positions ⌄</span>
-        <button class="btn btn-p"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>New search</button>
+        <span class="pill"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Last 7 days</span>
+        <button class="btn-p"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New search</button>
       </div>
     </div>
-
     <div class="wrap">
-      <div class="mrow">
-        <div class="mcard"><div class="l">Profiles sourced</div><div class="v">1,284</div><div class="d">▲ 18% this week</div></div>
-        <div class="mcard"><div class="l">Unlocked</div><div class="v">142</div><div class="d">▲ 9% this week</div></div>
-        <div class="mcard"><div class="l">Replied</div><div class="v">38</div><div class="d flat">27% reply rate</div></div>
-        <div class="mcard"><div class="l">Interviews booked</div><div class="v">12</div><div class="d">▲ 4 this week</div></div>
+      <div class="krow">
+        <div class="kc"><div class="l">Sourced</div><div class="v">1,284</div></div>
+        <div class="kc"><div class="l">Unlocked</div><div class="v">142</div></div>
+        <div class="kc"><div class="l">Replied</div><div class="v">38</div></div>
+        <div class="kc"><div class="l">Interviews booked</div><div class="v">12</div></div>
       </div>
-
-      <div class="grid2">
-        <div class="card">
-          <div class="h"><span class="t">Active searches</span><a href="#">View all</a></div>
-          <div class="pos">
-            <div class="ic">RN</div>
-            <div class="mn"><div class="nm">Registered Nurse — Houston, TX</div>
-              <div class="sub"><span class="stat"><span class="dot g"></span>Sourcing</span><span>·</span><span>842 matches</span></div></div>
-            <div class="met"><div class="m"><div class="n">31</div><div class="k">Unlocked</div></div><div class="m"><div class="n">9</div><div class="k">Replied</div></div><div class="m"><div class="n">3</div><div class="k">Booked</div></div></div>
-          </div>
-          <div class="pos">
-            <div class="ic">CC</div>
-            <div class="mn"><div class="nm">Bilingual Call Center Rep — Remote (US)</div>
-              <div class="sub"><span class="stat"><span class="dot g"></span>Sourcing</span><span>·</span><span>1,204 matches</span></div></div>
-            <div class="met"><div class="m"><div class="n">44</div><div class="k">Unlocked</div></div><div class="m"><div class="n">16</div><div class="k">Replied</div></div><div class="m"><div class="n">5</div><div class="k">Booked</div></div></div>
-          </div>
-          <div class="pos">
-            <div class="ic">WA</div>
-            <div class="mn"><div class="nm">Warehouse Associate — Dallas, TX</div>
-              <div class="sub"><span class="stat"><span class="dot w"></span>Paused</span><span>·</span><span>510 matches</span></div></div>
-            <div class="met"><div class="m"><div class="n">12</div><div class="k">Unlocked</div></div><div class="m"><div class="n">2</div><div class="k">Replied</div></div><div class="m"><div class="n">0</div><div class="k">Booked</div></div></div>
-          </div>
+      <div class="card">
+        <div class="ch"><span class="t">Active searches</span><a href="#">View all</a></div>
+        <div class="thead"><span class="c-role">Role</span><span class="c-status">Status</span><span class="c-pipe">Pipeline</span></div>
+        <div class="trow">
+          <span class="c-role"><span class="nm">Registered Nurse <span class="loc">· Houston, TX</span></span></span>
+          <span class="c-status"><span class="dot g"></span>Sourcing</span>
+          <span class="c-pipe">31 unlocked · 9 replied · 3 booked</span>
         </div>
-
-        <div class="card">
-          <div class="h"><span class="t">Candidate pipeline</span><a href="#">View all</a></div>
-          <div class="pl">
-            <div class="pl-row"><span class="k">Sourced</span><span class="bar"><i style="width:100%"></i></span><span class="v">2,556</span></div>
-            <div class="pl-row"><span class="k">Unlocked</span><span class="bar"><i style="width:12%"></i></span><span class="v">142</span></div>
-            <div class="pl-row"><span class="k">Contacted</span><span class="bar"><i style="width:10%"></i></span><span class="v">128</span></div>
-            <div class="pl-row"><span class="k">Replied</span><span class="bar"><i style="width:4%"></i></span><span class="v">38</span></div>
-            <div class="pl-row"><span class="k">Booked</span><span class="bar"><i style="width:2%"></i></span><span class="v">12</span></div>
-          </div>
+        <div class="trow">
+          <span class="c-role"><span class="nm">Bilingual Call Center Rep <span class="loc">· Remote (US)</span></span></span>
+          <span class="c-status"><span class="dot g"></span>Sourcing</span>
+          <span class="c-pipe">44 unlocked · 16 replied · 5 booked</span>
+        </div>
+        <div class="trow">
+          <span class="c-role"><span class="nm">Warehouse Associate <span class="loc">· Dallas, TX</span></span></span>
+          <span class="c-status"><span class="dot w"></span>Paused</span>
+          <span class="c-pipe">12 unlocked · 2 replied · 0 booked</span>
         </div>
       </div>
     </div>
   </main>
 </div>
+<script>
+function toggleNav(){document.getElementById('app').classList.toggle('collapsed');}
+function toggleGroup(e,id){e.preventDefault();document.getElementById(id).classList.toggle('open');}
+</script>
 </body>
 </html>
