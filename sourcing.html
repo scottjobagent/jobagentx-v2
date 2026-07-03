@@ -71,8 +71,7 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .group .sub .g2>.grp-head2 .car{width:12px;height:12px;transition:transform .16s ease}
 .group .sub .g2.open>.grp-head2 .car{transform:rotate(180deg)}
 .group .sub .g2 .sub2 a{padding-left:54px;font-size:12px;font-weight:500;color:#27272a}
-.nav-job{display:none}
-.app.scoped .nav-global{display:none}
+.nav-job{display:flex;flex-direction:column;gap:1px}
 .app.scoped .nav-job{display:flex;flex-direction:column;gap:1px}
 .side-sp{display:none}
 .trial{margin:8px 11px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;white-space:nowrap;overflow:hidden}
@@ -204,14 +203,6 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
       </div>
     </div>
     <nav class="nav">
-      <div class="nav-global" id="navGlobal">
-        <a class="on" data-page="Overview" onclick="nav(this,'Overview')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
-        <a data-page="AI Agent" onclick="nav(this,'AI Agent')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg><span class="tx">AI Agent</span></a>
-        <a data-page="Sourcing" onclick="nav(this,'Sourcing')"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.6"/><circle cx="16" cy="12" r="4.6"/></svg><span class="tx">Sourcing</span></a>
-        <a data-page="Candidates" onclick="nav(this,'Candidates')"><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span></a>
-        <div class="sep"></div>
-        <a data-page="Outreach" onclick="nav(this,'Outreach')"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span></a>
-      </div>
       <div class="nav-job" id="navJob"></div>
     </nav>
     <div class="side-sp"></div>
@@ -351,9 +342,10 @@ function toggleTry(){document.getElementById('tryNext').classList.toggle('closed
 function toggleGroup(e,id){e.preventDefault();e.stopPropagation();document.getElementById(id).classList.toggle('open');}
 function toggleMenu(e){e.stopPropagation();var m=document.getElementById('swMenu'),s=document.getElementById('scrim');var open=m.classList.toggle('open');s.classList.toggle('on',open);}
 function closeMenu(){document.getElementById('swMenu').classList.remove('open');document.getElementById('scrim').classList.remove('on');}
-function pickGlobal(){var app=document.getElementById('app');app.classList.remove('scoped');CURRENT_JOB=null;document.getElementById('swT').textContent='My Positions';document.getElementById('miAll').classList.add('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.remove('on');});document.querySelectorAll('#navGlobal a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-page')==='Overview');});render('Overview');closeMenu();}
+function pickGlobal(){var app=document.getElementById('app');app.classList.remove('scoped');CURRENT_JOB=null;document.getElementById('swT').textContent='My Positions';document.getElementById('miAll').classList.add('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.remove('on');});closeSections();setActiveJob(document.querySelector('#navJob a[data-page="Overview"]'));render('Overview');closeMenu();}
 function pickJob(name,loc){var app=document.getElementById('app');app.classList.add('scoped');CURRENT_JOB=name;document.getElementById('swT').textContent=name;document.getElementById('miAll').classList.remove('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.toggle('on',p.textContent.indexOf(name)===0);});closeSections();setActiveJob(document.querySelector('#navJob a[data-page="Overview"]'));render('Overview');closeMenu();}
 renderJobNav();
+setActiveJob(document.querySelector('#navJob a[data-page="Overview"]'));
 render('Overview');
 </script>
 </body>
