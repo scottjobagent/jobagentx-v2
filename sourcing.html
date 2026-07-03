@@ -11,7 +11,7 @@
   --ink:#1c2128; --ink2:#454b54; --muted:#8b9098; --faint:#aeb4bd;
   --accent:#3159d6; --accent-soft:#eef2fd; --accent-ink:#2a4db0;
   --good:#2f9e6a; --warn:#c08a2e; --bad:#c0392b;
-  --r:7px; --r-lg:9px; --side:212px; --side-min:56px;
+  --r:7px; --r-lg:9px; --side:232px; --side-min:56px;
 }
 *{box-sizing:border-box}
 html,body{margin:0}
@@ -19,7 +19,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-se
 a{color:inherit;text-decoration:none}
 svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .app{display:flex;min-height:100vh}
-.side{width:var(--side);flex:0 0 var(--side);background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:40;transition:width .18s ease,flex-basis .18s ease;overflow:visible}
+.side{width:var(--side);flex:0 0 var(--side);background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh;z-index:40;transition:width .18s ease,flex-basis .18s ease;overflow:visible;font-family:-apple-system,system-ui,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif}
 .brand{display:flex;align-items:center;justify-content:space-between;padding:13px 13px 9px;gap:8px}
 .brand .lg{display:flex;align-items:center;gap:8px;min-width:0}
 .brand .mk{width:20px;height:20px;border-radius:5px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;flex:0 0 20px}
@@ -50,31 +50,31 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .menu hr{border:none;border-top:1px solid var(--line2);margin:5px 2px}
 .menu .new{color:var(--accent);font-weight:500}
 .menu .new svg{color:var(--accent)}
-.nav{padding:2px 11px;display:flex;flex-direction:column;gap:1px;overflow-y:auto;overflow-x:hidden}
+.nav{padding:2px 11px;display:flex;flex-direction:column;gap:1px;flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden}
 .nav .sep{height:1px;background:var(--line2);margin:8px 8px}
-.nav a{display:flex;align-items:center;gap:9px;padding:6px 8px;border-radius:var(--r);color:var(--ink2);font-weight:400;font-size:14px;white-space:nowrap;cursor:pointer}
+.nav a{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:var(--r);color:#27272a;font-weight:400;font-size:16px;line-height:1.2;white-space:nowrap;cursor:pointer}
 .nav a:hover{background:#eef0f3}
-.nav a.on{background:#e9ecef;color:var(--ink);font-weight:400}
-.nav a svg{width:15px;height:15px;flex:0 0 15px}
+.nav a.on{background:#e9ecef;color:#27272a;font-weight:400}
+.nav a svg{width:17px;height:17px;flex:0 0 17px}
 .nav a .tx{flex:1;overflow:hidden;text-overflow:ellipsis}
-.nav a .cnt{font-size:11px;color:var(--faint)}
+.nav a .cnt{font-size:12px;color:var(--faint);font-weight:400}
 .nav a .cnt.bad{color:var(--bad)}
 .nav a .car{width:13px;height:13px;color:var(--faint);transition:transform .16s ease}
 .group.open>.grp-head .car{transform:rotate(180deg)}
 .group>.sub{display:none;flex-direction:column;gap:1px;margin:1px 0 2px}
 .group.open>.sub{display:flex}
-.group .sub a{padding:5px 8px 5px 32px;color:var(--muted);font-size:13px}
+.group .sub a{padding:5px 8px 5px 40px;color:#27272a;font-size:12px;font-weight:500}
 .group .sub a:hover{color:var(--ink2)}
 .group .sub a.parent{color:var(--ink2);justify-content:flex-start}
 .group .sub .g2>.sub2{display:none;flex-direction:column;gap:1px}
 .group .sub .g2.open>.sub2{display:flex}
 .group .sub .g2>.grp-head2 .car{width:12px;height:12px;transition:transform .16s ease}
 .group .sub .g2.open>.grp-head2 .car{transform:rotate(180deg)}
-.group .sub .g2 .sub2 a{padding-left:46px;font-size:12.5px;color:var(--muted)}
+.group .sub .g2 .sub2 a{padding-left:54px;font-size:12px;font-weight:500;color:#27272a}
 .nav-job{display:none}
 .app.scoped .nav-global{display:none}
 .app.scoped .nav-job{display:flex;flex-direction:column;gap:1px}
-.side-sp{flex:1}
+.side-sp{display:none}
 .trial{margin:8px 11px;background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:8px 10px;white-space:nowrap;overflow:hidden}
 .trial .tr{display:flex;align-items:center;justify-content:space-between}
 .trial .tr .l{font-size:11.5px;font-weight:500}
@@ -212,38 +212,7 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
         <div class="sep"></div>
         <a data-page="Outreach" onclick="nav(this,'Outreach')"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span></a>
       </div>
-      <div class="nav-job" id="navJob">
-        <a class="on" data-page="Overview" onclick="nav(this,'Overview')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><span class="tx">Overview</span></a>
-        <a data-page="AI Agent" onclick="nav(this,'AI Agent')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/></svg><span class="tx">AI Agent</span></a>
-        <a data-page="Sourcing" onclick="nav(this,'Sourcing')"><svg viewBox="0 0 24 24"><circle cx="8" cy="12" r="4.6"/><circle cx="16" cy="12" r="4.6"/></svg><span class="tx">Sourcing</span></a>
-        <div class="group open" id="grpCand">
-          <a class="grp-head on" data-page="Candidates" onclick="toggleGroup(event,'grpCand');nav(this,'Candidates')"><svg viewBox="0 0 24 24"><path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/></svg><span class="tx">Candidates</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
-          <div class="sub">
-            <a data-page="All Candidates" onclick="nav(this,'All Candidates')">All Candidates<span class="cnt" style="margin-left:auto">249</span></a>
-            <div class="group g2 open" id="grpOut2">
-              <a class="grp-head2 parent" onclick="toggleGroup(event,'grpOut2')"><span class="tx">In Outreach</span><span class="cnt">88</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
-              <div class="sub2">
-                <a data-page="Not Started" onclick="nav(this,'Not Started')">Not Started<span class="cnt" style="margin-left:auto">40</span></a>
-                <a data-page="In Progress" onclick="nav(this,'In Progress')">In Progress<span class="cnt" style="margin-left:auto">41</span></a>
-                <a data-page="Error &amp; Paused" onclick="nav(this,'Error &amp; Paused')">Error &amp; Paused<span class="cnt bad" style="margin-left:auto">7</span></a>
-              </div>
-            </div>
-            <div class="group g2 open" id="grpAct2">
-              <a class="grp-head2 parent" onclick="toggleGroup(event,'grpAct2')"><span class="tx">Active Candidates</span><span class="cnt">34</span><svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></a>
-              <div class="sub2">
-                <a data-page="Replied" onclick="nav(this,'Replied')">Replied<span class="cnt" style="margin-left:auto">22</span></a>
-                <a data-page="Scheduled" onclick="nav(this,'Scheduled')">Scheduled<span class="cnt" style="margin-left:auto">12</span></a>
-              </div>
-            </div>
-            <a data-page="Archived" onclick="nav(this,'Archived')">Archived<span class="cnt" style="margin-left:auto">15</span></a>
-          </div>
-        </div>
-        <a data-page="Outreach" onclick="nav(this,'Outreach')"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H8l-4 4z"/></svg><span class="tx">Outreach</span></a>
-        <a data-page="Inbox" onclick="nav(this,'Inbox')"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/></svg><span class="tx">Inbox</span><span class="cnt">3</span></a>
-        <a data-page="Pipeline" onclick="nav(this,'Pipeline')"><svg viewBox="0 0 24 24"><path d="M5 4v16M11 4v16M17 4v16"/></svg><span class="tx">Pipeline</span></a>
-        <a data-page="Reports" onclick="nav(this,'Reports')"><svg viewBox="0 0 24 24"><path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/></svg><span class="tx">Reports</span></a>
-        <a data-page="Job Settings" onclick="nav(this,'Job Settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.4H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 5 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10.6 3H11a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8z"/></svg><span class="tx">Job Settings</span></a>
-      </div>
+      <div class="nav-job" id="navJob"></div>
     </nav>
     <div class="side-sp"></div>
     <div class="trynext" id="tryNext">
@@ -281,24 +250,18 @@ var POSITIONS=[
  {name:'Bilingual Call Center Rep',loc:'Remote (US)',status:'Sourcing',dot:'g',pipe:'44 unlocked · 16 replied · 5 booked'},
  {name:'Warehouse Associate',loc:'Dallas, TX',status:'Paused',dot:'w',pipe:'12 unlocked · 2 replied · 0 booked'}
 ];
-function posRows(){return POSITIONS.map(function(p){return '<div class="trow" onclick="pickJob(\''+p.name.replace(/'/g,"\\'")+'\',\''+p.loc+'\')"><span class="c-role"><span class="nm">'+p.name+' <span class="loc">· '+p.loc+'</span></span></span><span class="c-status"><span class="dot '+p.dot+'"></span>'+p.status+'</span><span class="c-pipe">'+p.pipe+'</span></div>';}).join('');}
+function esc(x){return (x||'').replace(/'/g,"\\'");}
+function posRows(){return POSITIONS.map(function(p){return '<div class="trow" onclick="pickJob(\''+esc(p.name)+'\',\''+p.loc+'\')"><span class="c-role"><span class="nm">'+p.name+' <span class="loc">· '+p.loc+'</span></span></span><span class="c-status"><span class="dot '+p.dot+'"></span>'+p.status+'</span><span class="c-pipe">'+p.pipe+'</span></div>';}).join('');}
 function overviewHTML(){return '<div class="krow"><div class="kc"><div class="l">Sourced</div><div class="v">1,284</div></div><div class="kc"><div class="l">Unlocked</div><div class="v">142</div></div><div class="kc"><div class="l">Replied</div><div class="v">38</div></div><div class="kc"><div class="l">Interviews booked</div><div class="v">12</div></div></div><div class="card"><div class="ch"><span class="t">Active positions</span><a href="#">View all</a></div><div class="thead"><span class="c-role">Position</span><span class="c-status">Status</span><span class="c-pipe">Pipeline</span></div>'+posRows()+'</div>';}
 function heroHTML(t,sub){return '<div class="hero"><h2>'+t+'</h2><p>'+sub+'</p><button class="cta"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke-width:2.2"><path d="M12 5v14M5 12h14"/></svg>Create New Position</button></div>';}
 function emptyHTML(t,sub){return '<div class="empty"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9 12h6"/></svg><h3>'+t+'</h3><p>'+sub+'</p></div>';}
+var SUBTITLE={'Outreach':'As you add candidates to your outreach sequence, steps that need manual review appear here.','Outreach Queue':'Steps that need manual review appear here.','Errors':'Outreach errors and paused steps show here.','Recently Sent':'Recently sent messages appear here.','Inbox':'Replies from candidates will appear here.','All Conversations':'Replies from candidates will appear here.','My Conversations':'Conversations assigned to you appear here.','Pipeline':'Move candidates through stages once you start sourcing.','All Pipeline':'Move candidates through stages once you start sourcing.','My Pipeline':'Your pipeline candidates appear here.','Reports':'Reports populate as your agents run.','Communications Insights':'Not enough data yet.','Pipeline Insights':'Not enough data yet.','Team Activity':'Not enough data yet.','Candidates':'Sourced candidates for this position will show up here.','All Candidates':'Sourced candidates for this position will show up here.','Not Started':'Candidates not yet contacted appear here.','In Progress':'Candidates mid-sequence appear here.','Error & Paused':'Paused or errored candidates appear here.','Active Candidates':'Engaged candidates appear here.','Replied':'Candidates who replied appear here.','Scheduled':'Scheduled candidates appear here.','Archived':'Archived candidates appear here.','Job Settings':'Configure this position here.'};
+var TITLE={'Outreach':'Nothing in queue','Outreach Queue':'Nothing in queue','Errors':'No errors','Recently Sent':'Nothing sent yet','Inbox':'Inbox is empty','All Conversations':'No conversations','My Conversations':'No conversations','Pipeline':'No pipeline yet','All Pipeline':'No pipeline yet','My Pipeline':'No pipeline yet','Reports':'No data yet','Candidates':'No candidates yet','All Candidates':'No candidates yet','Not Started':'No candidates yet','In Progress':'No candidates yet','Error & Paused':'No candidates yet','Active Candidates':'No candidates yet','Replied':'No candidates yet','Scheduled':'No candidates yet','Archived':'Nothing archived'};
 function pageHTML(page){
- switch(page){
-  case 'Overview': return overviewHTML();
-  case 'AI Agent': return heroHTML('AI Agent works within a job','Select a position below to configure your Agent, review candidates, and monitor activity.')+'<div class="sec-h">Your agents</div>'+emptyHTML('No agents yet','You don\'t have any configured AI Agents.');
-  case 'Sourcing': return heroHTML('Sourcing happens within a job','Select a position below to source candidates, review them, and communicate.')+'<div class="sec-h">Your positions</div><div class="card"><div class="thead"><span class="c-role">Position</span><span class="c-status">Status</span><span class="c-pipe">Pipeline</span></div>'+posRows()+'</div>';
-  case 'Outreach': return emptyHTML('Nothing in queue','As you add candidates to your outreach sequence, steps that need manual review appear here.');
-  case 'Candidates': case 'All Candidates': return emptyHTML('No candidates yet','Sourced candidates for this position will show up here.');
-  case 'Not Started': case 'In Progress': case 'Error & Paused': case 'Replied': case 'Scheduled': case 'Archived': return emptyHTML(page,'Candidates in this state will appear here.');
-  case 'Inbox': return emptyHTML('Inbox is empty','Replies from candidates will appear here.');
-  case 'Pipeline': return emptyHTML('No pipeline yet','Move candidates through stages once you start sourcing.');
-  case 'Reports': return emptyHTML('No data yet','Reports populate as your agents run.');
-  case 'Job Settings': return emptyHTML('Job Settings','Configure this position here.');
-  default: return emptyHTML(page,'This section is coming next.');
- }
+ if(page==='Overview') return overviewHTML();
+ if(page==='AI Agent') return heroHTML('AI Agent works within a job','Select a position below to configure your Agent, review candidates, and monitor activity.')+'<div class="sec-h">Your agents</div>'+emptyHTML('No agents yet',"You don't have any configured AI Agents.");
+ if(page==='Sourcing') return heroHTML('Sourcing happens within a job','Select a position below to source candidates, review them, and communicate.')+'<div class="sec-h">Your positions</div><div class="card"><div class="thead"><span class="c-role">Position</span><span class="c-status">Status</span><span class="c-pipe">Pipeline</span></div>'+posRows()+'</div>';
+ return emptyHTML(TITLE[page]||page, SUBTITLE[page]||'This section is coming next.');
 }
 var CURRENT_JOB=null;
 function render(page){
@@ -306,19 +269,91 @@ function render(page){
  var h=document.getElementById('pageH');
  h.innerHTML=page+(CURRENT_JOB?' <span class="crumb">· '+CURRENT_JOB+'</span>':'');
 }
-function nav(el,page){
- var scope=el.closest('.nav-job')?'navJob':'navGlobal';
- document.querySelectorAll('#'+scope+' a').forEach(function(a){a.classList.remove('on');});
- el.classList.add('on');
- render(page);
+// ---- job-scoped nav (accordion) ----
+var IC={
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+ agent:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/><path d="M12 3.5v3M12 17.5v3M3.5 12h3M17.5 12h3"/>',
+ binoc:'<circle cx="8" cy="12" r="4.6"/><circle cx="16" cy="12" r="4.6"/>',
+ users:'<path d="M16 20v-1a4 4 0 0 0-8 0v1"/><circle cx="12" cy="8" r="3.2"/>',
+ mail:'<path d="M4 5h16v11H8l-4 4z"/>',
+ inbox:'<path d="M4 5h16v14H4z"/><path d="m4 7 8 6 8-6"/>',
+ pipe:'<path d="M5 4v16M11 4v16M17 4v16"/>',
+ chart:'<path d="M4 20V11M10 20V4M16 20v-6M22 20H2"/>',
+ gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.4H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 5 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10.6 3H11a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8z"/>'
+};
+function svg(n){return '<svg viewBox="0 0 24 24">'+IC[n]+'</svg>';}
+var chev='<svg class="car" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>';
+function cnt(n,bad){return n==null?'':'<span class="cnt'+(bad?' bad':'')+'" style="margin-left:auto">'+n+'</span>';}
+var JOBNAV=[
+ {page:'Overview',icon:'grid'},
+ {page:'AI Agent',icon:'agent'},
+ {page:'Sourcing',icon:'binoc'},
+ {page:'Candidates',icon:'users',id:'sec-cand',children:[
+   {page:'All Candidates',count:249},
+   {page:'In Outreach',count:88,id:'g2-out',children:[
+     {page:'Not Started',count:40},{page:'In Progress',count:41},{page:'Error & Paused',count:7,bad:true}
+   ]},
+   {page:'Active Candidates',count:34,id:'g2-act',children:[
+     {page:'Replied',count:22},{page:'Scheduled',count:12}
+   ]},
+   {page:'Archived',count:15}
+ ]},
+ {divider:true},
+ {page:'Outreach',icon:'mail',id:'sec-out',children:[
+   {page:'Errors'},{page:'Outreach Queue'},{page:'Recently Sent'}
+ ]},
+ {page:'Inbox',icon:'inbox',count:3,id:'sec-inb',children:[
+   {page:'All Conversations'},{page:'My Conversations'}
+ ]},
+ {page:'Pipeline',icon:'pipe',id:'sec-pipe',children:[
+   {page:'All Pipeline'},{page:'My Pipeline'}
+ ]},
+ {page:'Reports',icon:'chart',id:'sec-rep',children:[
+   {page:'Communications Insights'},{page:'Pipeline Insights'},{page:'Team Activity'}
+ ]},
+ {page:'Job Settings',icon:'gear'}
+];
+function renderJobNav(){
+ var h='';
+ JOBNAV.forEach(function(it){
+   if(it.divider){h+='<div class="sep"></div>';return;}
+   if(it.children){
+     h+='<div class="group section" id="'+it.id+'">';
+     h+='<a class="grp-head" data-page="'+it.page+'" onclick="openSection(event,\''+it.id+'\',\''+esc(it.page)+'\')">'+svg(it.icon)+'<span class="tx">'+it.page+'</span>'+chev+'</a>';
+     h+='<div class="sub">';
+     it.children.forEach(function(c){
+       if(c.children){
+         h+='<div class="group g2 open" id="'+c.id+'">';
+         h+='<a class="grp-head2 parent" onclick="toggleGroup(event,\''+c.id+'\')"><span class="tx">'+c.page+'</span>'+cnt(c.count,false).replace(' style="margin-left:auto"','')+chev+'</a>';
+         h+='<div class="sub2">';
+         c.children.forEach(function(g){h+='<a data-page="'+g.page+'" onclick="navSub(this,\''+esc(g.page)+'\')">'+g.page+cnt(g.count,g.bad)+'</a>';});
+         h+='</div></div>';
+       } else {
+         h+='<a data-page="'+c.page+'" onclick="navSub(this,\''+esc(c.page)+'\')">'+c.page+cnt(c.count,c.bad)+'</a>';
+       }
+     });
+     h+='</div></div>';
+   } else {
+     h+='<a data-page="'+it.page+'" onclick="navPlain(this,\''+esc(it.page)+'\')">'+svg(it.icon)+'<span class="tx">'+it.page+'</span></a>';
+   }
+ });
+ document.getElementById('navJob').innerHTML=h;
 }
+function setActiveJob(el){document.querySelectorAll('#navJob a').forEach(function(a){a.classList.remove('on');});if(el)el.classList.add('on');}
+function closeSections(){document.querySelectorAll('#navJob .section').forEach(function(sc){sc.classList.remove('open');});}
+function openSection(e,id,page){e.preventDefault();e.stopPropagation();document.querySelectorAll('#navJob .section').forEach(function(sc){sc.classList.toggle('open',sc.id===id);});setActiveJob(document.querySelector('#'+id+'>.grp-head'));render(page);}
+function navSub(el,page){setActiveJob(el);render(page);}
+function navPlain(el,page){closeSections();setActiveJob(el);render(page);}
+// ---- global nav ----
+function nav(el,page){document.querySelectorAll('#navGlobal a').forEach(function(a){a.classList.remove('on');});el.classList.add('on');render(page);}
 function toggleNav(){document.getElementById('app').classList.toggle('collapsed');}
 function toggleTry(){document.getElementById('tryNext').classList.toggle('closed');}
 function toggleGroup(e,id){e.preventDefault();e.stopPropagation();document.getElementById(id).classList.toggle('open');}
 function toggleMenu(e){e.stopPropagation();var m=document.getElementById('swMenu'),s=document.getElementById('scrim');var open=m.classList.toggle('open');s.classList.toggle('on',open);}
 function closeMenu(){document.getElementById('swMenu').classList.remove('open');document.getElementById('scrim').classList.remove('on');}
 function pickGlobal(){var app=document.getElementById('app');app.classList.remove('scoped');CURRENT_JOB=null;document.getElementById('swT').textContent='My Positions';document.getElementById('miAll').classList.add('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.remove('on');});document.querySelectorAll('#navGlobal a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-page')==='Overview');});render('Overview');closeMenu();}
-function pickJob(name,loc){var app=document.getElementById('app');app.classList.add('scoped');CURRENT_JOB=name;document.getElementById('swT').textContent=name;document.getElementById('miAll').classList.remove('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.toggle('on',p.textContent.indexOf(name)===0);});document.querySelectorAll('#navJob a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-page')==='Overview');});render('Overview');closeMenu();}
+function pickJob(name,loc){var app=document.getElementById('app');app.classList.add('scoped');CURRENT_JOB=name;document.getElementById('swT').textContent=name;document.getElementById('miAll').classList.remove('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.toggle('on',p.textContent.indexOf(name)===0);});closeSections();setActiveJob(document.querySelector('#navJob a[data-page="Overview"]'));render('Overview');closeMenu();}
+renderJobNav();
 render('Overview');
 </script>
 </body>
