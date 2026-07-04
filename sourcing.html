@@ -52,9 +52,9 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .menu .new svg{color:var(--accent)}
 .nav{padding:2px 11px;display:flex;flex-direction:column;gap:1px;flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden}
 .nav .sep{height:1px;background:var(--line2);margin:8px 8px}
-.nav a{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:var(--r);color:#27272a;font-weight:400;font-size:16px;line-height:1.2;white-space:nowrap;cursor:pointer}
+.nav a{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:var(--r);color:var(--ink);font-weight:400;font-size:16px;line-height:1.2;white-space:nowrap;cursor:pointer}
 .nav a:hover{background:#eef0f3}
-.nav a.on{background:#e9ecef;color:#27272a;font-weight:400}
+.nav a.on{background:#e9ecef;color:var(--ink);font-weight:400}
 .nav a svg{width:17px;height:17px;flex:0 0 17px}
 .nav a .tx{flex:1;overflow:hidden;text-overflow:ellipsis}
 .nav a .cnt{font-size:12px;color:var(--faint);font-weight:400}
@@ -63,14 +63,14 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .group.open>.grp-head .car{transform:rotate(180deg)}
 .group>.sub{display:none;flex-direction:column;gap:1px;margin:1px 0 2px}
 .group.open>.sub{display:flex}
-.group .sub a{padding:5px 8px 5px 40px;color:#27272a;font-size:12px;font-weight:500}
+.group .sub a{padding:5px 8px 5px 40px;color:var(--ink);font-size:12px;font-weight:500}
 .group .sub a:hover{color:var(--ink2)}
 .group .sub a.parent{color:var(--ink2);justify-content:flex-start}
 .group .sub .g2>.sub2{display:none;flex-direction:column;gap:1px}
 .group .sub .g2.open>.sub2{display:flex}
 .group .sub .g2>.grp-head2 .car{width:12px;height:12px;transition:transform .16s ease}
 .group .sub .g2.open>.grp-head2 .car{transform:rotate(180deg)}
-.group .sub .g2 .sub2 a{padding-left:54px;font-size:12px;font-weight:500;color:#27272a}
+.group .sub .g2 .sub2 a{padding-left:54px;font-size:12px;font-weight:500;color:var(--ink)}
 .nav-job{display:flex;flex-direction:column;gap:1px}
 .app.scoped .nav-job{display:flex;flex-direction:column;gap:1px}
 .side-sp{display:none}
@@ -133,10 +133,10 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .acct-menu{position:absolute;bottom:calc(100% + 6px);left:8px;right:8px;background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 10px 30px rgba(20,26,40,.15);padding:5px;z-index:45;display:none;font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
 .acct-menu.open{display:block}
 .am-head{padding:8px 9px 7px}
-.am-nm{font-size:14px;font-weight:500;color:#27272a}
-.am-em{font-size:12px;color:#67676f;margin-top:1px}
+.am-nm{font-size:14px;font-weight:500;color:var(--ink)}
+.am-em{font-size:12px;color:var(--muted);margin-top:1px}
 .am-sep{height:1px;background:var(--line2);margin:4px 2px}
-.am-i{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:6px;font-size:14px;font-weight:500;color:#27272a;cursor:pointer}
+.am-i{display:flex;align-items:center;gap:10px;padding:8px 9px;border-radius:6px;font-size:14px;font-weight:500;color:var(--ink);cursor:pointer}
 .am-i:hover{background:#f2f4f7}
 .am-i>svg{width:17px;height:17px;flex:0 0 17px;stroke-width:1.7;fill:none;stroke:currentColor}
 .am-i .lbl{flex:1;white-space:nowrap}
@@ -149,7 +149,7 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .tgl.on i{left:14px}
 .s-ov{position:fixed;inset:0;background:rgba(20,26,40,.45);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:44px 20px}
 .s-ov.open{display:flex}
-.s-modal{background:#fff;border-radius:14px;width:100%;max-width:1000px;height:min(88vh,720px);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.28);font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;color:#27272a}
+.s-modal{background:#fff;border-radius:14px;width:100%;max-width:1000px;height:min(88vh,720px);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.28);font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;color:var(--ink)}
 .s-top{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--line2);flex:0 0 auto}
 .s-top h1{margin:0;font-size:18px;font-weight:500}
 .s-acts{display:flex;gap:4px}
@@ -159,7 +159,7 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .s-body{flex:1;display:flex;min-height:0}
 .s-nav{width:224px;flex:0 0 224px;border-right:1px solid var(--line2);padding:12px 10px;overflow-y:auto}
 .s-grp{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);padding:12px 8px 5px}
-.s-nav a{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:6px;font-size:14px;color:#27272a;cursor:pointer}
+.s-nav a{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:6px;font-size:14px;color:var(--ink);cursor:pointer}
 .s-nav a:hover{background:#f2f4f7}
 .s-nav a.on{background:#e9ecef}
 .s-nav a>svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;color:var(--muted);flex:0 0 16px}
@@ -256,6 +256,46 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .feat-ic svg{width:19px;height:19px;stroke:#8b9098;fill:none;stroke-width:1.7}
 .feat-block h4{margin:0;font-size:13.5px;font-weight:500}
 .feat-block p{margin:3px 0 0;font-size:12px;color:var(--muted)}
+/* ===== dark mode ===== */
+body.dark{--bg:#202022;--panel:#202022;--card:#1b1b1d;--line:#34343b;--line2:#2b2b30;--ink:#f4f4f5;--ink2:#c7c7ca;--muted:#9a9a9e;--faint:#6a6a6e;--accent:#4d81ee;--accent-soft:#2a3242;--accent-ink:#a9c2f7;--good:#4ac08a;--warn:#d0a24a;--bad:#e5706a}
+body.dark .s-modal,body.dark .ks-modal,body.dark .docs-modal{background:#1b1b1d}
+body.dark .s-in,body.dark .sub-cad button,body.dark .s-seg button,body.dark .s-chips button,body.dark .s-btn,body.dark .wbtn,body.dark .sub-step>button{background:#26262a;color:var(--ink);border-color:var(--line)}
+body.dark .s-in::placeholder{color:var(--faint)}
+body.dark .nav a:hover,body.dark .s-nav a:hover,body.dark .menu .mi:hover,body.dark .menu .pos:hover,body.dark .am-i:hover,body.dark .s-btn:hover,body.dark .trow:hover,body.dark .s-chips button:hover,body.dark .sub-step>button:hover,body.dark .collapse-btn:hover,body.dark .uic:hover,body.dark .icon-btn:hover,body.dark .s-ic:hover,body.dark .tn-x:hover,body.dark .tn-i:hover,body.dark .wbtn:hover,body.dark .ws:hover,body.dark .ks-ic:hover{background:rgba(255,255,255,.06)}
+body.dark .nav a.on,body.dark .s-nav a.on,body.dark .menu .mi.on,body.dark .menu .pos.on,body.dark .sub-cad button.on{background:rgba(255,255,255,.1);color:var(--ink)}
+body.dark .tgl{background:#3a3a40}
+body.dark .feat-ic{background:rgba(255,255,255,.06)}
+body.dark .trial .track{background:#2b2b30}
+body.dark .empty svg,body.dark .kc .l{color:var(--faint)}
+body.dark .ws:hover{border-color:#4a4a52}
+body.dark .kbd{background:#26262a}
+/* ===== keyboard shortcuts + docs modals ===== */
+.ks-ov,.docs-ov{position:fixed;inset:0;background:rgba(20,26,40,.45);z-index:110;display:none;align-items:center;justify-content:center;padding:40px;font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
+.ks-ov.open,.docs-ov.open{display:flex}
+.ks-modal{background:#fff;color:var(--ink);border-radius:14px;width:100%;max-width:560px;max-height:82vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.28);border:1px solid var(--line)}
+.ks-top{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--line2)}
+.ks-top h1{margin:0;font-size:17px;font-weight:500}
+.ks-ic{width:28px;height:28px;border:none;background:none;color:var(--muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.ks-ic svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7}
+.ks-body{padding:8px 20px 22px}
+.ks-grp{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.05em;color:var(--faint);margin:16px 0 4px}
+.ks-row{display:flex;align-items:center;justify-content:space-between;padding:9px 0;font-size:13.5px;border-bottom:1px solid var(--line2)}
+.ks-row .keys{display:flex;gap:5px}
+.kbd{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11.5px;background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:3px 8px;min-width:20px;text-align:center;color:var(--ink2)}
+.docs-modal{background:#fff;color:var(--ink);border-radius:14px;width:100%;max-width:860px;height:min(84vh,640px);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.28);border:1px solid var(--line)}
+.docs-body{flex:1;overflow:auto;padding:40px 44px}
+.docs-hero h2{margin:0;font-size:26px;font-weight:600}
+.docs-hero p{margin:8px 0 0;font-size:14px;color:var(--muted)}
+.docs-search{margin:20px 0 8px;max-width:520px;display:flex;align-items:center;gap:10px;border:1px solid var(--line);border-radius:9px;padding:10px 13px;background:var(--card)}
+.docs-search svg{width:17px;height:17px;stroke:var(--muted);fill:none;stroke-width:1.7}
+.docs-search input{border:none;outline:none;background:none;font-size:14px;font-family:inherit;color:var(--ink);width:100%}
+.docs-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin-top:26px}
+.docs-card{border:1px solid var(--line);border-radius:12px;padding:18px;cursor:pointer}
+.docs-card:hover{border-color:var(--accent)}
+.docs-card .di{width:36px;height:36px;border-radius:8px;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;margin-bottom:11px}
+.docs-card .di svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.7}
+.docs-card h4{margin:0;font-size:14px;font-weight:500}
+.docs-card p{margin:4px 0 0;font-size:12.5px;color:var(--muted)}
 .main{flex:1;min-width:0}
 .top{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;border-bottom:1px solid var(--line2);background:var(--bg);position:sticky;top:0;z-index:5}
 .top .lh{display:flex;align-items:center;gap:10px;min-width:0}
@@ -350,9 +390,9 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
         <div class="am-head"><div class="am-nm">Scott Lobenberg</div><div class="am-em">scott@jobfairx.com</div></div>
         <div class="am-sep"></div>
         <a class="am-i" onclick="openSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.4H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 5 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10.6 3H11a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8z"/></svg><span class="lbl">Settings</span></a>
-        <div class="am-i" onclick="toggleSwitch(event,'ksw')"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg><span class="lbl">Keyboard Shortcuts</span><span class="tgl" id="ksw"><i></i></span></div>
-        <div class="am-i" onclick="toggleSwitch(event,'dsw')"><svg viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 0 1 11.2 3 7 7 0 1 0 21 12.8z"/></svg><span class="lbl">Dark Mode</span><span class="tgl" id="dsw"><i></i></span></div>
-        <a class="am-i"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v14H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h12"/></svg><span class="lbl">Docs</span><svg class="am-ext" viewBox="0 0 24 24" style="stroke:currentColor;fill:none;stroke-width:1.7"><path d="M14 4h6v6M20 4l-8 8M10 5H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4"/></svg></a>
+        <div class="am-i" onclick="ksToggle(event)"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg><span class="lbl">Keyboard Shortcuts</span><span class="tgl" id="ksw"><i></i></span></div>
+        <div class="am-i" onclick="toggleDark(event)"><svg viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 0 1 11.2 3 7 7 0 1 0 21 12.8z"/></svg><span class="lbl">Dark Mode</span><span class="tgl" id="dsw"><i></i></span></div>
+        <a class="am-i" onclick="openDocs()"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v14H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h12"/></svg><span class="lbl">Docs</span><svg class="am-ext" viewBox="0 0 24 24" style="stroke:currentColor;fill:none;stroke-width:1.7"><path d="M14 4h6v6M20 4l-8 8M10 5H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4"/></svg></a>
         <div class="am-sep"></div>
         <a class="am-i am-out"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg><span class="lbl">Log out</span></a>
       </div>
@@ -374,6 +414,14 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
   </main>
 </div>
 <div class="scrim" id="scrim" onclick="closeMenu()"></div>
+<div class="ks-ov" id="ksOv"><div class="ks-modal">
+  <div class="ks-top"><h1>Keyboard shortcuts</h1><button class="ks-ic" onclick="closeKS()" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="ks-body" id="ksBody"></div>
+</div></div>
+<div class="docs-ov" id="docsOv"><div class="docs-modal">
+  <div class="s-top"><h1>Docs</h1><div class="s-acts"><button class="s-ic" onclick="closeDocs()" aria-label="Close"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>
+  <div class="docs-body" id="docsBody"></div>
+</div></div>
 <div class="s-ov" id="setOv"><div class="s-modal">
   <div class="s-top"><h1>Settings</h1><div class="s-acts"><button class="s-ic" aria-label="Copy link"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></button><button class="s-ic" aria-label="Close" onclick="closeSettings()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>
   <div class="s-body"><nav class="s-nav" id="setNav"></nav><div class="s-content" id="setContent"></div></div>
@@ -573,6 +621,36 @@ function subSeat(id,d){if(id==='professional'){SUB.seatsP=Math.max(1,Math.min(10
 function subPay(id,v){if(id==='professional')SUB.payP=v;else SUB.payB=v;renderSubscribe();}
 /* LinkedIn logo in settings nav */
 renderSetNav=function(active){var h='';SET_NAV.forEach(function(it){if(it.g){h+='<div class="s-grp">'+it.g+'</div>';return;}var icon=it.i==='link'?LINKEDIN_LOGO:'<svg viewBox="0 0 24 24">'+SIC[it.i]+'</svg>';h+='<a data-k="'+it.k+'" class="'+(it.k===active?'on':'')+'" onclick="setSection(\''+it.k+'\')">'+icon+'<span>'+it.l+'</span>'+(it.bdg?'<span class="bdg">'+it.bdg+'</span>':'')+'</a>';});document.getElementById('setNav').innerHTML=h;};
+
+
+/* ===== dark mode ===== */
+function toggleDark(e){if(e)e.stopPropagation();var on=document.getElementById('dsw').classList.toggle('on');document.body.classList.toggle('dark',on);}
+/* ===== keyboard shortcuts ===== */
+var KS_ON=false;
+var KS_DATA=[{g:'Navigation',rows:[['Go to Overview',['1']],['Go to AI Agent',['2']],['Go to Sourcing',['3']],['Go to Candidates',['4']],['Go to Outreach',['5']]]},{g:'General',rows:[['New search',['N']],['Open settings',['S']],['Toggle dark mode',['D']],['Show this help',['?']],['Close',['Esc']]]}];
+function ksBodyHTML(){return KS_DATA.map(function(sec){return '<div class="ks-grp">'+sec.g+'</div>'+sec.rows.map(function(r){return '<div class="ks-row"><span>'+r[0]+'</span><span class="keys">'+r[1].map(function(k){return '<span class="kbd">'+k+'</span>';}).join('')+'</span></div>';}).join('');}).join('');}
+function openKS(){document.getElementById('ksBody').innerHTML=ksBodyHTML();document.getElementById('ksOv').classList.add('open');}
+function closeKS(){document.getElementById('ksOv').classList.remove('open');}
+function ksToggle(e){if(e)e.stopPropagation();KS_ON=document.getElementById('ksw').classList.toggle('on');if(KS_ON){openKS();}else{closeKS();}}
+function ksTyping(e){var t=e.target.tagName;return t==='INPUT'||t==='TEXTAREA'||e.target.isContentEditable;}
+function ksNav(page){var scope=document.getElementById('app').classList.contains('scoped')?'#navJob':'#navJob';var a=document.querySelector('#navJob a[data-page="'+page+'"]');if(a)a.click();}
+document.addEventListener('keydown',function(e){
+ if(!KS_ON||ksTyping(e))return;
+ var k=e.key;
+ if(k==='?'){e.preventDefault();openKS();return;}
+ if(k==='Escape'){closeKS();closeDocs();if(typeof closeSettings==='function')closeSettings();return;}
+ var nav={'1':'Overview','2':'AI Agent','3':'Sourcing','4':'Candidates','5':'Outreach'};
+ if(nav[k]){e.preventDefault();ksNav(nav[k]);return;}
+ var lk=k.toLowerCase();
+ if(lk==='s'){e.preventDefault();openSettings();}
+ else if(lk==='d'){e.preventDefault();toggleDark();}
+});
+document.getElementById('ksOv').addEventListener('click',function(e){if(e.target===this)closeKS();});
+/* ===== docs landing ===== */
+function docsCard(ic,t,d){return '<div class="docs-card"><div class="di"><svg viewBox="0 0 24 24">'+ic+'</svg></div><h4>'+t+'</h4><p>'+d+'</p></div>';}
+function openDocs(){closeMenu();var i={rocket:'<path d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2M9 11a5 5 0 0 1 1-3c2.5-3.5 7-4 7-4s-.5 4.5-4 7a5 5 0 0 1-3 1M9 11l4 4"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/>',send:'<path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/>',plug:'<path d="M9 7V4h6v3M6 7h12l-1 13H7L6 7z"/>',code:'<path d="M8 8l-4 4 4 4M16 8l4 4-4 4"/>'};document.getElementById('docsBody').innerHTML='<div class="docs-hero"><h2>JobAgentX Docs</h2><p>Everything you need to source, engage, and hire — guides, how-tos, and API reference.</p></div><div class="docs-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input placeholder="Search the docs…"></div><div class="docs-grid">'+docsCard(i.rocket,'Getting Started','Set up your first position and invite your team.')+docsCard(i.search,'Sourcing','Build searches, review candidates, and unlock contacts.')+docsCard(i.target,'AI Agent','Configure agents to source and reach out automatically.')+docsCard(i.send,'Outreach','Sequences, templates, and multi-channel messaging.')+docsCard(i.plug,'Integrations','Connect your ATS, email, and calendar.')+docsCard(i.code,'API Reference','Endpoints, auth, and webhooks for developers.')+'</div>';document.getElementById('docsOv').classList.add('open');}
+function closeDocs(){document.getElementById('docsOv').classList.remove('open');}
+document.getElementById('docsOv').addEventListener('click',function(e){if(e.target===this)closeDocs();});
 
 </script>
 </body>
