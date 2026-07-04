@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build 1783131539 -->
+<!-- build 1783132120 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,7 +16,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font-family:'Inter',system-ui,sans-serif;font-size:12.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,system-ui,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Fira Sans","Droid Sans","Helvetica Neue",sans-serif;font-size:12.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
 a{color:inherit;text-decoration:none}
 svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .app{display:flex;min-height:100vh}
@@ -347,16 +347,16 @@ body.dark .kbd{background:#26262a}
 .lt-search{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:7px;padding:6px 10px;background:var(--card);min-width:220px}
 .lt-search svg{width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:1.7}
 .lt-search input{border:none;outline:none;background:none;font-size:12.5px;font-family:inherit;color:var(--ink);width:100%}
-.ov-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:14px;margin-bottom:16px}
-.ov-card{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:16px}
-.ov-card .ovh{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.ov-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:12px;margin-bottom:12px}
+.ov-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.ov-card .ovh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .ov-card h3{margin:0;font-size:14px;font-weight:500}
 .ov-legend{display:flex;gap:14px;font-size:11.5px;color:var(--muted)}
 .ov-legend .lg{display:inline-flex;align-items:center;gap:5px}
 .ov-legend .d{width:7px;height:7px;border-radius:50%}
-.ov-chart{height:150px;display:flex;align-items:flex-end;gap:6px;border-bottom:1px solid var(--line2);padding-bottom:0}
-.ov-chart .gl{flex:1;border-left:1px dashed var(--line2);height:100%}
-.ov-empty{color:var(--muted);font-size:12.5px;display:flex;align-items:center;justify-content:center;min-height:150px}
+.ov-chart{display:flex;gap:9px;height:132px}.ov-yax{display:flex;flex-direction:column;justify-content:space-between;font-size:11px;color:var(--faint);text-align:right}.ov-plot{flex:1;display:flex;flex-direction:column;justify-content:space-between}.ov-plot .hl{height:1px;background:var(--line2)}.ov-xax{display:flex;justify-content:space-between;margin:7px 0 0 22px;font-size:11px;color:var(--faint)}
+
+.ov-empty{color:var(--muted);font-size:12.5px;display:flex;align-items:center;justify-content:center;min-height:157px}
 .pg-hero{background:var(--accent-soft);border:1px solid #e4e9f7;border-radius:12px;padding:34px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px;margin-bottom:18px}
 body.dark .pg-hero{border-color:var(--line)}
 .pg-hero h2{margin:0 0 10px;font-size:22px;font-weight:500}
@@ -382,7 +382,7 @@ body.dark .srch-box{background:#1b1b1d}
 .srch-top input{flex:1;border:none;outline:none;background:none;font-size:15px;font-family:inherit;color:var(--ink)}
 .srch-empty{padding:34px 18px;text-align:center;font-size:13px;color:var(--muted)}
 .main{flex:1;min-width:0}
-.top{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;border-bottom:1px solid var(--line2);background:var(--bg);position:sticky;top:0;z-index:5}
+.top{display:flex;align-items:center;justify-content:space-between;padding:16px 24px 8px;background:var(--bg);position:sticky;top:0;z-index:5}
 .top .lh{display:flex;align-items:center;gap:10px;min-width:0}
 .top h1{margin:0;font-size:15px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .top .crumb{color:var(--muted);font-weight:400}
@@ -395,7 +395,7 @@ body.dark .srch-box{background:#1b1b1d}
 .btn-p{display:inline-flex;align-items:center;gap:6px;background:var(--accent);border:none;color:#fff;border-radius:var(--r);padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap}
 .btn-p:hover{background:var(--accent-ink)}
 .btn-p svg{width:14px;height:14px;stroke-width:2.2}
-.wrap{padding:18px 22px 40px;max-width:1200px}
+.wrap{padding:6px 24px 40px;max-width:1200px}
 .krow{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px}
 .kc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:11px 13px}
 .kc .l{font-size:10.5px;color:var(--muted);letter-spacing:.02em;text-transform:uppercase}
@@ -779,7 +779,7 @@ var EXP=caret('Export'), REP=('<button class="pgbtn">Reports</button>'), BULK=('
 function candPage(title,heading,desc,btn,icon,acts){return {title:title,count:'0 candidates',right:acts,body:subbar()+estate(icon,heading,desc,btn)};}
 var PAGES={
  'Overview':function(){return {title:'Overview',right:caret('<svg viewBox="0 0 24 24" style="width:14px;height:14px;margin-right:5px;stroke:currentColor;fill:none;stroke-width:1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Last 7 Days')+caret('<span class="pc-av" style="width:18px;height:18px;border-radius:5px;font-size:9px;display:inline-flex;margin-right:6px">N</span>All Companies')+caret('<span class="pc-av" style="width:18px;height:18px;border-radius:50%;font-size:9px;display:inline-flex;margin-right:6px">SL</span>Scott Lobenberg'),
-   body:'<div class="ov-grid"><div class="ov-card"><div class="ovh"><h3>Messages</h3><div class="ov-legend"><span class="lg"><span class="d" style="background:#4d81ee"></span>0 Sent 0%</span><span class="lg"><span class="d" style="background:#2f9e6a"></span>0 Received 0%</span></div></div><div class="ov-chart"><span class="gl"></span><span class="gl"></span><span class="gl"></span><span class="gl"></span><span class="gl"></span><span class="gl"></span><span class="gl"></span></div></div><div class="ov-card"><h3>Candidates</h3><div class="ov-empty">You do not have any active sequences yet.</div></div></div>'+listTools('Active positions',true)+posList()};},
+   body:'<div class="ov-grid"><div class="ov-card"><div class="ovh"><h3>Messages</h3><div class="ov-legend"><span class="lg"><span class="d" style="background:#4d81ee"></span>0 Sent 0%</span><span class="lg"><span class="d" style="background:#2f9e6a"></span>0 Received 0%</span></div></div><div class="ov-chart"><div class="ov-yax"><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div><div class="ov-plot"><span class="hl"></span><span class="hl"></span><span class="hl"></span><span class="hl"></span><span class="hl"></span></div></div><div class="ov-xax"><span>Jun 27</span><span>Jun 28</span><span>Jun 29</span><span>Jun 30</span><span>Jul 1</span><span>Jul 2</span><span>Jul 3</span><span>Jul 4</span></div></div><div class="ov-card"><h3>Candidates</h3><div class="ov-empty">You do not have any active sequences yet.</div></div></div>'+listTools('Active positions',true)+posList()};},
  'AI Agent':function(){return {title:'',right:'',body:'<div class="pg-hero"><div><h2>AI Agent works within a job</h2><p>Select a position below to configure your Agent, review candidates, and monitor activity.</p><button class="cta"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2"><path d="M12 5v14M5 12h14"/></svg>Create New Position</button></div><div class="hero-r">'+ic('agent')+'</div></div>'+listTools('Your Agents')+'<div class="s-empty">You don\'t have any configured AI Agents.</div>'};},
  'Sourcing':function(){return {title:'',right:'',body:'<div class="pg-hero"><div><h2>Sourcing happens within a job</h2><p>Select a position below to source candidates, review them, and communicate.</p><button class="cta"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2"><path d="M12 5v14M5 12h14"/></svg>Create New Position</button></div><div class="hero-r">'+ic('binoc')+'</div></div>'+listTools('Your positions',true)+posList()};},
  'Candidates':function(){return candPage('All Candidates','No Candidates','Looks like you don’t have any prospects yet, start sourcing candidates and all of them will show up right here.',null,'binoc',EXP);},
