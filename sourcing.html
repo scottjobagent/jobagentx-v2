@@ -814,7 +814,7 @@ function render(page){
  var h=document.getElementById('pageH');
  h.innerHTML=P.title+(P.count?' <span class="hcount">'+P.count+'</span>':'');
  var tr=document.getElementById('topR'); if(tr) tr.innerHTML=P.right||'';
- document.getElementById('wrap').innerHTML=P.body;var _hub=({'Overview':1,'Sourcing':1,'AI Agent':1}[page]?1:0);document.getElementById('wrap').className=_hub?'wrap hub':'wrap';var _t=document.querySelector('.top');if(_t)_t.classList.toggle('hub',!!_hub);var _hero=({'AI Agent':1,'Sourcing':1,'Inbox':1,'All Conversations':1,'My Conversations':1}[page]?1:0);document.getElementById('wrap').classList.toggle('herop',!!_hero);if(_t)_t.classList.toggle('herop',!!_hero);
+ document.getElementById('wrap').innerHTML=P.body;var _hub=({'Overview':1,'Sourcing':1,'AI Agent':1,'Communications Insights':1,'Pipeline Insights':1,'Team Activity':1}[page]?1:0);document.getElementById('wrap').className=_hub?'wrap hub':'wrap';var _t=document.querySelector('.top');if(_t)_t.classList.toggle('hub',!!_hub);var _hero=({'AI Agent':1,'Sourcing':1,'Inbox':1,'All Conversations':1,'My Conversations':1}[page]?1:0);document.getElementById('wrap').classList.toggle('herop',!!_hero);if(_t)_t.classList.toggle('herop',!!_hero);
 }
 
 
