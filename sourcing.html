@@ -332,7 +332,7 @@ function renderJobNav(){
 }
 function setActiveJob(el){document.querySelectorAll('#navJob a').forEach(function(a){a.classList.remove('on');});if(el)el.classList.add('on');}
 function closeSections(){document.querySelectorAll('#navJob .section').forEach(function(sc){sc.classList.remove('open');});}
-function openSection(e,id,page){e.preventDefault();e.stopPropagation();document.querySelectorAll('#navJob .section').forEach(function(sc){sc.classList.toggle('open',sc.id===id);});setActiveJob(document.querySelector('#'+id+'>.grp-head'));render(page);}
+function openSection(e,id,page){e.preventDefault();e.stopPropagation();var sec=document.getElementById(id);if(sec.classList.contains('open')){sec.classList.remove('open');return;}document.querySelectorAll('#navJob .section').forEach(function(sc){sc.classList.toggle('open',sc.id===id);});setActiveJob(document.querySelector('#'+id+'>.grp-head'));render(page);}
 function navSub(el,page){setActiveJob(el);render(page);}
 function navPlain(el,page){closeSections();setActiveJob(el);render(page);}
 // ---- global nav ----
