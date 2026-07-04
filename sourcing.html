@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build 1783133525 -->
+<!-- build 1783134142 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -51,8 +51,8 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .menu hr{border:none;border-top:1px solid var(--line2);margin:5px 2px}
 .menu .new{color:var(--accent);font-weight:500}
 .menu .new svg{color:var(--accent)}
-.nav{padding:8px 16px;display:flex;flex-direction:column;gap:1px;flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden}
-.nav .sep{height:1px;background:var(--line2);margin:8px 8px}
+.nav{padding:8px 16px;display:flex;flex-direction:column;gap:0;flex:1 1 auto;min-height:0;overflow-y:auto;overflow-x:hidden}
+.nav .sep{height:1px;background:var(--line2);margin:12px 8px}
 .nav a{display:flex;align-items:center;gap:11px;padding:13px 10px;border-radius:var(--r);color:var(--ink);font-weight:500;font-size:14px;line-height:1.3;white-space:nowrap;cursor:pointer}
 .nav a:hover{background:#eef0f3}
 .nav a.on{background:#e9ecef;color:var(--ink);font-weight:400}
@@ -331,18 +331,18 @@ body.dark .kbd{background:#26262a}
 .mtab .ml{font-size:11.5px;color:var(--muted)}
 .mtab .mv{font-size:17px;font-weight:600;margin-top:4px}
 .mtab .md{font-size:11px;color:var(--good);margin-left:6px;font-weight:500}
-.poscard{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:10px;cursor:pointer}
+.poscard{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:8px;cursor:pointer}
 .poscard:hover{border-color:#d9dce1}
 .pc-l{display:flex;align-items:center;gap:11px;min-width:0}
-.pc-av{width:30px;height:30px;border-radius:7px;background:#333941;color:#fff;font-size:12px;font-weight:500;display:flex;align-items:center;justify-content:center;flex:0 0 30px}
-.pc-nm{font-size:13.5px;font-weight:500}
+.pc-av{width:34px;height:34px;border-radius:8px;background:#333941;color:#fff;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;flex:0 0 34px}
+.pc-nm{font-size:16px;font-weight:500}
 .pc-st{font-size:11.5px;color:var(--muted);display:flex;align-items:center;gap:5px;margin-top:2px}
 .pc-stats{display:flex;gap:24px}
 .pc-stats>div{text-align:center}
 .pc-stats b{display:block;font-size:15px;font-weight:600}
 .pc-stats span{font-size:10.5px;color:var(--muted)}
 .list-tools{display:flex;align-items:center;justify-content:space-between;margin:0 0 12px;gap:10px}
-.list-tools h3{margin:0;font-size:15px;font-weight:500}
+.list-tools h3{margin:0;font-size:16px;font-weight:500}
 .list-tools .lt-r{display:flex;gap:9px}
 .lt-search{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:7px;padding:6px 10px;background:var(--card);min-width:220px}
 .lt-search svg{width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:1.7}
@@ -395,7 +395,7 @@ body.dark .srch-box{background:#1b1b1d}
 .btn-p{display:inline-flex;align-items:center;gap:6px;background:var(--accent);border:none;color:#fff;border-radius:var(--r);padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap}
 .btn-p:hover{background:var(--accent-ink)}
 .btn-p svg{width:14px;height:14px;stroke-width:2.2}
-.wrap{padding:6px 24px 40px 16px}
+.wrap{padding:6px 24px 40px 16px}.wrap.hub{max-width:1124px}
 .krow{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px}
 .kc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:11px 13px}
 .kc .l{font-size:10.5px;color:var(--muted);letter-spacing:.02em;text-transform:uppercase}
@@ -779,7 +779,7 @@ var EXP=caret('Export'), REP=('<button class="pgbtn">Reports</button>'), BULK=('
 function candPage(title,heading,desc,btn,icon,acts){return {title:title,count:'0 candidates',right:acts,body:subbar()+estate(icon,heading,desc,btn)};}
 var PAGES={
  'Overview':function(){return {title:'Overview',right:caret('<svg viewBox="0 0 24 24" style="width:14px;height:14px;margin-right:5px;stroke:currentColor;fill:none;stroke-width:1.7"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Last 7 Days')+caret('<span class="pc-av" style="width:18px;height:18px;border-radius:5px;font-size:9px;display:inline-flex;margin-right:6px">N</span>All Companies')+caret('<span class="pc-av" style="width:18px;height:18px;border-radius:50%;font-size:9px;display:inline-flex;margin-right:6px">SL</span>Scott Lobenberg'),
-   body:'<div class="ov-grid"><div class="ov-card"><div class="ovh"><h3>Messages</h3><div class="ov-legend"><span class="lg"><span class="d" style="background:#4d81ee"></span>0 Sent <span class="lgp">0%</span></span><span class="lg"><span class="d" style="background:#2f9e6a"></span>0 Received <span class="lgp">0%</span></span></div></div><div class="ov-chart"><div class="ov-yax"><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div><div class="ov-plot"><span class="hl"></span><span class="hl"></span><span class="hl"></span><span class="hl"></span><span class="hl"></span></div></div><div class="ov-xax"><span>Jun 27</span><span>Jun 28</span><span>Jun 29</span><span>Jun 30</span><span>Jul 1</span><span>Jul 2</span><span>Jul 3</span><span>Jul 4</span></div></div><div class="ov-card"><h3>Candidates</h3><div class="ov-empty">You do not have any active sequences yet.</div></div></div>'+listTools('Active positions',true)+posList()};},
+   body:'<div class="ov-grid"><div class="ov-card"><div class="ovh"><h3>Messages</h3><div class="ov-legend"><span class="lg"><span class="d" style="background:#4d81ee"></span>0 Sent <span class="lgp">0%</span></span><span class="lg"><span class="d" style="background:#2f9e6a"></span>0 Received <span class="lgp">0%</span></span></div></div><div class="ov-chart"><div class="ov-yax"><span>4</span><span>3</span><span>2</span><span>1</span><span>0</span></div><div class="ov-plot"><span class="hl"></span><span class="hl"></span><span class="hl"></span><span class="hl"></span><span class="hl"></span></div></div><div class="ov-xax"><span>Jun 27</span><span>Jun 28</span><span>Jun 29</span><span>Jun 30</span><span>Jul 1</span><span>Jul 2</span><span>Jul 3</span><span>Jul 4</span></div></div><div class="ov-card"><h3>Candidates</h3><div class="ov-empty">You do not have any active sequences yet.</div></div></div>'+listTools('Active Positions',true)+posList()};},
  'AI Agent':function(){return {title:'',right:'',body:'<div class="pg-hero"><div><h2>AI Agent works within a job</h2><p>Select a position below to configure your Agent, review candidates, and monitor activity.</p><button class="cta"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2"><path d="M12 5v14M5 12h14"/></svg>Create New Position</button></div><div class="hero-r">'+ic('agent')+'</div></div>'+listTools('Your Agents')+'<div class="s-empty">You don\'t have any configured AI Agents.</div>'};},
  'Sourcing':function(){return {title:'',right:'',body:'<div class="pg-hero"><div><h2>Sourcing happens within a job</h2><p>Select a position below to source candidates, review them, and communicate.</p><button class="cta"><svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:2.2"><path d="M12 5v14M5 12h14"/></svg>Create New Position</button></div><div class="hero-r">'+ic('binoc')+'</div></div>'+listTools('Your positions',true)+posList()};},
  'Candidates':function(){return candPage('All Candidates','No Candidates','Looks like you don’t have any prospects yet, start sourcing candidates and all of them will show up right here.',null,'binoc',EXP);},
@@ -814,7 +814,7 @@ function render(page){
  var h=document.getElementById('pageH');
  h.innerHTML=P.title+(P.count?' <span class="hcount">'+P.count+'</span>':'');
  var tr=document.getElementById('topR'); if(tr) tr.innerHTML=P.right||'';
- document.getElementById('wrap').innerHTML=P.body;
+ document.getElementById('wrap').innerHTML=P.body;document.getElementById('wrap').className=({'Overview':1,'Sourcing':1,'AI Agent':1}[page]?'wrap hub':'wrap');
 }
 
 
