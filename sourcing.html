@@ -269,6 +269,7 @@ body.dark .empty svg,body.dark .kc .l{color:var(--faint)}
 body.dark .ws:hover{border-color:#4a4a52}
 body.dark .kbd{background:#26262a}
 /* ===== keyboard shortcuts + docs modals ===== */
+.kh{display:none;margin-left:auto;font-size:11px;line-height:1;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;min-width:18px;height:18px;padding:0 5px;border:1px solid var(--line);border-radius:5px;color:var(--muted);align-items:center;justify-content:center;background:var(--panel)}body.ks-on #navJob a:hover .kh{display:inline-flex}body.dark .kh{background:var(--card)}
 .ks-ov,.docs-ov{position:fixed;inset:0;background:rgba(20,26,40,.45);z-index:110;display:none;align-items:center;justify-content:center;padding:40px;font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif}
 .ks-ov.open,.docs-ov.open{display:flex}
 .ks-modal{background:#fff;color:var(--ink);border-radius:14px;width:100%;max-width:560px;max-height:82vh;overflow:auto;box-shadow:0 24px 60px rgba(0,0,0,.28);border:1px solid var(--line)}
@@ -626,7 +627,10 @@ function toggleAcct(e){e.stopPropagation();document.getElementById('swMenu').cla
 function toggleSwitch(e,id){e.stopPropagation();document.getElementById(id).classList.toggle('on');}
 function pickGlobal(){var app=document.getElementById('app');app.classList.remove('scoped');CURRENT_JOB=null;document.getElementById('swT').textContent='My Positions';document.getElementById('miAll').classList.add('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.remove('on');});closeSections();setActiveJob(document.querySelector('#navJob a[data-page="Overview"]'));render('Overview');closeMenu();}
 function pickJob(name,loc){var app=document.getElementById('app');app.classList.add('scoped');CURRENT_JOB=name;document.getElementById('swT').textContent=name;document.getElementById('miAll').classList.remove('on');document.querySelectorAll('#swMenu .pos').forEach(function(p){p.classList.toggle('on',p.textContent.indexOf(name)===0);});closeSections();setActiveJob(document.querySelector('#navJob a[data-page="Overview"]'));render('Overview');closeMenu();}
+var KH_KEYS={'Overview':'1','AI Agent':'2','Sourcing':'3','Candidates':'4','Outreach':'5'};
+function addKeyHints(){document.querySelectorAll('#navJob a[data-page]').forEach(function(a){var k=KH_KEYS[a.getAttribute('data-page')];if(!k||a.querySelector('.kh'))return;var s=document.createElement('span');s.className='kh';s.textContent=k;var chev=a.querySelector('.chev,.car');if(chev){a.insertBefore(s,chev);}else{a.appendChild(s);}});}
 renderJobNav();
+addKeyHints();
 setActiveJob(document.querySelector('#navJob a[data-page="Overview"]'));
 
 /* ===== Settings modal ===== */
@@ -718,7 +722,7 @@ var KS_DATA=[{g:'Navigation',rows:[['Go to Overview',['1']],['Go to AI Agent',['
 function ksBodyHTML(){return KS_DATA.map(function(sec){return '<div class="ks-grp">'+sec.g+'</div>'+sec.rows.map(function(r){return '<div class="ks-row"><span>'+r[0]+'</span><span class="keys">'+r[1].map(function(k){return '<span class="kbd">'+k+'</span>';}).join('')+'</span></div>';}).join('');}).join('');}
 function openKS(){document.getElementById('ksBody').innerHTML=ksBodyHTML();document.getElementById('ksOv').classList.add('open');}
 function closeKS(){document.getElementById('ksOv').classList.remove('open');}
-function ksToggle(e){if(e)e.stopPropagation();KS_ON=document.getElementById('ksw').classList.toggle('on');if(KS_ON){openKS();}else{closeKS();}}
+function ksToggle(e){if(e)e.stopPropagation();KS_ON=document.getElementById('ksw').classList.toggle('on');document.body.classList.toggle('ks-on',KS_ON);if(!KS_ON)closeKS();}
 function ksTyping(e){var t=e.target.tagName;return t==='INPUT'||t==='TEXTAREA'||e.target.isContentEditable;}
 function ksNav(page){var scope=document.getElementById('app').classList.contains('scoped')?'#navJob':'#navJob';var a=document.querySelector('#navJob a[data-page="'+page+'"]');if(a)a.click();}
 document.addEventListener('keydown',function(e){
@@ -735,7 +739,7 @@ document.addEventListener('keydown',function(e){
 document.getElementById('ksOv').addEventListener('click',function(e){if(e.target===this)closeKS();});
 /* ===== docs landing ===== */
 function docsCard(ic,t,d){return '<div class="docs-card"><div class="di"><svg viewBox="0 0 24 24">'+ic+'</svg></div><h4>'+t+'</h4><p>'+d+'</p></div>';}
-function openDocs(){closeMenu();var i={rocket:'<path d="M5 15c-1.5 1.5-2 5-2 5s3.5-.5 5-2M9 11a5 5 0 0 1 1-3c2.5-3.5 7-4 7-4s-.5 4.5-4 7a5 5 0 0 1-3 1M9 11l4 4"/>',search:'<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.4"/>',send:'<path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/>',plug:'<path d="M9 7V4h6v3M6 7h12l-1 13H7L6 7z"/>',code:'<path d="M8 8l-4 4 4 4M16 8l4 4-4 4"/>'};document.getElementById('docsBody').innerHTML='<div class="docs-hero"><h2>JobAgentX Docs</h2><p>Everything you need to source, engage, and hire — guides, how-tos, and API reference.</p></div><div class="docs-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input placeholder="Search the docs…"></div><div class="docs-grid">'+docsCard(i.rocket,'Getting Started','Set up your first position and invite your team.')+docsCard(i.search,'Sourcing','Build searches, review candidates, and unlock contacts.')+docsCard(i.target,'AI Agent','Configure agents to source and reach out automatically.')+docsCard(i.send,'Outreach','Sequences, templates, and multi-channel messaging.')+docsCard(i.plug,'Integrations','Connect your ATS, email, and calendar.')+docsCard(i.code,'API Reference','Endpoints, auth, and webhooks for developers.')+'</div>';document.getElementById('docsOv').classList.add('open');}
+function openDocs(){closeMenu();window.open('docs.html','_blank','noopener');}
 function closeDocs(){document.getElementById('docsOv').classList.remove('open');}
 document.getElementById('docsOv').addEventListener('click',function(e){if(e.target===this)closeDocs();});
 

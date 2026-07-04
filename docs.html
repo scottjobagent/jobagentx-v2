@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Onboarding — JobAgentX Docs</title>
+<style>
+:root{
+ --bg:#ffffff;--panel:#fbfbfa;--card:#ffffff;--line:#ececec;--line2:#f1f1f0;
+ --ink:#1a1a1c;--ink2:#3a3a3e;--muted:#6b6b72;--faint:#9a9aa2;
+ --accent:#3159d6;--accent-soft:#eef2fd;--green:#2f9e6a;--code:#f5f5f4;
+ --nav:296px;--toc:248px;
+}
+body.dark{
+ --bg:#1a1a1d;--panel:#161618;--card:#1f1f22;--line:#2c2c31;--line2:#232327;
+ --ink:#f2f2f3;--ink2:#d3d3d7;--muted:#9a9aa2;--faint:#6d6d75;
+ --accent:#7aa0f5;--accent-soft:#232a3d;--green:#4cc48b;--code:#232327;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;font-size:15px;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+.shell{display:grid;grid-template-columns:var(--nav) 1fr var(--toc);min-height:100vh;max-width:1440px;margin:0 auto}
+
+/* ===== left nav ===== */
+.nav{border-right:1px solid var(--line);padding:0;position:sticky;top:0;height:100vh;overflow-y:auto;background:var(--panel)}
+.nav-hd{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px}
+.brand{display:flex;align-items:center;gap:9px;font-weight:650;font-size:16px;letter-spacing:-.2px}
+.brand .mk{width:24px;height:24px;border-radius:7px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px}
+.thm{width:30px;height:30px;border:1px solid var(--line);border-radius:8px;background:var(--card);display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--muted)}
+.thm svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.thm:hover{color:var(--ink)}
+.srch{margin:0 16px 16px;display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:9px;background:var(--card);padding:8px 10px;color:var(--muted);cursor:text}
+.srch svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
+.srch input{border:0;background:transparent;outline:0;color:var(--ink);font-size:13.5px;flex:1;font-family:inherit}
+.srch input::placeholder{color:var(--faint)}
+.srch .kk{font-size:11px;border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:var(--faint)}
+.tree{padding:0 10px 30px}
+.t-top{display:flex;align-items:center;gap:9px;padding:8px 10px;border-radius:8px;font-weight:600;font-size:14px;cursor:pointer;color:var(--ink)}
+.t-top .em{font-size:15px}
+.t-top.on{background:var(--accent-soft);color:var(--accent)}
+.t-sec{margin-top:16px}
+.t-sh{display:flex;align-items:center;justify-content:space-between;padding:6px 10px;font-size:11.5px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);cursor:pointer;user-select:none}
+.t-sh svg{width:13px;height:13px;fill:none;stroke:currentColor;stroke-width:2.2;transition:transform .15s}
+.t-sec.closed .t-sh svg{transform:rotate(-90deg)}
+.t-sec.closed .t-items{display:none}
+.t-items{display:flex;flex-direction:column;gap:1px;margin-top:2px}
+.t-i{display:flex;align-items:center;gap:9px;padding:6px 10px;border-radius:7px;font-size:13.5px;color:var(--ink2);cursor:pointer}
+.t-i .em{width:17px;text-align:center;font-size:14px}
+.t-i:hover{background:var(--line2);color:var(--ink)}
+.t-i.on{background:var(--accent-soft);color:var(--accent);font-weight:600}
+.nav-ft{padding:14px 20px 26px;font-size:12px;color:var(--faint);border-top:1px solid var(--line);margin-top:8px}
+.nav-ft b{color:var(--muted);font-weight:600}
+
+/* ===== main ===== */
+.main{padding:44px 56px 90px;min-width:0}
+.mwrap{max-width:720px;margin:0 auto}
+.crumb{font-size:12.5px;color:var(--faint);margin-bottom:14px}
+.crumb b{color:var(--muted);font-weight:500}
+h1.art{font-size:32px;line-height:1.2;letter-spacing:-.6px;margin:0 0 10px;font-weight:700}
+.meta{display:flex;align-items:center;gap:8px;color:var(--muted);font-size:13px;margin-bottom:28px}
+.meta svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+.main h2{font-size:22px;letter-spacing:-.3px;margin:38px 0 12px;font-weight:650;scroll-margin-top:24px}
+.main h2:first-of-type{margin-top:8px}
+.main p{color:var(--ink2);margin:0 0 16px}
+.main ul{color:var(--ink2);padding-left:20px;margin:0 0 16px}
+.main li{margin:5px 0}
+.main a.lk{color:var(--accent);border-bottom:1px solid transparent}
+.main a.lk:hover{border-bottom-color:var(--accent)}
+.vid{position:relative;aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:linear-gradient(135deg,#20222b,#2d3040);border:1px solid var(--line);margin:20px 0 12px;display:flex;align-items:center;justify-content:center}
+body.dark .vid{background:linear-gradient(135deg,#101018,#20222c)}
+.vid .play{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.94);display:flex;align-items:center;justify-content:center;box-shadow:0 6px 26px rgba(0,0,0,.35)}
+.vid .play svg{width:24px;height:24px;fill:#20222b;margin-left:3px}
+.vid .cap{position:absolute;left:16px;bottom:14px;color:#eef;font-size:12.5px;opacity:.85}
+.note{border:1px solid var(--line);border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:10px;padding:13px 16px;margin:18px 0;font-size:13.5px;color:var(--ink2)}
+.note b{color:var(--ink)}
+.steps{counter-reset:st;margin:14px 0}
+.step{position:relative;padding:2px 0 18px 40px;border-left:1.5px solid var(--line);margin-left:12px}
+.step:last-child{border-left-color:transparent}
+.step::before{counter-increment:st;content:counter(st);position:absolute;left:-14px;top:-2px;width:27px;height:27px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.step h4{margin:2px 0 5px;font-size:15.5px}
+.step p{margin:0;font-size:14px}
+.pager{display:flex;gap:14px;margin-top:48px;border-top:1px solid var(--line);padding-top:24px}
+.pg{flex:1;border:1px solid var(--line);border-radius:12px;padding:14px 16px;cursor:pointer;background:var(--card)}
+.pg:hover{border-color:var(--accent)}
+.pg .d{font-size:11.5px;color:var(--faint);text-transform:uppercase;letter-spacing:.05em}
+.pg .t{font-size:14.5px;font-weight:600;margin-top:3px;color:var(--ink)}
+.pg.next{text-align:right}
+
+/* ===== right toc ===== */
+.toc{border-left:1px solid var(--line);padding:44px 22px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.toc-top{display:flex;justify-content:flex-end;margin-bottom:24px}
+.copy{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);border-radius:8px;padding:6px 11px;font-size:12.5px;color:var(--muted);background:var(--card);cursor:pointer}
+.copy svg{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2}
+.copy:hover{color:var(--ink);border-color:var(--muted)}
+.toc-h{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--faint);margin-bottom:12px}
+.toc-l{display:flex;flex-direction:column;gap:2px;border-left:2px solid var(--line)}
+.toc-l a{font-size:13px;color:var(--muted);padding:5px 0 5px 14px;margin-left:-2px;border-left:2px solid transparent;line-height:1.4}
+.toc-l a:hover{color:var(--ink)}
+.toc-l a.on{color:var(--accent);border-left-color:var(--accent);font-weight:500}
+.help{margin-top:34px;border-top:1px solid var(--line);padding-top:20px}
+.help p{font-size:13px;color:var(--muted);margin:0 0 10px}
+.help .btns{display:flex;gap:8px}
+.hb{flex:1;border:1px solid var(--line);border-radius:9px;padding:8px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;color:var(--ink2);cursor:pointer;background:var(--card)}
+.hb svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2}
+.hb:hover{border-color:var(--accent);color:var(--accent)}
+.hb.done{border-color:var(--green);color:var(--green);background:transparent}
+.help.thanks .btns{display:none}
+.help .ty{display:none;font-size:13px;color:var(--green);font-weight:500}
+.help.thanks .ty{display:block}
+
+.mob-bar{display:none}
+@media(max-width:1080px){
+ .shell{grid-template-columns:var(--nav) 1fr}
+ .toc{display:none}
+}
+@media(max-width:820px){
+ .shell{grid-template-columns:1fr}
+ .nav{display:none}
+ .nav.open{display:block;position:fixed;z-index:50;width:300px;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+ .main{padding:20px 22px 70px}
+ .mob-bar{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:20}
+ .mob-bar .mb{width:34px;height:34px;border:1px solid var(--line);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--ink);background:var(--card)}
+ .mob-bar .mb svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2}
+ h1.art{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="mob-bar">
+ <div class="mb" onclick="document.querySelector('.nav').classList.toggle('open')"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg></div>
+ <div class="brand"><div class="mk">J</div>JobAgentX Docs</div>
+</div>
+<div class="shell">
+
+ <!-- LEFT NAV -->
+ <aside class="nav">
+  <div class="nav-hd">
+   <a class="brand" href="#"><div class="mk">J</div>JobAgentX</a>
+   <div class="thm" onclick="toggleTheme()" title="Toggle theme"><svg id="thmIc" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></div>
+  </div>
+  <div class="srch" onclick="this.querySelector('input').focus()">
+   <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+   <input placeholder="Search or ask…">
+   <span class="kk">⌘K</span>
+  </div>
+  <nav class="tree" id="tree">
+   <div class="t-top on"><span class="em">📦</span>Onboarding</div>
+
+   <div class="t-sec" data-sec>
+    <div class="t-sh" onclick="secToggle(this)">The Basics <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+    <div class="t-items">
+     <div class="t-i on" data-art="getting-started"><span class="em">🚀</span>Getting started with JobAgentX</div>
+     <div class="t-i" data-art="account"><span class="em">👷</span>Setting up your account</div>
+     <div class="t-i" data-art="new-job"><span class="em">💼</span>Creating a new job</div>
+     <div class="t-i" data-art="email"><span class="em">📨</span>Connect additional email</div>
+     <div class="t-i" data-art="team"><span class="em">👥</span>Inviting a team member</div>
+     <div class="t-i" data-art="extension"><span class="em">🌐</span>Installing the Chrome extension</div>
+     <div class="t-i" data-art="linkedin"><span class="em">👤</span>Connecting your LinkedIn</div>
+     <div class="t-i" data-art="microsoft"><span class="em">Ⓜ️</span>Use with Microsoft</div>
+    </div>
+   </div>
+
+   <div class="t-sec" data-sec>
+    <div class="t-sh" onclick="secToggle(this)">Candidate Searches <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+    <div class="t-items">
+     <div class="t-i" data-art="build-search"><span class="em">🔎</span>Building a search</div>
+     <div class="t-i" data-art="review"><span class="em">🗂️</span>Reviewing candidates</div>
+     <div class="t-i" data-art="unlock"><span class="em">🔓</span>Unlocking contact info</div>
+     <div class="t-i" data-art="export"><span class="em">📤</span>Exporting to outreach</div>
+    </div>
+   </div>
+
+   <div class="t-sec" data-sec>
+    <div class="t-sh" onclick="secToggle(this)">AI Agent <svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg></div>
+    <div class="t-items">
+     <div class="t-i" data-art="agent-setup"><span class="em">🎯</span>Setting up an agent</div>
+     <div class="t-i" data-art="agent-rules"><span class="em">⚙️</span>Screening rules</div>
+    </div>
+   </div>
+
+   <div class="nav-ft">Docs powered by <b>JobAgentX</b></div>
+  </nav>
+ </aside>
+
+ <!-- MAIN -->
+ <main class="main">
+  <div class="mwrap">
+   <div class="crumb"><b>Onboarding</b> / Getting started with JobAgentX</div>
+   <h1 class="art" id="artTitle">Onboarding</h1>
+   <div class="meta"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> 5 min read</div>
+
+   <div id="artBody">
+    <h2 id="intro">Introduction to JobAgentX</h2>
+    <p>JobAgentX helps your team source, engage, and hire faster. Instead of digging through job boards, you describe who you're looking for and JobAgentX surfaces matching candidates, drafts outreach, and books interviews for you — so your pipeline fills itself while you focus on the conversations that matter.</p>
+    <p>This guide walks you through everything you need to get up and running: creating your first position, connecting your inbox, and launching your first search. It takes about five minutes.</p>
+
+    <div class="vid">
+     <div class="play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div>
+     <div class="cap">Watch: Getting started with JobAgentX (2:14)</div>
+    </div>
+
+    <div class="note"><b>Before you start:</b> Make sure you've confirmed your email invite. If you haven't received one, ask your workspace admin to resend it from <span class="lk">Settings → Team</span>.</div>
+
+    <h2 id="step1">Step 1: Create your job</h2>
+    <p>Every search starts with a position. A job tells JobAgentX what role you're hiring for, where, and what "good" looks like — the agent uses this to score and rank candidates.</p>
+    <div class="steps">
+     <div class="step"><h4>Open the position creator</h4><p>From the sidebar, click the <b>+</b> next to your workspace name and choose <b>Create New Job Position</b>.</p></div>
+     <div class="step"><h4>Describe the role</h4><p>Add a title, location, and a short description. The more specific the must-haves, the sharper your matches.</p></div>
+     <div class="step"><h4>Save and continue</h4><p>Your new position appears under <b>My Positions</b>. You're ready to set up outreach.</p></div>
+    </div>
+
+    <h2 id="step2">Step 2: Set up outreach</h2>
+    <p>Connect the inbox you want messages to send from, then pick a sequence. JobAgentX personalizes each message to the candidate and spaces sends out so your domain stays healthy.</p>
+    <ul>
+     <li>Connect Google or Microsoft in one click — no SMTP setup.</li>
+     <li>Choose a starter sequence, or write your own steps.</li>
+     <li>Replies land back in your JobAgentX <span class="lk">Inbox</span>, threaded per candidate.</li>
+    </ul>
+
+    <h2 id="step3">Step 3: Add candidates from Sourcing</h2>
+    <p>Head to <b>Sourcing</b> and describe your ideal candidate in plain language. JobAgentX returns a ranked list with match reasons. Select the ones you want and add them straight into your outreach queue.</p>
+
+    <h2 id="tips">Quick tips with Sourcing</h2>
+    <ul>
+     <li>Start broad, then tighten filters once you see who's showing up.</li>
+     <li>Use the match explanations to refine what the agent prioritizes.</li>
+     <li>Unlock contact info only for candidates you actually plan to reach — it keeps credits efficient.</li>
+    </ul>
+   </div>
+
+   <div class="pager">
+    <div class="pg" onclick="loadArt('account')"><div class="d">Previous</div><div class="t">Overview</div></div>
+    <div class="pg next" onclick="loadArt('account')"><div class="d">Next</div><div class="t">Setting up your account →</div></div>
+   </div>
+  </div>
+ </main>
+
+ <!-- RIGHT TOC -->
+ <aside class="toc">
+  <div class="toc-top"><div class="copy" onclick="copyLink(this)"><svg viewBox="0 0 24 24"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h8"/></svg>Copy</div></div>
+  <div class="toc-h">On this page</div>
+  <div class="toc-l" id="tocList">
+   <a href="#intro" class="on">Introduction to JobAgentX</a>
+   <a href="#step1">Step 1: Create your job</a>
+   <a href="#step2">Step 2: Set up outreach</a>
+   <a href="#step3">Step 3: Add candidates from Sourcing</a>
+   <a href="#tips">Quick tips with Sourcing</a>
+  </div>
+  <div class="help" id="help">
+   <p>Did this page help you?</p>
+   <div class="btns">
+    <div class="hb" onclick="rate(this,1)"><svg viewBox="0 0 24 24"><path d="M7 11v9H4a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1zM7 11l4-8a2 2 0 0 1 2 2v3h5a2 2 0 0 1 2 2l-1.5 7a2 2 0 0 1-2 1.5H7"/></svg>Yes</div>
+    <div class="hb" onclick="rate(this,0)"><svg viewBox="0 0 24 24"><path d="M17 13V4h3a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1zM17 13l-4 8a2 2 0 0 1-2-2v-3H6a2 2 0 0 1-2-2l1.5-7A2 2 0 0 1 7.5 4H17"/></svg>No</div>
+   </div>
+   <div class="ty">Thanks for the feedback! 🙌</div>
+  </div>
+ </aside>
+
+</div>
+
+<script>
+/* theme */
+function toggleTheme(){var d=document.body.classList.toggle('dark');document.getElementById('thmIc').innerHTML=d?'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>':'<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/>';}
+/* section collapse */
+function secToggle(el){el.parentElement.classList.toggle('closed');}
+/* article switching (left nav) */
+var ARTS={
+ 'getting-started':null, /* default already rendered */
+ 'account':{title:'Setting up your account',toc:[['Profile','profile'],['Notifications','notif'],['Signature','sig']],body:'<h2 id="profile">Your profile</h2><p>Add your name, photo, and role so candidates know who is reaching out. Everything here is used to personalize your outreach.</p><h2 id="notif">Notifications</h2><p>Choose when JobAgentX pings you — new replies, booked interviews, or a daily digest. Set it from <span class="lk">Settings → Notifications</span>.</p><h2 id="sig">Email signature</h2><p>Your signature is appended to every message the agent sends. Keep it short and human.</p>'},
+ 'new-job':{title:'Creating a new job',toc:[['Basics','b'],['Must-haves','m'],['Publishing','p']],body:'<h2 id="b">The basics</h2><p>A job is the anchor for a search. Give it a clear title and location.</p><h2 id="m">Defining must-haves</h2><p>List the non-negotiables. The agent scores every candidate against these first.</p><h2 id="p">Publishing</h2><p>Save to add it under My Positions and start sourcing.</p>'}
+};
+function loadArt(key){
+ document.querySelectorAll('.t-i').forEach(function(i){i.classList.toggle('on',i.getAttribute('data-art')===key);});
+ var a=ARTS[key];
+ if(!a){location.reload();return;}
+ document.getElementById('artTitle').textContent=a.title;
+ document.querySelector('.crumb').innerHTML='<b>Onboarding</b> / '+a.title;
+ document.getElementById('artBody').innerHTML=a.body;
+ var toc=a.toc.map(function(t){return '<a href="#'+t[1]+'">'+t[0]+'</a>';}).join('');
+ document.getElementById('tocList').innerHTML=toc;
+ setFirstToc();
+ window.scrollTo(0,0);
+ var h=document.getElementById('help');h.classList.remove('thanks');
+ document.querySelectorAll('.hb').forEach(function(b){b.classList.remove('done');});
+}
+document.querySelectorAll('.t-i').forEach(function(i){i.addEventListener('click',function(){loadArt(i.getAttribute('data-art'));});});
+/* toc active */
+function setFirstToc(){var ls=document.querySelectorAll('#tocList a');ls.forEach(function(a){a.classList.remove('on');});if(ls[0])ls[0].classList.add('on');}
+function onScroll(){
+ var hs=document.querySelectorAll('#artBody h2');var cur=null;
+ hs.forEach(function(h){if(h.getBoundingClientRect().top<140)cur=h.id;});
+ document.querySelectorAll('#tocList a').forEach(function(a){a.classList.toggle('on',a.getAttribute('href')==='#'+cur);});
+}
+window.addEventListener('scroll',onScroll);
+document.getElementById('tocList').addEventListener('click',function(e){
+ if(e.target.tagName==='A'){e.preventDefault();var id=e.target.getAttribute('href').slice(1);var el=document.getElementById(id);if(el){window.scrollTo({top:el.getBoundingClientRect().top+window.scrollY-90,behavior:'smooth'});}}
+});
+/* copy + rate */
+function copyLink(el){var t=el.innerHTML;el.innerHTML='<svg viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>Copied';setTimeout(function(){el.innerHTML=t;},1400);}
+function rate(el,yes){document.getElementById('help').classList.add('thanks');el.classList.add('done');}
+</script>
+</body>
+</html>
