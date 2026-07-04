@@ -331,8 +331,8 @@ body.dark .kbd{background:#26262a}
 .mtab .ml{font-size:11.5px;color:var(--muted)}
 .mtab .mv{font-size:17px;font-weight:600;margin-top:4px}
 .mtab .md{font-size:11px;color:var(--good);margin-left:6px;font-weight:500}
-.poscard{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:22px 18px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:8px;cursor:pointer}
-.poscard:hover{border-color:#d9dce1}
+.poswrap{background:var(--card);border-radius:8px;box-shadow:0 1px 0 0 rgba(0,0,0,.02),0 1px 4px 0 rgba(0,0,0,.1);overflow:hidden}.poscard{background:transparent;border:none;border-bottom:1px solid var(--line);border-radius:0;padding:22px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;cursor:pointer}.poscard:last-child{border-bottom:none}
+.poscard:hover{background:#fafbfc}
 .pc-l{display:flex;align-items:center;gap:11px;min-width:0}
 .pc-av{width:34px;height:34px;border-radius:8px;background:#333941;color:#fff;font-size:13px;font-weight:500;display:flex;align-items:center;justify-content:center;flex:0 0 34px}
 .pc-nm{font-size:16px;font-weight:500}
@@ -348,7 +348,7 @@ body.dark .kbd{background:#26262a}
 .lt-search svg{width:14px;height:14px;stroke:var(--muted);fill:none;stroke-width:1.7}
 .lt-search input{border:none;outline:none;background:none;font-size:12.5px;font-family:inherit;color:var(--ink);width:100%}
 .ov-grid{display:grid;grid-template-columns:1fr 416px;gap:24px;margin-bottom:39px}
-.ov-card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px 16px}
+.ov-card{background:var(--card);border:none;border-radius:8px;box-shadow:0 1px 0 0 rgba(0,0,0,.02),0 1px 4px 0 rgba(0,0,0,.1);padding:14px 16px}
 .ov-card .ovh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .ov-card h3{margin:0;font-size:14px;font-weight:500}
 .ov-legend{display:flex;gap:14px;font-size:11.5px;color:var(--muted)}
@@ -773,7 +773,7 @@ var POSCARDS=[
  {name:'Warehouse Associate',loc:'Dallas, TX',dot:'w',status:'Paused',cand:12,prog:2,err:0,op:6,rep:2}
 ];
 function posCard(p){return '<div class="poscard" onclick="pickJob(\''+esc(p.name)+'\',\''+p.loc+'\')"><div class="pc-l"><div class="pc-av">'+p.name.charAt(0)+'</div><div><div class="pc-nm">'+p.name+' <span style="color:var(--muted);font-weight:400">· '+p.loc+'</span></div><div class="pc-st"><span class="dot '+p.dot+'"></span>'+(p.status==='Paused'?'Outreach Paused':'Sourcing')+'</div></div></div><div class="pc-stats"><div><b>'+p.cand+'</b><span>Candidates</span></div><div><b>'+p.prog+'</b><span>In Progress</span></div><div><b>'+p.err+'</b><span>Error</span></div><div><b>'+p.op+'</b><span>Opened</span></div><div><b>'+p.rep+'</b><span>Replied</span></div></div></div>';}
-function posList(){return POSCARDS.map(posCard).join('');}
+function posList(){return '<div class="poswrap">'+POSCARDS.map(posCard).join('')+'</div>';}
 function listTools(title,sort){var lv=sort?caret('<svg viewBox="0 0 24 24" style="width:14px;height:14px;margin-right:5px;stroke:currentColor;fill:none;stroke-width:1.7"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>Last Viewed'):'';return '<div class="list-tools"><h3>'+title+'</h3><div class="lt-r"><span class="lt-search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input placeholder="Search Positions"></span>'+caret('<svg viewBox="0 0 24 24" style="width:14px;height:14px;margin-right:5px;stroke:currentColor;fill:none;stroke-width:1.7"><path d="M4 6h16M7 12h10M10 18h4"/></svg>All')+lv+'</div></div>';}
 var EXP=caret('Export'), REP=('<button class="pgbtn">Reports</button>'), BULK=('<button class="pgbtn">Bulk Actions</button>');
 function candPage(title,heading,desc,btn,icon,acts){return {title:title,count:'0 candidates',right:acts,body:subbar()+estate(icon,heading,desc,btn)};}
