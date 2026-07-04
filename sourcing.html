@@ -210,6 +210,52 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .s-mrow .mem{font-size:12px;color:var(--muted)}
 .s-thead,.s-trow{display:grid;grid-template-columns:1.2fr 1fr 1.4fr 1.4fr 1fr;gap:8px;padding:9px 0;font-size:12.5px}
 .s-thead{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);border-bottom:1px solid var(--line2)}
+.sub-cad{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.sub-cad button{border:none;background:#fff;padding:8px 14px;font-size:13px;cursor:pointer;font-family:inherit;color:var(--ink2);border-right:1px solid var(--line);display:flex;align-items:center;gap:6px}
+.sub-cad button:last-child{border-right:none}
+.sub-cad button.on{background:#eef0f3;color:var(--ink);font-weight:500}
+.sub-cad .off,.sub-price .off{background:#2f9e6a;color:#fff;font-weight:600;border-radius:5px}
+.sub-cad .off{font-size:9.5px;padding:1px 5px}
+.sub-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px;align-items:stretch}
+.sub-card{border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column}
+.sub-card.pop{border:2px solid var(--accent)}
+.sub-card.na{opacity:.5}
+.sub-card h3{margin:0;font-size:14px;font-weight:600}
+.sub-price{display:flex;align-items:baseline;gap:8px;margin:8px 0 2px;flex-wrap:wrap}
+.sub-price .now{font-size:26px;font-weight:600}
+.sub-price .was{font-size:16px;color:var(--faint);text-decoration:line-through}
+.sub-price .off{font-size:10px;padding:2px 6px;align-self:center}
+.sub-sub{font-size:12px;color:var(--muted)}
+.sub-feats{list-style:none;padding:0;margin:14px 0 0;font-size:12px;color:var(--ink2)}
+.sub-feats li{padding:5px 0;display:flex;gap:8px}
+.sub-feats li:before{content:"✓";color:var(--good);flex:0 0 auto}
+.sub-radio{margin:14px 0 0;border-top:1px solid var(--line2);padding-top:12px;display:flex;flex-direction:column;gap:9px}
+.sub-radio label{display:flex;align-items:center;gap:9px;font-size:12.5px;cursor:pointer}
+.sub-rb{width:16px;height:16px;border:2px solid #c3c8cf;border-radius:50%;flex:0 0 16px;position:relative}
+.sub-radio label.on .sub-rb{border-color:var(--accent)}
+.sub-radio label.on .sub-rb:after{content:"";position:absolute;inset:3px;border-radius:50%;background:var(--accent)}
+.sub-seats{display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:12px;border-top:1px solid var(--line2);font-size:12.5px}
+.sub-step{display:inline-flex;align-items:center;gap:10px}
+.sub-step>button{width:24px;height:24px;border:1px solid var(--line);background:#fff;border-radius:6px;cursor:pointer;font-size:15px;line-height:1;color:var(--ink2);font-family:inherit}
+.sub-step>button:hover{border-color:#c9cfda}
+.sub-step .n{min-width:16px;text-align:center;font-weight:500}
+.sub-total{color:var(--muted)}
+.sub-total b{color:var(--ink);font-weight:600;margin-left:4px}
+.sub-up{margin-top:14px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:11px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:inherit;width:100%}
+.sub-up:hover{background:var(--accent-ink)}
+.sub-na-msg{font-size:12px;color:var(--muted);margin-top:auto;padding-top:14px}
+.brandbtn{display:inline-flex;align-items:center;justify-content:center;gap:9px;background:var(--accent);color:#fff;border:none;border-radius:8px;padding:11px 18px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:inherit}
+.brandbtn:hover{background:var(--accent-ink)}
+.wbtn{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 15px;font-size:13.5px;font-weight:500;cursor:pointer;font-family:inherit;color:var(--ink)}
+.wbtn:hover{border-color:#c9cfda}
+.wbtn svg,.wbtn img{flex:0 0 auto}
+.feat-wrap{border:1px solid var(--line);border-radius:10px;padding:2px 16px;margin-top:18px;max-width:660px}
+.feat-block{display:flex;gap:14px;padding:14px 0;align-items:flex-start}
+.feat-block+.feat-block{border-top:1px solid var(--line2)}
+.feat-ic{width:40px;height:40px;border-radius:9px;background:#f2f4f7;display:flex;align-items:center;justify-content:center;flex:0 0 40px}
+.feat-ic svg{width:19px;height:19px;stroke:#8b9098;fill:none;stroke-width:1.7}
+.feat-block h4{margin:0;font-size:13.5px;font-weight:500}
+.feat-block p{margin:3px 0 0;font-size:12px;color:var(--muted)}
 .main{flex:1;min-width:0}
 .top{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;border-bottom:1px solid var(--line2);background:var(--bg);position:sticky;top:0;z-index:5}
 .top .lh{display:flex;align-items:center;gap:10px;min-width:0}
@@ -481,6 +527,52 @@ function setSection(k){document.querySelectorAll('#setNav a').forEach(function(a
 function openSettings(){closeMenu();renderSetNav('profile');setSection('profile');document.getElementById('setOv').classList.add('open');}
 function closeSettings(){document.getElementById('setOv').classList.remove('open');}
 document.getElementById('setOv').addEventListener('click',function(e){if(e.target===this)closeSettings();});
+
+
+/* ===== Settings: detailed Subscribe / Connected / LinkedIn ===== */
+var LINKEDIN_LOGO='<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><rect width="24" height="24" rx="4" fill="#0A66C2"/><path fill="#fff" d="M7.1 9.4H4.8V19h2.3V9.4zM5.95 5.3a1.35 1.35 0 1 0 0 2.7 1.35 1.35 0 0 0 0-2.7zM19.2 19h-2.3v-4.9c0-1.2-.43-2-1.5-2-.82 0-1.3.55-1.52 1.08-.08.19-.1.45-.1.72V19h-2.3s.03-8.2 0-9.6h2.3v1.36c.3-.47.85-1.14 2.07-1.14 1.5 0 2.65.98 2.65 3.1V19z"/></svg>';
+var GOOGLE_LOGO='<svg viewBox="0 0 24 24" width="16" height="16" fill="#fff" aria-hidden="true"><path d="M12 11v3.2h4.5c-.2 1.1-1.4 3.3-4.5 3.3-2.7 0-4.9-2.2-4.9-5s2.2-5 4.9-5c1.5 0 2.6.65 3.2 1.2l2.2-2.1C15.9 4.1 14.1 3.3 12 3.3 7.5 3.3 3.9 6.9 3.9 11.5S7.5 19.7 12 19.7c5 0 8.3-3.5 8.3-8.4 0-.6-.06-1-.15-1.4H12z"/></svg>';
+var MS_LOGO='<svg viewBox="0 0 24 24" width="15" height="15" aria-hidden="true"><rect x="3" y="3" width="8.4" height="8.4" fill="#fff"/><rect x="12.6" y="3" width="8.4" height="8.4" fill="#fff"/><rect x="3" y="12.6" width="8.4" height="8.4" fill="#fff"/><rect x="12.6" y="12.6" width="8.4" height="8.4" fill="#fff"/></svg>';
+function featBlock(ic,t,d){return '<div class="feat-block"><div class="feat-ic">'+ic+'</div><div><h4>'+t+'</h4><p>'+d+'</p></div></div>';}
+SETS.connected=function(){var mail='<svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>';var contact='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="2"/><path d="M5.5 17a3.5 3.5 0 0 1 7 0M15 9h4M15 13h4"/></svg>';var cal='<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>';return sHead('Connected Email Accounts','Email candidates, sync contacts and scheduled meetings')+'<div class="s-row" style="margin-top:16px"><button class="brandbtn">'+GOOGLE_LOGO+'Connect Google Account</button><button class="brandbtn">'+MS_LOGO+'Connect Microsoft Account</button></div><div class="feat-wrap">'+featBlock(mail,'Seamless Candidate Communication','Effortlessly email potential hires directly through the app, streamlining your recruitment process.')+featBlock(contact,'Sync Contacts for Efficiency','Never double-email a candidate. Avoid redundancy and maintain a polished, professional approach.')+featBlock(cal,'Simplify Scheduling','Make scheduling meetings with candidates a breeze. Save time and build your dream team.')+'</div>';};
+SETS.linkedin=function(){return sHead('Connect LinkedIn Account')+'<div class="s-desc" style="margin-top:2px">Connecting your LinkedIn account requires installing the Chrome Extension.</div><div class="s-row" style="margin-top:14px"><button class="wbtn">'+LINKEDIN_LOGO+'Connect LinkedIn Account</button></div><div class="s-grp2" style="margin-top:26px">LinkedIn Connections</div><div class="s-desc">Highlight candidates connected to you or your team, and optionally source from connections.</div><div class="s-card"><ol style="margin:0;padding-left:18px;font-size:12.5px;color:var(--ink2);line-height:2"><li>Go to the <a style="color:var(--accent);cursor:pointer">LinkedIn data download request</a> page.</li><li>Request your data archive.</li><li>Wait for LinkedIn to email your data.</li><li>Upload the CSV file here.</li></ol></div><div class="s-row"><button class="wbtn"><svg viewBox="0 0 24 24" style="width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7"><path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2M12 15V3M8 7l4-4 4 4"/></svg>Upload Connections CSV</button></div>';};
+/* interactive subscribe */
+var SUB={cad:'annual',seatsP:1,seatsB:1,payP:'upfront',payB:'upfront'};
+var CADS=[{k:'monthly',l:'Monthly',m:1,f:1},{k:'quarterly',l:'Quarterly',m:3,f:0.9},{k:'semiannual',l:'Semi-annual',m:6,f:0.85},{k:'annual',l:'Annual',m:12,f:0.75}];
+function cadObj(k){for(var i=0;i<CADS.length;i++)if(CADS[i].k===k)return CADS[i];}
+function money(n){return '$'+Math.round(n).toLocaleString();}
+function cadWord(k){return k==='monthly'?'monthly':k==='quarterly'?'quarterly':k==='semiannual'?'semi-annually':'annually';}
+function contractWord(k){return k==='quarterly'?'Quarterly':k==='semiannual'?'Semi-annual':'Annual';}
+function subCard(id,name,base,feats,pop){
+  var c=cadObj(SUB.cad),months=c.m,f=c.f;
+  var fe='<ul class="sub-feats">'+feats.map(function(x){return '<li>'+x+'</li>';}).join('')+'</ul>';
+  if(id==='solo'){
+    if(SUB.cad!=='annual'){return '<div class="sub-card na"><h3>'+name+'</h3><div class="sub-price"><span class="now">N/A</span></div><div class="sub-sub">only available on annual billing</div>'+fe+'<div class="sub-na-msg">N/A — only available on annual billing.</div></div>';}
+    return '<div class="sub-card'+(pop?' pop':'')+'"><h3>'+name+'</h3><div class="sub-price"><span class="now">'+money(base)+'</span></div><div class="sub-sub">per month / 1 seat, billed annually</div>'+fe+'<div class="sub-seats"><span>Seats<b style="margin-left:8px;color:var(--ink)">1</b></span><span class="sub-total">Total today<b>'+money(base*12)+'</b></span></div><button class="sub-up">Upgrade Now</button></div>';
+  }
+  var seats=id==='professional'?SUB.seatsP:SUB.seatsB, pay=id==='professional'?SUB.payP:SUB.payB;
+  var disp=base*f;
+  var price='<div class="sub-price">'+(f<1?'<span class="was">'+money(base)+'</span>':'')+'<span class="now">'+money(disp)+'</span>'+(f<1?'<span class="off">'+Math.round((1-f)*100)+'% OFF</span>':'')+'</div>';
+  var total=seats*base*f*months;
+  var radio='';
+  if(seats>1 && SUB.cad!=='monthly'){var cw=contractWord(SUB.cad);radio='<div class="sub-radio"><label class="'+(pay==='upfront'?'on':'')+'" onclick="subPay(\''+id+'\',\'upfront\')"><span class="sub-rb"></span>Up-front payment</label><label class="'+(pay==='monthly'?'on':'')+'" onclick="subPay(\''+id+'\',\'monthly\')"><span class="sub-rb"></span>'+cw+' contract, billed monthly</label></div>';}
+  var step='<div class="sub-seats"><span class="sub-step">Seats <button onclick="subSeat(\''+id+'\',-1)">−</button><span class="n">'+seats+'</span><button onclick="subSeat(\''+id+'\',1)">+</button></span><span class="sub-total">Total today<b>'+money(total)+'</b></span></div>';
+  return '<div class="sub-card'+(pop?' pop':'')+'"><h3>'+name+'</h3>'+price+'<div class="sub-sub">per month / per seat, billed '+cadWord(SUB.cad)+'</div>'+fe+radio+step+'<button class="sub-up">Upgrade Now</button></div>';
+}
+function buildSubscribe(){
+  var tabs='<div class="sub-cad">'+CADS.map(function(c){return '<button class="'+(c.k===SUB.cad?'on':'')+'" onclick="subCad(\''+c.k+'\')">'+c.l+(c.k==='annual'?'<span class="off">20% OFF</span>':'')+'</button>';}).join('')+'</div>';
+  var grid='<div class="sub-grid">'+subCard('solo','Solo',100,['Single seat (perfect for solo recruiters)','Unlimited Job Positions','500 Contact Lookup Credits','AI Sourcing & Agents included','Outreach Sequence (Multi-Channel)'],false)+subCard('professional','Professional',179,['AI Sourcing & Agent included','Unlimited Job Positions','500 Contact Lookup Credits per Seat','Team Collaboration & Shared Inbox','Outreach Sequence (Multi-Channel)'],true)+subCard('business','Business',299,['Everything in Professional Plan','1,500 Contact Lookup Credits per Seat','ATS Integration (50+ integrations available)','Hiring Manager Seats'],false)+'</div>';
+  var agent='<div class="s-card"><div class="s-tog-l">JobAgentX AI Agent — FREE with every plan</div><ul class="s-feat"><li>Adaptive AI that learns your preferences</li><li>Personalized messages in outreach</li><li>Automated replies to recurring questions</li><li>Candidate qualification checklist done for you</li><li>Auto-schedule meetings</li></ul></div>';
+  var credits='<div class="s-grp2">Lookup Credits</div><div class="s-desc">Free Trial Contact Lookup Credits — 0 of 50 seat credits spent · 50 remaining. Email lookups cost 1 credit. Phone number lookups cost 2 credits.</div><div class="s-row" style="margin-top:16px"><button class="s-btn" style="color:#dc2828;border-color:#f0c1c1">Close Account</button></div>';
+  return sHead('Choose your plan')+tabs+grid+agent+credits;
+}
+SETS.subscribe=function(){return buildSubscribe();};
+function renderSubscribe(){document.getElementById('setContent').innerHTML=buildSubscribe();}
+function subCad(k){SUB.cad=k;renderSubscribe();}
+function subSeat(id,d){if(id==='professional'){SUB.seatsP=Math.max(1,Math.min(100,SUB.seatsP+d));}else{SUB.seatsB=Math.max(1,Math.min(100,SUB.seatsB+d));}renderSubscribe();}
+function subPay(id,v){if(id==='professional')SUB.payP=v;else SUB.payB=v;renderSubscribe();}
+/* LinkedIn logo in settings nav */
+renderSetNav=function(active){var h='';SET_NAV.forEach(function(it){if(it.g){h+='<div class="s-grp">'+it.g+'</div>';return;}var icon=it.i==='link'?LINKEDIN_LOGO:'<svg viewBox="0 0 24 24">'+SIC[it.i]+'</svg>';h+='<a data-k="'+it.k+'" class="'+(it.k===active?'on':'')+'" onclick="setSection(\''+it.k+'\')">'+icon+'<span>'+it.l+'</span>'+(it.bdg?'<span class="bdg">'+it.bdg+'</span>':'')+'</a>';});document.getElementById('setNav').innerHTML=h;};
 
 </script>
 </body>
