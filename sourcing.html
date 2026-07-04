@@ -147,6 +147,69 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .tgl.on{background:var(--accent)}
 .tgl i{position:absolute;top:2px;left:2px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s}
 .tgl.on i{left:14px}
+.s-ov{position:fixed;inset:0;background:rgba(20,26,40,.45);z-index:100;display:none;align-items:flex-start;justify-content:center;padding:44px 20px}
+.s-ov.open{display:flex}
+.s-modal{background:#fff;border-radius:14px;width:100%;max-width:1000px;height:min(88vh,720px);display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 60px rgba(0,0,0,.28);font-family:-apple-system,system-ui,"Segoe UI",Roboto,sans-serif;color:#27272a}
+.s-top{display:flex;align-items:center;justify-content:space-between;padding:15px 20px;border-bottom:1px solid var(--line2);flex:0 0 auto}
+.s-top h1{margin:0;font-size:18px;font-weight:500}
+.s-acts{display:flex;gap:4px}
+.s-ic{width:28px;height:28px;border:none;background:none;color:var(--muted);cursor:pointer;border-radius:6px;display:flex;align-items:center;justify-content:center}
+.s-ic:hover{background:#f2f4f7}
+.s-ic svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7}
+.s-body{flex:1;display:flex;min-height:0}
+.s-nav{width:224px;flex:0 0 224px;border-right:1px solid var(--line2);padding:12px 10px;overflow-y:auto}
+.s-grp{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);padding:12px 8px 5px}
+.s-nav a{display:flex;align-items:center;gap:9px;padding:7px 8px;border-radius:6px;font-size:14px;color:#27272a;cursor:pointer}
+.s-nav a:hover{background:#f2f4f7}
+.s-nav a.on{background:#e9ecef}
+.s-nav a>svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7;color:var(--muted);flex:0 0 16px}
+.s-nav a .bdg{margin-left:auto;font-size:10px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);padding:1px 6px;border-radius:10px}
+.s-content{flex:1;overflow-y:auto;padding:22px 26px 40px}
+.s-head h2{margin:0;font-size:17px;font-weight:500}
+.s-head p{margin:3px 0 0;font-size:13px;color:var(--muted)}
+.s-field{margin-top:18px}
+.s-field>label{display:block;font-size:12.5px;font-weight:500;margin-bottom:6px}
+.s-in{width:100%;max-width:520px;border:1px solid var(--line);border-radius:7px;padding:9px 11px;font-size:13.5px;font-family:inherit;color:var(--ink);background:#fff;box-sizing:border-box}
+.s-in:focus{outline:none;border-color:var(--accent)}
+.s-desc{font-size:12px;color:var(--muted);margin-top:5px;max-width:560px}
+.s-save{margin-top:22px;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:9px 15px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
+.s-save:hover{background:var(--accent-ink)}
+.s-seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;flex-wrap:wrap}
+.s-seg button{border:none;background:#fff;padding:8px 14px;font-size:13px;cursor:pointer;font-family:inherit;color:var(--ink2);border-right:1px solid var(--line)}
+.s-seg button:last-child{border-right:none}
+.s-seg button.on{background:var(--accent);color:#fff}
+.s-chips{display:flex;flex-wrap:wrap;gap:8px;max-width:560px}
+.s-chips button{border:1px solid var(--line);background:#fff;border-radius:20px;padding:7px 13px;font-size:12.5px;cursor:pointer;font-family:inherit;color:var(--ink2)}
+.s-chips button:hover{border-color:#c9cfda}
+.s-tog{display:flex;align-items:flex-start;gap:14px;padding:13px 0;border-top:1px solid var(--line2);max-width:640px}
+.s-tog-tx{flex:1}
+.s-tog-l{font-size:13.5px;font-weight:500}
+.s-tog-d{font-size:12px;color:var(--muted);margin-top:2px}
+.s-grp2{font-size:13px;font-weight:600;margin:24px 0 2px}
+.s-card{border:1px solid var(--line);border-radius:10px;padding:16px;max-width:640px;margin-top:14px}
+.s-btn{border:1px solid var(--line);background:#fff;border-radius:7px;padding:8px 13px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;color:var(--ink2)}
+.s-btn:hover{border-color:#c9cfda}
+.s-btn.blue{background:var(--accent);color:#fff;border-color:var(--accent)}
+.s-empty{font-size:12.5px;color:var(--muted);padding:18px 0;max-width:560px}
+.s-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:10px}
+.s-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.s-plan{border:1px solid var(--line);border-radius:12px;padding:16px}
+.s-plan.pop{border:2px solid var(--accent)}
+.s-plan h3{margin:0;font-size:14px;font-weight:600}
+.s-plan .pr{font-size:24px;font-weight:600;margin:8px 0 2px}
+.s-plan .pu{font-size:11.5px;color:var(--muted)}
+.s-plan ul{list-style:none;padding:0;margin:12px 0 0;font-size:12px;color:var(--ink2)}
+.s-plan li{padding:4px 0;display:flex;gap:7px}
+.s-plan li:before{content:"✓";color:var(--good)}
+.s-feat{list-style:none;padding:0;margin:8px 0 0;font-size:12px;color:var(--ink2)}
+.s-feat li{padding:3px 0;display:flex;gap:7px}
+.s-feat li:before{content:"✓";color:var(--good)}
+.s-mrow{display:flex;align-items:center;gap:11px;padding:11px 0;border-top:1px solid var(--line2);max-width:640px}
+.s-mrow .av{width:30px;height:30px;border-radius:50%;background:#333941;color:#fff;font-size:11px;font-weight:500;display:flex;align-items:center;justify-content:center}
+.s-mrow .mnm{font-size:13.5px;font-weight:500}
+.s-mrow .mem{font-size:12px;color:var(--muted)}
+.s-thead,.s-trow{display:grid;grid-template-columns:1.2fr 1fr 1.4fr 1.4fr 1fr;gap:8px;padding:9px 0;font-size:12.5px}
+.s-thead{font-size:10px;text-transform:uppercase;letter-spacing:.04em;color:var(--faint);border-bottom:1px solid var(--line2)}
 .main{flex:1;min-width:0}
 .top{display:flex;align-items:center;justify-content:space-between;padding:13px 22px;border-bottom:1px solid var(--line2);background:var(--bg);position:sticky;top:0;z-index:5}
 .top .lh{display:flex;align-items:center;gap:10px;min-width:0}
@@ -240,7 +303,7 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
       <div class="acct-menu" id="acctMenu">
         <div class="am-head"><div class="am-nm">Scott Lobenberg</div><div class="am-em">scott@jobfairx.com</div></div>
         <div class="am-sep"></div>
-        <a class="am-i"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.4H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 5 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10.6 3H11a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8z"/></svg><span class="lbl">Settings</span></a>
+        <a class="am-i" onclick="openSettings()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 6.8 19l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1A1.6 1.6 0 0 0 3 13.4H3a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 5 6.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 10.6 3H11a2 2 0 0 1 4 0v.1a1.6 1.6 0 0 0 2.7 1.1l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8z"/></svg><span class="lbl">Settings</span></a>
         <div class="am-i" onclick="toggleSwitch(event,'ksw')"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 10h.01M10 10h.01M14 10h.01M18 10h.01M7 14h10"/></svg><span class="lbl">Keyboard Shortcuts</span><span class="tgl" id="ksw"><i></i></span></div>
         <div class="am-i" onclick="toggleSwitch(event,'dsw')"><svg viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 0 1 11.2 3 7 7 0 1 0 21 12.8z"/></svg><span class="lbl">Dark Mode</span><span class="tgl" id="dsw"><i></i></span></div>
         <a class="am-i"><svg viewBox="0 0 24 24"><path d="M4 5a2 2 0 0 1 2-2h12v14H6a2 2 0 0 0-2 2z"/><path d="M4 19a2 2 0 0 1 2-2h12"/></svg><span class="lbl">Docs</span><svg class="am-ext" viewBox="0 0 24 24" style="stroke:currentColor;fill:none;stroke-width:1.7"><path d="M14 4h6v6M20 4l-8 8M10 5H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2v-4"/></svg></a>
@@ -265,6 +328,11 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
   </main>
 </div>
 <div class="scrim" id="scrim" onclick="closeMenu()"></div>
+<div class="s-ov" id="setOv"><div class="s-modal">
+  <div class="s-top"><h1>Settings</h1><div class="s-acts"><button class="s-ic" aria-label="Copy link"><svg viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/></svg></button><button class="s-ic" aria-label="Close" onclick="closeSettings()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>
+  <div class="s-body"><nav class="s-nav" id="setNav"></nav><div class="s-content" id="setContent"></div></div>
+</div></div>
+
 <script>
 var POSITIONS=[
  {name:'Registered Nurse',loc:'Houston, TX',status:'Sourcing',dot:'g',pipe:'31 unlocked · 9 replied · 3 booked'},
@@ -379,6 +447,41 @@ function pickJob(name,loc){var app=document.getElementById('app');app.classList.
 renderJobNav();
 setActiveJob(document.querySelector('#navJob a[data-page="Overview"]'));
 render('Overview');
+
+/* ===== Settings modal ===== */
+function sHead(t,sub){return '<div class="s-head"><h2>'+t+'</h2>'+(sub?'<p>'+sub+'</p>':'')+'</div>';}
+function sField(l,inner,desc){return '<div class="s-field"><label>'+l+'</label>'+inner+(desc?'<div class="s-desc">'+desc+'</div>':'')+'</div>';}
+function sIn(val,ph,type){return '<input class="s-in" type="'+(type||'text')+'" value="'+(val||'')+'" placeholder="'+(ph||'')+'">';}
+function sSel(val){return '<div class="s-in" style="display:flex;align-items:center;justify-content:space-between;cursor:pointer">'+val+'<svg viewBox="0 0 24 24" style="width:15px;height:15px;stroke:#8b9098;fill:none;stroke-width:1.7"><path d="M8 9l4-4 4 4M8 15l4 4 4-4"/></svg></div>';}
+function sSeg(opts,active){return '<div class="s-seg">'+opts.map(function(o){return '<button class="'+(o===active?'on':'')+'">'+o+'</button>';}).join('')+'</div>';}
+function sTog(on){return '<span class="tgl'+(on?' on':'')+'" onclick="this.classList.toggle(\'on\')"><i></i></span>';}
+function sTogRow(l,d,on){return '<div class="s-tog"><div class="s-tog-tx"><div class="s-tog-l">'+l+'</div><div class="s-tog-d">'+d+'</div></div>'+sTog(on)+'</div>';}
+function sChips(opts){return '<div class="s-chips">'+opts.map(function(o){return '<button>'+o+'</button>';}).join('')+'</div>';}
+var SETS={
+ profile:function(){return sHead('Your Profile','Manage your personal profile')+sField('Profile picture','<button class="s-btn">Select image</button>')+sField('Full Name',sIn('Scott Lobenberg','Your full name'))+sField('Timezone',sIn('America/Los_Angeles','Your timezone'))+'<button class="s-save">Save changes</button>';},
+ linkedin:function(){return sHead('LinkedIn Connections')+'<div class="s-card"><div class="s-tog-l">Connect LinkedIn Account</div><div class="s-desc">Connecting your LinkedIn account requires installing the Chrome Extension.</div><div class="s-row"><button class="s-btn blue">Connect LinkedIn Account</button></div></div><div class="s-desc" style="margin-top:16px">Highlight candidates connected to you or your team, and optionally source from connections.</div><div class="s-grp2">LinkedIn data download</div><ol class="s-desc" style="padding-left:18px"><li>Request your data archive.</li><li>Wait for LinkedIn to email your data.</li><li>Upload the CSV file here.</li></ol><div class="s-row"><button class="s-btn">Upload Connections CSV</button></div>';},
+ connected:function(){return sHead('Connected Email Accounts','Email candidates, sync contacts and scheduled meetings')+'<div class="s-row"><button class="s-btn">Connect Google Account</button><button class="s-btn">Connect Microsoft Account</button></div>'+'<div class="s-grp2">Seamless Candidate Communication</div><div class="s-desc">Effortlessly email potential hires directly through the app, streamlining your recruitment process.</div><div class="s-grp2">Sync Contacts for Efficiency</div><div class="s-desc">Never double-email a candidate. Avoid redundancy and maintain a polished, professional approach.</div><div class="s-grp2">Simplify Scheduling</div><div class="s-desc">Make scheduling meetings with candidates a breeze. Save time and build your dream team.</div>';},
+ notif:function(){return sHead('Email Notification Preferences',"Choose which notifications you'd like to receive via email.")+'<div class="s-grp2">Team Notifications</div>'+sTogRow('Your email used in outreach','When someone from your team adds your email to an outreach sequence.',true)+sTogRow('Join requests','When someone with a company email address asks to join the team.',true)+sTogRow('Join confirmations','When someone joins your team.',true)+sTogRow('Candidate notes','When someone adds a note to a candidate you are tracking.',true)+'<div class="s-grp2">JobAgentX Updates</div>'+sTogRow('New features','When new product features and updates are available.',true)+sTogRow('Marketing emails','Other relevant notifications about Northwind Co.',false);},
+ company:function(){return sHead('Company Details','Manage your team-wide settings')+sField('Company domain',sSel('northwind.co'))+sField('Company name',sIn('Northwind Co','e.g. RecruitCo'))+sField('Logo (optional)','<button class="s-btn">Select image</button>')+sField('How many people recruit for your company?',sSeg(['1 to 2','3 to 10','10+'],'3 to 10'))+sField('Phone number (optional)',sIn('','e.g. +1 (555) 123-4567'))+sField('How did you hear about us? (optional)',sChips(['Google','ChatGPT','LinkedIn','Facebook','Instagram','Podcast','Friend or Colleague','Event','Other']))+'<button class="s-save">Save changes</button>';},
+ hiring:function(){return sHead('Hiring For')+'<div class="s-row"><button class="s-btn blue">New Company</button></div><div class="s-card s-row" style="justify-content:space-between"><div class="s-mrow" style="border:none;padding:0"><div class="av">N</div><div><div class="mnm">Northwind Co</div></div></div></div>';},
+ projects:function(){return sHead('Projects')+'<div class="s-row"><button class="s-btn blue">New Project</button></div><div class="s-grp2">Northwind Co</div><div class="s-empty">You don\'t have any projects for this company yet</div>';},
+ members:function(){return sHead('Members')+'<div class="s-tog"><div class="s-tog-tx"><div class="s-tog-l">Allow anyone from northwind.co to join this team</div><div class="s-tog-d">Must have a verified @northwind.co email address</div></div><button class="s-btn">Don’t Allow</button></div><div class="s-field"><label>Invite by email</label><div class="s-row">'+sIn('','Email Address','email').replace('max-width:520px','max-width:300px')+sSel('Viewer').replace('s-in','s-in" style="max-width:120px;display:inline-flex')+'<button class="s-btn blue">Send Invite</button></div></div><div class="s-grp2">Team</div><div class="s-mrow"><div class="av">SL</div><div style="flex:1"><div class="mnm">Scott Lobenberg</div><div class="mem">scott@jobfairx.com</div></div><button class="s-btn">Admin</button></div>';},
+ outreach:function(){return sHead('Outreach Preferences')+sField('Preferred email type',sSel('Try personal only'),'Select which type of email address to use for outreach.')+sField('Email fallback option',sSel('Ask me'),'If no emails are found for a candidate.')+sField('LinkedIn fallback option',sSel('Ask me'),'If no LinkedIn account is found for a candidate.')+sTogRow('Auto-archive stale candidates','Archive if no communications after this amount of days.',true)+sField('Auto-archive candidates after days',sIn('15','15','number').replace('max-width:520px','max-width:110px')+' <span class="s-desc" style="display:inline">days</span>')+sField('Daily email limit per position',sIn('100','100','number').replace('max-width:520px','max-width:110px'),'The volume of emails sent automatically per day for a single position.')+sField('Daily LinkedIn limit per position',sIn('50','50','number').replace('max-width:520px','max-width:110px'),'The volume of LinkedIn messages sent automatically per day for a single position.')+sTogRow('Track email opens','Add tracking to emails sent through JobAgentX.',true)+sTogRow('Track email link clicks','JobAgentX rewrites links in your emails to track when candidates click them.',false)+sField('When to send automatic emails',sChips(['Sun','Mon','Tue','Wed','Thu','Fri','Sat']),'Choose weekdays and time of day when outreach messages can be sent.')+sField('Pause dates','<button class="s-btn">Manage Dates</button>','Next date: July 3, 2026 (Independence Day)')+'<button class="s-save">Save changes</button>';},
+ presets:function(){return sHead('Company Presets','Save a list of companies as a preset to easily reuse across your searches.')+'<div class="s-row"><button class="s-btn blue">New Preset</button><button class="s-btn">Upload Companies CSV</button></div>';},
+ block:function(){return sHead('Do Not Source or Contact')+'<div class="s-row"><button class="s-btn">Add Company</button><button class="s-btn">Add Emails</button></div>';},
+ decline:function(){return sHead('Decline Reasons')+'<div class="s-row">'+sIn('','Add a decline reason…').replace('max-width:520px','max-width:340px')+'<button class="s-btn blue">Add</button></div><div class="s-empty">No saved decline reasons yet — reasons you type when declining sourced candidates will show up here.</div>';},
+ subscribe:function(){return sHead('Choose your plan')+sSeg(['Monthly','Quarterly','Semi-annual','Annual 20% OFF'],'Annual 20% OFF')+'<div class="s-plans"><div class="s-plan"><h3>Solo</h3><div class="pr">$100</div><div class="pu">per month / 1 seat, billed annually</div><ul><li>Single seat (perfect for solo recruiters)</li><li>500 Contact Lookup Credits</li><li>AI Sourcing & Agent included</li></ul><button class="s-btn" style="width:100%;margin-top:12px">Upgrade Now</button></div><div class="s-plan pop"><h3>Professional</h3><div class="pr">$134</div><div class="pu">per month / per seat, billed annually</div><ul><li>500 Contact Lookup Credits per Seat</li><li>ATS Integration (50+ integrations)</li><li>Team Collaboration & Shared Inbox</li><li>Outreach Sequence (Multi-Channel)</li></ul><button class="s-btn blue" style="width:100%;margin-top:12px">Upgrade Now</button></div><div class="s-plan"><h3>Business</h3><div class="pr">$224</div><div class="pu">per month / per seat, billed annually</div><ul><li>Everything in Professional Plan</li><li>1,500 Contact Lookup Credits per Seat</li><li>Unlimited Job Positions</li><li>Hiring Manager Seats</li></ul><button class="s-btn" style="width:100%;margin-top:12px">Contact Sales</button></div></div><div class="s-card"><div class="s-tog-l">JobAgentX AI Agent — FREE with every plan</div><ul class="s-feat"><li style="padding:3px 0">Adaptive AI that learns your preferences</li><li style="padding:3px 0">Personalized messages in outreach</li><li style="padding:3px 0">Automated replies to recurring questions</li><li style="padding:3px 0">Auto-schedule meetings</li></ul></div><div class="s-grp2">Lookup Credits</div><div class="s-desc">Free Trial Contact Lookup Credits — 0 of 50 seat credits spent · 50 remaining. Email lookups cost 1 credit. Phone number lookups cost 2 credits.</div><div class="s-row" style="margin-top:16px"><button class="s-btn" style="color:#dc2828;border-color:#f0c1c1">Close Account</button></div>';},
+ credits:function(){return sHead('Credits Usage')+'<div class="s-card"><div class="s-tog-l">Free Trial Contact Lookup Credits</div><div class="s-desc">0 of 50 seat credits spent · 50 remaining. Email lookups cost 1 credit. Phone number lookups cost 2 credits.</div></div><div class="s-row"><button class="s-btn">All Jobs</button><button class="s-btn">All usage</button><button class="s-btn">All Users</button><button class="s-btn" style="margin-left:auto">Export CSV</button></div><div class="s-thead" style="margin-top:14px"><span>Date</span><span>Credit use</span><span>Candidate</span><span>Job Position</span><span>User</span></div><div class="s-empty">No credit usage yet.</div>';},
+ mcp:function(){return sHead('MCP Server')+'<div class="s-desc">Give JobAgentX access to your favorite AI Agent.</div><div class="s-card"><div class="s-tog-l">The MCP Server is a JobAgentX premium feature</div><div class="s-row"><button class="s-btn blue">Subscribe to JobAgentX</button></div></div><div class="s-grp2">Tools & Usage</div><div class="s-desc">JobAgentX provides multiple tools through MCP.</div><div class="s-card"><div class="s-tog-l">create_job <span class="s-desc" style="display:inline;float:right">1 credit</span></div><div class="s-desc">"Start a search: Senior iOS engineer at Acme, Swift + SwiftUI, NYC"</div></div><div class="s-card"><div class="s-tog-l">modify_search</div><div class="s-desc">"Only candidates in the NYC metro, drop anyone below staff level."</div></div>';}
+};
+var SET_NAV=[{g:'Account'},{k:'profile',l:'Profile',i:'user'},{k:'linkedin',l:'LinkedIn Connections',i:'link'},{k:'connected',l:'Connected Accounts',i:'plug'},{k:'notif',l:'Notification Preferences',i:'bell'},{g:'Company'},{k:'company',l:'Company Details',i:'building'},{k:'hiring',l:'Hiring For Companies',i:'briefcase'},{k:'projects',l:'Projects',i:'layers'},{k:'members',l:'Members',i:'users'},{k:'outreach',l:'Outreach Preferences',i:'send'},{k:'presets',l:'Company Presets',i:'stack'},{k:'block',l:'Block List',i:'ban'},{k:'decline',l:'Decline Reasons',i:'x'},{k:'subscribe',l:'Subscribe',i:'card'},{k:'credits',l:'Credits Usage',i:'coin'},{k:'mcp',l:'MCP Server',i:'server',bdg:'Beta'}];
+var SIC={user:'<circle cx="12" cy="8" r="3.2"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/>',link:'<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1 1"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1-1"/>',plug:'<path d="M9 7V4h6v3M6 7h12l-1 13H7L6 7z"/>',bell:'<path d="M10.3 21a2 2 0 0 0 3.4 0"/><path d="M4 17h16c-1.3-1.3-2-2.7-2-7a6 6 0 0 0-12 0c0 4.3-.7 5.7-2 7"/>',building:'<rect x="4" y="3" width="16" height="18" rx="1"/><path d="M9 8h.01M15 8h.01M9 12h.01M15 12h.01M9 21v-4h6v4"/>',briefcase:'<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/>',layers:'<path d="M12 3l9 5-9 5-9-5 9-5zM3 13l9 5 9-5"/>',users:'<circle cx="9" cy="8" r="3"/><path d="M3 20v-1a5 5 0 0 1 10 0v1M16 6a3 3 0 0 1 0 6M21 20v-1a4 4 0 0 0-3-3.8"/>',send:'<path d="M22 2L11 13M22 2l-7 20-4-9-9-4z"/>',stack:'<rect x="3" y="4" width="18" height="6" rx="1"/><rect x="3" y="14" width="18" height="6" rx="1"/>',ban:'<circle cx="12" cy="12" r="9"/><path d="M5 5l14 14"/>',x:'<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>',card:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/>',coin:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4"/>',server:'<rect x="3" y="4" width="18" height="7" rx="1.5"/><rect x="3" y="13" width="18" height="7" rx="1.5"/><path d="M7 7.5h.01M7 16.5h.01"/>'};
+function renderSetNav(active){var h='';SET_NAV.forEach(function(it){if(it.g){h+='<div class="s-grp">'+it.g+'</div>';return;}h+='<a data-k="'+it.k+'" class="'+(it.k===active?'on':'')+'" onclick="setSection(\''+it.k+'\')"><svg viewBox="0 0 24 24">'+SIC[it.i]+'</svg><span>'+it.l+'</span>'+(it.bdg?'<span class="bdg">'+it.bdg+'</span>':'')+'</a>';});document.getElementById('setNav').innerHTML=h;}
+function setSection(k){document.querySelectorAll('#setNav a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-k')===k);});document.getElementById('setContent').innerHTML=(SETS[k]||function(){return '';})();document.getElementById('setContent').scrollTop=0;}
+function openSettings(){closeMenu();renderSetNav('profile');setSection('profile');document.getElementById('setOv').classList.add('open');}
+function closeSettings(){document.getElementById('setOv').classList.remove('open');}
+document.getElementById('setOv').addEventListener('click',function(e){if(e.target===this)closeSettings();});
+
 </script>
 </body>
 </html>
