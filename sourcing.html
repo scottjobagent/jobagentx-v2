@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build 1783135744 -->
+<!-- build 1783137350 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -25,14 +25,14 @@ svg{stroke-width:1.7;fill:none;stroke:currentColor}
 .brand .lg{display:flex;align-items:center;gap:8px;min-width:0}
 .brand .mk{width:20px;height:20px;border-radius:5px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:600;font-size:11px;flex:0 0 20px}
 .brand .nm{font-weight:600;font-size:13px;white-space:nowrap}
-.collapse-btn{width:22px;height:22px;border-radius:5px;border:none;background:none;color:var(--faint);cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 22px}
+.collapse-btn{width:22px;height:22px;border-radius:5px;border:none;background:none;color:#67676f;cursor:pointer;display:flex;align-items:center;justify-content:center;flex:0 0 22px}
 .collapse-btn:hover{background:#eef0f3;color:var(--ink2)}
 .collapse-btn svg{width:16px;height:16px;stroke-width:2}
 .swx{position:relative;margin:16px 16px 8px}
-.ws{border:1px solid var(--line);border-radius:var(--r);padding:10px 11px;display:flex;align-items:center;gap:9px;background:var(--card);cursor:pointer;white-space:nowrap;overflow:hidden;width:100%}
+.ws{border:1px solid var(--line);border-radius:var(--r);padding:0 11px;height:40px;box-sizing:border-box;display:flex;align-items:center;gap:9px;background:var(--card);cursor:pointer;white-space:nowrap;overflow:hidden;width:100%}
 .ws:hover{border-color:#d9dce1}
 .ws .avico{color:var(--muted);width:16px;height:16px;flex:0 0 16px}
-.ws .t{flex:1;font-size:16px;font-weight:400;min-width:0;overflow:hidden;text-overflow:ellipsis;text-align:left}
+.ws .t{flex:1;font-size:14px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;text-align:left}
 .ws .cx{color:var(--faint);width:13px;height:13px;flex:0 0 13px}
 .menu{position:absolute;top:calc(100% + 4px);left:0;width:288px;background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);box-shadow:0 8px 26px rgba(20,26,40,.13);padding:5px;z-index:40;display:none}
 .menu.open{display:block}
@@ -366,7 +366,7 @@ body.dark .pg-hero{border-color:var(--line)}
 .pg-hero .cta{display:inline-flex;align-items:center;gap:7px;background:var(--card);border:1px solid #dfe3ea;border-radius:8px;padding:9px 14px;font-size:13px;font-weight:500;color:var(--accent-ink);cursor:pointer;font-family:inherit}
 body.dark .pg-hero .cta{border-color:var(--line)}
 .brand-tools{display:flex;align-items:center;gap:6px}
-.bt{width:28px;height:28px;padding:0;border:none;background:none;color:var(--muted);cursor:pointer;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 28px}
+.bt{width:28px;height:28px;padding:0;border:none;background:none;color:#67676f;cursor:pointer;border-radius:7px;display:flex;align-items:center;justify-content:center;flex:0 0 28px}
 .bt:hover{background:#eef0f3;color:var(--ink2)}
 .bt svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
 body.dark .bt:hover{background:rgba(255,255,255,.07)}
@@ -433,9 +433,9 @@ body.dark .srch-box{background:#1b1b1d}
     <div class="brand">
       <div class="lg"><div class="mk">J</div><span class="nm">JobAgentX</span></div>
       <div class="brand-tools">
-        <button class="bt plus" title="Create new job" onclick="openNewJob()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/></svg></button>
-        <button class="bt srch" title="Search candidates" onclick="openSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
-        <button class="bt collapse-btn" onclick="toggleNav()" title="Collapse navigation bar" aria-label="Collapse navigation bar"><svg viewBox="0 0 24 24"><path d="M18 6l-6 6 6 6M11 6l-6 6 6 6"/></svg></button>
+        <button class="bt plus" title="Create new job" onclick="openNewJob()"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9.5"/><path d="M12 7.5v9M7.5 12h9"/></svg></button>
+        <button class="bt srch" title="Search candidates" onclick="openSearch()"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7.5"/><path d="m21 21-4-4"/></svg></button>
+        <button class="bt collapse-btn" onclick="toggleNav()" title="Collapse navigation bar" aria-label="Collapse navigation bar"><svg viewBox="0 0 24 24"><path d="M18 5l-7 7 7 7M11 5l-7 7 7 7"/></svg></button>
       </div>
     </div>
     <div class="swx">
