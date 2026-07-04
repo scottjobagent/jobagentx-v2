@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- build 1783134948 -->
+<!-- build 1783135744 -->
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -395,7 +395,7 @@ body.dark .srch-box{background:#1b1b1d}
 .btn-p{display:inline-flex;align-items:center;gap:6px;background:var(--accent);border:none;color:#fff;border-radius:var(--r);padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;white-space:nowrap}
 .btn-p:hover{background:var(--accent-ink)}
 .btn-p svg{width:14px;height:14px;stroke-width:2.2}
-.wrap{padding:6px 24px 40px 16px}.wrap.hub{max-width:1124px}
+.wrap{padding:6px 24px 40px 16px}.wrap.hub{max-width:1124px}.top.hub{max-width:1124px}
 .krow{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin-bottom:14px}
 .kc{background:var(--card);border:1px solid var(--line);border-radius:var(--r-lg);padding:11px 13px}
 .kc .l{font-size:10.5px;color:var(--muted);letter-spacing:.02em;text-transform:uppercase}
@@ -814,7 +814,7 @@ function render(page){
  var h=document.getElementById('pageH');
  h.innerHTML=P.title+(P.count?' <span class="hcount">'+P.count+'</span>':'');
  var tr=document.getElementById('topR'); if(tr) tr.innerHTML=P.right||'';
- document.getElementById('wrap').innerHTML=P.body;document.getElementById('wrap').className=({'Overview':1,'Sourcing':1,'AI Agent':1}[page]?'wrap hub':'wrap');
+ document.getElementById('wrap').innerHTML=P.body;var _hub=({'Overview':1,'Sourcing':1,'AI Agent':1}[page]?1:0);document.getElementById('wrap').className=_hub?'wrap hub':'wrap';var _t=document.querySelector('.top');if(_t)_t.classList.toggle('hub',!!_hub);
 }
 
 
