@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- pricing build 1 -->
+<!-- pricing build 2 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -117,21 +117,22 @@ button{font-family:inherit}
  <div class="hero">
   <span class="eyebrow"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 5.6L20 8l-4 4 1 6-5-3-5 3 1-6-4-4 5.6-.4z"/></svg>Interviews on Autopilot</span>
   <h1>Pay for interviews,<br>not profiles to chase.</h1>
-  <p>Your agent delivers candidates who <b>asked to interview</b>, matched by AI. You pay per <b>interview-ready candidate delivered</b> — not per seat, and never for a passive list.</p>
+  <p>Your agent delivers candidates who <b>asked to interview</b>, matched by AI. Point it at as many roles as you want — you only pay for <b>interviews actually delivered</b>.</p>
   <div class="billing"><div class="bill-seg" id="billSeg"><button data-b="mo" class="on" onclick="setBill('mo')">Monthly</button><button data-b="qt" onclick="setBill('qt')">Quarterly<span class="save">-10%</span></button><button data-b="yr" onclick="setBill('yr')">Annual<span class="save">-20%</span></button></div></div>
+  <div style="margin-top:14px"><span class="eyebrow" style="background:transparent;border-color:color-mix(in srgb,var(--great) 40%,transparent);color:var(--great)"><svg viewBox="0 0 24 24" style="fill:var(--great)"><path d="M17 20h5v-2a3 3 0 0 0-3-3M9 20H2v-2a5 5 0 0 1 5-5m5 0a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/></svg>Unlimited team members on every plan — we never charge per seat</span></div>
  </div>
 
  <div class="tiers" id="tiers"></div>
- <div style="text-align:center;font-size:12.5px;color:var(--faint);margin-top:6px">All plans include a 14-day free trial · No card required · Cancel anytime</div>
+ <div style="text-align:center;font-size:12.5px;color:var(--faint);margin-top:8px">14-day free trial · No card required · Need more than your plan? Add interview packs anytime.</div>
 
  <div class="section">
-  <h2>How credits work</h2>
-  <div class="sub">One simple unit. A credit is a real candidate who wants to interview for your role — not a name you have to convince.</div>
+  <h2>How it works</h2>
+  <div class="sub">One simple unit. An interview is a real candidate who asked to interview for your role and matched — not a name you have to chase.</div>
   <div class="hiw">
-   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div><h4>1 credit = 1 delivered candidate</h4><p>Someone who requested an interview and was AI-matched to your role lands in your queue. That’s one credit.</p></div>
-   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div><h4>Charged on delivery</h4><p>Not on accept or decline. You stay in full control of who you actually interview — the price doesn’t change.</p></div>
-   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.7 3M3 4v5h5"/></svg></div><h4>Bad match? Free replacement</h4><p>No-shows, withdrawals, or candidates outside your stated criteria are replaced at no cost. You never pay for junk.</p></div>
-   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div><h4>Credits roll over</h4><p>Unused monthly credits roll over up to 2× your plan for 60 days. Top-up packs stay valid for 12 months.</p></div>
+   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div><h4>1 interview = 1 delivered candidate</h4><p>Someone who requested an interview and was AI-matched to your role lands in your queue, ready to book. That’s one interview.</p></div>
+   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div><h4>Only pay for what’s delivered</h4><p>Charged on delivery — never on a decline, never per seat. Unused interviews roll over 60 days, so a slow month is never wasted.</p></div>
+   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.7 3M3 4v5h5"/></svg></div><h4>Bad match? Replaced free</h4><p>No-shows, withdrawals, or candidates outside your stated criteria are replaced at no cost. You never pay for a bad match.</p></div>
+   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 0 0-3-3M9 20H2v-2a5 5 0 0 1 5-5m5 0a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/></svg></div><h4>Unlimited roles &amp; seats</h4><p>Run one role or twenty from a single pool of interviews, and invite your whole team free. You size up on volume, nothing else.</p></div>
   </div>
  </div>
 
@@ -145,11 +146,12 @@ button{font-family:inherit}
 <div class="wrap"><div class="footer"><span class="mk" style="width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">J</span>© 2026 JobAgentX · Interviews on Autopilot</div></div>
 
 <script>
+var CORE=['Unlimited active roles','Unlimited team seats — never per seat','AI matching &amp; fit grading','Outreach Agent — auto confirmations &amp; reminders','Shared candidate inbox','Reports &amp; trends'];
 var PLANS=[
- {name:'Starter',tag:'For filling one hard role at a time.',mo:299,credits:'10',ov:'$35',cta:'Start free trial',feats:['1 active role','Interview Agent — AI matching &amp; fit grading','Candidate profiles &amp; slide-out','Outreach Agent: confirmations &amp; reminders','Email support']},
- {name:'Growth',tag:'For teams actively hiring across roles.',mo:749,credits:'30',ov:'$29',pop:true,cta:'Start free trial',feats:['h:Everything in Starter, plus','Up to 3 active roles','Outreach Agent: custom warm sequences','Reports &amp; trends','Calendar sync + availability','Priority AI matching','Chat support']},
- {name:'Scale',tag:'For high-volume, multi-role hiring.',mo:1799,credits:'90',ov:'$22',cta:'Start free trial',feats:['h:Everything in Growth, plus','Up to 10 active roles','Team seats &amp; shared inbox','Advanced reports &amp; alerts','ATS export','Priority support']},
- {name:'Enterprise',tag:'For orgs with high volume &amp; compliance needs.',mo:null,credits:'Custom',cta:'Contact sales',feats:['h:Everything in Scale, plus','Unlimited roles &amp; volume credits','SSO / SAML','ATS + API integration','Dedicated success manager','Custom SLA &amp; terms']}
+ {name:'Starter',tag:'For filling your first role.',mo:299,ivs:10,feats:CORE},
+ {name:'Growth',tag:'For teams hiring across several roles.',mo:699,ivs:30,pop:true,feats:CORE},
+ {name:'Scale',tag:'For high-volume, multi-role hiring.',mo:1799,ivs:90,feats:CORE},
+ {name:'Enterprise',tag:'For orgs with scale &amp; compliance needs.',mo:null,ivs:null,feats:['h:Everything in Scale, plus','SSO / SAML','ATS + API integration','Dedicated success manager','Custom volume &amp; SLA']}
 ];
 var BILL='mo';
 var MULT={mo:1,qt:0.9,yr:0.8};
@@ -160,24 +162,25 @@ function renderTiers(){
    var priceHtml, billed='';
    if(p.mo==null){ priceHtml='<span class="custom">Let’s talk</span>'; }
    else { var eff=Math.round(p.mo*m); priceHtml='<span class="amt">$'+eff.toLocaleString()+'</span><span class="per">/mo</span>'; billed=(BILL==='mo'?'':BILLED[BILL]+' · $'+ (BILL==='qt'?(eff*3).toLocaleString():(eff*12).toLocaleString()) + (BILL==='qt'?'/qtr':'/yr')); }
-   var credits = p.mo==null ? '<b>Custom</b> <span>interview-ready candidates / mo</span>' : '<b>'+p.credits+'</b> <span>interview-ready candidates / mo · then '+p.ov+'/credit</span>';
+   var credits = p.mo==null ? '<b>Custom</b> <span>interviews / month</span>' : '<b>'+p.ivs+'</b> <span>interviews / month · unused roll over 60 days</span>';
    var feats=p.feats.map(function(f){ if(f.indexOf('h:')===0)return '<li class="head">'+f.slice(2)+'</li>'; return '<li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'+f+'</li>'; }).join('');
-   return '<div class="tier'+(p.pop?' pop':'')+'">'+(p.pop?'<span class="pop-tag">MOST POPULAR</span>':'')+'<div class="tn">'+p.name+'</div><div class="tt">'+p.tag+'</div><div class="price">'+priceHtml+'</div><div class="billed">'+billed+'</div><div class="credits">'+credits+'</div><button class="cta" onclick="pick(\''+p.name+'\')">'+p.cta+'</button><ul class="feats">'+feats+'</ul></div>';
+   var cta = p.mo==null ? 'Contact sales' : 'Start free trial';
+   return '<div class="tier'+(p.pop?' pop':'')+'">'+(p.pop?'<span class="pop-tag">MOST POPULAR</span>':'')+'<div class="tn">'+p.name+'</div><div class="tt">'+p.tag+'</div><div class="price">'+priceHtml+'</div><div class="billed">'+billed+'</div><div class="credits">'+credits+'</div><button class="cta" onclick="pick(\''+p.name+'\')">'+cta+'</button><ul class="feats">'+feats+'</ul></div>';
  }).join('');
 }
 function setBill(b){BILL=b;document.querySelectorAll('#billSeg button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-b')===b);});renderTiers();}
-function pick(n){ if(n==='Enterprise'){alert('Contact sales — we’ll tailor volume credits + terms.');} else {alert('Starting your 14-day free trial on the '+n+' plan.');} }
+function pick(n){ if(n==='Enterprise'){alert('Contact sales — we’ll tailor volume + terms.');} else {alert('Starting your 14-day free trial on the '+n+' plan.');} }
 function scrollToTiers(){document.getElementById('tiers').scrollIntoView({behavior:'smooth',block:'center'});}
 var FAQ=[
- ['What exactly is a “credit”?','A credit is one interview-ready candidate delivered to you — a real person who asked to interview and was AI-matched to your role. It’s not a profile to source, an InMail, or an applicant blast.'],
- ['Do I pay when I decline someone?','A credit is charged when a candidate is delivered, not on your decision — you’re paying for a vetted, interview-ready match. But genuine defects (no-shows, withdrawals, or candidates outside your stated criteria) are always replaced free, so you never pay for a bad match.'],
- ['Do unused credits roll over?','Yes. Unused monthly credits roll over up to 2× your plan’s allotment and stay valid for 60 days. Top-up credit packs you buy separately are valid for 12 months.'],
- ['How is this different from a hiring event?','An event is a one-day burst you pay for up front. Your Interview Agent runs continuously — it keeps interview-ready candidates flowing every week for one role or many, and you only pay for what’s delivered.'],
- ['Can I change plans or add credits anytime?','Yes — upgrade, downgrade, or buy top-up credits whenever you like. Changes apply from your next cycle; top-ups are available instantly.'],
- ['What if I hire for several roles at once?','Growth covers up to 3 active roles and Scale up to 10, all drawing from one credit pool — so a slow week on one role isn’t wasted; credits go wherever the demand is.']
+ ['What exactly is an “interview”?','It’s one interview-ready candidate delivered to you — a real person who asked to interview and was AI-matched to your role. Not a profile to source, an InMail, or an applicant blast. You accept the ones you want and book them.'],
+ ['What if I get fewer interviews than my plan in a month?','You only pay for interviews actually delivered, and anything unused rolls over for 60 days — so nothing is wasted. Your plan number is a monthly ceiling, not a bill you pay regardless.'],
+ ['Do I pay when I decline someone?','No. An interview is counted when a matched candidate is delivered, not on your decision. And genuine defects — no-shows, withdrawals, or candidates outside your stated criteria — are always replaced free.'],
+ ['Do you charge per user or per seat?','Never. Every plan includes unlimited team members. Invite your whole hiring team at no extra cost — you pay for interviews, not seats.'],
+ ['Can I run more than one role?','Yes — unlimited active roles on every plan, all drawing from one shared pool of interviews. A slow week on one role isn’t wasted; interviews flow to wherever the demand is.'],
+ ['What if I need more than my plan includes?','Add an interview pack anytime — a block of extra interviews at your plan’s rate — or move up a tier. Changes apply instantly.'],
+ ['How is this different from a hiring event?','An event is a one-day burst you pay for up front. Your Interview Agent runs continuously, keeping interview-ready candidates flowing every week across all your roles, and you only pay for what’s delivered.']
 ];
 document.getElementById('faq').innerHTML=FAQ.map(function(q,i){return '<div class="qa'+(i===0?' open':'')+'" onclick="this.classList.toggle(\'open\')"><div class="q">'+q[0]+'<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div><div class="a">'+q[1]+'</div></div>';}).join('');
-/* theme */
 var SUN='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
 var MOON='<svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>';
 function setTheme(t){document.body.classList.toggle('light',t==='light');try{localStorage.setItem('iatheme',t);}catch(e){}document.getElementById('themebtn').innerHTML=(t==='light'?MOON:SUN);}

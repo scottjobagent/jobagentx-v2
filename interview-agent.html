@@ -348,6 +348,52 @@ body.light .modal,body.light .acctmenu{box-shadow:0 16px 50px rgba(20,30,60,.18)
 .up-c li.h svg{display:none}
 .up-foot{padding:14px 24px;border-top:1px solid var(--line);font-size:11.5px;color:var(--faint);display:flex;gap:18px;flex-wrap:wrap}
 @media(max-width:900px){.up-tiers{grid-template-columns:1fr 1fr}}
+
+/* ===== messaging inbox ===== */
+.inbox{display:grid;grid-template-columns:328px 1fr;height:calc(100vh - 140px);min-height:520px;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--panel)}
+.ibx-list{border-right:1px solid var(--line);display:flex;flex-direction:column;min-height:0}
+.ibx-lh{padding:15px 16px 12px;border-bottom:1px solid var(--line)}
+.ibx-lh h2{margin:0;font-size:16px;font-weight:600}
+.ibx-tabs{display:flex;gap:6px;margin-top:12px}
+.ibx-tab{font-size:12.5px;font-weight:600;color:var(--muted);padding:6px 12px;border-radius:8px;cursor:pointer;display:flex;align-items:center;gap:7px;border:1px solid transparent}
+.ibx-tab.on{background:var(--card2);color:var(--ink);border-color:var(--line)}
+.ibx-tab .n{font-size:10.5px;background:var(--accent);color:#fff;border-radius:20px;padding:1px 6px}
+.ibx-scroll{overflow:auto;flex:1;min-height:0}
+.ibx-row{display:flex;gap:11px;padding:13px 16px;border-bottom:1px solid var(--line2);cursor:pointer}
+.ibx-row:hover{background:var(--card)}
+.ibx-row.on{background:var(--accent-soft)}
+.ibx-av{width:36px;height:36px;flex:0 0 36px;border-radius:50%;color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.ibx-meta{flex:1;min-width:0}
+.ibx-nm{font-size:13px;font-weight:600;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.ibx-nm .t{font-size:10.5px;color:var(--faint);font-weight:400;flex:0 0 auto}
+.ibx-rl{font-size:11.5px;color:var(--accent-ink);margin:1px 0 3px}
+.ibx-pv{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ibx-un{width:7px;height:7px;border-radius:50%;background:var(--accent);flex:0 0 7px;margin-top:6px}
+.thr{display:flex;flex-direction:column;min-height:0}
+.thr-h{padding:14px 20px;border-bottom:1px solid var(--line)}
+.thr-nm{font-size:15px;font-weight:600}
+.thr-sub{font-size:12px;color:var(--muted);margin-top:3px;display:flex;gap:9px;align-items:center;flex-wrap:wrap}
+.thr-sub .rl{color:var(--accent-ink)}
+.thr-body{flex:1;overflow:auto;padding:20px 22px;min-height:0;display:flex;flex-direction:column}
+.thr-day{text-align:center;font-size:11px;color:var(--faint);margin:0 0 16px}
+.mrow{display:flex;margin-bottom:14px;max-width:100%}
+.mrow.out{justify-content:flex-end}
+.mrow .col{max-width:74%;display:flex;flex-direction:column}
+.mrow.out .col{align-items:flex-end}
+.btag{font-size:10px;font-weight:600;color:var(--accent-ink);display:flex;align-items:center;gap:4px;margin-bottom:5px}
+.btag svg{width:11px;height:11px;fill:var(--accent2)}
+.bub{padding:11px 14px;border-radius:14px;font-size:13px;line-height:1.5;white-space:pre-line}
+.mrow.out .bub{background:var(--accent);color:#fff;border-bottom-right-radius:4px}
+.mrow.out.auto .bub{background:var(--accent-soft);color:var(--ink);border:1px solid color-mix(in srgb,var(--accent) 30%,transparent);border-bottom-right-radius:4px}
+.mrow.in .bub{background:var(--card2);color:var(--ink);border-bottom-left-radius:4px}
+.mtime{font-size:10.5px;color:var(--faint);margin-top:4px}
+.thr-comp{padding:12px 16px;border-top:1px solid var(--line);display:flex;gap:10px;align-items:center}
+.thr-comp input{flex:1;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 14px;color:var(--ink);font-family:inherit;font-size:13px;outline:none}
+.thr-comp input:focus{border-color:var(--accent)}
+.thr-send{width:38px;height:38px;flex:0 0 38px;border-radius:9px;border:none;background:var(--accent);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.thr-send svg{width:17px;height:17px;stroke:#fff;fill:none;stroke-width:2}
+.thr-empty{display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;color:var(--muted);text-align:center;gap:8px;padding:24px}
+.thr-empty svg{width:40px;height:40px;stroke:var(--faint);fill:none;stroke-width:1.5}
 </style>
 </head>
 <body>
@@ -357,12 +403,12 @@ body.light .modal,body.light .acctmenu{box-shadow:0 16px 50px rgba(20,30,60,.18)
   <div class="brand"><span class="mk">J</span><span class="nm">Job<span>AgentX</span></span></div>
   <div class="emp"><span class="elg">NH</span><span class="et">Northwind Health</span><svg class="ec" viewBox="0 0 24 24"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></svg></div>
   <nav class="nav" id="nav"></nav>
-  <div class="side-up" onclick="openUpgrade()"><div class="su-bar"><span style="width:40%"></span></div><div class="su-t"><b>12</b> of 30 credits left this month</div><div class="su-cta"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Upgrade plan</div></div>
+  <div class="side-up" onclick="openUpgrade()"><div class="su-bar"><span style="width:40%"></span></div><div class="su-t"><b>12</b> of 30 interviews left this month</div><div class="su-cta"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Upgrade plan</div></div>
   <div class="side-foot" onclick="toggleAcct(event)"><span class="av">SL</span><div class="u"><div class="un">Scott Lobenberg</div><div class="ue">scott@jobfairx.com</div></div><svg class="afc" viewBox="0 0 24 24"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></svg></div>
   <div class="acctmenu" id="acctmenu"><div class="am-h"><div class="un">Scott Lobenberg</div><div class="ue">scott@jobfairx.com</div></div><div class="am-i" onclick="event.stopPropagation();toggleAcct();openUpgrade()"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Upgrade plan</div><div class="am-i" onclick="agToast('Settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8 2 2 0 1 1-2.8 2.8 1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0 1.6 1.6 0 0 0-2.7-1.1 2 2 0 1 1-2.8-2.8A1.6 1.6 0 0 0 4.6 15a2 2 0 0 1 0-4 1.6 1.6 0 0 0 1.1-2.7 2 2 0 1 1 2.8-2.8A1.6 1.6 0 0 0 11 4.6a2 2 0 0 1 4 0 1.6 1.6 0 0 0 2.7 1.1 2 2 0 1 1 2.8 2.8A1.6 1.6 0 0 0 19.4 11a2 2 0 0 1 0 4z"/></svg>Settings</div><div class="am-i" onclick="event.stopPropagation();toggleTheme()"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Dark Mode<span class="dmsw" id="dmSwitch"></span></div><div class="am-i" onclick="agToast('Logged out')" style="color:var(--poor)"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Log out</div></div>
  </aside>
  <main class="main">
-  <div class="top"><h1 id="pageT">Dashboard</h1><button class="rolepick"><span class="rd"></span>Registered Nurse · Houston, TX<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button><div class="sp"></div><button class="credits" onclick="openUpgrade()" title="12 of 30 credits left — upgrade"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8.5 10.5c0-1.4 1.6-2 3.5-2s3.5.6 3.5 2-1.6 2-3.5 2-3.5.6-3.5 2 1.6 2 3.5 2 3.5-.6 3.5-2"/></svg><b>12</b> credits left</button><button class="iconbtn" onclick="agToast('Notifications')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></button></div>
+  <div class="top"><h1 id="pageT">Dashboard</h1><button class="rolepick"><span class="rd"></span>Registered Nurse · Houston, TX<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button><div class="sp"></div><button class="credits" onclick="openUpgrade()" title="12 of 30 interviews left — upgrade"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8.5 10.5c0-1.4 1.6-2 3.5-2s3.5.6 3.5 2-1.6 2-3.5 2-3.5.6-3.5 2 1.6 2 3.5 2 3.5-.6 3.5-2"/></svg><b>12</b> interviews left</button><button class="iconbtn" onclick="agToast('Notifications')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></button></div>
   <div class="wrap" id="wrap"></div>
  </main>
 </div>
@@ -535,17 +581,63 @@ function pgInterviews(){
  +(ITAB==='upcoming'?('<div class="panel"><div class="rowh" style="grid-template-columns:1.4fr 1.2fr 1fr 1.2fr auto;gap:12px"><span>Candidate</span><span>Role</span><span>Location</span><span>Interview time</span><span>Action</span></div>'+rows+'</div>'):(ITAB==='pending'?'<div class="empty"><h3>6 candidates awaiting your response</h3><p>Head to the Interview Agent to accept or decline.</p><button class="btn" style="margin-top:14px" onclick="go(\'Interview Agent\')">Go to Interview Agent</button></div>':'<div class="empty"><h3>24 past interviews</h3><p>Completed interviews and recordings will show here.</p></div>'));
 }
 
-/* ===== Messaging ===== */
+/* ===== Messaging inbox ===== */
+var MSG_THREADS=[
+ {id:0,name:'Sheena Williams',ini:'SW',c:'#6366f1',role:'Registered Nurse',loc:'Houston, TX',date:'Today',unread:true,msgs:[
+   {who:'auto',t:'Hi Sheena — your interview for the Registered Nurse role at Northwind Health is confirmed for tomorrow at 1:00 PM CT. We\'ll send a reminder an hour before. Reply here if anything changes.',time:'9:02 AM'},
+   {who:'them',t:'Thank you! 1:00 works great. Looking forward to it.',time:'9:14 AM'},
+   {who:'me',t:'Great, see you then Sheena. Feel free to bring any questions about the unit.',time:'9:20 AM'}
+ ]},
+ {id:1,name:'Marcus Johnson',ini:'MJ',c:'#0ea5e9',role:'Registered Nurse',loc:'Houston, TX',date:'Today',unread:true,msgs:[
+   {who:'auto',t:'Hi Marcus — thanks for requesting an interview for the Registered Nurse role. You\'re booked for Thursday at 10:30 AM CT.',time:'8:40 AM'},
+   {who:'them',t:'Thanks, that time works. Is the interview virtual or on-site?',time:'8:55 AM'}
+ ]},
+ {id:2,name:'Priya Patel',ini:'PP',c:'#f59e0b',role:'Bilingual Call Center Rep',loc:'Remote (US)',date:'Today',unread:false,msgs:[
+   {who:'auto',t:'Hi Priya — your interview for the Bilingual Call Center Rep role is confirmed for Wednesday at 2:00 PM ET.',time:'Yesterday'},
+   {who:'them',t:'Could we move to Thursday afternoon instead? Something came up.',time:'11:10 AM'},
+   {who:'auto',t:'No problem — here are a few Thursday slots. Tap one to rebook.',time:'11:10 AM'}
+ ]},
+ {id:3,name:'Keisha Brown',ini:'KB',c:'#10b981',role:'Medical Assistant',loc:'Houston, TX',date:'Yesterday',unread:false,msgs:[
+   {who:'auto',t:'Hi Keisha — your interview for the Medical Assistant role is confirmed for Friday at 9:30 AM CT.',time:'Mon'},
+   {who:'them',t:'Looking forward to it — thank you!',time:'Mon'}
+ ]},
+ {id:4,name:'David Nguyen',ini:'DN',c:'#8b5cf6',role:'Bilingual Call Center Rep',loc:'Remote (US)',date:'Yesterday',unread:false,msgs:[
+   {who:'auto',t:'Hi David — reminder: your interview is in 1 hour. Join link is in your email.',time:'Mon'},
+   {who:'them',t:'Got it, joining now. Thanks!',time:'Mon'}
+ ]}
+];
+var MSG_SEL=0;
+function msgOpen(i){MSG_SEL=i;var t=MSG_THREADS[i];if(t)t.unread=false;render();var b=document.querySelector('.thr-body');if(b)b.scrollTop=b.scrollHeight;}
+function msgSend(){var el=document.getElementById('msgInput');if(!el||!el.value.trim())return;var t=MSG_THREADS[MSG_SEL];t.msgs.push({who:'me',t:el.value.trim(),time:'now'});render();var b=document.querySelector('.thr-body');if(b)b.scrollTop=b.scrollHeight;var ni=document.getElementById('msgInput');if(ni)ni.focus();}
+function msgKey(e){if(e.key==='Enter')msgSend();}
+var SPARK_ICON='';
 function pgMessaging(){
- var msgs=[['Sheena Williams','Registered Nurse','Interview confirmed — see you tomorrow at 1pm!','9m'],['Marcus Johnson','Web Developer','Thanks, that time works great.','41m'],['Priya Patel','Frontend Developer','Could we move to Thursday afternoon?','1h'],['Keisha Brown','Full Stack Developer','Looking forward to it — thank you!','2h']];
- return '<div class="qhead"><span class="qt">Messaging</span><span class="qbadge">4 unread</span></div><div class="panel">'+msgs.map(function(m){return '<div class="msgline" style="padding:14px 18px"><span class="msg-av" style="background:#3a4055">'+m[0].split(' ').map(function(x){return x[0];}).join('')+'</span><div style="flex:1;min-width:0"><div class="msg-nm">'+m[0]+'</div><div class="msg-role">'+m[1]+'</div><div class="msg-prev">'+m[2]+'</div></div><span class="msg-t">'+m[3]+'</span></div>';}).join('')+'</div>';
+ var unread=MSG_THREADS.filter(function(t){return t.unread;}).length;
+ var list=MSG_THREADS.map(function(t,i){
+   var last=t.msgs[t.msgs.length-1];
+   var pv=(last.who==='them'?'':(last.who==='auto'?'Agent: ':'You: '))+last.t;
+   return '<div class="ibx-row'+(i===MSG_SEL?' on':'')+'" onclick="msgOpen('+i+')"><span class="ibx-av" style="background:'+t.c+'">'+t.ini+'</span><div class="ibx-meta"><div class="ibx-nm">'+t.name+'<span class="t">'+t.date+'</span></div><div class="ibx-rl">'+t.role+'</div><div class="ibx-pv">'+pv+'</div></div>'+(t.unread?'<span class="ibx-un"></span>':'')+'</div>';
+ }).join('');
+ var right;
+ if(MSG_SEL==null||!MSG_THREADS[MSG_SEL]){
+   right='<div class="thr"><div class="thr-empty"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><div style="font-weight:600;color:var(--ink)">Select a conversation</div><div>Choose a candidate from your inbox to view and reply.</div></div></div>';
+ } else {
+   var t=MSG_THREADS[MSG_SEL];
+   var body=t.msgs.map(function(m){
+     if(m.who==='them') return '<div class="mrow in"><div class="col"><div class="bub">'+m.t+'</div><div class="mtime">'+m.time+'</div></div></div>';
+     if(m.who==='auto') return '<div class="mrow out auto"><div class="col"><div class="btag"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>Outreach Agent · sent automatically</div><div class="bub">'+m.t+'</div><div class="mtime">'+m.time+'</div></div></div>';
+     return '<div class="mrow out"><div class="col"><div class="bub">'+m.t+'</div><div class="mtime">'+m.time+'</div></div></div>';
+   }).join('');
+   right='<div class="thr"><div class="thr-h"><div class="thr-nm">'+t.name+'</div><div class="thr-sub"><span class="rl">'+t.role+'</span><span>·</span><span>'+t.loc+'</span></div></div><div class="thr-body"><div class="thr-day">'+t.date+'</div>'+body+'</div><div class="thr-comp"><input id="msgInput" placeholder="Type a message…" onkeydown="msgKey(event)" autocomplete="off"><button class="thr-send" onclick="msgSend()"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/></svg></button></div></div>';
+ }
+ return '<div class="inbox"><div class="ibx-list"><div class="ibx-lh"><h2>Messages</h2><div class="ibx-tabs"><div class="ibx-tab on">Inbox'+(unread?'<span class="n">'+unread+'</span>':'')+'</div><div class="ibx-tab" onclick="agToast(\'No archived conversations\')">Archived</div></div></div><div class="ibx-scroll">'+list+'</div></div>'+right+'</div>';
 }
 
 /* ===== Reports ===== */
 function spark(seed){var h='';for(var i=0;i<12;i++){var v=30+((Math.sin(i*seed)+1)*30)+(i*2);h+='<i style="height:'+Math.min(100,v)+'%"></i>';}return '<div class="spark">'+h+'</div>';}
 function pgReports(){
- var cards=[['Interviews Scheduled','Weekly, across all roles','218','1.3'],['Accept Rate','Delivered candidates you accepted','90%','2.1'],['Time to Interview','Request → booked interview','1.4d','1.7'],['No-Show Rate','Recovered by Outreach Agent','6%','0.9'],['Candidates Delivered','Interview-ready, by your agent','512','1.5'],['Credits Used','This billing period','340','2.4']];
- return '<div class="hero" style="padding:20px 24px"><div class="hero-tx"><h2 style="font-size:18px">Reports, trends &amp; alerts</h2><p>Track what your Interview Agent is delivering — scheduled interviews, accept rate, time-to-interview, no-shows, and credit usage. Build custom reports or get notified when something changes.</p></div><div class="hero-cta"><button class="btn" onclick="agToast(\'New report\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New report</button></div></div>'
+ var cards=[['Interviews Scheduled','Weekly, across all roles','218','1.3'],['Accept Rate','Delivered candidates you accepted','90%','2.1'],['Time to Interview','Request → booked interview','1.4d','1.7'],['No-Show Rate','Recovered by Outreach Agent','6%','0.9'],['Candidates Delivered','Interview-ready, by your agent','512','1.5'],['Interviews Delivered','This billing period','340','2.4']];
+ return '<div class="hero" style="padding:20px 24px"><div class="hero-tx"><h2 style="font-size:18px">Reports, trends &amp; alerts</h2><p>Track what your Interview Agent is delivering — scheduled interviews, accept rate, time-to-interview, no-shows, and interview usage. Build custom reports or get notified when something changes.</p></div><div class="hero-cta"><button class="btn" onclick="agToast(\'New report\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New report</button></div></div>'
  +askbar('Ask for a report — e.g. “accept rate by role over the last 30 days”')
  +'<div class="sech"><h3>Created by your agent</h3></div><div class="repgrid">'+cards.map(function(c,i){return '<div class="repcard"><div class="rt">'+c[0]+'</div><div class="rs">'+c[1]+'</div><div class="rv">'+c[2]+'</div>'+spark(parseFloat(c[3]))+'</div>';}).join('')+'</div>';
 }
@@ -585,11 +677,12 @@ function openModal(html){document.getElementById('modal').innerHTML='<button cla
 function closeModal(){document.getElementById('mov').classList.remove('open');document.getElementById('modal').classList.remove('up');}
 
 /* ===== upgrade modal ===== */
+var UP_CORE=['Unlimited active roles','Unlimited team seats','AI matching & fit grading','Outreach Agent + shared inbox','Reports & trends'];
 var UPLANS=[
- {name:'Starter',mo:299,credits:10,ov:'$35',feats:['1 active role','AI matching & fit grading','Confirmations & reminders','Email support']},
- {name:'Growth',mo:749,credits:30,ov:'$29',pop:true,feats:['h:Everything in Starter, plus','Up to 3 active roles','Custom warm sequences','Reports & trends','Chat support']},
- {name:'Scale',mo:1799,credits:90,ov:'$22',feats:['h:Everything in Growth, plus','Up to 10 active roles','Team seats & shared inbox','ATS export','Priority support']},
- {name:'Enterprise',mo:null,credits:null,feats:['h:Everything in Scale, plus','Unlimited volume credits','SSO / SAML','ATS + API integration','Dedicated success manager']}
+ {name:'Starter',mo:299,ivs:10,feats:UP_CORE},
+ {name:'Growth',mo:699,ivs:30,pop:true,feats:UP_CORE},
+ {name:'Scale',mo:1799,ivs:90,feats:UP_CORE},
+ {name:'Enterprise',mo:null,ivs:null,feats:['h:Everything in Scale, plus','SSO / SAML','ATS + API integration','Dedicated success manager','Custom volume & SLA']}
 ];
 var UP_CUR='Growth';
 var UP_BILL='mo';
@@ -601,12 +694,12 @@ function renderUpTiers(){
  document.getElementById('upTiers').innerHTML=UPLANS.map(function(p,idx){
   var isCur=p.name===UP_CUR;
   var price = p.mo==null ? '<div class="pr"><span class="a" style="font-size:19px">Custom</span></div>' : '<div class="pr"><span class="a">$'+Math.round(p.mo*m).toLocaleString()+'</span><span class="pp">/mo</span></div>';
-  var cr = p.mo==null ? 'Custom volume credits, tailored to your hiring.' : '<b>'+p.credits+'</b> interview-ready candidates / mo<br>then '+p.ov+' / extra credit';
+  var cr = p.mo==null ? 'Custom volume, tailored to your hiring.' : '<b>'+p.ivs+'</b> interviews / month<br>unused roll over 60 days';
   var tag = isCur?'<span class="up-tag c">CURRENT PLAN</span>':(p.pop?'<span class="up-tag p">MOST POPULAR</span>':'');
   var btn;
   if(isCur){btn='<button class="ub iscur">Current plan</button>';}
-  else if(p.mo==null){btn='<button class="ub" onclick="agToast(\'Contact sales — we’ll tailor volume credits + terms\')">Contact sales</button>';}
-  else {var verb=idx>curIdx?'Upgrade to ':'Switch to ';btn='<button class="ub" onclick="closeModal();agToast(\''+verb.trim()+'ed to '+p.name+' — '+p.credits+' credits/mo\')">'+verb+p.name+'</button>';}
+  else if(p.mo==null){btn='<button class="ub" onclick="agToast(\'Contact sales — we’ll tailor volume + terms\')">Contact sales</button>';}
+  else {var verb=idx>curIdx?'Upgrade to ':'Switch to ';btn='<button class="ub" onclick="closeModal();agToast(\''+verb.trim()+'ed to '+p.name+' — '+p.ivs+' interviews/mo\')">'+verb+p.name+'</button>';}
   var feats=p.feats.map(function(x){ if(x.indexOf('h:')===0)return '<li class="h">'+x.slice(2)+'</li>'; return '<li>'+upTick()+x+'</li>'; }).join('');
   return '<div class="up-c'+(isCur?' cur':(p.pop?' pop':''))+'">'+tag+'<div class="n">'+p.name+'</div>'+price+'<div class="cr">'+cr+'</div>'+btn+'<ul>'+feats+'</ul></div>';
  }).join('');
@@ -615,9 +708,9 @@ function setUpBill(b){UP_BILL=b;var seg=document.getElementById('upSeg');if(seg)
 function openUpgrade(){
  var seg='<div class="up-seg" id="upSeg"><button data-b="mo" class="on" onclick="setUpBill(\'mo\')">Monthly</button><button data-b="qt" onclick="setUpBill(\'qt\')">Quarterly<span class="sv">-10%</span></button><button data-b="yr" onclick="setUpBill(\'yr\')">Annual<span class="sv">-20%</span></button></div>';
  var html='<button class="mx" onclick="closeModal()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'
-  +'<div class="up-head"><h3>Upgrade your plan</h3><p>You’re on <b style="color:var(--ink2)">Growth</b> — 12 of 30 credits left this month. A credit is one interview-ready candidate delivered to you.</p>'+seg+'</div>'
+  +'<div class="up-head"><h3>Upgrade your plan</h3><p>You’re on <b style="color:var(--ink2)">Growth</b> — 12 of 30 interviews left this month. Point your agent at as many roles as you want.</p>'+seg+'</div>'
   +'<div class="up-body"><div class="up-tiers" id="upTiers"></div></div>'
-  +'<div class="up-foot"><span>1 credit = 1 delivered interview-ready candidate</span><span>Charged on delivery, never on a decline</span><span>Unused credits roll over 2× for 60 days</span></div>';
+  +'<div class="up-foot"><span>Unlimited roles &amp; seats on every plan</span><span>Only pay for interviews delivered</span><span>Unused roll over 60 days</span></div>';
  UP_BILL='mo';
  var mo=document.getElementById('modal');
  mo.classList.add('up');
@@ -631,7 +724,7 @@ function acceptFromModal(i){acceptCand(i);}
 function commentModal(i){var c=CANDS[i];openModal('<h3>Comment on '+c.name+'</h3><p>Add a private note for your team. The candidate won’t see this.</p><textarea class="mta" placeholder="e.g. Strong ICU background — prioritize."></textarea><button class="btn" style="margin-top:14px;width:100%" onclick="closeModal();agToast(\'Comment added\')">Add comment</button>');}
 function rescheduleModal(i){var c=CANDS[i];openModal('<h3>Propose a new time</h3><p>Pick a slot from your availability. Your Outreach Agent will send it to '+c.name+' to confirm.</p><button class="slot" onclick="closeModal();agToast(\'New time sent to '+c.name.replace(/’/g,"")+'\')">Tomorrow · 2:00–2:30 PM CT</button><button class="slot" onclick="closeModal();agToast(\'New time sent to '+c.name.replace(/’/g,"")+'\')">Thursday · 10:00–10:30 AM CT</button><button class="slot" onclick="closeModal();agToast(\'New time sent to '+c.name.replace(/’/g,"")+'\')">Friday · 1:00–1:30 PM CT</button>');}
 var DREASONS=['Not enough ICU experience','Wrong shift availability','License / certification gap','Location mismatch','Role already filled','Other'];
-function declineModal(i){var c=CANDS[i];openModal('<h3>Decline '+c.name+'?</h3><p>Optionally tell your agent why — it uses this to match you better. Declines don’t cost a credit.</p>'+DREASONS.map(function(r){return '<button class="slot" onclick="declineCand('+i+',\''+r+'\')">'+r+'</button>';}).join(''));}
+function declineModal(i){var c=CANDS[i];openModal('<h3>Decline '+c.name+'?</h3><p>Optionally tell your agent why — it uses this to match you better. Declines don’t cost an interview.</p>'+DREASONS.map(function(r){return '<button class="slot" onclick="declineCand('+i+',\''+r+'\')">'+r+'</button>';}).join(''));}
 
 /* ===== toast ===== */
 var _tt;function agToast(m){var t=document.getElementById('toast');t.innerHTML='<span class="tc">●</span>'+m;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(function(){t.classList.remove('show');},2600);}
