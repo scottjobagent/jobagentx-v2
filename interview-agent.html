@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<!-- interview-agent build 1 -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JobAgentX — Interview Agent</title>
+<style>
+:root{
+ --bg:#0d0e12; --panel:#141620; --card:#171a24; --card2:#1d2130; --raise:#232838;
+ --line:#272c3a; --line2:#20242f;
+ --ink:#f4f5f8; --ink2:#c9cedb; --muted:#8b91a3; --faint:#5b6072;
+ --accent:#7c8cff; --accent2:#9a7bff; --accent-soft:rgba(124,140,255,.14); --accent-ink:#b9c2ff;
+ --great:#34d399; --good:#38bdf8; --okay:#fbbf24; --poor:#f87171;
+ --r:10px;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,system-ui,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;font-size:13px;line-height:1.5;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-thumb{background:#2c3242;border-radius:6px}
+::-webkit-scrollbar-track{background:transparent}
+
+/* layout */
+.app{display:flex;min-height:100vh}
+.side{width:230px;flex:0 0 230px;background:var(--panel);border-right:1px solid var(--line);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.brand{display:flex;align-items:center;gap:9px;padding:16px 16px 12px}
+.brand .mk{width:24px;height:24px;border-radius:7px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px}
+.brand .nm{font-weight:600;font-size:14px}
+.brand .nm span{color:var(--accent)}
+.emp{margin:4px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:9px 11px;display:flex;align-items:center;gap:9px;cursor:pointer}
+.emp .elg{width:22px;height:22px;border-radius:6px;background:#2a5f52;color:#cff5e6;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex:0 0 22px}
+.emp .et{font-size:12.5px;font-weight:500;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.emp .ec{margin-left:auto;color:var(--faint);width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:2}
+.nav{padding:6px 10px;display:flex;flex-direction:column;gap:2px;overflow-y:auto;flex:1}
+.nav .sec{font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--faint);padding:12px 8px 5px}
+.nav a{display:flex;align-items:center;gap:11px;padding:8px 9px;border-radius:8px;color:var(--ink2);font-size:13px;font-weight:500;cursor:pointer}
+.nav a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:1.7;flex:0 0 17px}
+.nav a:hover{background:var(--card)}
+.nav a.on{background:var(--accent-soft);color:var(--accent-ink)}
+.nav a .cnt{margin-left:auto;font-size:11px;font-weight:600;color:var(--faint);background:var(--card2);border-radius:20px;padding:1px 7px}
+.nav a.on .cnt{background:rgba(124,140,255,.2);color:var(--accent-ink)}
+.nav a .live{margin-left:auto;font-size:9px;font-weight:700;letter-spacing:.04em;color:var(--great);display:flex;align-items:center;gap:4px}
+.nav a .live:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--great);box-shadow:0 0 0 3px rgba(52,211,153,.18)}
+.side-foot{border-top:1px solid var(--line);padding:11px 14px;display:flex;align-items:center;gap:9px}
+.side-foot .av{width:26px;height:26px;border-radius:50%;background:#3a4055;color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.side-foot .u{min-width:0}
+.side-foot .un{font-size:12px;font-weight:500}
+.side-foot .ue{font-size:11px;color:var(--faint)}
+
+/* main */
+.main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:14px;padding:14px 26px;border-bottom:1px solid var(--line);position:sticky;top:0;background:rgba(13,14,18,.86);backdrop-filter:blur(8px);z-index:8}
+.top h1{margin:0;font-size:15px;font-weight:600}
+.top .rolepick{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:6px 11px;font-size:12.5px;font-weight:500;cursor:pointer}
+.top .rolepick .rd{width:7px;height:7px;border-radius:50%;background:var(--great)}
+.top .rolepick svg{width:13px;height:13px;stroke:var(--muted);fill:none;stroke-width:2}
+.top .sp{flex:1}
+.credits{display:inline-flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:6px 12px;font-size:12.5px;cursor:pointer}
+.credits b{color:var(--accent-ink);font-weight:600}
+.credits svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:1.8}
+.iconbtn{width:32px;height:32px;border-radius:8px;background:var(--card);border:1px solid var(--line);color:var(--ink2);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.iconbtn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.8}
+.wrap{padding:24px 26px 60px;max-width:1200px}
+
+/* ask bar (chatbot) */
+.askbar{display:flex;align-items:center;gap:10px;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:12px;padding:11px 14px;margin-bottom:22px}
+.askbar .sp2{width:18px;height:18px;fill:url(#agrad);flex:0 0 18px}
+.askbar input{flex:1;background:none;border:none;outline:none;color:var(--ink);font-size:13.5px;font-family:inherit}
+.askbar input::placeholder{color:var(--muted)}
+.askbar .go{width:28px;height:28px;border-radius:8px;background:var(--accent);border:none;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.askbar .go svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2}
+
+/* mascot dark */
+.imx{filter:drop-shadow(0 0 22px rgba(124,140,255,.35))}
+.imx .r{fill:var(--accent)}
+.imx-ring{transform-box:fill-box;transform-origin:center;animation:imspin 22s linear infinite}
+@keyframes imspin{to{transform:rotate(360deg)}}
+.imx-ray{animation:impulse 1.9s ease-in-out infinite}
+@keyframes impulse{0%,100%{opacity:.25}50%{opacity:.95}}
+.imx-face{animation:imbob 3.6s ease-in-out infinite}
+@keyframes imbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.imx-eye{transform-box:fill-box;transform-origin:center;animation:imblink 4.8s ease-in-out infinite}
+@keyframes imblink{0%,92%,100%{transform:scaleY(1)}96%{transform:scaleY(.12)}}
+@media(prefers-reduced-motion:reduce){.imx-ring,.imx-ray,.imx-face,.imx-eye{animation:none}}
+
+/* command center */
+.hero{display:flex;align-items:center;gap:22px;background:radial-gradient(120% 140% at 12% 0%,rgba(124,140,255,.10),transparent 60%),var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-bottom:20px}
+.hero-ic{width:96px;height:96px;flex:0 0 96px;display:flex;align-items:center;justify-content:center}
+.hero-tx h2{margin:0 0 6px;font-size:20px;font-weight:600}
+.hero-tx p{margin:0;font-size:13.5px;color:var(--muted);max-width:560px}
+.hero-tx .st{display:inline-flex;align-items:center;gap:7px;margin-top:12px;font-size:12px;font-weight:600;color:var(--great);background:rgba(52,211,153,.1);border:1px solid rgba(52,211,153,.25);border-radius:20px;padding:4px 11px}
+.hero-tx .st:before{content:"";width:7px;height:7px;border-radius:50%;background:var(--great);box-shadow:0 0 0 3px rgba(52,211,153,.2)}
+.hero-cta{margin-left:auto;display:flex;flex-direction:column;gap:9px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:var(--accent);color:#fff;border:none;border-radius:9px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn:hover{filter:brightness(1.08)}
+.btn svg{width:15px;height:15px;stroke:#fff;fill:none;stroke-width:2}
+.btn.ghost{background:var(--card2);color:var(--ink2);border:1px solid var(--line)}
+.btn.ghost:hover{background:var(--raise);filter:none}
+
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px 17px}
+.kpi .kl{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.kpi .kl svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+.kpi .kv{font-size:26px;font-weight:600;margin-top:8px;letter-spacing:-.01em}
+.kpi .kd{font-size:11.5px;margin-top:3px;color:var(--faint)}
+.kpi .kd.up{color:var(--great)}
+
+.sech{display:flex;align-items:center;margin:26px 0 13px}
+.sech h3{margin:0;font-size:15px;font-weight:600}
+.sech .lk{margin-left:auto;font-size:12.5px;color:var(--accent-ink);cursor:pointer;font-weight:500}
+
+.roles{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.role{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px 18px;cursor:pointer;transition:border-color .12s}
+.role:hover{border-color:#3a4considerate}
+.role:hover{border-color:#39405a}
+.role-h{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.role-ic{width:34px;height:34px;border-radius:9px;background:var(--accent-soft);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;flex:0 0 34px}
+.role-ic svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.7}
+.role-nm{font-size:14px;font-weight:600}
+.role-sub{font-size:12px;color:var(--muted);margin-top:1px}
+.role-live{margin-left:auto;font-size:10px;font-weight:700;color:var(--great);display:flex;align-items:center;gap:5px}
+.role-live:before{content:"";width:6px;height:6px;border-radius:50%;background:var(--great);box-shadow:0 0 0 3px rgba(52,211,153,.18)}
+.role-live.paused{color:var(--okay)}
+.role-live.paused:before{background:var(--okay);box-shadow:0 0 0 3px rgba(251,191,36,.15)}
+.role-stats{display:flex;gap:22px}
+.role-stats>div b{font-size:17px;font-weight:600}
+.role-stats>div span{display:block;font-size:11px;color:var(--faint);margin-top:1px}
+.role-foot{margin-top:14px;padding-top:13px;border-top:1px solid var(--line2);font-size:12px;color:var(--muted);display:flex;align-items:center;gap:7px}
+.role-foot svg{width:14px;height:14px;stroke:var(--accent);fill:none;stroke-width:1.8}
+
+/* fit grade pill */
+.grade{display:inline-flex;align-items:center;gap:6px;border-radius:7px;padding:4px 9px;font-size:11.5px;font-weight:600;white-space:nowrap}
+.grade svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2.4}
+.grade.great{background:rgba(52,211,153,.12);color:var(--great)}
+.grade.good{background:rgba(56,189,248,.12);color:var(--good)}
+.grade.okay{background:rgba(251,191,36,.13);color:var(--okay)}
+.grade.poor{background:rgba(248,113,113,.12);color:var(--poor)}
+
+/* candidate cards (interview queue) */
+.qhead{display:flex;align-items:center;gap:12px;margin-bottom:16px}
+.qhead .qt{font-size:15px;font-weight:600}
+.qhead .qbadge{font-size:11px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:20px;padding:2px 9px}
+.qtabs{display:flex;gap:4px;margin-left:auto;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:3px}
+.qtab{padding:6px 12px;border-radius:7px;font-size:12.5px;font-weight:500;color:var(--muted);cursor:pointer;border:none;background:none;font-family:inherit}
+.qtab.on{background:var(--card2);color:var(--ink)}
+.qlist{display:flex;flex-direction:column;gap:12px}
+.icard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px 18px;transition:border-color .12s,box-shadow .12s}
+.icard:hover{border-color:#39405a}
+.ic-h{display:flex;align-items:flex-start;gap:13px}
+.ic-av{width:46px;height:46px;flex:0 0 46px;border-radius:50%;color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.ic-id{flex:1;min-width:0}
+.ic-nm{font-size:15.5px;font-weight:600;cursor:pointer;display:inline-block}
+.ic-nm:hover{color:var(--accent-ink)}
+.ic-meta{display:flex;flex-wrap:wrap;gap:6px 16px;margin-top:6px;font-size:12.5px;color:var(--muted)}
+.ic-meta .m{display:flex;align-items:center;gap:6px}
+.ic-meta .m svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.7;color:var(--faint)}
+.ic-meta .m b{color:var(--ink2);font-weight:500}
+.ic-acts{display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.iabtn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card2);color:var(--ink2);border-radius:8px;padding:8px 13px;font-size:12.5px;font-weight:500;cursor:pointer;font-family:inherit}
+.iabtn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8}
+.iabtn:hover{background:var(--raise)}
+.iabtn.accept{background:var(--accent);border-color:var(--accent);color:#fff}
+.iabtn.accept:hover{filter:brightness(1.08)}
+.iabtn.decline{color:var(--poor)}
+.iabtn.decline:hover{background:rgba(248,113,113,.08);border-color:rgba(248,113,113,.3)}
+.ic-why{margin-top:14px;padding-top:14px;border-top:1px solid var(--line2);display:flex;gap:10px}
+.ic-why .sp{width:16px;height:16px;flex:0 0 16px;fill:var(--accent2);margin-top:1px}
+.ic-why .wt{font-size:12.5px;color:var(--ink2);line-height:1.55}
+.ic-why .wt b{color:var(--ink);font-weight:600}
+.ic-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.ic-tag{font-size:11px;color:var(--ink2);background:var(--card2);border:1px solid var(--line);border-radius:6px;padding:3px 9px}
+
+/* slide-out */
+.dov{position:fixed;inset:0;background:rgba(4,6,12,.5);z-index:60;display:none;justify-content:flex-end}
+.dov.open{display:flex}
+.dpanel{width:min(900px,82vw);height:100%;background:var(--panel);border-left:1px solid var(--line);display:flex;flex-direction:column;transform:translateX(26px);opacity:0;transition:transform .2s,opacity .2s}
+.dov.open .dpanel{transform:translateX(0);opacity:1}
+.dtop{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--line)}
+.dnav{display:flex;gap:6px}
+.dnavb{width:28px;height:28px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink2);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.dnavb svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+.dtopr{display:flex;align-items:center;gap:8px}
+.dclose{width:28px;height:28px;border:none;background:var(--card);border-radius:7px;color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.dclose svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2}
+.dhd{display:flex;align-items:flex-start;gap:14px;padding:20px 24px 16px}
+.dav{width:54px;height:54px;flex:0 0 54px;border-radius:50%;color:#fff;font-size:17px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.dnmrow{display:flex;align-items:center;gap:11px}
+.dnm{font-size:19px;font-weight:600}
+.dloc{font-size:13px;color:var(--muted);margin-top:4px}
+.dacts{display:flex;gap:8px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end;max-width:420px}
+.dbody{flex:1;overflow-y:auto;padding:2px 24px 20px}
+.dsec{padding:18px 0;border-top:1px solid var(--line2)}
+.dlbl{font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--faint);margin-bottom:11px}
+.dq{display:flex;gap:9px;margin-bottom:9px}
+.dqic{width:15px;height:15px;flex:0 0 15px;fill:var(--accent2);margin-top:2px}
+.dqq{font-size:13px;font-weight:500;color:var(--accent-ink)}
+.dqa{font-size:13px;color:var(--muted);margin-top:2px}
+.dcr{font-size:13px;color:var(--ink2);margin-bottom:7px}
+.dck{width:14px;height:14px;stroke:var(--great);fill:none;stroke-width:2.4;vertical-align:-2px;margin-right:7px}
+.dchips{display:flex;flex-wrap:wrap;gap:8px}
+.dchip{font-size:12px;color:var(--ink2);background:var(--card);border:1px solid var(--line);border-radius:7px;padding:5px 10px}
+.dco{display:flex;align-items:flex-start;gap:11px;margin-bottom:12px}
+.dcolg{width:34px;height:34px;flex:0 0 34px;border-radius:8px;color:#fff;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.dconm{font-size:14px;font-weight:600}
+.dcometa{font-size:12.5px;color:var(--muted);margin-top:3px}
+.drole{display:flex;gap:12px;padding-left:4px}
+.ddot{width:9px;height:9px;flex:0 0 9px;border-radius:50%;border:2px solid var(--faint);margin-top:4px}
+.drn{font-size:13px;font-weight:500}
+.drd{font-size:12.5px;color:var(--faint);margin-top:2px}
+.dfoot{display:flex;gap:10px;padding:14px 24px;border-top:1px solid var(--line)}
+.dfb{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);color:var(--ink2);border-radius:8px;padding:9px 14px;font-size:13px;font-weight:500;cursor:pointer;font-family:inherit}
+.dfb svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.8}
+.dfb.pri{background:var(--accent);border-color:var(--accent);color:#fff}
+
+/* generic table + reports + sequence */
+.panel{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:0;overflow:hidden}
+.rowh{display:grid;padding:12px 18px;font-size:11px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--line2)}
+.trow{display:grid;padding:15px 18px;align-items:center;border-bottom:1px solid var(--line2);font-size:13px}
+.trow:last-child{border-bottom:none}
+.repgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.repcard{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:16px 17px}
+.repcard .rt{font-size:13.5px;font-weight:600}
+.repcard .rs{font-size:11.5px;color:var(--muted);margin-top:2px}
+.repcard .rv{font-size:24px;font-weight:600;margin-top:12px}
+.spark{height:40px;margin-top:10px;display:flex;align-items:flex-end;gap:3px}
+.spark i{flex:1;background:linear-gradient(180deg,var(--accent),rgba(124,140,255,.25));border-radius:2px 2px 0 0;display:block}
+.seq{display:flex;gap:18px}
+.seq-steps{width:300px;flex:0 0 300px;display:flex;flex-direction:column;gap:10px}
+.seqstep{background:var(--card);border:1px solid var(--line);border-radius:11px;padding:13px 14px;display:flex;align-items:center;gap:11px;cursor:pointer}
+.seqstep.on{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.seqstep .si{width:30px;height:30px;border-radius:8px;background:var(--card2);color:var(--accent-ink);display:flex;align-items:center;justify-content:center;flex:0 0 30px}
+.seqstep .si svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.7}
+.seqstep .sn{font-size:13px;font-weight:500}
+.seqstep .sd{font-size:11.5px;color:var(--muted);margin-top:1px}
+.seqstep .sday{margin-left:auto;font-size:11px;color:var(--faint);white-space:nowrap}
+.seq-detail{flex:1;background:var(--card);border:1px solid var(--line);border-radius:13px;padding:18px 20px}
+.msgline{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line2)}
+.msgline:last-child{border-bottom:none}
+.msg-av{width:38px;height:38px;flex:0 0 38px;border-radius:50%;color:#fff;font-size:12px;font-weight:600;display:flex;align-items:center;justify-content:center}
+.msg-nm{font-size:13.5px;font-weight:500}
+.msg-role{font-size:12px;color:var(--accent-ink);margin-top:1px}
+.msg-prev{font-size:12.5px;color:var(--muted);margin-top:3px}
+.msg-t{margin-left:auto;font-size:11.5px;color:var(--faint)}
+.empty{text-align:center;padding:60px 20px;color:var(--muted)}
+.empty h3{color:var(--ink);font-size:16px;margin:14px 0 6px}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%) translateY(16px);background:#0b0d13;border:1px solid var(--line);color:var(--ink);padding:11px 18px;border-radius:10px;font-size:13px;font-weight:500;z-index:200;opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;box-shadow:0 12px 40px rgba(0,0,0,.5)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast .tc{color:var(--great);margin-right:8px}
+/* modal */
+.mov{position:fixed;inset:0;background:rgba(4,6,12,.55);z-index:120;display:none;align-items:center;justify-content:center;padding:24px}
+.mov.open{display:flex}
+.modal{background:var(--panel);border:1px solid var(--line);border-radius:14px;width:100%;max-width:460px;padding:24px;position:relative}
+.modal h3{margin:0 0 6px;font-size:17px;font-weight:600}
+.modal p{margin:0 0 18px;font-size:13px;color:var(--muted)}
+.modal .mx{position:absolute;top:16px;right:16px;border:none;background:none;color:var(--muted);cursor:pointer}
+.modal .mx svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2}
+.slot{width:100%;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:11px 14px;font-size:13px;color:var(--ink);cursor:pointer;font-family:inherit;margin-bottom:8px}
+.slot:hover{border-color:var(--accent)}
+.mta{width:100%;min-height:70px;background:var(--card);border:1px solid var(--line);border-radius:9px;padding:10px 12px;color:var(--ink);font-family:inherit;font-size:13px;outline:none;resize:vertical}
+@media(max-width:1000px){.kpis{grid-template-columns:1fr 1fr}.roles,.repgrid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs><linearGradient id="agrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c8cff"/><stop offset="1" stop-color="#9a7bff"/></linearGradient></defs></svg>
+<div class="app">
+ <aside class="side">
+  <div class="brand"><span class="mk">J</span><span class="nm">Job<span>AgentX</span></span></div>
+  <div class="emp"><span class="elg">NH</span><span class="et">Northwind Health</span><svg class="ec" viewBox="0 0 24 24"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></svg></div>
+  <nav class="nav" id="nav"></nav>
+  <div class="side-foot"><span class="av">SL</span><div class="u"><div class="un">Scott Lobenberg</div><div class="ue">scott@jobfairx.com</div></div></div>
+ </aside>
+ <main class="main">
+  <div class="top"><h1 id="pageT">Dashboard</h1><button class="rolepick"><span class="rd"></span>Registered Nurse · Houston, TX<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button><div class="sp"></div><button class="credits" onclick="agToast('Credits: 340 of 400 this month')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8.5 10.5c0-1.4 1.6-2 3.5-2s3.5.6 3.5 2-1.6 2-3.5 2-3.5.6-3.5 2 1.6 2 3.5 2 3.5-.6 3.5-2"/></svg><b>340</b> credits</button><button class="iconbtn" onclick="agToast('Notifications')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></button></div>
+  <div class="wrap" id="wrap"></div>
+ </main>
+</div>
+<div class="dov" id="dov"><div class="dpanel" id="dpanel"></div></div>
+<div class="mov" id="mov"><div class="modal" id="modal"></div></div>
+<div class="toast" id="toast"></div>
+<script>
+
+/* ===== mascot (dark) ===== */
+var _rays='';for(var _i=0;_i<12;_i++){var _len=[15,10,14,9,15,11,13,10,15,10,14,9][_i];_rays+='<g transform="rotate('+(_i*30)+' 100 100)"><rect class="imx-ray r" x="97.5" y="'+(38-_len)+'" width="5" height="'+_len+'" rx="2.5" style="animation-delay:'+(-_i*0.15).toFixed(2)+'s"/></g>';}
+var MASCOT='<svg class="imx" viewBox="0 0 200 200" width="96" height="96" fill="none"><g class="imx-ring">'+_rays+'</g><g class="imx-face"><path d="M100 75v-9" stroke="#9a7bff" stroke-width="3" stroke-linecap="round"/><path d="M100 54c.9 4.4 2 5.5 6.4 6.4c-4.4.9-5.5 2-6.4 6.4c-.9-4.4-2-5.5-6.4-6.4c4.4-.9 5.5-2 6.4-6.4z" fill="#9a7bff"/><path d="M72 88a20 20 0 0 1 20-20h16a20 20 0 0 1 20 20v20a20 20 0 0 1-20 20h-18l-9 10 1-11a20 20 0 0 1-10-18z" fill="#3a4090"/><rect class="imx-eye" x="88" y="94" width="6" height="12" rx="3" fill="#eef0ff"/><rect class="imx-eye" x="106" y="94" width="6" height="12" rx="3" fill="#eef0ff" style="animation-delay:-.15s"/></g></svg>';
+
+/* ===== nav ===== */
+var NAV=[
+ {s:'Overview'},
+ {p:'Dashboard',i:'grid'},
+ {p:'Interview Agent',i:'spark',cnt:6,live:true},
+ {p:'Outreach Agent',i:'send'},
+ {s:'Pipeline'},
+ {p:'Interviews',i:'video',cnt:8},
+ {p:'Messaging',i:'chat',cnt:4},
+ {p:'Reports',i:'chart'},
+ {p:'Role Settings',i:'gear'}
+];
+var IC={
+ grid:'<rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/>',
+ spark:'<path d="M12 2l2.4 5.6L20 8l-4 4 1 6-5-3-5 3 1-6-4-4 5.6-.4z"/>',
+ send:'<path d="M22 2 11 13M22 2l-7 20-4-9-9-4z"/>',
+ video:'<rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3"/>',
+ chat:'<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+ chart:'<path d="M3 3v18h18M8 15l3-4 3 3 4-6"/>',
+ gear:'<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0v-.1A1.6 1.6 0 0 0 7 19.4a1.6 1.6 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.6 1.6 0 0 0-1.1-2.7H1a2 2 0 0 1 0-4h.1A1.6 1.6 0 0 0 4.6 7a1.6 1.6 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1A1.6 1.6 0 0 0 9 2.6h.1A1.6 1.6 0 0 0 11 1a2 2 0 0 1 4 0v.1A1.6 1.6 0 0 0 17 4.6a1.6 1.6 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.6 1.6 0 0 0-.3 1.8V9a1.6 1.6 0 0 0 1.5 1H23a2 2 0 0 1 0 4h-.1a1.6 1.6 0 0 0-1.5 1z'
+};
+function svg(k){return '<svg viewBox="0 0 24 24">'+(IC[k]||'')+'</svg>';}
+function renderNav(){var h='';NAV.forEach(function(n){if(n.s){h+='<div class="sec">'+n.s+'</div>';return;}var extra=n.live?'<span class="live">Live</span>':(n.cnt?'<span class="cnt">'+n.cnt+'</span>':'');h+='<a data-p="'+n.p+'" onclick="go(\''+n.p+'\')">'+svg(n.i)+'<span>'+n.p+'</span>'+extra+'</a>';});document.getElementById('nav').innerHTML=h;}
+
+/* ===== candidate data (interview requests) ===== */
+function gr(g){return '<span class="grade '+g+'"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'+({great:'Great fit',good:'Good fit',okay:'Okay fit',poor:'Weak fit'}[g])+'</span>';}
+var CANDS=[
+ {name:'Maria Delgado',initials:'MD',color:'#3f6f52',job:'Registered Nurse',loc:'Houston, TX',req:'Tomorrow · 9:00–9:30 AM CT',grade:'great',status:'new',
+  why:'7 years in a high-acuity medical ICU, BLS/ACLS current, works nights — matches every must-have on the role.',
+  tags:['Medical ICU','ACLS','EPIC','Night shift'],
+  eval:[['4+ yrs high-acuity ICU/ER?','7 years in the medical ICU at Memorial Hermann, incl. charge-nurse rotations'],['Active BLS + ACLS, unencumbered TX license?','Active TX RN license; BLS and ACLS current through 2027']],
+  crit:[['ICU / ER Experience','7 years in a high-acuity medical ICU'],['BLS & ACLS Certified','Both current through 2027'],['EPIC / Cerner EHR','Charts in EPIC daily'],['Night Shift','Works three 12-hour nights']],
+  skills:['Critical Care','ACLS','IV Therapy','EPIC','Telemetry','Ventilator Mgmt'],
+  tenure:'9yr 2mo',avg:'4yr 7mo',curRole:'Medical ICU Registered Nurse',curCo:'Memorial Hermann',curColor:'#2f6b4f',curInit:'MH',curDates:'Mar 2018 – Present (7y 4m)',
+  past:[['Staff Nurse, Med-Surg','Memorial Hermann','Jun 2016 – Mar 2018']],edu:['UT Health Science Center','BSN, Nursing'],company:['Hospital & Health Care','Founded 1907','10,001+ employees'],companyTag:'Nursing'},
+ {name:'James Okafor',initials:'JO',color:'#3a5a8c',job:'Registered Nurse',loc:'Katy, TX',req:'Tomorrow · 10:30–11:00 AM CT',grade:'great',status:'new',
+  why:'6 years in a Level I trauma ER, holds BLS/ACLS/TNCC, open to nights — a strong emergency match.',
+  tags:['Level I Trauma ER','TNCC','ACLS','EPIC'],
+  eval:[['4+ yrs high-acuity ICU/ER?','6 years in the emergency department at Houston Methodist, Level I trauma'],['Active BLS + ACLS, unencumbered TX license?','TX RN license active; holds BLS, ACLS and TNCC']],
+  crit:[['ICU / ER Experience','6 years in a Level I trauma ER'],['BLS & ACLS Certified','BLS, ACLS and TNCC current'],['EPIC / Cerner EHR','Uses EPIC at Houston Methodist'],['Night Shift','Open to nights and weekends']],
+  skills:['Emergency Care','TNCC','ACLS','Triage','Trauma','Rapid Response'],
+  tenure:'8yr 5mo',avg:'4yr 2mo',curRole:'Emergency Department RN',curCo:'Houston Methodist',curColor:'#243c66',curInit:'HM',curDates:'Jan 2019 – Present (6y 6m)',
+  past:[['ER Technician','Houston Methodist','Aug 2017 – Dec 2018']],edu:['Prairie View A&M University','BSN, Nursing'],company:['Hospital & Health Care','Founded 1919','10,001+ employees'],companyTag:'Emergency'},
+ {name:'Priya Nair',initials:'PN',color:'#7a4d86',job:'Registered Nurse',loc:'Sugar Land, TX',req:'Thu · 1:00–1:30 PM CT',grade:'good',status:'new',
+  why:'5 years surgical ICU, BLS/ACLS current and pursuing CCRN. Prefers nights — solid fit, slightly less tenure.',
+  tags:['Surgical ICU','Cerner','CCRN (in progress)'],
+  eval:[['4+ yrs high-acuity ICU/ER?','5 years in the surgical ICU at HCA Houston Healthcare'],['Active BLS + ACLS, unencumbered TX license?','TX RN license active; BLS and ACLS current, CCRN in progress']],
+  crit:[['ICU / ER Experience','5 years in a surgical ICU'],['BLS & ACLS Certified','Current; pursuing CCRN'],['EPIC / Cerner EHR','Charts in Cerner'],['Night Shift','Prefers nights']],
+  skills:['Surgical ICU','ACLS','Cerner','Hemodynamics','Post-Op Care'],
+  tenure:'6yr 1mo',avg:'3yr',curRole:'Surgical ICU Registered Nurse',curCo:'HCA Houston Healthcare',curColor:'#5f3a6b',curInit:'HC',curDates:'Jun 2020 – Present (5y 1m)',
+  past:[['Med-Surg RN','HCA Houston Healthcare','Jun 2019 – Jun 2020']],edu:['University of Houston','BSN, Nursing'],company:['Hospital & Health Care','Founded 1968','10,001+ employees'],companyTag:'Surgical ICU'},
+ {name:'Devon Carter',initials:'DC',color:'#8a5a2f',job:'Registered Nurse',loc:'Pasadena, TX',req:'Thu · 3:00–3:30 PM CT',grade:'good',status:'new',
+  why:'4 years pediatric ICU with PALS. Strong clinical fit; night-shift availability not stated on request.',
+  tags:['Pediatric ICU','PALS','EPIC'],
+  eval:[['4+ yrs high-acuity ICU/ER?','4 years in the pediatric ICU at Texas Children’s Hospital'],['Active BLS + ACLS, unencumbered TX license?','TX RN license active; holds BLS, ACLS and PALS']],
+  crit:[['ICU / ER Experience','4 years in a pediatric ICU'],['BLS & ACLS Certified','BLS, ACLS and PALS current'],['EPIC / Cerner EHR','Uses EPIC'],['Night Shift','Not stated on request']],
+  skills:['Pediatric ICU','PALS','ACLS','EPIC','Family-Centered Care'],
+  tenure:'5yr 8mo',avg:'2yr 10mo',curRole:'Pediatric ICU Registered Nurse',curCo:'Texas Children’s Hospital',curColor:'#7a4f28',curInit:'TC',curDates:'Sep 2021 – Present (3y 10m)',
+  past:[],edu:['Texas Woman’s University','BSN, Nursing'],company:['Hospital & Health Care','Founded 1954','10,001+ employees'],companyTag:'Pediatric ICU'},
+ {name:'Aisha Rahman',initials:'AR',color:'#2f6b6b',job:'Registered Nurse',loc:'Pearland, TX',req:'Fri · 11:00–11:30 AM CT',grade:'okay',status:'new',
+  why:'Currently step-down (PCU) with 3 years prior medical ICU. BLS/ACLS current — okay fit; not currently in ICU.',
+  tags:['Progressive Care','Telemetry','ACLS'],
+  eval:[['4+ yrs high-acuity ICU/ER?','Currently step-down; 3 years prior in the medical ICU at UTMB'],['Active BLS + ACLS, unencumbered TX license?','TX RN license active; BLS and ACLS current']],
+  crit:[['ICU / ER Experience','3 yrs medical ICU, now step-down (PCU)'],['BLS & ACLS Certified','Current through 2026'],['EPIC / Cerner EHR','Charts in EPIC daily'],['Night Shift','Not stated on request']],
+  skills:['Progressive Care','Telemetry','ACLS','EPIC','Cardiac Monitoring'],
+  tenure:'7yr 4mo',avg:'3yr 8mo',curRole:'Progressive Care Registered Nurse',curCo:'Memorial Hermann',curColor:'#245858',curInit:'MH',curDates:'Aug 2022 – Present (2y 11m)',
+  past:[['Medical ICU RN','UTMB Health','Jul 2019 – Aug 2022']],edu:['UTMB School of Nursing','BSN, Nursing'],company:['Hospital & Health Care','Founded 1907','10,001+ employees'],companyTag:'Progressive Care'},
+ {name:'Brandon Lee',initials:'BL',color:'#4a5568',job:'Registered Nurse',loc:'Houston, TX',req:'Fri · 2:30–3:00 PM CT',grade:'okay',status:'new',
+  why:'5 years long-term acute-care ICU, works nights. BLS current, ACLS renewal pending — okay fit.',
+  tags:['LTAC ICU','Cerner','Night shift'],
+  eval:[['4+ yrs high-acuity ICU/ER?','5 years in a long-term acute-care ICU at Kindred Hospital'],['Active BLS + ACLS, unencumbered TX license?','TX RN license active; BLS current, ACLS renewal pending']],
+  crit:[['ICU / ER Experience','5 years in a long-term acute-care ICU'],['BLS & ACLS Certified','BLS current; ACLS renewal in progress'],['EPIC / Cerner EHR','Uses Cerner'],['Night Shift','Currently works nights']],
+  skills:['ICU','Vent Weaning','ACLS','Cerner','Wound Care'],
+  tenure:'10yr 6mo',avg:'3yr 6mo',curRole:'ICU Registered Nurse',curCo:'Kindred Hospital',curColor:'#3a4353',curInit:'KH',curDates:'Apr 2020 – Present (5y 3m)',
+  past:[['Med-Surg RN','Kindred Hospital','Apr 2018 – Apr 2020']],edu:['Lone Star College','ADN, Nursing'],company:['Hospital & Health Care','Founded 1985','5,001–10,000 employees'],companyTag:'ICU'}
+];
+
+/* ===== router ===== */
+var PAGE='Dashboard';
+function go(p){PAGE=p;document.querySelectorAll('#nav a').forEach(function(a){a.classList.toggle('on',a.getAttribute('data-p')===p);});document.getElementById('pageT').textContent=p;render();window.scrollTo(0,0);}
+function askbar(ph){return '<div class="askbar"><svg class="sp2" viewBox="0 0 24 24"><path d="M12 2l2.4 5.6L20 8l-4 4 1 6-5-3-5 3 1-6-4-4 5.6-.4z"/></svg><input placeholder="'+ph+'" onkeydown="if(event.key===\'Enter\'){agToast(\'Working on it…\');this.value=\'\';}"><button class="go" onclick="agToast(\'Working on it…\')"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button></div>';}
+function render(){var w=document.getElementById('wrap');var f={'Dashboard':pgDash,'Interview Agent':pgAgent,'Outreach Agent':pgOutreach,'Interviews':pgInterviews,'Messaging':pgMessaging,'Reports':pgReports,'Role Settings':pgSettings}[PAGE]||function(){return '<div class="empty"><h3>Coming soon</h3></div>';};w.innerHTML=f();}
+
+function newCount(){return CANDS.filter(function(c){return c.status==='new';}).length;}
+function acceptedCount(){return CANDS.filter(function(c){return c.status==='accepted';}).length;}
+
+/* ===== Dashboard ===== */
+function pgDash(){
+ var waiting=newCount();
+ var roles='<div class="role" onclick="go(\'Interview Agent\')"><div class="role-h"><span class="role-ic">'+svg('spark')+'</span><div><div class="role-nm">Registered Nurse</div><div class="role-sub">Houston, TX · Nights · 3 openings</div></div><span class="role-live">Live</span></div><div class="role-stats"><div><b>'+waiting+'</b><span>Awaiting you</span></div><div><b>8</b><span>Interviews booked</span></div><div><b>92%</b><span>Accept rate</span></div></div><div class="role-foot">'+svg('spark').replace("<svg","<svg style=\"width:14px;height:14px\"")+'Agent delivered 4 new interview requests today</div></div>'
+ +'<div class="role" onclick="go(\'Interview Agent\')"><div class="role-h"><span class="role-ic">'+svg('spark')+'</span><div><div class="role-nm">Bilingual Call Center Rep</div><div class="role-sub">Remote (US) · Days · 6 openings</div></div><span class="role-live">Live</span></div><div class="role-stats"><div><b>11</b><span>Awaiting you</span></div><div><b>19</b><span>Interviews booked</span></div><div><b>88%</b><span>Accept rate</span></div></div><div class="role-foot">'+svg('spark').replace("<svg","<svg style=\"width:14px;height:14px\"")+'Agent delivered 12 new interview requests today</div></div>'
+ +'<div class="role" onclick="go(\'Interview Agent\')"><div class="role-h"><span class="role-ic">'+svg('spark')+'</span><div><div class="role-nm">Medical Assistant</div><div class="role-sub">Sugar Land, TX · Days · 2 openings</div></div><span class="role-live paused">Paused</span></div><div class="role-stats"><div><b>0</b><span>Awaiting you</span></div><div><b>5</b><span>Interviews booked</span></div><div><b>90%</b><span>Accept rate</span></div></div><div class="role-foot" style="color:var(--okay)">'+svg('spark').replace("<svg","<svg style=\"width:14px;height:14px;stroke:var(--okay)\"")+'Agent paused — resume to keep the queue full</div></div>';
+ return '<div class="hero"><div class="hero-ic">'+MASCOT+'</div><div class="hero-tx"><h2>Your Interview Agent is live</h2><p>Skip sourcing. Your agent delivers candidates who asked to interview, matched by AI to your open roles. You just accept.</p><span class="st">Delivering interview-ready candidates · 3 active roles</span></div><div class="hero-cta"><button class="btn" onclick="go(\'Interview Agent\')"><svg viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>Review '+waiting+' requests</button><button class="btn ghost" onclick="agToast(\'Add a role\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add a role</button></div></div>'
+ +askbar('Ask your agent — e.g. “show me only night-shift ICU nurses this week”')
+ +'<div class="kpis">'
+ +kpi('inbox','Requests awaiting you',waiting,'across 3 roles','')
+ +kpi('video','Interviews booked','32','+8 this week','up')
+ +kpi('clock','Avg time to interview','1.4 days','vs 11 days sourcing','up')
+ +kpi('check','Accept rate','90%','of delivered candidates','')
+ +'</div>'
+ +'<div class="sech"><h3>Active roles</h3><span class="lk" onclick="agToast(\'All roles\')">Manage roles</span></div>'
+ +'<div class="roles">'+roles+'</div>'
+ +'<div class="sech"><h3>Agent activity</h3></div>'+activity();
+}
+function kpi(ic,l,v,d,cls){var ics={inbox:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',video:'<rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',check:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>'};return '<div class="kpi"><div class="kl"><svg viewBox="0 0 24 24">'+ics[ic]+'</svg>'+l+'</div><div class="kv">'+v+'</div><div class="kd '+cls+'">'+d+'</div></div>';}
+function activity(){var items=[['spark','Agent matched <b>Maria Delgado</b> — requested a 9:00 AM interview','9m ago'],['check','You accepted <b>James Okafor</b> — Outreach Agent sent a confirmation + calendar invite','32m ago'],['send','Outreach Agent sent a reminder to <b>4 candidates</b> interviewing tomorrow','1h ago'],['spark','Agent delivered <b>12 interview-ready candidates</b> for Bilingual Call Center Rep','2h ago']];return '<div class="panel">'+items.map(function(it){return '<div class="trow" style="grid-template-columns:34px 1fr auto;gap:12px"><span class="role-ic" style="width:30px;height:30px;flex:0 0 30px">'+svg(it[0])+'</span><span style="color:var(--ink2)">'+it[1]+'</span><span style="color:var(--faint);font-size:12px">'+it[2]+'</span></div>';}).join('')+'</div>';}
+
+/* ===== Interview Agent (queue) ===== */
+var QTAB='new';
+function pgAgent(){
+ var list=CANDS.filter(function(c){return QTAB==='new'?c.status==='new':(QTAB==='accepted'?c.status==='accepted':c.status==='declined');});
+ var cards=list.length?list.map(function(c){var i=CANDS.indexOf(c);return icard(c,i);}).join(''):'<div class="empty"><h3>Nothing here yet</h3><p>New interview requests from matched candidates will appear here.</p></div>';
+ return askbar('Ask your agent — e.g. “only show great-fit candidates who can do nights”')
+ +'<div class="qhead"><span class="qt">Candidates awaiting your response</span><span class="qbadge">'+newCount()+' new</span><div class="qtabs"><button class="qtab'+(QTAB==='new'?' on':'')+'" onclick="QTAB=\'new\';render()">New requests</button><button class="qtab'+(QTAB==='accepted'?' on':'')+'" onclick="QTAB=\'accepted\';render()">Accepted</button><button class="qtab'+(QTAB==='declined'?' on':'')+'" onclick="QTAB=\'declined\';render()">Declined</button></div></div>'
+ +'<div class="qlist" id="qlist">'+cards+'</div>';
+}
+function icard(c,i){
+ return '<div class="icard" id="icard-'+i+'"><div class="ic-h"><div class="ic-av" style="background:'+c.color+'">'+c.initials+'</div>'
+  +'<div class="ic-id"><span class="ic-nm" onclick="openDrawer('+i+')">'+c.name+'</span> '+gr(c.grade)
+  +'<div class="ic-meta"><span class="m"><svg viewBox="0 0 24 24"><path d="M20 7h-4V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/></svg>Wants: <b>'+c.job+'</b></span><span class="m"><svg viewBox="0 0 24 24"><path d="M12 21s7-5.7 7-11a7 7 0 1 0-14 0c0 5.3 7 11 7 11z"/><circle cx="12" cy="10" r="2.5"/></svg><b>'+c.loc+'</b></span><span class="m"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Requested: <b>'+c.req+'</b></span></div></div>'
+  +'<div class="ic-acts"><button class="iabtn" onclick="commentModal('+i+')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Comment</button><button class="iabtn" onclick="rescheduleModal('+i+')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Reschedule</button><button class="iabtn decline" onclick="declineModal('+i+')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg>Decline</button><button class="iabtn accept" onclick="acceptCand('+i+')"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Accept interview</button></div></div>'
+  +'<div class="ic-why"><svg class="sp" viewBox="0 0 24 24"><path d="M12 2l2.4 5.6L20 8l-4 4 1 6-5-3-5 3 1-6-4-4 5.6-.4z"/></svg><div class="wt"><b>Why your agent matched them:</b> '+c.why+'</div></div>'
+  +'<div class="ic-tags">'+c.tags.map(function(t){return '<span class="ic-tag">'+t+'</span>';}).join('')+'</div></div>';
+}
+function removeCard(i,msg){closeDrawer();closeModal();var el=document.getElementById('icard-'+i);if(el){el.style.transition='opacity .18s,transform .18s';el.style.opacity='0';el.style.transform='translateY(-4px)';setTimeout(function(){render();},190);}if(msg)agToast(msg);}
+function acceptCand(i){CANDS[i].status='accepted';removeCard(i,'✓ '+CANDS[i].name+' accepted · Outreach Agent sent a confirmation + calendar invite');}
+function declineCand(i,reason){CANDS[i].status='declined';removeCard(i,CANDS[i].name+' declined'+(reason?' · '+reason:''));}
+
+/* ===== Outreach Agent ===== */
+var OSTEP=0;
+var OSTEPS=[
+ ['check','Interview confirmed','Instant confirmation + calendar invite','On accept'],
+ ['send','Details & prep','What to expect + join link','+2 hours'],
+ ['clock','Reminder','“Your interview is tomorrow”','Day before'],
+ ['chat','Reminder','“Starting in 1 hour — here’s your link”','1 hr before'],
+ ['spark','No-show recovery','Auto-reschedule offer if missed','If missed'],
+ ['video','Post-interview follow-up','Thank-you + next steps','+1 hour after']
+];
+function pgOutreach(){
+ var steps=OSTEPS.map(function(s,i){return '<div class="seqstep'+(i===OSTEP?' on':'')+'" onclick="OSTEP='+i+';render()"><span class="si">'+svg(s[0])+'</span><div><div class="sn">'+s[1]+'</div><div class="sd">'+s[2]+'</div></div><span class="sday">'+s[3]+'</span></div>';}).join('');
+ var s=OSTEPS[OSTEP];
+ var body='<div class="dlbl">'+s[3]+' · Email + SMS</div><div style="font-size:14px;font-weight:600;margin-bottom:10px">'+s[1]+'</div><div style="background:var(--card2);border:1px solid var(--line);border-radius:10px;padding:16px 18px;font-size:13px;color:var(--ink2);line-height:1.6">Hi <span style="color:var(--accent-ink)">{first_name}</span>,<br><br>'+outreachBody(OSTEP)+'<br><br>— Northwind Health, via your JobAgentX Interview Agent</div>';
+ return '<div class="hero" style="padding:20px 24px"><div class="hero-ic" style="width:74px;height:74px;flex:0 0 74px">'+MASCOT.replace('width="96" height="96"','width="72" height="72"')+'</div><div class="hero-tx"><h2 style="font-size:18px">Outreach Agent — warm, after accept</h2><p>Every message goes to a candidate who already asked to interview, so it never feels like cold outreach. Your agent confirms, reminds, recovers no-shows, and follows up — automatically.</p></div><div class="hero-cta"><button class="btn" onclick="agToast(\'Sequence active\')"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Active</button></div></div>'
+ +askbar('Ask your agent to add or change a step — e.g. “add a text 3 hours before”')
+ +'<div class="seq"><div class="seq-steps">'+steps+'<button class="iabtn" style="justify-content:center;padding:11px" onclick="agToast(\'Add step\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>Add step</button></div><div class="seq-detail">'+body+'</div></div>';
+}
+function outreachBody(i){return ['You’re confirmed for your interview with Northwind Health for the Registered Nurse role. We’ve added it to your calendar and saved your spot. We’re looking forward to speaking with you.','Here’s what to expect in your interview, who you’ll be meeting, and the link you’ll use to join. Take a look before we meet.','Quick reminder — your interview with Northwind Health is tomorrow. Reply RESCHEDULE any time if something’s come up and we’ll find a new slot.','Your interview starts in 1 hour. Here’s your join link — see you soon!','Looks like we missed each other. No problem — tap here to grab a new time that works for you and we’ll get you rebooked.','Thanks for interviewing with us today. Here’s what happens next and when you can expect to hear back.'][i];}
+
+/* ===== Interviews ===== */
+var ITAB='upcoming';
+function pgInterviews(){
+ var up=[['Michael Sanchez','Web Developer','Remote','Today · 10:30–11:00 AM'],['Jonathan Kleve','Registered Nurse','Dallas, TX','Today · 11:00–11:30 AM'],['Andy Pham','Frontend Developer','Remote','Today · 11:30–12:00 PM'],['Babar Nawaz','Web Developer','Remote','Tomorrow · 9:00–9:30 AM'],['Tamara Williams','Registered Nurse','Houston, TX','Tomorrow · 1:00–1:30 PM']];
+ var rows=up.map(function(r){return '<div class="trow" style="grid-template-columns:1.4fr 1.2fr 1fr 1.2fr auto;gap:12px"><div style="display:flex;align-items:center;gap:11px"><span class="msg-av" style="background:#3a4055">'+r[0].split(' ').map(function(x){return x[0];}).join('')+'</span><div><div style="font-weight:500">'+r[0]+'</div><div style="font-size:12px;color:var(--accent-ink);cursor:pointer">View profile</div></div></div><div style="color:var(--ink2)">'+r[1]+'</div><div style="color:var(--muted)">'+r[2]+'</div><div style="color:var(--ink2)">'+r[3]+'</div><div style="display:flex;gap:8px"><button class="iabtn" onclick="agToast(\'Join room\')"><svg viewBox="0 0 24 24"><rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3"/></svg>Join</button><button class="iabtn" onclick="agToast(\'Reschedule\')">Reschedule</button></div></div>';}).join('');
+ return '<div class="qhead"><span class="qt">Interviews</span><div class="qtabs"><button class="qtab'+(ITAB==='upcoming'?' on':'')+'" onclick="ITAB=\'upcoming\';render()">Upcoming 8</button><button class="qtab'+(ITAB==='pending'?' on':'')+'" onclick="ITAB=\'pending\';render()">Awaiting 6</button><button class="qtab'+(ITAB==='past'?' on':'')+'" onclick="ITAB=\'past\';render()">Past 24</button></div></div>'
+ +(ITAB==='upcoming'?('<div class="panel"><div class="rowh" style="grid-template-columns:1.4fr 1.2fr 1fr 1.2fr auto;gap:12px"><span>Candidate</span><span>Role</span><span>Location</span><span>Interview time</span><span>Action</span></div>'+rows+'</div>'):(ITAB==='pending'?'<div class="empty"><h3>6 candidates awaiting your response</h3><p>Head to the Interview Agent to accept or decline.</p><button class="btn" style="margin-top:14px" onclick="go(\'Interview Agent\')">Go to Interview Agent</button></div>':'<div class="empty"><h3>24 past interviews</h3><p>Completed interviews and recordings will show here.</p></div>'));
+}
+
+/* ===== Messaging ===== */
+function pgMessaging(){
+ var msgs=[['Sheena Williams','Registered Nurse','Interview confirmed — see you tomorrow at 1pm!','9m'],['Marcus Johnson','Web Developer','Thanks, that time works great.','41m'],['Priya Patel','Frontend Developer','Could we move to Thursday afternoon?','1h'],['Keisha Brown','Full Stack Developer','Looking forward to it — thank you!','2h']];
+ return '<div class="qhead"><span class="qt">Messaging</span><span class="qbadge">4 unread</span></div><div class="panel">'+msgs.map(function(m){return '<div class="msgline" style="padding:14px 18px"><span class="msg-av" style="background:#3a4055">'+m[0].split(' ').map(function(x){return x[0];}).join('')+'</span><div style="flex:1;min-width:0"><div class="msg-nm">'+m[0]+'</div><div class="msg-role">'+m[1]+'</div><div class="msg-prev">'+m[2]+'</div></div><span class="msg-t">'+m[3]+'</span></div>';}).join('')+'</div>';
+}
+
+/* ===== Reports ===== */
+function spark(seed){var h='';for(var i=0;i<12;i++){var v=30+((Math.sin(i*seed)+1)*30)+(i*2);h+='<i style="height:'+Math.min(100,v)+'%"></i>';}return '<div class="spark">'+h+'</div>';}
+function pgReports(){
+ var cards=[['Interviews Scheduled','Weekly, across all roles','218','1.3'],['Accept Rate','Delivered candidates you accepted','90%','2.1'],['Time to Interview','Request → booked interview','1.4d','1.7'],['No-Show Rate','Recovered by Outreach Agent','6%','0.9'],['Candidates Delivered','Interview-ready, by your agent','512','1.5'],['Credits Used','This billing period','340','2.4']];
+ return '<div class="hero" style="padding:20px 24px"><div class="hero-tx"><h2 style="font-size:18px">Reports, trends &amp; alerts</h2><p>Track what your Interview Agent is delivering — scheduled interviews, accept rate, time-to-interview, no-shows, and credit usage. Build custom reports or get notified when something changes.</p></div><div class="hero-cta"><button class="btn" onclick="agToast(\'New report\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New report</button></div></div>'
+ +askbar('Ask for a report — e.g. “accept rate by role over the last 30 days”')
+ +'<div class="sech"><h3>Created by your agent</h3></div><div class="repgrid">'+cards.map(function(c,i){return '<div class="repcard"><div class="rt">'+c[0]+'</div><div class="rs">'+c[1]+'</div><div class="rv">'+c[2]+'</div>'+spark(parseFloat(c[3]))+'</div>';}).join('')+'</div>';
+}
+function pgSettings(){return '<div class="hero" style="padding:20px 24px"><div class="hero-tx"><h2 style="font-size:18px">Role &amp; agent settings</h2><p>Connect your calendar, set your interview availability and how many slots to open, and tune the criteria your agent matches on.</p></div></div>'
+ +'<div class="repgrid" style="grid-template-columns:1fr 1fr"><div class="repcard"><div class="rt">Calendar &amp; availability</div><div class="rs" style="margin-bottom:12px">Connect a calendar and set the windows your agent can book into.</div><button class="btn ghost" onclick="agToast(\'Connect Google Calendar\')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Connect calendar</button><div style="margin-top:12px;font-size:12.5px;color:var(--muted)">Open <b style="color:var(--ink)">6 interview slots/day</b> · Mon–Fri · 9am–4pm CT</div></div><div class="repcard"><div class="rt">Matching criteria</div><div class="rs" style="margin-bottom:12px">What your agent qualifies candidates on before delivering them.</div><div class="dchips"><span class="dchip">ICU / ER experience</span><span class="dchip">BLS &amp; ACLS</span><span class="dchip">Night shift</span><span class="dchip">TX license</span><span class="dchip">EPIC / Cerner</span></div></div></div>';
+}
+
+/* ===== slide-out ===== */
+var DI=null;
+function _li(){return '<svg viewBox="0 0 24 24" fill="#7c9bd6" width="17" height="17"><path d="M4.98 3.5A2.5 2.5 0 1 1 5 8.5 2.5 2.5 0 0 1 4.98 3.5zM3 9h4v12H3zM9 9h3.8v1.64h.05c.53-1 1.83-2.05 3.77-2.05C20.4 8.63 21 11 21 14.09V21h-4v-6.11c0-1.46-.03-3.33-2.03-3.33-2.03 0-2.34 1.58-2.34 3.22V21H9z"/></svg>';}
+function drawer(i){var c=CANDS[i];
+ var evals=c.eval.map(function(x){return '<div class="dq"><svg class="dqic" viewBox="0 0 24 24"><path d="M12 2l2.4 5.6L20 8l-4 4 1 6-5-3-5 3 1-6-4-4 5.6-.4z"/></svg><div><div class="dqq">'+x[0]+'</div><div class="dqa">'+x[1]+'</div></div></div>';}).join('');
+ var crit=c.crit.map(function(x){return '<div class="dcr"><svg class="dck" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg><span style="color:var(--great);font-weight:500">'+x[0]+'</span> — '+x[1]+'</div>';}).join('');
+ var chips=c.skills.map(function(s){return '<span class="dchip">'+s+'</span>';}).join('');
+ var past=(c.past&&c.past.length)?c.past.map(function(p){return '<div class="drole"><span class="ddot"></span><div><div class="drn">'+p[0]+'</div><div class="drd">'+p[1]+' · '+p[2]+'</div></div></div>';}).join(''):'<div style="font-size:12.5px;color:var(--muted)">No past experiences found.</div>';
+ return '<div class="dtop"><div class="dnav"><button class="dnavb" onclick="drawerNav(-1)"><svg viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"/></svg></button><button class="dnavb" onclick="drawerNav(1)"><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button></div><div class="dtopr"><button class="dfb" onclick="agToast(\'Edit candidate\')" style="padding:6px 11px"><svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/></svg>Notes</button><button class="dclose" onclick="closeDrawer()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div>'
+ +'<div class="dhd"><div class="dav" style="background:'+c.color+'">'+c.initials+'</div><div style="flex:1"><div class="dnmrow"><div class="dnm">'+c.name+'</div>'+gr(c.grade)+'</div><div class="dloc">'+c.loc+'</div><div style="display:flex;align-items:center;gap:12px;margin-top:9px">'+_li()+'<button class="dfb" style="padding:6px 11px" onclick="agToast(\'Email revealed\')"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>Show Email</button></div></div>'
+ +'<div class="dacts"><button class="dfb" onclick="commentModal('+i+')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Comment</button><button class="dfb" onclick="rescheduleModal('+i+')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Reschedule</button><button class="dfb" onclick="declineModal('+i+')" style="color:var(--poor)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m15 9-6 6M9 9l6 6"/></svg>Decline</button><button class="dfb pri" onclick="acceptCand('+i+')"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Accept</button></div></div>'
+ +'<div class="dbody">'
+ +'<div class="dsec" style="border-top:none"><div class="dlbl">Requested interview</div><div style="font-size:14px;color:var(--ink)"><b>'+c.req+'</b> · wants '+c.job+' · '+c.loc+'</div></div>'
+ +'<div class="dsec"><div class="dlbl">Why your agent matched them</div><div style="font-size:13px;color:var(--ink2);line-height:1.6">'+c.why+'</div></div>'
+ +'<div class="dsec"><div class="dlbl">Screening</div>'+evals+'</div>'
+ +'<div class="dsec"><div class="dlbl">Criteria met</div>'+crit+'</div>'
+ +'<div class="dsec"><div class="dchips">'+chips+'</div></div>'
+ +'<div class="dsec"><div class="dlbl">Work Experience</div><div class="dco"><span class="dcolg" style="background:'+c.curColor+'">'+c.curInit+'</span><div><div class="dconm">'+c.curCo+' <span style="font-size:11px;font-weight:500;color:var(--accent-ink);background:var(--accent-soft);border-radius:5px;padding:2px 7px;margin-left:4px">'+c.companyTag+'</span></div><div class="dcometa">'+c.company[0]+' · '+c.company[1]+' · '+c.company[2]+'</div></div></div><div class="drole"><span class="ddot" style="border-color:var(--muted)"></span><div><div class="drn">'+c.curRole+'</div><div class="drd">'+c.curDates+'</div></div></div><div class="dlbl" style="margin:16px 0 10px">Past</div>'+past+'</div>'
+ +'<div class="dsec"><div class="dlbl">Education</div><div class="dco"><span class="dcolg" style="background:#33384a">'+c.edu[0].charAt(0)+'</span><div><div class="dconm" style="font-size:13px">'+c.edu[0]+'</div><div class="dcometa">'+c.edu[1]+'</div></div></div></div>'
+ +'</div>'
+ +'<div class="dfoot"><button class="dfb pri" onclick="acceptCand('+i+')"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Accept interview</button><button class="dfb" onclick="rescheduleModal('+i+')">Reschedule</button><button class="dfb" onclick="agToast(\'Message '+c.name.replace(/’/g,"")+'\')"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Message</button></div>';
+}
+function openDrawer(i){DI=i;var ov=document.getElementById('dov');document.getElementById('dpanel').innerHTML=drawer(i);ov.classList.add('open');}
+function closeDrawer(){var ov=document.getElementById('dov');if(ov)ov.classList.remove('open');DI=null;}
+function drawerNav(d){if(DI==null)return;var n=CANDS.length;var i=(DI+d+n)%n;DI=i;document.getElementById('dpanel').innerHTML=drawer(i);document.querySelector('.dbody').scrollTop=0;}
+document.getElementById('dov').addEventListener('click',function(e){if(e.target===this)closeDrawer();});
+
+/* ===== modals ===== */
+function openModal(html){document.getElementById('modal').innerHTML='<button class="mx" onclick="closeModal()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'+html;document.getElementById('mov').classList.add('open');}
+function closeModal(){document.getElementById('mov').classList.remove('open');}
+document.getElementById('mov').addEventListener('click',function(e){if(e.target===this)closeModal();});
+function acceptFromModal(i){acceptCand(i);}
+function commentModal(i){var c=CANDS[i];openModal('<h3>Comment on '+c.name+'</h3><p>Add a private note for your team. The candidate won’t see this.</p><textarea class="mta" placeholder="e.g. Strong ICU background — prioritize."></textarea><button class="btn" style="margin-top:14px;width:100%" onclick="closeModal();agToast(\'Comment added\')">Add comment</button>');}
+function rescheduleModal(i){var c=CANDS[i];openModal('<h3>Propose a new time</h3><p>Pick a slot from your availability. Your Outreach Agent will send it to '+c.name+' to confirm.</p><button class="slot" onclick="closeModal();agToast(\'New time sent to '+c.name.replace(/’/g,"")+'\')">Tomorrow · 2:00–2:30 PM CT</button><button class="slot" onclick="closeModal();agToast(\'New time sent to '+c.name.replace(/’/g,"")+'\')">Thursday · 10:00–10:30 AM CT</button><button class="slot" onclick="closeModal();agToast(\'New time sent to '+c.name.replace(/’/g,"")+'\')">Friday · 1:00–1:30 PM CT</button>');}
+var DREASONS=['Not enough ICU experience','Wrong shift availability','License / certification gap','Location mismatch','Role already filled','Other'];
+function declineModal(i){var c=CANDS[i];openModal('<h3>Decline '+c.name+'?</h3><p>Optionally tell your agent why — it uses this to match you better. Declines don’t cost a credit.</p>'+DREASONS.map(function(r){return '<button class="slot" onclick="declineCand('+i+',\''+r+'\')">'+r+'</button>';}).join(''));}
+
+/* ===== toast ===== */
+var _tt;function agToast(m){var t=document.getElementById('toast');t.innerHTML='<span class="tc">●</span>'+m;t.classList.add('show');clearTimeout(_tt);_tt=setTimeout(function(){t.classList.remove('show');},2600);}
+document.addEventListener('keydown',function(e){if(e.key==='Escape'){closeDrawer();closeModal();}});
+
+renderNav();go('Dashboard');
+</script>
+</body>
+</html>
