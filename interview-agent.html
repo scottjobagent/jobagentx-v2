@@ -321,7 +321,8 @@ body.light .modal,body.light .acctmenu{box-shadow:0 16px 50px rgba(20,30,60,.18)
 .up-seg button.on{background:var(--accent);color:#fff}
 .up-seg .sv{font-size:9.5px;font-weight:700;background:var(--great);color:#04120c;border-radius:20px;padding:1px 5px}
 .up-seg button.on .sv{background:rgba(255,255,255,.25);color:#fff}
-.up-body{padding:22px 24px 22px;max-height:64vh;overflow:auto}
+.up-body{padding:18px 24px 22px;max-height:64vh;overflow:auto}
+.up-inc{font-size:12px;color:var(--muted);text-align:center;margin-bottom:16px}
 .up-tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .up-c{background:var(--card);border:1px solid var(--line);border-radius:13px;padding:17px 15px;display:flex;flex-direction:column;position:relative}
 .up-c.cur{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
@@ -694,14 +695,14 @@ function renderUpTiers(){
  document.getElementById('upTiers').innerHTML=UPLANS.map(function(p,idx){
   var isCur=p.name===UP_CUR;
   var price = p.mo==null ? '<div class="pr"><span class="a" style="font-size:19px">Custom</span></div>' : '<div class="pr"><span class="a">$'+Math.round(p.mo*m).toLocaleString()+'</span><span class="pp">/mo</span></div>';
-  var cr = p.mo==null ? 'Custom volume, tailored to your hiring.' : '<b>'+p.ivs+'</b> interviews / month<br>unused roll over 60 days';
+  var cr = p.mo==null ? 'Custom volume, tailored to your hiring.' : '<b>'+p.ivs+'</b> interviews / month';
   var tag = isCur?'<span class="up-tag c">CURRENT PLAN</span>':(p.pop?'<span class="up-tag p">MOST POPULAR</span>':'');
   var btn;
   if(isCur){btn='<button class="ub iscur">Current plan</button>';}
   else if(p.mo==null){btn='<button class="ub" onclick="agToast(\'Contact sales — we’ll tailor volume + terms\')">Contact sales</button>';}
   else {var verb=idx>curIdx?'Upgrade to ':'Switch to ';btn='<button class="ub" onclick="closeModal();agToast(\''+verb.trim()+'ed to '+p.name+' — '+p.ivs+' interviews/mo\')">'+verb+p.name+'</button>';}
   var feats=p.feats.map(function(x){ if(x.indexOf('h:')===0)return '<li class="h">'+x.slice(2)+'</li>'; return '<li>'+upTick()+x+'</li>'; }).join('');
-  return '<div class="up-c'+(isCur?' cur':(p.pop?' pop':''))+'">'+tag+'<div class="n">'+p.name+'</div>'+price+'<div class="cr">'+cr+'</div>'+btn+'<ul>'+feats+'</ul></div>';
+  return '<div class="up-c'+(isCur?' cur':(p.pop?' pop':''))+'">'+tag+'<div class="n">'+p.name+'</div>'+price+'<div class="cr">'+cr+'</div>'+btn+(p.name==='Enterprise'?'<ul>'+feats+'</ul>':'')+'</div>';
  }).join('');
 }
 function setUpBill(b){UP_BILL=b;var seg=document.getElementById('upSeg');if(seg){[].forEach.call(seg.querySelectorAll('button'),function(x){x.classList.toggle('on',x.getAttribute('data-b')===b);});}renderUpTiers();}
@@ -709,8 +710,8 @@ function openUpgrade(){
  var seg='<div class="up-seg" id="upSeg"><button data-b="mo" class="on" onclick="setUpBill(\'mo\')">Monthly</button><button data-b="qt" onclick="setUpBill(\'qt\')">Quarterly<span class="sv">-10%</span></button><button data-b="yr" onclick="setUpBill(\'yr\')">Annual<span class="sv">-20%</span></button></div>';
  var html='<button class="mx" onclick="closeModal()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'
   +'<div class="up-head"><h3>Upgrade your plan</h3><p>You’re on <b style="color:var(--ink2)">Growth</b> — 12 of 30 interviews left this month. Point your agent at as many roles as you want.</p>'+seg+'</div>'
-  +'<div class="up-body"><div class="up-tiers" id="upTiers"></div></div>'
-  +'<div class="up-foot"><span>Unlimited roles &amp; seats on every plan</span><span>Only pay for interviews delivered</span><span>Unused roll over 60 days</span></div>';
+  +'<div class="up-body"><div class="up-inc">Every plan includes unlimited roles, unlimited seats, Outreach Agent, shared inbox &amp; reports.</div><div class="up-tiers" id="upTiers"></div></div>'
+  +'<div class="up-foot"><span>Unlimited roles &amp; seats on every plan</span><span>Outreach Agent + shared inbox included</span><span>Need more? Add interview packs</span></div>';
  UP_BILL='mo';
  var mo=document.getElementById('modal');
  mo.classList.add('up');

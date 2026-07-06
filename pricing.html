@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!-- pricing build 2 -->
+<!-- pricing build 3 -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -107,33 +107,56 @@ button{font-family:inherit}
 .footer{border-top:1px solid var(--line);padding:26px 0;color:var(--faint);font-size:12.5px;display:flex;align-items:center;gap:8px}
 @media(max-width:960px){.tiers,.hiw{grid-template-columns:1fr 1fr}.hero h1{font-size:30px}}
 @media(max-width:620px){.tiers,.hiw{grid-template-columns:1fr}.top .links{display:none}}
+
+/* every-plan-includes band */
+.includes{border:1px solid var(--line);border-radius:16px;background:var(--card);padding:22px 24px;margin:16px 0 4px}
+.includes .inc-h{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);margin-bottom:16px;text-align:center}
+.inc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px 24px;max-width:820px;margin:0 auto}
+.inc-grid div{display:flex;gap:9px;font-size:13px;color:var(--ink2);align-items:flex-start}
+.inc-grid svg{width:16px;height:16px;flex:0 0 16px;stroke:var(--great);fill:none;stroke-width:2.4;margin-top:1px}
+.incl-note{font-size:12px;color:var(--faint);margin-top:auto;padding-top:10px}
+.ent-plus{font-size:12px;color:var(--muted);font-weight:600;margin-bottom:8px}
+/* video placeholder */
+.video-ph{max-width:760px;margin:0 auto;aspect-ratio:16/9;border:1px solid var(--line);border-radius:16px;background:linear-gradient(135deg,var(--card2),var(--card));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;cursor:pointer;position:relative;overflow:hidden}
+.video-ph:hover{border-color:var(--accent)}
+.vp-play{width:64px;height:64px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 32px -8px var(--accent)}
+.vp-play svg{width:26px;height:26px;fill:#fff;margin-left:3px}
+.video-ph .vp-cap{font-size:13px;color:var(--muted);font-weight:500}
+.vp-badge{position:absolute;top:14px;left:14px;font-size:11px;font-weight:600;color:var(--muted);background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs><linearGradient id="agrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#7c8cff"/><stop offset="1" stop-color="#9a7bff"/></linearGradient></defs></svg>
-<div class="top"><div class="wrap"><div class="brand"><span class="mk">J</span>Job<span>AgentX</span></div><div class="links"><a href="interview-agent.html">Product</a><a class="on">Pricing</a><a onclick="alert('Docs')">Docs</a></div><div class="sp"></div><button class="themebtn" id="themebtn" onclick="toggleTheme()" title="Toggle theme"></button><a class="tbtn" href="interview-agent.html">Open app</a><button class="tbtn pri" onclick="scrollToTiers()">Start free trial</button></div></div>
+<div class="top"><div class="wrap"><div class="brand"><span class="mk">J</span>Job<span>AgentX</span></div><div class="links"><a href="interview-agent.html">Product</a><a class="on">Pricing</a><a onclick="alert('Docs')">Docs</a></div><div class="sp"></div><button class="themebtn" id="themebtn" onclick="toggleTheme()" title="Toggle theme"></button><a class="tbtn" href="interview-agent.html">Open app</a><button class="tbtn pri" onclick="scrollToTiers()">Start free</button></div></div>
 
 <div class="wrap">
  <div class="hero">
   <span class="eyebrow"><svg viewBox="0 0 24 24"><path d="M12 2l2.4 5.6L20 8l-4 4 1 6-5-3-5 3 1-6-4-4 5.6-.4z"/></svg>Interviews on Autopilot</span>
   <h1>Pay for interviews,<br>not profiles to chase.</h1>
-  <p>Your agent delivers candidates who <b>asked to interview</b>, matched by AI. Point it at as many roles as you want — you only pay for <b>interviews actually delivered</b>.</p>
+  <p>Your agent delivers candidates who <b>asked to interview</b>, matched by AI. Point it at as many roles as you want — one simple plan, and you <b>never pay per seat</b>.</p>
   <div class="billing"><div class="bill-seg" id="billSeg"><button data-b="mo" class="on" onclick="setBill('mo')">Monthly</button><button data-b="qt" onclick="setBill('qt')">Quarterly<span class="save">-10%</span></button><button data-b="yr" onclick="setBill('yr')">Annual<span class="save">-20%</span></button></div></div>
   <div style="margin-top:14px"><span class="eyebrow" style="background:transparent;border-color:color-mix(in srgb,var(--great) 40%,transparent);color:var(--great)"><svg viewBox="0 0 24 24" style="fill:var(--great)"><path d="M17 20h5v-2a3 3 0 0 0-3-3M9 20H2v-2a5 5 0 0 1 5-5m5 0a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/></svg>Unlimited team members on every plan — we never charge per seat</span></div>
  </div>
 
  <div class="tiers" id="tiers"></div>
- <div style="text-align:center;font-size:12.5px;color:var(--faint);margin-top:8px">14-day free trial · No card required · Need more than your plan? Add interview packs anytime.</div>
+ <div style="text-align:center;font-size:12.5px;color:var(--faint);margin-top:8px">Start free — your first 3 interviews are on us · No card required · Add interview packs anytime</div>
+
+ <div class="includes">
+  <div class="inc-h">Every plan includes</div>
+  <div class="inc-grid">
+   <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Unlimited active roles</div>
+   <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Unlimited team seats — never per seat</div>
+   <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>AI matching &amp; fit grading</div>
+   <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Outreach Agent — auto confirmations &amp; reminders</div>
+   <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Shared candidate inbox</div>
+   <div><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>Reports &amp; trends</div>
+  </div>
+ </div>
 
  <div class="section">
-  <h2>How it works</h2>
-  <div class="sub">One simple unit. An interview is a real candidate who asked to interview for your role and matched — not a name you have to chase.</div>
-  <div class="hiw">
-   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg></div><h4>1 interview = 1 delivered candidate</h4><p>Someone who requested an interview and was AI-matched to your role lands in your queue, ready to book. That’s one interview.</p></div>
-   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></div><h4>Only pay for what’s delivered</h4><p>Charged on delivery — never on a decline, never per seat. Unused interviews roll over 60 days, so a slow month is never wasted.</p></div>
-   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9 9 0 0 0-6.7 3M3 4v5h5"/></svg></div><h4>Bad match? Replaced free</h4><p>No-shows, withdrawals, or candidates outside your stated criteria are replaced at no cost. You never pay for a bad match.</p></div>
-   <div class="hiw-c"><div class="ic"><svg viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 0 0-3-3M9 20H2v-2a5 5 0 0 1 5-5m5 0a4 4 0 1 0-4-4 4 4 0 0 0 4 4z"/></svg></div><h4>Unlimited roles &amp; seats</h4><p>Run one role or twenty from a single pool of interviews, and invite your whole team free. You size up on volume, nothing else.</p></div>
-  </div>
+  <h2>See it in action</h2>
+  <div class="sub">A quick look at how your agent delivers interview-ready candidates.</div>
+  <div class="video-ph" onclick="alert('Video coming soon')"><span class="vp-badge">Video</span><div class="vp-play"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></div><span class="vp-cap">Watch the overview</span></div>
  </div>
 
  <div class="section" style="padding-top:8px">
@@ -141,17 +164,16 @@ button{font-family:inherit}
   <div class="faq" id="faq"></div>
  </div>
 
- <div class="band"><h2>Skip sourcing. Start interviewing.</h2><p>Turn on your Interview Agent and get interview-ready candidates this week.</p><button class="tbtn pri" style="padding:12px 22px" onclick="scrollToTiers()">Start your 14-day free trial</button></div>
+ <div class="band"><h2>Skip sourcing. Start interviewing.</h2><p>Turn on your Interview Agent and get interview-ready candidates this week.</p><button class="tbtn pri" style="padding:12px 22px" onclick="scrollToTiers()">Start free — first 3 interviews on us</button></div>
 </div>
 <div class="wrap"><div class="footer"><span class="mk" style="width:20px;height:20px;border-radius:6px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700">J</span>© 2026 JobAgentX · Interviews on Autopilot</div></div>
 
 <script>
-var CORE=['Unlimited active roles','Unlimited team seats — never per seat','AI matching &amp; fit grading','Outreach Agent — auto confirmations &amp; reminders','Shared candidate inbox','Reports &amp; trends'];
 var PLANS=[
- {name:'Starter',tag:'For filling your first role.',mo:299,ivs:10,feats:CORE},
- {name:'Growth',tag:'For teams hiring across several roles.',mo:699,ivs:30,pop:true,feats:CORE},
- {name:'Scale',tag:'For high-volume, multi-role hiring.',mo:1799,ivs:90,feats:CORE},
- {name:'Enterprise',tag:'For orgs with scale &amp; compliance needs.',mo:null,ivs:null,feats:['h:Everything in Scale, plus','SSO / SAML','ATS + API integration','Dedicated success manager','Custom volume &amp; SLA']}
+ {name:'Starter',tag:'For filling your first role.',mo:299,ivs:10},
+ {name:'Growth',tag:'For teams hiring across several roles.',mo:699,ivs:30,pop:true},
+ {name:'Scale',tag:'For high-volume, multi-role hiring.',mo:1799,ivs:90},
+ {name:'Enterprise',tag:'For orgs with scale &amp; compliance needs.',mo:null,ivs:null,feats:['SSO / SAML','ATS + API integration','Dedicated success manager','Custom volume &amp; SLA']}
 ];
 var BILL='mo';
 var MULT={mo:1,qt:0.9,yr:0.8};
@@ -160,25 +182,27 @@ function renderTiers(){
  var m=MULT[BILL];
  document.getElementById('tiers').innerHTML=PLANS.map(function(p){
    var priceHtml, billed='';
-   if(p.mo==null){ priceHtml='<span class="custom">Let’s talk</span>'; }
-   else { var eff=Math.round(p.mo*m); priceHtml='<span class="amt">$'+eff.toLocaleString()+'</span><span class="per">/mo</span>'; billed=(BILL==='mo'?'':BILLED[BILL]+' · $'+ (BILL==='qt'?(eff*3).toLocaleString():(eff*12).toLocaleString()) + (BILL==='qt'?'/qtr':'/yr')); }
-   var credits = p.mo==null ? '<b>Custom</b> <span>interviews / month</span>' : '<b>'+p.ivs+'</b> <span>interviews / month · unused roll over 60 days</span>';
-   var feats=p.feats.map(function(f){ if(f.indexOf('h:')===0)return '<li class="head">'+f.slice(2)+'</li>'; return '<li><svg viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></svg>'+f+'</li>'; }).join('');
-   var cta = p.mo==null ? 'Contact sales' : 'Start free trial';
-   return '<div class="tier'+(p.pop?' pop':'')+'">'+(p.pop?'<span class="pop-tag">MOST POPULAR</span>':'')+'<div class="tn">'+p.name+'</div><div class="tt">'+p.tag+'</div><div class="price">'+priceHtml+'</div><div class="billed">'+billed+'</div><div class="credits">'+credits+'</div><button class="cta" onclick="pick(\''+p.name+'\')">'+cta+'</button><ul class="feats">'+feats+'</ul></div>';
+   if(p.mo==null){ priceHtml='<span class="custom">Let\u2019s talk</span>'; }
+   else { var eff=Math.round(p.mo*m); priceHtml='<span class="amt">$'+eff.toLocaleString()+'</span><span class="per">/mo</span>'; billed=(BILL==='mo'?'':BILLED[BILL]+' \u00b7 $'+ (BILL==='qt'?(eff*3).toLocaleString():(eff*12).toLocaleString()) + (BILL==='qt'?'/qtr':'/yr')); }
+   var unit = p.mo==null ? '<b>Custom</b> <span>interviews / month</span>' : '<b>'+p.ivs+'</b> <span>interviews / month</span>';
+   var cta = p.mo==null ? 'Contact sales' : 'Start free';
+   var bottom;
+   if(p.mo==null){ bottom='<div class="ent-plus">Everything in Scale, plus</div><ul class="feats">'+p.feats.map(function(f){return '<li>'+'<svg viewBox=\"0 0 24 24\"><path d=\"M20 6 9 17l-5-5\"/></svg>'+f+'</li>';}).join('')+'</ul>'; }
+   else { bottom='<div class="incl-note">Everything included — see the full list below</div>'; }
+   return '<div class="tier'+(p.pop?' pop':'')+'">'+(p.pop?'<span class="pop-tag">MOST POPULAR</span>':'')+'<div class="tn">'+p.name+'</div><div class="tt">'+p.tag+'</div><div class="price">'+priceHtml+'</div><div class="billed">'+billed+'</div><div class="credits">'+unit+'</div><button class="cta" onclick="pick(\''+p.name+'\')">'+cta+'</button>'+bottom+'</div>';
  }).join('');
 }
 function setBill(b){BILL=b;document.querySelectorAll('#billSeg button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-b')===b);});renderTiers();}
-function pick(n){ if(n==='Enterprise'){alert('Contact sales — we’ll tailor volume + terms.');} else {alert('Starting your 14-day free trial on the '+n+' plan.');} }
+function pick(n){ if(n==='Enterprise'){alert('Contact sales — we\u2019ll tailor volume + terms.');} else {alert('Starting you on '+n+' — your first 3 interviews are free.');} }
 function scrollToTiers(){document.getElementById('tiers').scrollIntoView({behavior:'smooth',block:'center'});}
 var FAQ=[
- ['What exactly is an “interview”?','It’s one interview-ready candidate delivered to you — a real person who asked to interview and was AI-matched to your role. Not a profile to source, an InMail, or an applicant blast. You accept the ones you want and book them.'],
- ['What if I get fewer interviews than my plan in a month?','You only pay for interviews actually delivered, and anything unused rolls over for 60 days — so nothing is wasted. Your plan number is a monthly ceiling, not a bill you pay regardless.'],
+ ['What is the free trial?','Start with no card. Your agent goes live and delivers your first 3 interview-ready candidates free. If they\u2019re a fit, pick a plan. If not, walk away — no charge.'],
+ ['What exactly is an \u201cinterview\u201d?','It\u2019s one interview-ready candidate delivered to you — a real person who asked to interview and was AI-matched to your role. Not a profile to source, an InMail, or an applicant blast.'],
  ['Do I pay when I decline someone?','No. An interview is counted when a matched candidate is delivered, not on your decision. And genuine defects — no-shows, withdrawals, or candidates outside your stated criteria — are always replaced free.'],
  ['Do you charge per user or per seat?','Never. Every plan includes unlimited team members. Invite your whole hiring team at no extra cost — you pay for interviews, not seats.'],
- ['Can I run more than one role?','Yes — unlimited active roles on every plan, all drawing from one shared pool of interviews. A slow week on one role isn’t wasted; interviews flow to wherever the demand is.'],
- ['What if I need more than my plan includes?','Add an interview pack anytime — a block of extra interviews at your plan’s rate — or move up a tier. Changes apply instantly.'],
- ['How is this different from a hiring event?','An event is a one-day burst you pay for up front. Your Interview Agent runs continuously, keeping interview-ready candidates flowing every week across all your roles, and you only pay for what’s delivered.']
+ ['Can I run more than one role?','Yes — unlimited active roles on every plan, all drawing from one shared monthly pool of interviews. A slow week on one role isn\u2019t wasted; interviews flow to wherever the demand is.'],
+ ['What if I need more than my plan includes?','Add an interview pack anytime — a block of extra interviews — or move up a tier. Changes apply instantly.'],
+ ['How is this different from a hiring event?','An event is a one-day burst you pay for up front. Your Interview Agent runs continuously, keeping interview-ready candidates flowing every week across all your roles.']
 ];
 document.getElementById('faq').innerHTML=FAQ.map(function(q,i){return '<div class="qa'+(i===0?' open':'')+'" onclick="this.classList.toggle(\'open\')"><div class="q">'+q[0]+'<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></div><div class="a">'+q[1]+'</div></div>';}).join('');
 var SUN='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
