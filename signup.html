@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JobAgentX — Get started</title>
+<style>
+/* Funnel is light-only. Dark mode lives inside the app. Tokens = light values from the app system. */
+:root{
+ --bg:#f6f7f9; --card:#ffffff; --card2:#f3f4f7; --raise:#e9ebf0;
+ --line:#e5e8ee; --line2:#eef0f4;
+ --ink:#17191f; --ink2:#3d4351; --muted:#697084; --faint:#98a0b0;
+ --accent:#4d5cf0; --accent2:#7c3aed; --accent-soft:rgba(77,92,240,.10); --accent-ink:#3a45c9;
+ --great:#059669; --poor:#dc2626;
+ --mascot-face:#2c3270;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,system-ui,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+a{color:var(--accent-ink);text-decoration:none}
+a:hover{text-decoration:underline}
+.top{display:flex;align-items:center;padding:20px 28px}
+.logo{font-weight:800;font-size:15px;letter-spacing:.2px}
+.logo b{color:var(--accent)}
+.wrap{flex:1;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{width:100%;max-width:430px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:40px 38px 32px;text-align:center;box-shadow:0 1px 3px rgba(23,25,31,.05)}
+.imx{filter:drop-shadow(0 6px 16px rgba(77,92,240,.16))}
+.imx .r{fill:var(--accent)}
+.imx-ring{transform-box:fill-box;transform-origin:center;animation:imspin 22s linear infinite}
+.imx-ray{animation:impulse 1.9s ease-in-out infinite}
+.imx-face{animation:imbob 3.6s ease-in-out infinite}
+.imx-eye{transform-box:fill-box;transform-origin:center;animation:imblink 4.8s ease-in-out infinite}
+.imx-face-f{fill:var(--mascot-face)}
+.imx-spark-f{fill:var(--accent2)}
+.imx-ant{stroke:var(--accent2)}
+@keyframes imspin{to{transform:rotate(360deg)}}
+@keyframes impulse{0%,100%{opacity:.25}50%{opacity:.95}}
+@keyframes imbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes imblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.12)}}
+@media(prefers-reduced-motion:reduce){.imx-ring,.imx-ray,.imx-face,.imx-eye{animation:none}}
+h1{font-size:23px;letter-spacing:-.2px;margin:16px 0 8px}
+.sub{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:26px}
+.sub b{color:var(--ink2)}
+.field{text-align:left;margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px}
+.field input{width:100%;background:#fff;border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:15px;padding:12px 14px;outline:none;font-family:inherit;transition:border-color .15s,box-shadow .15s}
+.field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.field input.bad{border-color:var(--poor)}
+.err{color:var(--poor);font-size:12.5px;text-align:left;margin:-10px 0 14px;display:none}
+.btn{width:100%;background:var(--accent);border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:700;padding:14px;cursor:pointer;font-family:inherit;margin-top:2px;transition:background .15s}
+.btn:hover{background:#3a48d6}
+.alt{font-size:13px;color:var(--muted);margin-top:18px}
+.dots{display:flex;gap:6px;justify-content:center;margin-bottom:20px}
+.dots i{width:24px;height:4px;border-radius:2px;background:var(--raise)}
+.dots i.on{background:var(--accent)}
+.otp{display:flex;gap:8px;justify-content:center;margin:4px 0 18px}
+.otp input{width:48px;height:56px;text-align:center;font-size:22px;font-weight:700;background:#fff;border:1px solid var(--line);border-radius:8px;color:var(--ink);outline:none;font-family:inherit;transition:border-color .15s,box-shadow .15s}
+.otp input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.trust{font-size:12px;color:var(--faint);margin-top:16px;line-height:1.55}
+.hidden{display:none}
+@media(max-width:480px){.card{padding:30px 22px 26px;border:none;box-shadow:none;background:transparent}.otp input{width:42px;height:50px}}
+</style>
+</head>
+<body>
+<div class="top"><span class="logo">Job<b>Agent</b>X</span></div>
+
+<div class="wrap">
+
+  <!-- STEP 1 -->
+  <div class="card" id="s1">
+    <div class="dots"><i class="on"></i><i></i></div>
+    <div id="mascot1"></div>
+    <h1>Create your account</h1>
+    <p class="sub">Work email and company — we&rsquo;ll send you a 6-digit code.<br>No passwords, ever.</p>
+    <div class="field"><label>Work email</label><input type="email" id="email" placeholder="you@company.com" autocomplete="email"></div>
+    <p class="err" id="e1">Use your work email — personal and disposable addresses don&rsquo;t work here.</p>
+    <div class="field"><label>Company</label><input type="text" id="company" placeholder="Company name" autocomplete="organization"></div>
+    <button class="btn" onclick="step1()">Send my code</button>
+    <p class="alt">Want to see it live first? <a href="pricing.html#demo">Book a demo</a></p>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="card hidden" id="s2">
+    <div class="dots"><i class="on"></i><i class="on"></i></div>
+    <div id="mascot2"></div>
+    <h1>Check your email</h1>
+    <p class="sub">We sent a 6-digit code to <b id="sentTo">you@company.com</b>.<br>Entering it verifies your email and signs you in.</p>
+    <div class="otp" id="otp">
+      <input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric"><input maxlength="1" inputmode="numeric">
+    </div>
+    <p class="err" id="e2">That code didn&rsquo;t match — try again or resend.</p>
+    <button class="btn" onclick="step2()">Verify &amp; continue</button>
+    <p class="alt">Nothing yet? <a href="#" onclick="resend();return false;">Resend code</a> · <a href="#" onclick="back1();return false;">Change email</a></p>
+    <p class="trust">Next stop: your dashboard. Set up your first agent whenever you&rsquo;re ready — creating agents is free, you only pick a plan when you activate one.</p>
+  </div>
+
+</div>
+
+<script>
+/* mascot (identical markup to the app) */
+var _rays='';for(var _i=0;_i<12;_i++){var _len=[15,10,14,9,15,11,13,10,15,10,14,9][_i];_rays+='<g transform="rotate('+(_i*30)+' 100 100)"><rect class="imx-ray r" x="97.5" y="'+(38-_len)+'" width="5" height="'+_len+'" rx="2.5" style="animation-delay:'+(-_i*0.15).toFixed(2)+'s"/></g>';}
+var MASCOT='<svg class="imx" viewBox="0 0 200 200" width="80" height="80" fill="none"><g class="imx-ring">'+_rays+'</g><g class="imx-face"><path d="M100 75v-9" class="imx-ant" stroke-width="3" stroke-linecap="round"/><path d="M100 54c.9 4.4 2 5.5 6.4 6.4c-4.4.9-5.5 2-6.4 6.4c-.9-4.4-2-5.5-6.4-6.4c4.4-.9 5.5-2 6.4-6.4z" class="imx-spark-f"/><path d="M72 88a20 20 0 0 1 20-20h16a20 20 0 0 1 20 20v20a20 20 0 0 1-20 20h-18l-9 10 1-11a20 20 0 0 1-10-18z" class="imx-face-f"/><rect class="imx-eye" x="88" y="94" width="6" height="12" rx="3" fill="#eef0ff"/><rect class="imx-eye" x="106" y="94" width="6" height="12" rx="3" fill="#eef0ff" style="animation-delay:-.15s"/></g></svg>';
+['mascot1','mascot2'].forEach(function(id){var el=document.getElementById(id);if(el)el.innerHTML=MASCOT;});
+
+/* plan handoff: if they arrived from a pricing tier, stash it for the activation gate */
+(function(){
+  var q=new URLSearchParams(location.search);
+  if(q.get('plan')){try{localStorage.setItem('jaxPlan',JSON.stringify({plan:q.get('plan'),bill:q.get('bill')||'mo'}));}catch(e){}}
+})();
+
+var BADDOM=['mailinator.com','guerrillamail.com','10minutemail.com','yopmail.com','tempmail.com','sharklasers.com'];
+var FREEDOM=['gmail.com','yahoo.com','outlook.com','hotmail.com','aol.com','icloud.com'];
+
+function show(id){['s1','s2'].forEach(function(x){document.getElementById(x).classList.toggle('hidden',x!==id);});window.scrollTo(0,0);}
+
+function step1(){
+  var inp=document.getElementById('email');
+  var em=inp.value.trim().toLowerCase();
+  var err=document.getElementById('e1');
+  var dom=em.split('@')[1]||'';
+  var ok=/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)&&BADDOM.indexOf(dom)<0&&FREEDOM.indexOf(dom)<0;
+  err.style.display=ok?'none':'block';
+  inp.classList.toggle('bad',!ok);
+  if(!ok)return;
+  document.getElementById('sentTo').textContent=em;
+  show('s2');
+  var f=document.querySelector('#otp input');if(f)f.focus();
+}
+function back1(){show('s1');}
+function resend(){document.getElementById('e2').style.display='none';}
+
+(function(){
+  var boxes=[].slice.call(document.querySelectorAll('#otp input'));
+  boxes.forEach(function(b,i){
+    b.addEventListener('input',function(){
+      b.value=b.value.replace(/\D/g,'');
+      if(b.value&&i<5)boxes[i+1].focus();
+    });
+    b.addEventListener('keydown',function(e){if(e.key==='Backspace'&&!b.value&&i>0)boxes[i-1].focus();});
+    b.addEventListener('paste',function(e){
+      var t=(e.clipboardData||window.clipboardData).getData('text').replace(/\D/g,'');
+      if(t.length>=2){e.preventDefault();boxes.forEach(function(x,j){x.value=t[j]||'';});(boxes[Math.min(t.length,5)]||boxes[5]).focus();}
+    });
+  });
+})();
+
+function step2(){
+  var code=[].slice.call(document.querySelectorAll('#otp input')).map(function(x){return x.value;}).join('');
+  var err=document.getElementById('e2');
+  if(code.length<6){err.style.display='block';return;}  /* prototype: any 6 digits pass */
+  err.style.display='none';
+  location.href='interview-agent.html';
+}
+</script>
+</body>
+</html>

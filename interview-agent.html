@@ -753,5 +753,242 @@ document.addEventListener('click',function(e){var m=document.getElementById('acc
 (function(){var sv;try{sv=localStorage.getItem('iatheme');}catch(e){}setTheme(sv==='light'?'light':'dark');})();
 renderNav();go('Dashboard');
 </script>
+<style>
+/* ===== onboarding module (ob-) — first-run flow, Indeed-clarity, app tokens ===== */
+.ob{max-width:660px;margin:0 auto;padding:34px 18px 60px}
+.ob-center{text-align:center}
+.ob h2{font-size:24px;letter-spacing:-.2px;margin:16px 0 8px}
+.ob .sub{color:var(--muted);font-size:14px;line-height:1.6;margin-bottom:26px}
+.ob-card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;text-align:left;margin-bottom:14px}
+.ob-steps{display:flex;gap:6px;justify-content:center;margin-bottom:24px}
+.ob-steps i{width:26px;height:4px;border-radius:2px;background:var(--raise)}
+.ob-steps i.on{background:var(--accent)}
+.ob-btn{display:inline-block;background:var(--accent);border:none;border-radius:8px;color:#fff;font-size:15px;font-weight:700;padding:13px 26px;cursor:pointer;font-family:inherit;transition:filter .15s}
+.ob-btn:hover{filter:brightness(1.08)}
+.ob-btn.full{width:100%}
+.ob-btn[disabled]{opacity:.45;cursor:default}
+.ob-ghost{background:none;border:1px solid var(--line);color:var(--ink2);border-radius:8px;font-size:13.5px;font-weight:600;padding:9px 16px;cursor:pointer;font-family:inherit}
+.ob-link{background:none;border:none;color:var(--accent-ink);font-size:13px;cursor:pointer;font-family:inherit}
+.ob-check{display:flex;flex-direction:column;gap:10px;max-width:340px;margin:26px auto 0;text-align:left}
+.ob-check div{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:13.5px}
+.ob-check b{width:22px;height:22px;border-radius:50%;background:var(--raise);color:var(--muted);font-size:11.5px;display:flex;align-items:center;justify-content:center;flex:none}
+.ob-check .done b{background:var(--great);color:#fff}
+.ob-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:18px}
+.ob-tabs button{background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--ink2);font-size:13px;font-weight:600;padding:8px 16px;cursor:pointer;font-family:inherit}
+.ob-tabs button.on{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+.ob textarea,.ob input[type=text]{width:100%;background:var(--card2);border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:14px;padding:12px 14px;outline:none;font-family:inherit;transition:border-color .15s,box-shadow .15s}
+.ob textarea:focus,.ob input[type=text]:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.ob textarea{min-height:180px;resize:vertical;line-height:1.55}
+.ob-field{margin-bottom:14px;text-align:left}
+.ob-field label{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px}
+.ob-chat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;text-align:left;min-height:220px;display:flex;flex-direction:column;gap:10px;margin-bottom:12px}
+.ob-msg{max-width:80%;padding:9px 13px;border-radius:12px;font-size:13.5px;line-height:1.5}
+.ob-msg.agent{background:var(--accent-soft);color:var(--ink2);border-bottom-left-radius:4px;align-self:flex-start}
+.ob-msg.me{background:var(--raise);color:var(--ink);border-bottom-right-radius:4px;align-self:flex-end}
+.ob-chatrow{display:flex;gap:8px}
+.ob-chatrow input{flex:1}
+.ob-draftcard h4{font-size:13px;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.ob-draftcard h4 .tag{font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:2px 8px}
+.ob-draftcard .bd{color:var(--ink2);font-size:13.5px;line-height:1.6;white-space:pre-wrap}
+.ob-draftcard ul{margin:0;padding-left:18px;color:var(--ink2);font-size:13.5px;line-height:1.8}
+.ob-draftcard .edit{float:right}
+.ob-days{display:flex;gap:8px;justify-content:flex-start;margin-bottom:14px;flex-wrap:wrap}
+.ob-days button{width:44px;height:38px;border-radius:8px;border:1px solid var(--line);background:var(--card2);color:var(--muted);font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit}
+.ob-days button.on{background:var(--accent-soft);border-color:var(--accent);color:var(--accent-ink)}
+.ob-times{display:flex;gap:10px;align-items:center;color:var(--ink2);font-size:13.5px}
+.ob-times select{background:var(--card2);border:1px solid var(--line);border-radius:8px;color:var(--ink);padding:9px 10px;font-family:inherit;font-size:13.5px}
+.ob-plans{display:flex;gap:10px;margin-bottom:16px}
+.ob-plan{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 14px;cursor:pointer;text-align:center;position:relative}
+.ob-plan.on{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
+.ob-plan .nm{font-weight:700;font-size:13.5px}
+.ob-plan .pr{font-size:20px;font-weight:800;margin:6px 0 2px}
+.ob-plan .iv{color:var(--muted);font-size:12px}
+.ob-plan .pop{position:absolute;top:-9px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;border-radius:999px;padding:2px 9px}
+.ob-bill{display:flex;gap:6px;justify-content:center;margin-bottom:16px}
+.ob-bill button{background:var(--card);border:1px solid var(--line);border-radius:999px;color:var(--ink2);font-size:12px;font-weight:600;padding:6px 14px;cursor:pointer;font-family:inherit}
+.ob-bill button.on{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+.ob-cal{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.ob-cal .st{font-size:13.5px;color:var(--muted)}
+.ob-cal .st.ok{color:var(--great);font-weight:700}
+.ob-fine{font-size:12px;color:var(--faint);line-height:1.55;margin-top:14px;text-align:center}
+.ob-row2{display:flex;gap:10px}
+.ob-row2 .ob-field{flex:1}
+.ob-nav{display:flex;justify-content:space-between;align-items:center;margin-top:22px}
+@media(max-width:640px){.ob-plans{flex-direction:column}.ob h2{font-size:21px}}
+</style>
+<script>
+/* ===== onboarding module ===== */
+var OB={active:false,step:'hero',mode:'paste',job:{title:'',city:'',pay:''},cal:false,
+ plan:'Growth',bill:'mo',chatQ:0,days:{Mo:1,Tu:1,We:1,Th:1,Fr:1,Sa:0,Su:0}};
+(function(){
+ var q=new URLSearchParams(location.search);
+ var flag=false;try{flag=localStorage.getItem('jaxOnboard')==='1';}catch(e){}
+ if(q.get('onboard')==='1'||flag){OB.active=true;try{localStorage.setItem('jaxOnboard','1');}catch(e){}}
+ try{var pp=JSON.parse(localStorage.getItem('jaxPlan')||'null');if(pp&&pp.plan){OB.plan=pp.plan;OB.bill=pp.bill||'mo';}}catch(e){}
+})();
+var OBPLANS={Starter:{n:10,mo:299},Growth:{n:20,mo:499},Scale:{n:30,mo:699}};
+var OBMUL={mo:1,qt:.9,yr:.8};
+var _obOrigRender=render;
+render=function(){if(OB.active){renderOB();}else{_obOrigRender();}};
+function obExit(){OB.active=false;try{localStorage.removeItem('jaxOnboard');}catch(e){}history.replaceState(null,'',location.pathname);go('Dashboard');}
+function obGo(st){OB.step=st;render();window.scrollTo(0,0);}
+function obSteps(n){var h='<div class="ob-steps">';for(var i=1;i<=4;i++)h+='<i class="'+(i<=n?'on':'')+'"></i>';return h+'</div>';}
+function renderOB(){
+ var w=document.getElementById('wrap');
+ document.getElementById('pageT').textContent={hero:'Welcome',input:'New agent',draft:'Review your agent',avail:'Availability',activate:'Activate',live:'Agent live'}[OB.step]||'Setup';
+ var f={hero:obHero,input:obInput,draft:obDraft,avail:obAvail,activate:obActivate,live:obLive}[OB.step];
+ w.innerHTML='<div class="ob">'+f()+'</div>';
+ if(OB.step==='input'&&OB.mode==='chat')obChatBoot();
+ if(OB.step==='draft'&&!OB._drafted)obDraftAnim();
+}
+/* --- hero --- */
+function obHero(){
+ return '<div class="ob-center">'+MASCOT+
+ '<h2>Set up your first agent</h2>'+
+ '<p class="sub">One agent per job. It sources from 800M+ profiles, screens, and books<br>qualified candidates straight onto your calendar. Creating an agent is free.</p>'+
+ '<button class="ob-btn" onclick="obGo(\'input\')">Set up my first agent</button>'+
+ '<div class="ob-check">'+
+ '<div><b>1</b> Set up your agent — it drafts everything, you approve</div>'+
+ '<div><b>2</b> Set your interview availability</div>'+
+ '<div><b>3</b> Activate — pick a plan, your agent goes to work</div>'+
+ '</div>'+
+ '<p style="margin-top:26px"><button class="ob-link" onclick="obExit()">Skip for now — look around first</button></p>'+
+ '</div>';
+}
+/* --- input (paste / chat / form) --- */
+function obSetMode(m){OB.mode=m;OB.chatQ=0;render();}
+function obInput(){
+ var h='<div class="ob-center">'+obSteps(1)+'<h2>Tell your agent about the job</h2>'+
+ '<p class="sub">Fastest way: paste the posting you already have. Your agent drafts the rest.</p>'+
+ '<div class="ob-tabs">'+
+ '<button class="'+(OB.mode==='paste'?'on':'')+'" onclick="obSetMode(\'paste\')">Paste a posting</button>'+
+ '<button class="'+(OB.mode==='chat'?'on':'')+'" onclick="obSetMode(\'chat\')">Answer a few questions</button>'+
+ '<button class="'+(OB.mode==='form'?'on':'')+'" onclick="obSetMode(\'form\')">Fill out a form</button>'+
+ '</div></div>';
+ if(OB.mode==='paste'){
+  h+='<div class="ob-field"><textarea id="obPaste" placeholder="Paste your job posting here — title, duties, pay, anything you’ve got. Rough is fine."></textarea></div>'+
+  '<div class="ob-nav"><button class="ob-ghost" onclick="obGo(\'hero\')">Back</button>'+
+  '<button class="ob-btn" onclick="obFromPaste()">Draft my agent</button></div>';
+ }else if(OB.mode==='chat'){
+  h+='<div class="ob-chat" id="obChat"></div>'+
+  '<div class="ob-chatrow"><input type="text" id="obChatIn" placeholder="Type your answer…" onkeydown="if(event.key===\'Enter\')obChatSend()"><button class="ob-btn" onclick="obChatSend()">Send</button></div>'+
+  '<div class="ob-nav"><button class="ob-ghost" onclick="obGo(\'hero\')">Back</button><span></span></div>';
+ }else{
+  h+='<div class="ob-field"><label>Job title</label><input type="text" id="obT" placeholder="e.g. Registered Nurse"></div>'+
+  '<div class="ob-row2"><div class="ob-field"><label>Location</label><input type="text" id="obC" placeholder="City, ST"></div>'+
+  '<div class="ob-field"><label>Pay range (optional)</label><input type="text" id="obP" placeholder="$35–$42/hr"></div></div>'+
+  '<div class="ob-nav"><button class="ob-ghost" onclick="obGo(\'hero\')">Back</button>'+
+  '<button class="ob-btn" onclick="obFromForm()">Draft my agent</button></div>';
+ }
+ return h;
+}
+function obFromPaste(){
+ var t=document.getElementById('obPaste').value.trim();
+ if(t.length<30){document.getElementById('obPaste').focus();return;}
+ var first=t.split('\n').map(function(x){return x.trim();}).filter(Boolean)[0]||'New role';
+ OB.job.title=first.length>60?first.slice(0,60):first;OB.job.src='paste';
+ OB._drafted=false;obGo('draft');
+}
+function obFromForm(){
+ var t=document.getElementById('obT').value.trim();
+ if(!t){document.getElementById('obT').focus();return;}
+ OB.job.title=t;OB.job.city=document.getElementById('obC').value.trim();OB.job.pay=document.getElementById('obP').value.trim();
+ OB._drafted=false;obGo('draft');
+}
+var OBCHATQS=['What role are you hiring for?','Where is it located?','What’s the pay range? (Rough is fine — or say "skip")'];
+function obChatBoot(){var c=document.getElementById('obChat');if(c&&!c.children.length)obChatAgent(OBCHATQS[0]);}
+function obChatAgent(t){var c=document.getElementById('obChat');var d=document.createElement('div');d.className='ob-msg agent';d.textContent=t;c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function obChatSend(){
+ var i=document.getElementById('obChatIn');var v=i.value.trim();if(!v)return;
+ var c=document.getElementById('obChat');var d=document.createElement('div');d.className='ob-msg me';d.textContent=v;c.appendChild(d);i.value='';
+ if(OB.chatQ===0)OB.job.title=v;else if(OB.chatQ===1)OB.job.city=v;else if(OB.chatQ===2)OB.job.pay=(/skip/i.test(v)?'':v);
+ OB.chatQ++;
+ if(OB.chatQ<OBCHATQS.length){setTimeout(function(){obChatAgent(OBCHATQS[OB.chatQ]);},450);}
+ else{setTimeout(function(){obChatAgent('Got everything I need — drafting your agent now.');setTimeout(function(){OB._drafted=false;obGo('draft');},900);},450);}
+}
+/* --- draft & review --- */
+function obDraft(){
+ if(!OB._drafted){
+  return '<div class="ob-center" id="obDrafting">'+MASCOT+'<h2>Your agent is drafting…</h2><p class="sub" id="obDtxt">Reading the role…</p></div>';
+ }
+ var j=OB.job;
+ return '<div class="ob-center">'+obSteps(2)+'<h2>Review your agent’s draft</h2>'+
+ '<p class="sub">Your agent drafted everything below from what you gave it. It won’t get it all right —<br><b>edit anything that’s off</b>, then continue.</p></div>'+
+ obCard('Job description','desc','<div class="bd" id="obD_desc">'+obEsc(j.title)+(j.city?' — '+obEsc(j.city):'')+(j.pay?' · '+obEsc(j.pay):'')+'\n\nWe’re hiring a '+obEsc(j.title)+' to join the team. You’ll hit the ground running with a focused, supportive crew — competitive pay, real growth, and interviews that respect your time.</div>')+
+ obCard('Screening criteria','crit','<ul id="obD_crit"><li>1+ year of relevant '+obEsc(j.title)+' experience</li><li>Located in or willing to commute to '+(j.city?obEsc(j.city):'the role’s area')+'</li><li>Comp expectation within range'+(j.pay?' ('+obEsc(j.pay)+')':'')+'</li><li>Authorized to work in the US</li></ul>')+
+ obCard('Qualifying questions','q','<ul id="obD_q"><li>How many years have you worked as a '+obEsc(j.title)+'?</li><li>What shift/schedule works best for you?</li><li>What’s your expected pay?</li><li>When could you start?</li></ul>')+
+ obCard('Automatic messaging','cad','<ul id="obD_cad"><li>Confirmation when an interview books ✓</li><li>Prep &amp; details message ✓</li><li>Day-before reminder ✓</li><li>1-hour reminder ✓</li><li>No-show recovery ✓</li><li>Post-interview follow-up ✓</li></ul>')+
+ '<div class="ob-nav"><button class="ob-ghost" onclick="obGo(\'input\')">Back</button>'+
+ '<button class="ob-btn" onclick="obGo(\'avail\')">Looks right — continue</button></div>';
+}
+function obCard(title,key,body){
+ return '<div class="ob-card ob-draftcard"><h4><span class="tag">Agent draft</span>'+title+
+ '<span style="flex:1"></span><button class="ob-link edit" onclick="obEdit(\''+key+'\')">Edit</button></h4>'+body+'</div>';
+}
+function obEdit(key){
+ var el=document.getElementById('obD_'+key);if(!el)return;
+ if(el.getAttribute('contenteditable')==='true'){el.setAttribute('contenteditable','false');el.style.outline='none';}
+ else{el.setAttribute('contenteditable','true');el.style.outline='2px solid var(--accent)';el.style.borderRadius='6px';el.focus();}
+}
+function obDraftAnim(){
+ var msgs=['Reading the role…','Drafting screening criteria…','Writing qualifying questions…','Setting up automatic messaging…'];
+ var i=0;var t=setInterval(function(){
+  i++;var el=document.getElementById('obDtxt');
+  if(!el){clearInterval(t);return;}
+  if(i<msgs.length){el.textContent=msgs[i];}
+  else{clearInterval(t);OB._drafted=true;render();}
+ },650);
+}
+function obEsc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+/* --- availability --- */
+function obAvail(){
+ var days=['Mo','Tu','We','Th','Fr','Sa','Su'];
+ var opts=function(sel){var h='';for(var x=6;x<=21;x++){var lbl=(x%12||12)+(x<12?' AM':' PM');h+='<option value="'+x+'"'+(x===sel?' selected':'')+'>'+lbl+'</option>';}return h;};
+ return '<div class="ob-center">'+obSteps(3)+'<h2>When can you interview?</h2>'+
+ '<p class="sub">Candidates book themselves into these windows on your calendar.<br>This agent inherits your account default — change it only if this role is different.</p></div>'+
+ '<div class="ob-card"><div class="ob-days">'+days.map(function(d){return '<button class="'+(OB.days[d]?'on':'')+'" onclick="OB.days[\''+d+'\']=OB.days[\''+d+'\']?0:1;render()">'+d+'</button>';}).join('')+'</div>'+
+ '<div class="ob-times">From <select id="obT1">'+opts(9)+'</select> to <select id="obT2">'+opts(17)+'</select></div></div>'+
+ '<div class="ob-nav"><button class="ob-ghost" onclick="obGo(\'draft\')">Back</button>'+
+ '<button class="ob-btn" onclick="obGo(\'activate\')">Continue</button></div>';
+}
+/* --- activate (paywall) --- */
+function obSetPlan(p){OB.plan=p;render();}
+function obSetBill(b){OB.bill=b;render();}
+function obConnectCal(){OB.cal=true;render();}
+function obActivate(){
+ var price=function(p){return Math.round(OBPLANS[p].mo*OBMUL[OB.bill]);};
+ var h='<div class="ob-center">'+obSteps(4)+'<h2>Activate your agent</h2>'+
+ '<p class="sub">Pick a plan and your agent starts sourcing today. Every plan: unlimited agents,<br>unlimited roles, unlimited seats. You’re only metered on interviews.</p>'+
+ '<div class="ob-bill">'+[['mo','Monthly'],['qt','Quarterly −10%'],['yr','Annual −20%']].map(function(b){return '<button class="'+(OB.bill===b[0]?'on':'')+'" onclick="obSetBill(\''+b[0]+'\')">'+b[1]+'</button>';}).join('')+'</div></div>'+
+ '<div class="ob-plans">'+Object.keys(OBPLANS).map(function(p){
+   return '<div class="ob-plan '+(OB.plan===p?'on':'')+'" onclick="obSetPlan(\''+p+'\')">'+(p==='Growth'?'<span class="pop">Most popular</span>':'')+
+   '<div class="nm">'+p+'</div><div class="pr">$'+price(p)+'</div><div class="iv">'+OBPLANS[p].n+' interviews / mo</div></div>';
+ }).join('')+'</div>'+
+ '<div class="ob-card ob-cal"><div><b style="font-size:13.5px">Calendar</b><div class="st '+(OB.cal?'ok':'')+'">'+(OB.cal?'Connected ✓ — interviews book straight to your calendar':'Connect Google or Outlook so interviews book automatically')+'</div></div>'+
+ (OB.cal?'':'<button class="ob-ghost" onclick="obConnectCal()">Connect</button>')+'</div>'+
+ '<div class="ob-card"><div class="ob-field"><label>Card number</label><input type="text" placeholder="4242 4242 4242 4242" inputmode="numeric"></div>'+
+ '<div class="ob-row2"><div class="ob-field"><label>Expiry</label><input type="text" placeholder="MM / YY"></div><div class="ob-field"><label>CVC</label><input type="text" placeholder="123" inputmode="numeric"></div></div></div>'+
+ '<div class="ob-nav"><button class="ob-ghost" onclick="obGo(\'avail\')">Back</button>'+
+ '<button class="ob-btn" '+(OB.cal?'':'disabled title="Connect your calendar first"')+' onclick="obGo(\'live\')">Pay $'+price(OB.plan)+' · Activate agent</button></div>'+
+ '<p class="ob-fine">Accepting a candidate books the interview and uses one of your '+OBPLANS[OB.plan].n+' monthly interviews. Your agent works confirmations and reminders hard — you’re paying for the scheduled interview. Cancel anytime.</p>';
+ return h;
+}
+/* --- live --- */
+function obLive(){
+ try{localStorage.removeItem('jaxOnboard');}catch(e){}
+ return '<div class="ob-center">'+MASCOT+
+ '<h2>'+obEsc(OB.job.title||'Your agent')+' agent is live</h2>'+
+ '<p class="sub">It’s out sourcing and matching right now. First interview requests usually land<br>within a few days — we’ll text and email you the moment one does.</p>'+
+ '<button class="ob-btn" onclick="obExit()">Go to my dashboard</button>'+
+ '<p class="ob-fine">Your dashboard currently shows demo data so you can explore how delivered candidates look.</p>'+
+ '</div>';
+}
+/* nav clicks during onboarding exit setup gracefully (progress kept in OB state) */
+var _obOrigGo=go;
+go=function(p){if(OB.active&&OB.step!=='live'){OB.active=false;try{localStorage.removeItem('jaxOnboard');}catch(e){}history.replaceState(null,'',location.pathname);}_obOrigGo(p);};
+/* boot into onboarding if flagged */
+if(OB.active){render();}
+</script>
+
 </body>
 </html>

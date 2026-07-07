@@ -221,7 +221,7 @@ function renderTiers(){
  }).join('');
 }
 function setBill(b){BILL=b;document.querySelectorAll('#billSeg button').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-b')===b);});renderTiers();}
-function pick(n){ if(n==='Enterprise'){alert('Contact sales — we\u2019ll tailor volume + terms.');} else {alert('Get started on '+n+' — taking you to checkout.');} }
+function pick(n){ if(n==='Enterprise'){alert('Contact sales — we\u2019ll tailor volume + terms.');} else {location.href='signup.html?plan='+encodeURIComponent(n)+'&bill='+BILL;} }
 function scrollToTiers(){document.getElementById('tiers').scrollIntoView({behavior:'smooth',block:'center'});}
 function scrollToDemo(){var d=document.getElementById('demo');if(d)d.scrollIntoView({behavior:'smooth',block:'center'});}
 var FAQ=[
