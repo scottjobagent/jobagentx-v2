@@ -411,12 +411,12 @@ body.light .modal,body.light .acctmenu{box-shadow:0 16px 50px rgba(20,30,60,.18)
   <div class="brand"><span class="mk">J</span><span class="nm">Job<span>AgentX</span></span></div>
   <div class="emp"><span class="elg">NH</span><span class="et">Northwind Health</span><svg class="ec" viewBox="0 0 24 24"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></svg></div>
   <nav class="nav" id="nav"></nav>
-  <div class="side-up" onclick="openUpgrade()"><div class="su-bar"><span style="width:40%"></span></div><div class="su-t"><b>12</b> of 30 interviews left this month</div><div class="su-cta"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Upgrade plan</div></div>
+  <div class="side-up" onclick="openUpgrade()"><div class="su-bar"><span style="width:60%"></span></div><div class="su-t"><b>12</b> of 20 interviews left this month</div><div class="su-cta"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Upgrade plan</div></div>
   <div class="side-foot" onclick="toggleAcct(event)"><span class="av">SL</span><div class="u"><div class="un">Scott Lobenberg</div><div class="ue">scott@jobfairx.com</div></div><svg class="afc" viewBox="0 0 24 24"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></svg></div>
   <div class="acctmenu" id="acctmenu"><div class="am-h"><div class="un">Scott Lobenberg</div><div class="ue">scott@jobfairx.com</div></div><div class="am-i" onclick="event.stopPropagation();toggleAcct();openUpgrade()"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Upgrade plan</div><div class="am-i" onclick="agToast('Settings')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.6 1.6 0 0 0 .3 1.8 2 2 0 1 1-2.8 2.8 1.6 1.6 0 0 0-2.7 1.1V21a2 2 0 0 1-4 0 1.6 1.6 0 0 0-2.7-1.1 2 2 0 1 1-2.8-2.8A1.6 1.6 0 0 0 4.6 15a2 2 0 0 1 0-4 1.6 1.6 0 0 0 1.1-2.7 2 2 0 1 1 2.8-2.8A1.6 1.6 0 0 0 11 4.6a2 2 0 0 1 4 0 1.6 1.6 0 0 0 2.7 1.1 2 2 0 1 1 2.8 2.8A1.6 1.6 0 0 0 19.4 11a2 2 0 0 1 0 4z"/></svg>Settings</div><div class="am-i" onclick="event.stopPropagation();toggleTheme()"><svg viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>Dark Mode<span class="dmsw" id="dmSwitch"></span></div><div class="am-i" onclick="agToast('Logged out')" style="color:var(--poor)"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg>Log out</div></div>
  </aside>
  <main class="main">
-  <div class="top"><h1 id="pageT">Dashboard</h1><button class="rolepick"><span class="rd"></span>Registered Nurse · Houston, TX<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button><div class="sp"></div><button class="credits" onclick="openUpgrade()" title="12 of 30 interviews left — upgrade"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8.5 10.5c0-1.4 1.6-2 3.5-2s3.5.6 3.5 2-1.6 2-3.5 2-3.5.6-3.5 2 1.6 2 3.5 2 3.5-.6 3.5-2"/></svg><b>12</b> interviews left</button><button class="iconbtn" onclick="agToast('Notifications')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></button></div>
+  <div class="top"><h1 id="pageT">Dashboard</h1><button class="rolepick"><span class="rd"></span>Registered Nurse · Houston, TX<svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></svg></button><div class="sp"></div><button class="credits" onclick="openUpgrade()" title="12 of 20 interviews left — upgrade"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M8.5 10.5c0-1.4 1.6-2 3.5-2s3.5.6 3.5 2-1.6 2-3.5 2-3.5.6-3.5 2 1.6 2 3.5 2 3.5-.6 3.5-2"/></svg><b>12</b> interviews left</button><button class="iconbtn" onclick="agToast('Notifications')"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"/></svg></button></div>
   <div class="wrap" id="wrap"></div>
  </main>
 </div>
@@ -434,7 +434,6 @@ var NAV=[
  {s:'Overview'},
  {p:'Dashboard',i:'grid'},
  {p:'Interview Agent',i:'spark',cnt:6,live:true},
- {p:'Outreach Agent',i:'send'},
  {s:'Pipeline'},
  {p:'Interviews',i:'video',cnt:8},
  {p:'Messaging',i:'chat',cnt:4},
@@ -537,7 +536,7 @@ function pgDash(){
  +'<div class="sech"><h3>Agent activity</h3></div>'+activity();
 }
 function kpi(ic,l,v,d,cls){var ics={inbox:'<rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/>',video:'<rect x="2" y="6" width="14" height="12" rx="2"/><path d="m16 10 6-3v10l-6-3"/>',clock:'<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',check:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>'};return '<div class="kpi"><div class="kl"><svg viewBox="0 0 24 24">'+ics[ic]+'</svg>'+l+'</div><div class="kv">'+v+'</div><div class="kd '+cls+'">'+d+'</div></div>';}
-function activity(){var items=[['spark','Agent matched <b>Maria Delgado</b> — requested a 9:00 AM interview','9m ago'],['check','You accepted <b>James Okafor</b> — Outreach Agent sent a confirmation + calendar invite','32m ago'],['send','Outreach Agent sent a reminder to <b>4 candidates</b> interviewing tomorrow','1h ago'],['spark','Agent delivered <b>12 interview-ready candidates</b> for Bilingual Call Center Rep','2h ago']];return '<div class="panel">'+items.map(function(it){return '<div class="trow" style="grid-template-columns:34px 1fr auto;gap:12px"><span class="role-ic" style="width:30px;height:30px;flex:0 0 30px">'+svg(it[0])+'</span><span style="color:var(--ink2)">'+it[1]+'</span><span style="color:var(--faint);font-size:12px">'+it[2]+'</span></div>';}).join('')+'</div>';}
+function activity(){var items=[['spark','Agent matched <b>Maria Delgado</b> — requested a 9:00 AM interview','9m ago'],['check','You accepted <b>James Okafor</b> — Your agent sent a confirmation + calendar invite','32m ago'],['send','Your agent sent a reminder to <b>4 candidates</b> interviewing tomorrow','1h ago'],['spark','Agent delivered <b>12 interview-ready candidates</b> for Bilingual Call Center Rep','2h ago']];return '<div class="panel">'+items.map(function(it){return '<div class="trow" style="grid-template-columns:34px 1fr auto;gap:12px"><span class="role-ic" style="width:30px;height:30px;flex:0 0 30px">'+svg(it[0])+'</span><span style="color:var(--ink2)">'+it[1]+'</span><span style="color:var(--faint);font-size:12px">'+it[2]+'</span></div>';}).join('')+'</div>';}
 
 /* ===== Interview Agent (queue) ===== */
 var QTAB='new';
@@ -642,10 +641,10 @@ function pgMessaging(){
    var t=MSG_THREADS[MSG_SEL];
    var body=t.msgs.map(function(m){
      if(m.who==='them') return '<div class="mrow in"><div class="col"><div class="bub">'+m.t+'</div><div class="mtime">'+m.time+'</div></div></div>';
-     if(m.who==='auto') return '<div class="mrow out auto"><div class="col"><div class="btag"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>Outreach Agent · sent automatically</div><div class="bub">'+m.t+'</div><div class="mtime">'+m.time+'</div></div></div>';
+     if(m.who==='auto') return '<div class="mrow out auto"><div class="col"><div class="btag"><svg viewBox="0 0 24 24"><path d="M13 2 3 14h7l-1 8 10-12h-7z"/></svg>Interview Agent · automatic SMS</div><div class="bub">'+m.t+'</div><div class="mtime">'+m.time+'</div></div></div>';
      return '<div class="mrow out"><div class="col"><div class="bub">'+m.t+'</div><div class="mtime">'+m.time+'</div></div></div>';
    }).join('');
-   right='<div class="thr"><div class="thr-h"><div class="thr-nm">'+t.name+'</div><div class="thr-sub"><span class="rl">'+t.role+'</span><span>·</span><span>'+t.loc+'</span></div></div><div class="thr-body"><div class="thr-day">'+t.date+'</div>'+body+'</div><div class="thr-comp"><input id="msgInput" placeholder="Type a message…" onkeydown="msgKey(event)" autocomplete="off"><button class="thr-send" onclick="msgSend()"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/></svg></button></div></div>';
+   right='<div class="thr"><div class="thr-h"><div class="thr-nm">'+t.name+'</div><div class="thr-sub"><span class="rl">'+t.role+'</span><span>·</span><span>'+t.loc+'</span></div></div><div style="display:flex;gap:16px;padding:9px 18px;border-bottom:1px solid var(--line);font-size:11.5px;color:var(--faint)"><span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent-soft);border:1px solid var(--accent);vertical-align:middle;margin-right:5px"></span>Agent — automatic SMS</span><span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--card2);border:1px solid var(--line);vertical-align:middle;margin-right:5px"></span>Candidate</span><span><span style="display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent);vertical-align:middle;margin-right:5px"></span>You (recruiter)</span></div><div class="thr-body"><div class="thr-day">'+t.date+'</div>'+body+'</div><div class="thr-comp"><input id="msgInput" placeholder="Type a message…" onkeydown="msgKey(event)" autocomplete="off"><button class="thr-send" onclick="msgSend()"><svg viewBox="0 0 24 24"><path d="m22 2-7 20-4-9-9-4z"/></svg></button></div></div>';
  }
  return '<div class="inbox"><div class="ibx-list"><div class="ibx-lh"><h2>Messages</h2><div class="ibx-tabs"><div class="ibx-tab on">Inbox'+(unread?'<span class="n">'+unread+'</span>':'')+'</div><div class="ibx-tab" onclick="agToast(\'No archived conversations\')">Archived</div></div></div><div class="ibx-scroll">'+list+'</div></div>'+right+'</div>';
 }
@@ -653,13 +652,13 @@ function pgMessaging(){
 /* ===== Reports ===== */
 function spark(seed){var h='';for(var i=0;i<12;i++){var v=30+((Math.sin(i*seed)+1)*30)+(i*2);h+='<i style="height:'+Math.min(100,v)+'%"></i>';}return '<div class="spark">'+h+'</div>';}
 function pgReports(){
- var cards=[['Interviews Scheduled','Weekly, across all roles','218','1.3'],['Accept Rate','Delivered candidates you accepted','90%','2.1'],['Time to Interview','Request → booked interview','1.4d','1.7'],['No-Show Rate','Recovered by Outreach Agent','6%','0.9'],['Candidates Delivered','Interview-ready, by your agent','512','1.5'],['Interviews Delivered','This billing period','340','2.4']];
+ var cards=[['Interviews Scheduled','Weekly, across all roles','218','1.3'],['Accept Rate','Delivered candidates you accepted','90%','2.1'],['Time to Interview','Request → booked interview','1.4d','1.7'],['No-Show Rate','Recovered by your agent','6%','0.9'],['Candidates Delivered','Interview-ready, by your agent','512','1.5'],['Interviews Delivered','This billing period','340','2.4']];
  return '<div class="hero" style="padding:20px 24px"><div class="hero-tx"><h2 style="font-size:18px">Reports, trends &amp; alerts</h2><p>Track what your Interview Agent is delivering — scheduled interviews, accept rate, time-to-interview, no-shows, and interview usage. Build custom reports or get notified when something changes.</p></div><div class="hero-cta"><button class="btn" onclick="agToast(\'New report\')"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>New report</button></div></div>'
  +askbar('Ask for a report — e.g. “accept rate by role over the last 30 days”')
  +'<div class="sech"><h3>Created by your agent</h3></div><div class="repgrid">'+cards.map(function(c,i){return '<div class="repcard"><div class="rt">'+c[0]+'</div><div class="rs">'+c[1]+'</div><div class="rv">'+c[2]+'</div>'+spark(parseFloat(c[3]))+'</div>';}).join('')+'</div>';
 }
 function pgSettings(){return '<div class="hero" style="padding:20px 24px"><div class="hero-tx"><h2 style="font-size:18px">Role &amp; agent settings</h2><p>Connect your calendar, set your interview availability and how many slots to open, and tune the criteria your agent matches on.</p></div></div>'
- +'<div class="repgrid" style="grid-template-columns:1fr 1fr"><div class="repcard"><div class="rt">Calendar &amp; availability</div><div class="rs" style="margin-bottom:12px">Connect a calendar and set the windows your agent can book into.</div><button class="btn ghost" onclick="agToast(\'Connect Google Calendar\')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Connect calendar</button><div style="margin-top:12px;font-size:12.5px;color:var(--muted)">Open <b style="color:var(--ink)">6 interview slots/day</b> · Mon–Fri · 9am–4pm CT</div></div><div class="repcard"><div class="rt">Matching criteria</div><div class="rs" style="margin-bottom:12px">What your agent qualifies candidates on before delivering them.</div><div class="dchips"><span class="dchip">ICU / ER experience</span><span class="dchip">BLS &amp; ACLS</span><span class="dchip">Night shift</span><span class="dchip">TX license</span><span class="dchip">EPIC / Cerner</span></div></div></div>';
+ +'<div class="repgrid" style="grid-template-columns:1fr 1fr"><div class="repcard"><div class="rt">Calendar &amp; availability</div><div class="rs" style="margin-bottom:12px">Connect a calendar and set the windows your agent can book into.</div><button class="btn ghost" onclick="agToast(\'Connect Google Calendar\')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>Connect calendar</button><div style="margin-top:12px;font-size:12.5px;color:var(--muted)">Open <b style="color:var(--ink)">6 interview slots/day</b> · Mon–Fri · 9am–4pm CT</div></div><div class="repcard"><div class="rt">Matching criteria</div><div class="rs" style="margin-bottom:12px">What your agent qualifies candidates on before delivering them.</div><div class="dchips"><span class="dchip">ICU / ER experience</span><span class="dchip">BLS &amp; ACLS</span><span class="dchip">Night shift</span><span class="dchip">TX license</span><span class="dchip">EPIC / Cerner</span></div></div><div class="repcard" style="margin-top:14px"><div class="rt">Automatic messaging <span style="font-size:11px;font-weight:600;color:var(--accent-ink);background:var(--accent-soft);border-radius:5px;padding:2px 8px;margin-left:6px">SMS + email</span></div><div class="rs" style="margin-bottom:8px">Your Interview Agent messages every candidate automatically — confirmations, reminders, and no-show recovery. Toggle any step off to handle it yourself.</div>'+OSTEPS.map(function(st){return '<div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-top:1px solid var(--line)"><span class="role-ic" style="width:30px;height:30px;flex:0 0 30px">'+svg(st[0])+'</span><div style="flex:1"><div style="font-weight:500;font-size:13.5px">'+st[1]+'</div><div style="font-size:12px;color:var(--muted)">'+st[2]+' · '+st[3]+'</div></div><span style="width:34px;height:20px;border-radius:20px;background:var(--accent);position:relative;flex:0 0 34px"><span style="position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:#fff"></span></span></div>';}).join('')+'</div></div>';
 }
 
 /* ===== slide-out ===== */
@@ -694,11 +693,11 @@ function openModal(html){document.getElementById('modal').innerHTML='<button cla
 function closeModal(){document.getElementById('mov').classList.remove('open');document.getElementById('modal').classList.remove('up');}
 
 /* ===== upgrade modal ===== */
-var UP_CORE=['Unlimited active roles','Unlimited team seats','AI matching & fit grading','Outreach Agent + shared inbox','Reports & trends'];
+var UP_CORE=['Unlimited active roles','Unlimited team seats','AI matching & fit grading','Automatic SMS confirmations & reminders','Shared candidate inbox','Reports & trends'];
 var UPLANS=[
  {name:'Starter',mo:299,ivs:10,feats:UP_CORE},
- {name:'Growth',mo:699,ivs:30,pop:true,feats:UP_CORE},
- {name:'Scale',mo:1799,ivs:90,feats:UP_CORE},
+ {name:'Growth',mo:499,ivs:20,pop:true,feats:UP_CORE},
+ {name:'Scale',mo:699,ivs:30,feats:UP_CORE},
  {name:'Enterprise',mo:null,ivs:null,feats:['h:Everything in Scale, plus','SSO / SAML','ATS + API integration','Dedicated success manager','Custom volume & SLA']}
 ];
 var UP_CUR='Growth';
@@ -725,9 +724,9 @@ function setUpBill(b){UP_BILL=b;var seg=document.getElementById('upSeg');if(seg)
 function openUpgrade(){
  var seg='<div class="up-seg" id="upSeg"><button data-b="mo" class="on" onclick="setUpBill(\'mo\')">Monthly</button><button data-b="qt" onclick="setUpBill(\'qt\')">Quarterly<span class="sv">-10%</span></button><button data-b="yr" onclick="setUpBill(\'yr\')">Annual<span class="sv">-20%</span></button></div>';
  var html='<button class="mx" onclick="closeModal()"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button>'
-  +'<div class="up-head"><h3>Upgrade your plan</h3><p>You’re on <b style="color:var(--ink2)">Growth</b> — 12 of 30 interviews left this month. Point your agent at as many roles as you want.</p>'+seg+'</div>'
-  +'<div class="up-body"><div class="up-inc">Every plan includes unlimited roles, unlimited seats, Outreach Agent, shared inbox &amp; reports.</div><div class="up-tiers" id="upTiers"></div></div>'
-  +'<div class="up-foot"><span>Unlimited roles &amp; seats on every plan</span><span>Outreach Agent + shared inbox included</span><span>Need more? Add interview packs</span></div>';
+  +'<div class="up-head"><h3>Upgrade your plan</h3><p>You’re on <b style="color:var(--ink2)">Growth</b> — 12 of 20 interviews left this month. Point your agent at as many roles as you want.</p>'+seg+'</div>'
+  +'<div class="up-body"><div class="up-inc">Every plan includes unlimited roles, unlimited seats, automatic SMS reminders, shared inbox &amp; reports.</div><div class="up-tiers" id="upTiers"></div></div>'
+  +'<div class="up-foot"><span>Unlimited roles &amp; seats on every plan</span><span>SMS reminders + shared inbox included</span><span>Need more? Add interview packs ($35 each)</span></div>';
  UP_BILL='mo';
  var mo=document.getElementById('modal');
  mo.classList.add('up');
