@@ -409,7 +409,7 @@ body.light .modal,body.light .acctmenu{box-shadow:0 16px 50px rgba(20,30,60,.18)
 <div class="app">
  <aside class="side">
   <div class="brand"><span class="mk">J</span><span class="nm">Job<span>AgentX</span></span></div>
-  <div class="emp"><span class="elg">NH</span><span class="et">Northwind Health</span><svg class="ec" viewBox="0 0 24 24"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></svg></div>
+  
   <nav class="nav" id="nav"></nav>
   <div class="side-up" onclick="openUpgrade()"><div class="su-bar"><span style="width:60%"></span></div><div class="su-t"><b>12</b> of 20 interviews left this month</div><div class="su-cta"><svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>Upgrade plan</div></div>
   <div class="side-foot" onclick="toggleAcct(event)"><span class="av">SL</span><div class="u"><div class="un">Scott Lobenberg</div><div class="ue">scott@jobfairx.com</div></div><svg class="afc" viewBox="0 0 24 24"><path d="m8 9 4-4 4 4M8 15l4 4 4-4"/></svg></div>
@@ -830,7 +830,7 @@ var OBPLANS={Starter:{n:10,mo:299},Growth:{n:20,mo:499},Scale:{n:30,mo:699}};
 var OBMUL={mo:1,qt:.9,yr:.8};
 var _obOrigRender=render;
 render=function(){if(OB.active){renderOB();}else{_obOrigRender();}};
-function obExit(){OB.active=false;try{localStorage.removeItem('jaxOnboard');}catch(e){}history.replaceState(null,'',location.pathname);go('Dashboard');}
+function obExit(v){OB.active=false;try{localStorage.removeItem('jaxOnboard');}catch(e){}if(v){try{localStorage.setItem('jaxView',v);}catch(e){}VIEW=v;}applyViewChrome();history.replaceState(null,'',location.pathname);go('Dashboard');}
 function obGo(st){OB.step=st;render();window.scrollTo(0,0);}
 function obSteps(n){var h='<div class="ob-steps">';for(var i=1;i<=4;i++)h+='<i class="'+(i<=n?'on':'')+'"></i>';return h+'</div>';}
 function renderOB(){
@@ -852,7 +852,6 @@ function obHero(){
  '<div><b>2</b> Set your interview availability</div>'+
  '<div><b>3</b> Activate — pick a plan, your agent goes to work</div>'+
  '</div>'+
- '<p style="margin-top:26px"><button class="ob-link" onclick="obExit()">Skip for now — look around first</button></p>'+
  '</div>';
 }
 /* --- input (paste / chat / form) --- */
@@ -886,7 +885,10 @@ function obFromPaste(){
  var t=document.getElementById('obPaste').value.trim();
  if(t.length<30){document.getElementById('obPaste').focus();return;}
  var first=t.split('\n').map(function(x){return x.trim();}).filter(Boolean)[0]||'New role';
- OB.job.title=first.length>60?first.slice(0,60):first;OB.job.src='paste';
+ var parts=first.split(/\s+[-\u2013\u2014|\u00b7]\s+/);
+ OB.job.title=(parts[0]||first).slice(0,60);
+ if(parts[1]&&!OB.job.city)OB.job.city=parts[1].slice(0,40);
+ OB.job.src='paste';
  OB._drafted=false;obGo('draft');
 }
 function obFromForm(){
@@ -979,13 +981,79 @@ function obLive(){
  return '<div class="ob-center">'+MASCOT+
  '<h2>'+obEsc(OB.job.title||'Your agent')+' agent is live</h2>'+
  '<p class="sub">It’s out sourcing and matching right now. First interview requests usually land<br>within a few days — we’ll text and email you the moment one does.</p>'+
- '<button class="ob-btn" onclick="obExit()">Go to my dashboard</button>'+
- '<p class="ob-fine">Your dashboard currently shows demo data so you can explore how delivered candidates look.</p>'+
+ '<button class="ob-btn" onclick="obExit(\'sourcing\')">Go to my dashboard</button>'+
  '</div>';
 }
 /* nav clicks during onboarding exit setup gracefully (progress kept in OB state) */
 var _obOrigGo=go;
 go=function(p){if(OB.active&&OB.step!=='live'){OB.active=false;try{localStorage.removeItem('jaxOnboard');}catch(e){}history.replaceState(null,'',location.pathname);}_obOrigGo(p);};
+/* ===== prototype view-state toggle (new / sourcing / active / nocredits) ===== */
+var VIEW='active';
+(function(){
+ try{VIEW=localStorage.getItem('jaxView')||'active';}catch(e){}
+ var q=new URLSearchParams(location.search);
+ if(q.get('onboard')==='1'||OB.active){VIEW='new';try{localStorage.setItem('jaxView','new');}catch(e){}}
+ if(VIEW==='new'){OB.active=true;}
+})();
+var VIEWLBL={new:'New user',sourcing:'Agent sourcing',active:'Active user',nocredits:'Out of interviews'};
+function setView(v){
+ try{localStorage.setItem('jaxView',v);}catch(e){}
+ if(v==='new'){try{localStorage.setItem('jaxOnboard','1');}catch(e){}location.search='?onboard=1';}
+ else{try{localStorage.removeItem('jaxOnboard');}catch(e){}location.search='';}
+}
+function applyViewChrome(){
+ var zero=(VIEW==='new'||VIEW==='sourcing');
+ /* nav counts + live badge */
+ NAV.forEach(function(n){
+  if(n.p==='Interview Agent'){n.cnt=zero?0:6;n.live=(VIEW!=='new');}
+  if(n.p==='Interviews')n.cnt=zero?0:8;
+  if(n.p==='Messaging')n.cnt=zero?0:4;
+ });
+ renderNav();
+ document.querySelectorAll('#nav .cnt').forEach(function(c){if(c.textContent==='0')c.style.display='none';});
+ /* credits top button + sidebar box + role picker */
+ var cb=document.querySelector('.credits');var su=document.querySelector('.side-up');var rp=document.querySelector('.rolepick');
+ var n={new:null,sourcing:20,active:12,nocredits:0}[VIEW];
+ if(cb)cb.style.display=(VIEW==='new')?'none':'';
+ if(su)su.style.display=(VIEW==='new')?'none':'';
+ if(rp)rp.style.display=(VIEW==='new')?'none':'';
+ if(n!==null){
+  if(cb){cb.querySelector('b').textContent=n;cb.title=n+' of 20 interviews left — upgrade';}
+  if(su){su.querySelector('.su-t').innerHTML='<b>'+n+'</b> of 20 interviews left this month';var bar=su.querySelector('.su-bar span');if(bar)bar.style.width=(n/20*100)+'%';}
+ }
+}
+/* sourcing dashboard override */
+var _vwRender=render;
+render=function(){
+ if(!OB.active&&VIEW==='sourcing'&&PAGE==='Dashboard'){
+  document.getElementById('pageT').textContent='Dashboard';
+  document.getElementById('wrap').innerHTML='<div class="ob"><div class="ob-center">'+MASCOT+
+  '<h2>Your agent is out sourcing</h2>'+
+  '<p class="sub">It’s matching and screening candidates right now. First interview requests usually<br>land within a few days — we’ll text and email you the moment one does.</p>'+
+  '<div class="ob-plans" style="max-width:520px;margin:0 auto 16px">'+
+  '<div class="ob-plan"><div class="nm">Requests</div><div class="pr">0</div><div class="iv">awaiting you</div></div>'+
+  '<div class="ob-plan"><div class="nm">Interviews</div><div class="pr">0</div><div class="iv">booked</div></div>'+
+  '<div class="ob-plan"><div class="nm">Interviews left</div><div class="pr">20</div><div class="iv">this month</div></div>'+
+  '</div>'+
+  '<p class="ob-fine">Tip: add another role while you wait — every plan includes unlimited agents.</p>'+
+  '<button class="ob-ghost" onclick="OB.active=true;OB.step=\'input\';OB._drafted=false;render()">+ New agent</button>'+
+  '</div></div>';
+  return;
+ }
+ _vwRender();
+};
+/* floating pill */
+(function(){
+ var d=document.createElement('div');
+ d.id='vwPill';
+ d.innerHTML='<style>#vwPill{position:fixed;right:14px;bottom:14px;z-index:9999;font-family:inherit}#vwPill .vw-btn{background:var(--panel);border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:11.5px;font-weight:600;padding:7px 13px;cursor:pointer;font-family:inherit;box-shadow:0 4px 14px rgba(0,0,0,.18)}#vwPill .vw-menu{position:absolute;right:0;bottom:38px;background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:6px;display:none;min-width:170px;box-shadow:0 8px 24px rgba(0,0,0,.25)}#vwPill.open .vw-menu{display:block}#vwPill .vw-menu button{display:block;width:100%;text-align:left;background:none;border:none;border-radius:6px;color:var(--ink2);font-size:12.5px;padding:8px 10px;cursor:pointer;font-family:inherit}#vwPill .vw-menu button:hover{background:var(--raise)}#vwPill .vw-menu button.on{color:var(--accent-ink);font-weight:700}</style>'+
+ '<div class="vw-menu">'+Object.keys(VIEWLBL).map(function(k){return '<button class="'+(VIEW===k?'on':'')+'" onclick="setView(\''+k+'\')">'+VIEWLBL[k]+'</button>';}).join('')+'</div>'+
+ '<button class="vw-btn" onclick="document.getElementById(\'vwPill\').classList.toggle(\'open\')">Prototype · '+VIEWLBL[VIEW]+'</button>';
+ document.body.appendChild(d);
+})();
+applyViewChrome();
+if(!OB.active)render();
+
 /* boot into onboarding if flagged */
 if(OB.active){render();}
 </script>
