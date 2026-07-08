@@ -1,0 +1,419 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>JobAgentX — Interview Agent v2</title>
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+ --bg:#1c1b18; --panel:#141310; --panel2:#191815; --raise:#26241f;
+ --line:rgba(255,255,255,.11); --line2:rgba(255,255,255,.06);
+ --ink:#f7f5f0; --ink2:#c9c5bc; --muted:#a5a29a; --faint:#6e6b64;
+ --accent:#fa8f14; --accent-dim:rgba(250,143,20,.10); --accent-line:rgba(250,143,20,.32);
+ --great:#3ecf8e; --okay:#fbbf24; --poor:#f87171; --good:#5eb1ef;
+ --sans:-apple-system,system-ui,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
+ --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);font-size:14px;line-height:1.55;display:flex;min-height:100vh}
+button{font-family:var(--sans)}
+.mono{font-family:var(--mono)}
+/* ===== sidebar ===== */
+aside{width:224px;flex:none;background:var(--panel);border-right:1px solid var(--line2);display:flex;flex-direction:column;position:sticky;top:0;height:100vh}
+.logo{font-weight:700;font-size:15px;padding:20px 20px 16px;letter-spacing:-.2px}
+.logo b{color:var(--accent)}
+.sec{font-family:var(--mono);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--faint);padding:16px 20px 6px}
+nav a{display:flex;align-items:center;gap:10px;padding:9px 20px;color:var(--muted);font-size:13.5px;font-weight:500;cursor:pointer}
+nav a:hover{color:var(--ink)}
+nav a.on{color:var(--ink);background:var(--panel2);box-shadow:inset 2px 0 0 var(--accent)}
+nav a .cnt{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--faint)}
+nav a .live{margin-left:auto;font-family:var(--mono);font-size:9px;letter-spacing:.1em;color:var(--great)}
+.credbox{margin:auto 14px 14px;border:1px solid var(--line2);background:var(--panel2);padding:12px 14px}
+.credbox .bar{height:3px;background:var(--raise);margin-bottom:9px}
+.credbox .bar i{display:block;height:3px;background:var(--accent);width:60%}
+.credbox .t{font-size:11.5px;color:var(--muted)}
+.credbox .t b{color:var(--ink)}
+.credbox .up{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-top:7px;cursor:pointer}
+/* ===== main ===== */
+main{flex:1;min-width:0;display:flex;flex-direction:column}
+.top{display:flex;align-items:center;gap:14px;padding:14px 26px;border-bottom:1px solid var(--line2);position:sticky;top:0;background:rgba(28,27,24,.94);backdrop-filter:blur(8px);z-index:20}
+.top h1{font-size:16px;font-weight:700;letter-spacing:-.2px}
+.top .sp{flex:1}
+.btn{background:var(--accent);color:var(--bg);border:none;font-size:13px;font-weight:600;padding:9px 16px;cursor:pointer}
+.btn:hover{filter:brightness(1.08)}
+.btn[disabled]{opacity:.4;cursor:default}
+.ghost{background:none;border:1px solid var(--line);color:var(--ink2);font-size:12.5px;font-weight:500;padding:8px 14px;cursor:pointer}
+.ghost:hover{border-color:var(--muted)}
+.wrap{padding:24px 26px;max-width:1180px;width:100%}
+.eyeb{font-family:var(--mono);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+/* stats */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:22px}
+.stat{border:1px solid var(--line2);background:var(--panel2);padding:16px 18px}
+.stat .v{font-size:26px;font-weight:700;letter-spacing:-1px}
+.stat .k{font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-top:4px}
+.stat .d{font-size:11px;color:var(--great);margin-top:2px}
+/* agent cards */
+.agents{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.agent{border:1px solid var(--line2);background:var(--panel2);padding:18px 20px}
+.agent .hd{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.agent .hd b{font-size:15px;letter-spacing:-.2px}
+.agent .st{margin-left:auto;font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase}
+.agent .st.live{color:var(--great)}.agent .st.drf{color:var(--okay)}
+.agent .meta{font-size:12px;color:var(--muted);margin-bottom:12px}
+.agent .row{display:flex;gap:20px;font-family:var(--mono);font-size:11px;color:var(--muted)}
+.agent .row b{display:block;font-size:18px;color:var(--ink);font-family:var(--sans);font-weight:700;letter-spacing:-.5px}
+.agent .foot{display:flex;gap:8px;margin-top:14px}
+.newagent{border:1px dashed var(--line);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--muted);cursor:pointer;min-height:150px;background:none}
+.newagent:hover{border-color:var(--accent);color:var(--accent)}
+.newagent .plus{font-size:26px;line-height:1}
+/* candidate cards */
+.cands{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:12px}
+.cand{border:1px solid var(--line2);background:var(--panel2);padding:18px}
+.cand .hd{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.blur{width:110px;height:12px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 8px,rgba(255,255,255,.05) 8px 16px);filter:blur(.5px)}
+.fit{margin-left:auto;font-family:var(--mono);font-size:10.5px;color:var(--bg);background:var(--accent);padding:3px 8px;font-weight:500}
+.cand .crit{font-family:var(--mono);font-size:11px;color:var(--ink2);line-height:2;margin-bottom:10px}
+.cand .crit .c{color:var(--great)}
+.cand .crit .x{color:var(--poor)}
+.cand .req{border:1px solid var(--accent-line);background:var(--accent-dim);font-family:var(--mono);font-size:11px;padding:9px 11px;margin-bottom:12px}
+.cand .req .o{color:var(--accent)}
+.cand .acts{display:flex;gap:8px}
+.cand .acts .btn{flex:1}
+.cand .acts .ghost{flex:1;text-align:center}
+/* interviews */
+.ivrow{border:1px solid var(--line2);background:var(--panel2);padding:14px 18px;display:flex;align-items:center;gap:16px;margin-bottom:10px;flex-wrap:wrap}
+.ivrow .who{font-weight:600;min-width:150px}
+.ivrow .meta{font-family:var(--mono);font-size:11px;color:var(--muted)}
+.ivrow .cadence{margin-left:auto;font-family:var(--mono);font-size:10px;color:var(--faint);letter-spacing:.06em}
+.ivrow .cadence .c{color:var(--great)}
+.ivrow .stat2{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border:1px solid var(--line)}
+.ivrow .stat2.ok{color:var(--great);border-color:rgba(62,207,142,.4)}
+.ivrow .stat2.pend{color:var(--okay);border-color:rgba(251,191,36,.4)}
+/* messages */
+.msgs{display:grid;grid-template-columns:280px 1fr;gap:12px;min-height:480px}
+.threads{border:1px solid var(--line2);background:var(--panel2)}
+.thread{padding:13px 16px;border-bottom:1px solid var(--line2);cursor:pointer}
+.thread:hover{background:var(--raise)}
+.thread.on{background:var(--raise);box-shadow:inset 2px 0 0 var(--accent)}
+.thread b{font-size:13px;display:block}
+.thread span{font-size:11.5px;color:var(--muted);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pane{border:1px solid var(--line2);background:var(--panel2);display:flex;flex-direction:column}
+.legend{display:flex;gap:14px;padding:12px 16px;border-bottom:1px solid var(--line2);font-family:var(--mono);font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+.legend i{width:8px;height:8px;display:inline-block;margin-right:5px}
+.legend .a i{background:var(--accent)}.legend .c i{background:var(--good)}.legend .u i{background:var(--muted)}
+.bubbles{flex:1;padding:16px;display:flex;flex-direction:column;gap:10px;overflow-y:auto}
+.bub{max-width:74%;padding:10px 13px;font-size:13px;line-height:1.5}
+.bub .wh{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.12em;text-transform:uppercase;margin-bottom:3px}
+.bub.auto{background:var(--accent-dim);border:1px solid var(--accent-line);align-self:flex-start}
+.bub.auto .wh{color:var(--accent)}
+.bub.cand{background:rgba(94,177,239,.09);border:1px solid rgba(94,177,239,.3);align-self:flex-end}
+.bub.cand .wh{color:var(--good)}
+.bub.you{background:rgba(255,255,255,.06);border:1px solid var(--line2);align-self:flex-start}
+.bub.you .wh{color:var(--muted)}
+.mrow{display:flex;gap:8px;padding:12px;border-top:1px solid var(--line2)}
+.mrow input{flex:1;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-size:13px;padding:10px 12px;outline:none;font-family:var(--sans)}
+.mrow input:focus{border-color:var(--accent)}
+/* ===== chat wizard ===== */
+.wiz{max-width:720px;margin:0 auto}
+.wchat{display:flex;flex-direction:column;gap:12px;margin-bottom:16px}
+.wmsg{max-width:86%;padding:12px 15px;font-size:14px;line-height:1.6}
+.wmsg.agent{background:var(--accent-dim);border:1px solid var(--accent-line);color:var(--ink2);align-self:flex-start}
+.wmsg.me{background:rgba(255,255,255,.06);border:1px solid var(--line2);color:var(--ink);align-self:flex-end}
+.wmsg .wh{display:block;font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.wmsg .steptag{font-family:var(--mono);font-size:9px;color:var(--faint);letter-spacing:.1em;float:right;margin-left:12px}
+.wcard{align-self:stretch;border:1px solid var(--line);background:var(--panel2);padding:18px}
+.wcard .cap{font-family:var(--mono);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.wcard textarea{width:100%;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-size:13.5px;line-height:1.6;padding:12px;outline:none;font-family:var(--sans);min-height:110px;resize:vertical}
+.wcard textarea:focus{border-color:var(--accent)}
+.wcard .bd{font-size:13.5px;color:var(--ink2);line-height:1.65;white-space:pre-wrap}
+.wcard .acts{display:flex;gap:8px;margin-top:12px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chips button{background:none;border:1px solid var(--line);color:var(--ink2);font-size:13px;padding:9px 16px;cursor:pointer}
+.chips button:hover{border-color:var(--accent);color:var(--accent)}
+.qlist{display:flex;flex-direction:column;gap:8px}
+.q{display:flex;align-items:center;gap:12px;border:1px solid var(--line2);background:var(--bg);padding:11px 13px;font-size:13px;color:var(--ink2)}
+.q .tk{width:17px;height:17px;border:1px solid var(--line);flex:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--bg)}
+.q.on .tk{background:var(--accent);border-color:var(--accent)}
+.q .del{margin-left:auto;color:var(--faint);cursor:pointer;font-size:15px;background:none;border:none}
+.addq{display:flex;gap:8px;margin-top:10px}
+.addq input{flex:1;background:var(--bg);border:1px solid var(--line);color:var(--ink);font-size:13px;padding:10px 12px;outline:none;font-family:var(--sans)}
+.addq input:focus{border-color:var(--accent)}
+.wrow{display:flex;gap:8px;margin-top:4px}
+.wrow input{flex:1;background:var(--panel2);border:1px solid var(--line);color:var(--ink);font-size:14px;padding:12px 14px;outline:none;font-family:var(--sans)}
+.wrow input:focus{border-color:var(--accent)}
+.sumrow{font-family:var(--mono);font-size:12px;color:var(--ink2);padding:7px 0;border-bottom:1px dashed var(--line2);display:flex;gap:12px}
+.sumrow .k{color:var(--faint);width:110px;flex:none;text-transform:uppercase;font-size:10px;letter-spacing:.1em;padding-top:2px}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.mbox{background:var(--panel);border:1px solid var(--line);max-width:460px;width:100%;padding:26px}
+.mbox h3{font-size:17px;letter-spacing:-.2px;margin-bottom:8px}
+.mbox p{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.mbox .fine{font-size:11.5px;color:var(--faint);margin-top:12px;line-height:1.55}
+.mbox .plansm{display:flex;gap:8px;margin-bottom:14px}
+.mbox .pl{flex:1;border:1px solid var(--line);padding:12px 8px;text-align:center;cursor:pointer}
+.mbox .pl.on{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.mbox .pl b{font-family:var(--mono);font-size:20px;display:block}
+.mbox .pl span{font-family:var(--mono);font-size:10px;color:var(--muted)}
+.hidden{display:none}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--panel);border:1px solid var(--accent-line);color:var(--ink);font-size:13px;padding:11px 18px;z-index:120;display:none}
+@media(max-width:900px){aside{display:none}.stats{grid-template-columns:1fr 1fr}.agents{grid-template-columns:1fr}.msgs{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<aside>
+ <div class="logo">Job<b>Agent</b>X <span class="mono" style="font-size:9px;color:var(--faint);letter-spacing:.1em">V2</span></div>
+ <div class="sec">Overview</div>
+ <nav id="nav"></nav>
+ <div class="credbox"><div class="bar"><i></i></div><div class="t"><b>12</b> of 20 interviews left</div><div class="up" onclick="toast('Upgrade modal — same pattern as activation')">Upgrade ↗</div></div>
+</aside>
+
+<main>
+ <div class="top"><h1 id="pageT">Dashboard</h1><span class="sp"></span><button class="btn" onclick="startWiz()">+ New agent</button></div>
+ <div class="wrap" id="view"></div>
+</main>
+
+<div class="toast" id="toast"></div>
+<div id="modal"></div>
+
+<script>
+/* ===== data ===== */
+var AGENTS=[
+ {t:'Registered Nurse',city:'Houston, TX',mode:'In person',live:true,awaiting:3,booked:8,rate:'92%'},
+ {t:'Bilingual Call Center Rep',city:'Remote (US)',mode:'Remote',live:true,awaiting:2,booked:11,rate:'88%'}
+];
+var CANDS=[
+ {fit:94,crit:[['4 yrs ICU experience',1],['Houston metro',1],['Comp in range — $41/hr',1],['Nights OK',1]],when:'Thu 1:00 PM'},
+ {fit:88,crit:[['6 yrs med-surg',1],['Houston metro',1],['Comp in range — $39/hr',1],['Prefers days',0]],when:'Fri 10:30 AM'},
+ {fit:81,crit:[['2 yrs LTC experience',1],['30-min commute',1],['Comp at top of range — $45/hr',0],['Nights OK',1]],when:'Mon 9:00 AM'}
+];
+var IVS=[
+ {who:'S. Alvarez — RN',when:'Thu 1:00 PM',st:'Confirmed',cad:'confirm ✓ · prep ✓ · day-before pending'},
+ {who:'M. Okafor — Call Center',when:'Thu 3:30 PM',st:'Confirmed',cad:'confirm ✓ · prep ✓ · day-before ✓'},
+ {who:'J. Tran — RN',when:'Fri 10:30 AM',st:'Pending',cad:'confirm sent · awaiting reply'}
+];
+var THREADS=[
+ {n:'S. Alvarez',last:'See you Thursday!',msgs:[
+  ['auto','Interview Agent · automatic SMS','Hi Sheena — your interview for the Registered Nurse role is confirmed for Thursday at 1:00 PM CT. We’ll remind you an hour before. Reply RESCHEDULE if anything changes.'],
+  ['cand','Candidate','Perfect, thank you!'],
+  ['auto','Interview Agent · automatic SMS','Here’s what to expect and your join link. Take a look before we meet.'],
+  ['cand','Candidate','See you Thursday!']]},
+ {n:'J. Tran',last:'Can we do Friday instead?',msgs:[
+  ['auto','Interview Agent · automatic SMS','Hi Jenny — you requested Fri 10:30 AM for the RN interview. Confirming your spot now.'],
+  ['cand','Candidate','Can we do Friday instead?'],
+  ['you','You','Friday 10:30 works — locking it in.']]}
+];
+var NAVDEF=[['Dashboard','',''],['Candidates','cnt','3'],['Interviews','cnt','3'],['Messages','cnt','2'],['Reports','',''],['Settings','','']];
+var PAGE='Dashboard';
+
+/* ===== shell ===== */
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function renderNav(){
+ var h='';
+ NAVDEF.forEach(function(n){
+  var extra=n[1]==='cnt'?'<span class="cnt">'+n[2]+'</span>':(n[0]==='Candidates'?'':'');
+  if(n[0]==='Candidates')extra='<span class="live">● LIVE</span>';
+  h+='<a class="'+(PAGE===n[0]?'on':'')+'" onclick="go(\''+n[0]+'\')">'+n[0]+extra+'</a>';
+ });
+ document.getElementById('nav').innerHTML=h;
+}
+function go(p){PAGE=p;WIZ.on=false;renderNav();document.getElementById('pageT').textContent=p;render();window.scrollTo(0,0);}
+function toast(t){var el=document.getElementById('toast');el.textContent=t;el.style.display='block';setTimeout(function(){el.style.display='none';},2600);}
+function render(){
+ if(WIZ.on){document.getElementById('view').innerHTML=vWiz();wizScroll();return;}
+ var f={Dashboard:vDash,Candidates:vCands,Interviews:vIvs,Messages:vMsgs,Reports:vReports,Settings:vSettings}[PAGE];
+ document.getElementById('view').innerHTML=f();
+}
+
+/* ===== dashboard ===== */
+function vDash(){
+ var h='<div class="stats">'+
+ '<div class="stat"><div class="v">5</div><div class="k">Requests awaiting you</div><div class="d">+2 today</div></div>'+
+ '<div class="stat"><div class="v">19</div><div class="k">Interviews booked</div><div class="d">+6 this week</div></div>'+
+ '<div class="stat"><div class="v">1.4d</div><div class="k">Avg time to interview</div></div>'+
+ '<div class="stat"><div class="v">90%</div><div class="k">Accept rate</div></div></div>';
+ h+='<div class="eyeb">Your agents</div><div class="agents">';
+ AGENTS.forEach(function(a,i){
+  h+='<div class="agent"><div class="hd"><b>'+esc(a.t)+'</b><span class="st '+(a.live?'live':'drf')+'">'+(a.live?'● Live':'Draft — activate')+'</span></div>'+
+  '<div class="meta">'+esc(a.city)+' · '+esc(a.mode)+'</div>'+
+  '<div class="row"><div><b>'+a.awaiting+'</b>awaiting you</div><div><b>'+a.booked+'</b>booked</div><div><b>'+a.rate+'</b>accept rate</div></div>'+
+  '<div class="foot">'+(a.live?'<button class="ghost" onclick="go(\'Candidates\')">Review requests</button><button class="ghost" onclick="toast(\'Agent paused\')">Pause</button>':'<button class="btn" onclick="openActivate('+i+')">Activate agent</button><button class="ghost" onclick="startWiz()">Edit in chat</button>')+'</div></div>';
+ });
+ h+='<button class="newagent" onclick="startWiz()"><span class="plus">+</span><span>New agent — set up in chat, ~2 minutes</span></button></div>';
+ return h;
+}
+
+/* ===== candidates ===== */
+function vCands(){
+ var h='<div class="eyeb">Registered Nurse — anonymized until you accept · accepting books the interview and uses 1 of your 20</div><div class="cands">';
+ CANDS.forEach(function(c,i){
+  var crit=c.crit.map(function(x){return '<span class="'+(x[1]?'c':'x')+'">'+(x[1]?'✓':'✕')+'</span> '+esc(x[0]);}).join('<br>');
+  h+='<div class="cand"><div class="hd"><span class="blur"></span><span class="fit">'+c.fit+' FIT</span></div>'+
+  '<div class="crit">'+crit+'</div>'+
+  '<div class="req"><span class="o">→</span> requested interview: <span class="o">'+c.when+'</span></div>'+
+  '<div class="acts"><button class="btn" onclick="openAccept('+i+')">Accept — unlock &amp; book</button><button class="ghost" onclick="toast(\'Declined — your agent learns from this\')">Decline</button></div></div>';
+ });
+ return h+'</div>';
+}
+function openAccept(i){
+ var c=CANDS[i];
+ document.getElementById('modal').innerHTML='<div class="modal" onclick="if(event.target===this)closeModal()"><div class="mbox">'+
+ '<h3>Accept this candidate?</h3><p>Accepting unlocks their name and contact, and books the interview for <b style="color:var(--ink)">'+c.when+'</b> on your calendar.</p>'+
+ '<div class="sumrow"><span class="k">Uses</span><span>1 of your 12 remaining interviews this month</span></div>'+
+ '<div class="acts" style="display:flex;gap:8px;margin-top:18px"><button class="btn" style="flex:1" onclick="closeModal();toast(\'Booked — identity unlocked, calendar invite sent\')">Accept &amp; book</button><button class="ghost" style="flex:1" onclick="closeModal()">Cancel</button></div>'+
+ '<p class="fine">Your agent runs the full SMS cadence on this interview automatically. No-shows aren’t refunded — the agent’s reminder cadence is the protection.</p></div></div>';
+}
+function closeModal(){document.getElementById('modal').innerHTML='';}
+
+/* ===== interviews ===== */
+function vIvs(){
+ var h='<div class="eyeb">Upcoming — your agent handles every confirmation and reminder</div>';
+ IVS.forEach(function(v){
+  h+='<div class="ivrow"><span class="who">'+esc(v.who)+'</span><span class="meta">'+v.when+'</span><span class="stat2 '+(v.st==='Confirmed'?'ok':'pend')+'">'+v.st+'</span><span class="cadence">'+v.cad.replace(/✓/g,'<span class="c">✓</span>')+'</span></div>';
+ });
+ h+='<div class="eyeb" style="margin-top:26px">After each interview</div><div class="ivrow"><span class="who">Verdict</span><span class="meta" style="flex:1">Yes / No / Maybe lands here when an interview completes — feeds reports and your agent’s learning.</span></div>';
+ return h;
+}
+
+/* ===== messages ===== */
+var TH=0;
+function vMsgs(){
+ var t=THREADS[TH];
+ var h='<div class="msgs"><div class="threads">';
+ THREADS.forEach(function(x,i){h+='<div class="thread '+(i===TH?'on':'')+'" onclick="TH='+i+';render()"><b>'+esc(x.n)+'</b><span>'+esc(x.last)+'</span></div>';});
+ h+='</div><div class="pane"><div class="legend"><span class="a"><i></i>Agent · automatic SMS</span><span class="c"><i></i>Candidate</span><span class="u"><i></i>You</span></div><div class="bubbles">';
+ t.msgs.forEach(function(m){h+='<div class="bub '+m[0]+'"><span class="wh">'+m[1]+'</span>'+esc(m[2])+'</div>';});
+ h+='</div><div class="mrow"><input placeholder="Jump in as yourself — candidate sees it in the same thread" onkeydown="if(event.key===\'Enter\'&&this.value.trim()){THREADS[TH].msgs.push([\'you\',\'You\',this.value.trim()]);render()}"><button class="btn" onclick="toast(\'Sent\')">Send</button></div></div></div>';
+ return h;
+}
+
+/* ===== reports / settings ===== */
+function vReports(){
+ return '<div class="stats"><div class="stat"><div class="v">27</div><div class="k">Interviews this month</div></div><div class="stat"><div class="v">19</div><div class="k">Showed</div></div><div class="stat"><div class="v">6</div><div class="k">Hires</div></div><div class="stat"><div class="v">$83</div><div class="k">Cost per hire-track interview</div></div></div><div class="eyeb">Interviews → hires, per agent — powered by post-interview verdicts</div><div class="ivrow"><span class="who">Registered Nurse</span><span class="meta" style="flex:1">14 interviews · 11 showed · 4 hires</span></div><div class="ivrow"><span class="who">Bilingual Call Center</span><span class="meta" style="flex:1">13 interviews · 8 showed · 2 hires</span></div>';
+}
+function vSettings(){
+ return '<div class="eyeb">Registered Nurse — agent settings (editable in chat too: just tell it what to change)</div>'+
+ '<div class="agent" style="margin-bottom:12px"><div class="hd"><b>Approval mode</b><span class="st live">ON</span></div><div class="meta">Review each candidate; accepting unlocks identity and books the interview. Pay per accepted interview. Turn off and your agent auto-books every qualified match — pay per booked interview.</div><button class="ghost" onclick="toast(\'Approval mode toggled (mock)\')">Toggle</button></div>'+
+ '<div class="agent"><div class="hd"><b>Automatic messaging</b><span class="st live">6 STEPS ON</span></div><div class="meta mono" style="font-size:11.5px;line-height:2">✓ booking confirmation&nbsp;&nbsp;✓ prep &amp; details&nbsp;&nbsp;✓ day-before&nbsp;&nbsp;✓ 1-hour&nbsp;&nbsp;✓ no-show recovery&nbsp;&nbsp;✓ follow-up</div><button class="ghost" onclick="startWiz()">Edit via chat</button></div>';
+}
+
+/* ===== chat wizard ===== */
+var WIZ={on:false,step:0,log:[],job:{}};
+var MODES=['In person','Remote','On the road','Hybrid'];
+function recDesc(t){
+ return t+' — full time.\n\nWe’re hiring a '+t+' to join the team. Real pay, real growth, and a fast, respectful hiring process: qualified candidates interview within days, not weeks.';
+}
+function recQs(t){
+ var base=['How many years of '+t+' experience do you have?','What shift or schedule works best for you?','What’s your expected pay?','When could you start?','Are you authorized to work in the US?'];
+ var tl=t.toLowerCase();
+ if(/nurse|rn|cna|med/.test(tl))base.splice(1,0,'Is your license active and in good standing?');
+ if(/driver|cdl/.test(tl))base.splice(1,0,'Do you hold a current CDL? Class A or B?');
+ return base;
+}
+function startWiz(){WIZ={on:true,step:0,log:[],job:{qs:[]}};document.getElementById('pageT').textContent='New agent';wAgent('Let’s set up a new agent. I only need a few things, and I’ll draft the rest for you.\n\nFirst — what’s the job title?','1 / 5');render();}
+function wAgent(t,tag){WIZ.log.push({who:'agent',t:t,tag:tag});}
+function wMe(t){WIZ.log.push({who:'me',t:t});}
+function wCard(html){WIZ.log.push({who:'card',t:html});}
+function vWiz(){
+ var h='<div class="wiz"><div class="wchat">';
+ WIZ.log.forEach(function(m){
+  if(m.who==='card'){h+='<div class="wcard">'+m.t+'</div>';}
+  else h+='<div class="wmsg '+m.who+'">'+(m.who==='agent'?'<span class="wh">Your agent'+(m.tag?'<span class="steptag">STEP '+m.tag+'</span>':'')+'</span>':'')+esc(m.t).replace(/\n/g,'<br>')+'</div>';
+ });
+ h+='</div>';
+ h+=wInput();
+ h+='<p style="text-align:center;margin-top:16px"><button class="ghost" onclick="go(\'Dashboard\')">Save draft &amp; exit</button></p></div>';
+ return h;
+}
+function wInput(){
+ var s=WIZ.step;
+ if(s===0)return '<div class="wrow"><input id="wIn" placeholder="e.g. Registered Nurse" onkeydown="if(event.key===\'Enter\')wTitle()" autofocus><button class="btn" onclick="wTitle()">Send</button></div>';
+ if(s===1)return '';/* desc card handles it */
+ if(s===2)return '<div class="wrow"><input id="wIn" placeholder="City, ST — or Remote" onkeydown="if(event.key===\'Enter\')wCity()" autofocus><button class="btn" onclick="wCity()">Send</button></div>';
+ if(s===3)return '<div class="chips">'+MODES.map(function(m){return '<button onclick="wMode(\''+m+'\')">'+m+'</button>';}).join('')+'</div>';
+ if(s===4)return '<div class="wrow"><input id="wIn" placeholder="$35–$42/hr — or type skip" onkeydown="if(event.key===\'Enter\')wPay()" autofocus><button class="btn" onclick="wPay()">Send</button></div>';
+ if(s===5)return '';/* questions card */
+ return '';
+}
+function wizScroll(){window.scrollTo(0,document.body.scrollHeight);var i=document.getElementById('wIn');if(i)i.focus();}
+function wTitle(){
+ var v=document.getElementById('wIn').value.trim();if(!v)return;
+ WIZ.job.t=v;wMe(v);
+ wAgent('Here’s a description I drafted for “'+v+'.” Accept it, or edit it right here — your call.','2 / 5');
+ wCard('<div class="cap">Recommended description — accept, edit, or rewrite</div><textarea id="wDesc">'+esc(recDesc(v))+'</textarea><div class="acts"><button class="btn" onclick="wDesc()">Use this description</button></div>');
+ WIZ.step=1;render();
+}
+function wDesc(){
+ WIZ.job.desc=document.getElementById('wDesc').value;
+ wMe('Description approved ✓');
+ wAgent('Where is this role located?','3 / 5');
+ WIZ.step=2;render();
+}
+function wCity(){
+ var v=document.getElementById('wIn').value.trim();if(!v)return;
+ WIZ.job.city=v;wMe(v);
+ wAgent('Is this in person, remote, on the road, or hybrid?','4 / 5');
+ WIZ.step=3;render();
+}
+function wMode(m){
+ WIZ.job.mode=m;wMe(m);
+ wAgent('What’s the pay range? Rough is fine — or say skip.','');
+ WIZ.step=4;render();
+}
+function wPay(){
+ var v=document.getElementById('wIn').value.trim();if(!v)return;
+ WIZ.job.pay=/skip/i.test(v)?'':v;wMe(v);
+ wAgent('Last one. Here are the screening questions I recommend for a '+WIZ.job.t+'. Toggle off any you don’t want, add your own, then lock them in.','5 / 5');
+ WIZ.job.qs=recQs(WIZ.job.t).map(function(q){return {t:q,on:true};});
+ wCard('<div class="cap">Recommended screening questions</div><div id="wQs"></div><div class="addq"><input id="wAddQ" placeholder="Add your own question…" onkeydown="if(event.key===\'Enter\')wAddQ()"><button class="ghost" onclick="wAddQ()">Add</button></div><div class="acts"><button class="btn" onclick="wDone()">Use these questions</button></div>');
+ WIZ.step=5;render();renderQs();
+}
+function renderQs(){
+ var el=document.getElementById('wQs');if(!el)return;
+ el.className='qlist';
+ el.innerHTML=WIZ.job.qs.map(function(q,i){
+  return '<div class="q '+(q.on?'on':'')+'"><span class="tk" onclick="WIZ.job.qs['+i+'].on=!WIZ.job.qs['+i+'].on;renderQs()">'+(q.on?'✓':'')+'</span><span>'+esc(q.t)+'</span><button class="del" onclick="WIZ.job.qs.splice('+i+',1);renderQs()">×</button></div>';
+ }).join('');
+}
+function wAddQ(){
+ var i=document.getElementById('wAddQ');var v=i.value.trim();if(!v)return;
+ WIZ.job.qs.push({t:v,on:true});i.value='';renderQs();
+}
+function wDone(){
+ var j=WIZ.job;var qn=j.qs.filter(function(q){return q.on;}).length;
+ wMe('Questions locked ✓');
+ wAgent('That’s everything. Here’s your agent — review the summary, then activate it whenever you’re ready.','');
+ wCard('<div class="cap">Agent summary</div>'+
+ '<div class="sumrow"><span class="k">Role</span><span>'+esc(j.t)+'</span></div>'+
+ '<div class="sumrow"><span class="k">Location</span><span>'+esc(j.city)+' · '+esc(j.mode)+'</span></div>'+
+ (j.pay?'<div class="sumrow"><span class="k">Pay</span><span>'+esc(j.pay)+'</span></div>':'')+
+ '<div class="sumrow"><span class="k">Questions</span><span>'+qn+' screening questions</span></div>'+
+ '<div class="sumrow"><span class="k">Messaging</span><span>6-step SMS cadence — on</span></div>'+
+ '<div class="acts"><button class="btn" onclick="wFinish(true)">Activate agent</button><button class="ghost" onclick="wFinish(false)">Save as draft</button></div>');
+ WIZ.step=6;render();
+}
+function wFinish(act){
+ AGENTS.push({t:WIZ.job.t,city:WIZ.job.city,mode:WIZ.job.mode,live:false,awaiting:0,booked:0,rate:'—'});
+ WIZ.on=false;
+ if(act){openActivate(AGENTS.length-1);}
+ go('Dashboard');
+ if(!act)toast('Draft saved — activate any time');
+}
+/* activation modal — money stays structured UI */
+var ACTPLAN='Growth';
+function openActivate(i){
+ var a=AGENTS[i];
+ var plans={Starter:[10,299],Growth:[20,499],Scale:[30,699]};
+ var h='<div class="modal" onclick="if(event.target===this)closeModal()"><div class="mbox">'+
+ '<h3>Activate '+esc(a.t)+'</h3><p>Pick your monthly interview volume, connect your calendar, and your agent starts sourcing today. Unlimited agents on every plan — this choice covers your whole account.</p>'+
+ '<div class="plansm">'+Object.keys(plans).map(function(p){return '<div class="pl '+(ACTPLAN===p?'on':'')+'" onclick="ACTPLAN=\''+p+'\';openActivate('+i+')"><b>'+plans[p][0]+'</b><span>interviews<br>$'+plans[p][1]+'/mo</span></div>';}).join('')+'</div>'+
+ '<button class="btn" style="width:100%" onclick="AGENTS['+i+'].live=true;closeModal();go(\'Dashboard\');toast(\'Agent live — sourcing started\')">Connect calendar &amp; pay $'+plans[ACTPLAN][1]+'</button>'+
+ '<p class="fine">Card + Google/Outlook calendar collected here in the real flow. Accepting a candidate books the interview and uses one monthly interview credit.</p></div></div>';
+ document.getElementById('modal').innerHTML=h;
+}
+
+renderNav();render();
+</script>
+</body>
+</html>
