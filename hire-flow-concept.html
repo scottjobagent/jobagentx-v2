@@ -6,31 +6,40 @@
 <title>JobAgentX — Hire with one sentence</title>
 <style>
 :root{
- --bg:#f6f7f9; --card:#ffffff; --card2:#f3f4f7; --raise:#e9ebf0;
- --line:#e5e8ee; --line2:#eef0f4;
- --ink:#17191f; --ink2:#3d4351; --muted:#697084; --faint:#98a0b0;
- --accent:#4d5cf0; --accent2:#7c3aed; --accent-soft:rgba(77,92,240,.10); --accent-ink:#3a45c9;
- --great:#059669; --poor:#dc2626;
- --mascot-face:#2c3270;
+ --bg:#0b0c10; --panel:#13151d; --panel2:#181b26; --raise:#232838;
+ --line:#262b3a; --line2:#1e2230;
+ --ink:#f5f6fa; --ink2:#c9cedb; --muted:#8b91a3; --faint:#5b6072;
+ --accent:#6d7dff; --accent2:#9a7bff; --accent-soft:rgba(109,125,255,.13); --accent-ink:#b9c2ff;
+ --great:#34d399; --okay:#fbbf24; --poor:#f87171;
+ --mascot-face:#3a4090;
+ --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+ --grad:linear-gradient(92deg,#6d7dff,#9a7bff);
 }
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,system-ui,"Segoe UI",Roboto,Oxygen,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;display:flex;flex-direction:column}
+body{font-family:-apple-system,system-ui,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+body::before{content:'';position:fixed;inset:0;background:
+ radial-gradient(600px 320px at 75% -5%,rgba(122,90,248,.14),transparent 60%),
+ radial-gradient(700px 380px at 15% 110%,rgba(77,92,240,.10),transparent 60%);pointer-events:none}
 a{color:var(--accent-ink);text-decoration:none}
-.top{display:flex;align-items:center;gap:12px;padding:20px 30px}
-.logo{font-weight:800;font-size:15px}
-.logo b{color:var(--accent)}
-.tag{font-size:10.5px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:3px 10px}
-.wrap{flex:1;display:flex;flex-direction:column;align-items:center;padding:24px 20px 80px}
-.stage{width:100%;max-width:640px}
-.dots{display:flex;gap:6px;justify-content:center;margin-bottom:26px}
-.dots i{width:26px;height:4px;border-radius:2px;background:var(--raise);transition:background .3s}
-.dots i.on{background:var(--accent)}
-h1{font-size:30px;letter-spacing:-.4px;text-align:center;margin:18px 0 10px}
-h2{font-size:24px;letter-spacing:-.3px;text-align:center;margin:14px 0 8px}
-.sub{color:var(--muted);font-size:14.5px;line-height:1.65;text-align:center;margin-bottom:30px}
+.top{display:flex;align-items:center;gap:14px;padding:22px 34px;position:relative;z-index:2}
+.logo{font-weight:800;font-size:16px;letter-spacing:-.2px}
+.logo b{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:5px 12px;text-transform:uppercase}
+.wrap{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;padding:18px 20px 90px}
+.stage{width:100%;max-width:760px}
+/* eyebrow */
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-ink);text-align:center;margin-bottom:18px}
+.eyebrow::before{content:'┌ ';color:var(--faint)}
+.eyebrow::after{content:' ┐';color:var(--faint)}
+/* display type */
+h1{font-size:62px;line-height:1.02;letter-spacing:-2.2px;font-weight:800;text-align:center;margin:0 0 18px}
+h1 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+h2{font-size:34px;line-height:1.1;letter-spacing:-1px;font-weight:800;text-align:center;margin:4px 0 12px}
+h2 .g{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:15.5px;line-height:1.65;text-align:center;margin:0 auto 34px;max-width:560px}
 .sub b{color:var(--ink2)}
 /* mascot */
-.imx{filter:drop-shadow(0 6px 16px rgba(77,92,240,.16))}
+.imx{filter:drop-shadow(0 0 26px rgba(122,104,255,.45))}
 .imx .r{fill:var(--accent)}
 .imx-ring{transform-box:fill-box;transform-origin:center;animation:imspin 22s linear infinite}
 .imx-ray{animation:impulse 1.9s ease-in-out infinite}
@@ -43,91 +52,118 @@ h2{font-size:24px;letter-spacing:-.3px;text-align:center;margin:14px 0 8px}
 @keyframes impulse{0%,100%{opacity:.25}50%{opacity:.95}}
 @keyframes imbob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
 @keyframes imblink{0%,92%,100%{transform:scaleY(1)}95%{transform:scaleY(.12)}}
-@media(prefers-reduced-motion:reduce){.imx-ring,.imx-ray,.imx-face,.imx-eye,.act li{animation:none!important}}
-.center{text-align:center}
-/* hero prompt */
-.promptbox{display:flex;gap:10px;background:#fff;border:1.5px solid var(--line);border-radius:14px;padding:10px 10px 10px 20px;box-shadow:0 2px 14px rgba(23,25,31,.06);transition:border-color .15s,box-shadow .15s}
-.promptbox:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
-.promptbox input{flex:1;border:none;outline:none;font-size:16.5px;color:var(--ink);font-family:inherit;background:none}
-.promptbox input::placeholder{color:var(--faint)}
-.pbtn{background:var(--accent);border:none;border-radius:10px;color:#fff;font-size:14.5px;font-weight:700;padding:13px 22px;cursor:pointer;font-family:inherit;transition:background .15s}
-.pbtn:hover{background:#3a48d6}
-.hints{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:16px}
-.hints button{background:none;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12.5px;padding:7px 14px;cursor:pointer;font-family:inherit}
-.hints button:hover{border-color:var(--accent);color:var(--accent-ink)}
-.steps3{display:flex;gap:14px;margin-top:44px}
-.steps3 div{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
-.steps3 b{display:block;font-size:13px;margin-bottom:5px}
-.steps3 span{font-size:12.5px;color:var(--muted);line-height:1.5}
-.steps3 .n{display:inline-flex;width:20px;height:20px;border-radius:50%;background:var(--accent-soft);color:var(--accent-ink);font-size:11px;font-weight:800;align-items:center;justify-content:center;margin-bottom:8px}
+@media(prefers-reduced-motion:reduce){.imx-ring,.imx-ray,.imx-face,.imx-eye{animation:none!important}}
+/* THE WINDOW — persistent agent console */
+.win{background:var(--panel);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 0 1px rgba(122,104,255,.06);margin:0 auto}
+.win.glow{box-shadow:0 30px 80px rgba(0,0,0,.5),0 0 44px rgba(122,104,255,.14)}
+.winbar{display:flex;align-items:center;gap:8px;padding:13px 18px;border-bottom:1px solid var(--line2);background:var(--panel2)}
+.winbar .d{width:11px;height:11px;border-radius:50%}
+.winbar .d1{background:#f87171}.winbar .d2{background:#fbbf24}.winbar .d3{background:#34d399}
+.winbar .t{font-family:var(--mono);font-size:11px;color:var(--muted);margin-left:8px;letter-spacing:.06em}
+.winbar .prog{margin-left:auto;display:flex;gap:5px}
+.winbar .prog i{width:20px;height:3px;border-radius:2px;background:var(--raise)}
+.winbar .prog i.on{background:var(--accent)}
+.winbody{padding:28px;min-height:340px}
+/* hero prompt inside window */
+.promptline{display:flex;align-items:center;gap:12px;background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:8px 8px 8px 18px;transition:border-color .15s,box-shadow .15s}
+.promptline:focus-within{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
+.promptline .car{font-family:var(--mono);color:var(--accent);font-size:17px;font-weight:700}
+.promptline input{flex:1;border:none;outline:none;font-size:16.5px;color:var(--ink);font-family:inherit;background:none}
+.promptline input::placeholder{color:var(--faint)}
+.gbtn{background:var(--grad);border:none;border-radius:9px;color:#fff;font-size:14.5px;font-weight:800;letter-spacing:.01em;padding:13px 24px;cursor:pointer;font-family:inherit;transition:filter .15s,transform .1s}
+.gbtn:hover{filter:brightness(1.12)}
+.gbtn:active{transform:scale(.98)}
+.gbtn[disabled]{opacity:.4;cursor:default}
+.gbtn.full{width:100%}
+.ghost{background:none;border:1px solid var(--line);color:var(--ink2);border-radius:9px;font-size:13.5px;font-weight:600;padding:11px 18px;cursor:pointer;font-family:inherit}
+.ghost:hover{border-color:var(--muted)}
+.hints{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:18px}
+.hints button{background:none;border:1px solid var(--line);border-radius:999px;color:var(--muted);font-size:12.5px;padding:8px 15px;cursor:pointer;font-family:inherit;transition:all .15s}
+.hints button:hover{border-color:var(--accent);color:var(--accent-ink);background:var(--accent-soft)}
+/* big numbered steps under hero */
+.bigsteps{margin-top:74px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.bigsteps>div{padding:28px 26px 6px;border-right:1px solid var(--line)}
+.bigsteps>div:last-child{border-right:none}
+.bigsteps .num{font-family:var(--mono);font-size:13px;color:var(--accent-ink);letter-spacing:.14em;margin-bottom:12px}
+.bigsteps b{display:block;font-size:16.5px;letter-spacing:-.2px;margin-bottom:8px}
+.bigsteps span{font-size:13px;color:var(--muted);line-height:1.6}
 /* chat */
-.chat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;min-height:240px;display:flex;flex-direction:column;gap:10px;margin-bottom:12px;box-shadow:0 1px 3px rgba(23,25,31,.04)}
-.msg{max-width:82%;padding:10px 14px;border-radius:13px;font-size:14px;line-height:1.55}
-.msg.agent{background:var(--accent-soft);color:var(--ink2);border-bottom-left-radius:4px;align-self:flex-start}
-.msg.me{background:var(--card2);color:var(--ink);border-bottom-right-radius:4px;align-self:flex-end}
-.msg .who{display:block;font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--accent-ink);margin-bottom:3px}
+.chat{display:flex;flex-direction:column;gap:12px;min-height:230px;margin-bottom:16px}
+.msg{max-width:82%;padding:11px 15px;border-radius:13px;font-size:14px;line-height:1.55}
+.msg.agent{background:var(--accent-soft);color:var(--ink2);border:1px solid rgba(122,104,255,.18);border-bottom-left-radius:4px;align-self:flex-start}
+.msg.me{background:var(--raise);color:var(--ink);border-bottom-right-radius:4px;align-self:flex-end}
+.msg .who{display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);margin-bottom:4px}
 .chatrow{display:flex;gap:10px}
-.chatrow input{flex:1;background:#fff;border:1px solid var(--line);border-radius:10px;color:var(--ink);font-size:14.5px;padding:12px 15px;outline:none;font-family:inherit}
+.chatrow input{flex:1;background:var(--panel2);border:1px solid var(--line);border-radius:10px;color:var(--ink);font-size:14.5px;padding:13px 16px;outline:none;font-family:inherit}
 .chatrow input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
-/* activity log */
-.act{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;list-style:none;margin:0 auto 18px;max-width:460px;text-align:left}
-.act li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:var(--ink2);padding:7px 0;opacity:0;transform:translateY(4px);transition:opacity .35s,transform .35s}
+/* activity log — mono, terminal energy without cosplay */
+.act{list-style:none;font-family:var(--mono);font-size:13px}
+.act li{display:flex;align-items:center;gap:12px;color:var(--ink2);padding:9px 0;opacity:0;transform:translateY(4px);transition:opacity .35s,transform .35s;border-bottom:1px dashed var(--line2)}
 .act li.show{opacity:1;transform:none}
-.act li .ok{width:18px;height:18px;border-radius:50%;background:var(--great);color:#fff;font-size:10px;display:flex;align-items:center;justify-content:center;flex:none}
-.act li .spin{width:18px;height:18px;border-radius:50%;border:2px solid var(--raise);border-top-color:var(--accent);flex:none;animation:sp .8s linear infinite}
+.act li:last-child{border-bottom:none}
+.act .ok{color:var(--great);font-weight:700;flex:none;width:16px}
+.act .spin{width:14px;height:14px;border-radius:50%;border:2px solid var(--raise);border-top-color:var(--accent);flex:none;animation:sp .8s linear infinite}
+.act .dim{color:var(--faint)}
 @keyframes sp{to{transform:rotate(360deg)}}
 /* review cards */
-.rc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:left;margin-bottom:12px;box-shadow:0 1px 3px rgba(23,25,31,.04)}
-.rc h4{font-size:13.5px;display:flex;align-items:center;gap:8px;margin-bottom:9px}
-.rc h4 .t{font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border-radius:999px;padding:2px 8px}
+.rc{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:20px;text-align:left;margin-bottom:12px}
+.rc h4{font-size:14px;display:flex;align-items:center;gap:10px;margin-bottom:10px;letter-spacing:-.1px}
+.rc h4 .t{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-ink);background:var(--accent-soft);border:1px solid rgba(122,104,255,.2);border-radius:999px;padding:3px 9px}
 .rc h4 .e{margin-left:auto;background:none;border:none;color:var(--accent-ink);font-size:12.5px;cursor:pointer;font-family:inherit}
-.rc .bd{color:var(--ink2);font-size:13.5px;line-height:1.6;white-space:pre-wrap}
-.rc ul{margin:0;padding-left:18px;color:var(--ink2);font-size:13.5px;line-height:1.85}
+.rc .bd{color:var(--ink2);font-size:13.5px;line-height:1.65;white-space:pre-wrap}
+.rc ul{margin:0;padding-left:18px;color:var(--ink2);font-size:13.5px;line-height:1.9}
 /* volume */
-.openrow{display:flex;align-items:center;gap:10px;justify-content:center;margin-bottom:22px;font-size:14px;color:var(--ink2)}
-.openrow input{width:58px;text-align:center;background:#fff;border:1px solid var(--line);border-radius:8px;font-size:15px;font-weight:700;padding:9px;outline:none;font-family:inherit}
+.openrow{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:8px;font-size:14px;color:var(--ink2)}
+.openrow input{width:62px;text-align:center;background:var(--panel2);border:1px solid var(--line);border-radius:9px;color:var(--ink);font-size:16px;font-weight:800;padding:10px;outline:none;font-family:inherit}
 .openrow input:focus{border-color:var(--accent)}
-.vols{display:flex;gap:12px;margin-bottom:14px}
-.vol{flex:1;background:var(--card);border:1.5px solid var(--line);border-radius:14px;padding:20px 14px;cursor:pointer;text-align:center;position:relative;transition:border-color .15s,box-shadow .15s}
-.vol:hover{border-color:var(--accent)}
-.vol.on{border-color:var(--accent);box-shadow:0 0 0 4px var(--accent-soft)}
-.vol .n{font-size:30px;font-weight:800;letter-spacing:-.5px}
-.vol .l{color:var(--muted);font-size:12px;margin-bottom:10px}
-.vol .p{font-size:15px;font-weight:700}
-.vol .per{color:var(--faint);font-size:11.5px;margin-top:2px}
-.vol .rec{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;border-radius:999px;padding:3px 10px;white-space:nowrap}
-.whyrec{text-align:center;font-size:13px;color:var(--muted);margin-bottom:6px;min-height:20px}
-.whyrec b{color:var(--ink2)}
+.whyrec{text-align:center;font-size:13px;color:var(--muted);margin-bottom:24px;min-height:20px}
+.whyrec b{color:var(--accent-ink)}
+.vols{display:flex;gap:14px;margin-bottom:8px}
+.vol{flex:1;background:var(--panel2);border:1.5px solid var(--line);border-radius:16px;padding:26px 14px 22px;cursor:pointer;text-align:center;position:relative;transition:all .15s}
+.vol:hover{border-color:var(--accent);transform:translateY(-2px)}
+.vol.on{border-color:transparent;background:linear-gradient(var(--panel2),var(--panel2)) padding-box,var(--grad) border-box;box-shadow:0 0 34px rgba(122,104,255,.22)}
+.vol .n{font-size:52px;font-weight:800;letter-spacing:-2.5px;line-height:1}
+.vol.on .n{background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.vol .l{font-family:var(--mono);color:var(--muted);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;margin:8px 0 14px}
+.vol .p{font-size:17px;font-weight:800}
+.vol .per{color:var(--faint);font-size:11.5px;margin-top:3px}
+.vol .rec{position:absolute;top:-11px;left:50%;transform:translateX(-50%);background:var(--grad);color:#fff;font-family:var(--mono);font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;border-radius:999px;padding:4px 12px;white-space:nowrap}
 /* activate */
-.sumline{background:var(--card2);border:1px solid var(--line2);border-radius:10px;padding:13px 16px;font-size:13.5px;color:var(--ink2);text-align:center;margin-bottom:16px}
+.sumline{background:var(--panel2);border:1px solid var(--line);border-radius:11px;padding:14px 18px;font-size:13.5px;color:var(--ink2);text-align:center;margin-bottom:16px}
 .sumline b{color:var(--ink)}
-.acard{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:12px;text-align:left}
+.acard{background:var(--panel2);border:1px solid var(--line);border-radius:12px;padding:18px;margin-bottom:12px;text-align:left}
 .acard .cal{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.acard .cs{font-size:13.5px;color:var(--muted)}
+.acard .cs{font-size:13px;color:var(--muted);margin-top:3px}
 .acard .cs.ok{color:var(--great);font-weight:700}
-.ghost{background:none;border:1px solid var(--line);color:var(--ink2);border-radius:8px;font-size:13px;font-weight:600;padding:9px 16px;cursor:pointer;font-family:inherit}
 .field{margin-bottom:13px;text-align:left}
-.field label{display:block;font-size:12px;font-weight:600;color:var(--ink2);margin-bottom:6px}
-.field input{width:100%;background:#fff;border:1px solid var(--line);border-radius:8px;color:var(--ink);font-size:14.5px;padding:11px 13px;outline:none;font-family:inherit}
+.field label{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;font-weight:600;color:var(--muted);margin-bottom:7px}
+.field input{width:100%;background:var(--panel);border:1px solid var(--line);border-radius:9px;color:var(--ink);font-size:14.5px;padding:12px 14px;outline:none;font-family:inherit}
 .field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-soft)}
 .row2{display:flex;gap:10px}
 .row2 .field{flex:1}
-.navr{display:flex;justify-content:space-between;align-items:center;margin-top:20px}
-.big{width:100%;background:var(--accent);border:none;border-radius:10px;color:#fff;font-size:15px;font-weight:700;padding:14px;cursor:pointer;font-family:inherit}
-.big:hover{background:#3a48d6}
-.big[disabled]{opacity:.45;cursor:default}
-.fine{font-size:12px;color:var(--faint);line-height:1.6;margin-top:14px;text-align:center}
+.navr{display:flex;justify-content:space-between;align-items:center;margin-top:22px}
+.fine{font-size:12px;color:var(--faint);line-height:1.6;margin-top:16px;text-align:center}
 /* live feed */
-.feed{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 22px;max-width:460px;margin:8px auto 0;text-align:left}
-.feed div{display:flex;gap:10px;align-items:baseline;font-size:13px;color:var(--ink2);padding:6px 0;opacity:0;transition:opacity .4s}
+.feed{font-family:var(--mono);font-size:12.5px;text-align:left;margin-top:6px}
+.feed div{display:flex;gap:14px;align-items:baseline;color:var(--ink2);padding:8px 0;border-bottom:1px dashed var(--line2);opacity:0;transition:opacity .4s}
+.feed div:last-child{border-bottom:none}
 .feed div.show{opacity:1}
-.feed .tm{color:var(--faint);font-size:11px;flex:none;width:52px}
+.feed .tm{color:var(--faint);font-size:10.5px;flex:none;width:44px;letter-spacing:.06em}
+.feed .g2{color:var(--great)}
+.center{text-align:center}
 .hidden{display:none}
-@media(max-width:560px){.vols,.steps3{flex-direction:column}h1{font-size:24px}}
+@media(max-width:640px){
+ h1{font-size:38px;letter-spacing:-1.2px}
+ h2{font-size:26px}
+ .vols{flex-direction:column}
+ .bigsteps{grid-template-columns:1fr}
+ .bigsteps>div{border-right:none;border-bottom:1px solid var(--line)}
+ .winbody{padding:18px}
+}
 </style>
 </head>
 <body>
-<div class="top"><span class="logo">Job<b>Agent</b>X</span><span class="tag">Concept · prompt-first hire flow</span></div>
+<div class="top"><span class="logo">Job<b>Agent</b>X</span><span class="chip">Concept · Prompt-first hire flow</span></div>
 
 <div class="wrap">
 <div class="stage" id="stage"></div>
@@ -135,7 +171,7 @@ h2{font-size:24px;letter-spacing:-.3px;text-align:center;margin:14px 0 8px}
 
 <script>
 var _rays='';for(var _i=0;_i<12;_i++){var _len=[15,10,14,9,15,11,13,10,15,10,14,9][_i];_rays+='<g transform="rotate('+(_i*30)+' 100 100)"><rect class="imx-ray r" x="97.5" y="'+(38-_len)+'" width="5" height="'+_len+'" rx="2.5" style="animation-delay:'+(-_i*0.15).toFixed(2)+'s"/></g>';}
-var MASCOT='<svg class="imx" viewBox="0 0 200 200" width="86" height="86" fill="none"><g class="imx-ring">'+_rays+'</g><g class="imx-face"><path d="M100 75v-9" class="imx-ant" stroke-width="3" stroke-linecap="round"/><path d="M100 54c.9 4.4 2 5.5 6.4 6.4c-4.4.9-5.5 2-6.4 6.4c-.9-4.4-2-5.5-6.4-6.4c4.4-.9 5.5-2 6.4-6.4z" class="imx-spark-f"/><path d="M72 88a20 20 0 0 1 20-20h16a20 20 0 0 1 20 20v20a20 20 0 0 1-20 20h-18l-9 10 1-11a20 20 0 0 1-10-18z" class="imx-face-f"/><rect class="imx-eye" x="88" y="94" width="6" height="12" rx="3" fill="#eef0ff"/><rect class="imx-eye" x="106" y="94" width="6" height="12" rx="3" fill="#eef0ff" style="animation-delay:-.15s"/></g></svg>';
+function mascot(sz){return '<svg class="imx" viewBox="0 0 200 200" width="'+sz+'" height="'+sz+'" fill="none"><g class="imx-ring">'+_rays+'</g><g class="imx-face"><path d="M100 75v-9" class="imx-ant" stroke-width="3" stroke-linecap="round"/><path d="M100 54c.9 4.4 2 5.5 6.4 6.4c-4.4.9-5.5 2-6.4 6.4c-.9-4.4-2-5.5-6.4-6.4c4.4-.9 5.5-2 6.4-6.4z" class="imx-spark-f"/><path d="M72 88a20 20 0 0 1 20-20h16a20 20 0 0 1 20 20v20a20 20 0 0 1-20 20h-18l-9 10 1-11a20 20 0 0 1-10-18z" class="imx-face-f"/><rect class="imx-eye" x="88" y="94" width="6" height="12" rx="3" fill="#eef0ff"/><rect class="imx-eye" x="106" y="94" width="6" height="12" rx="3" fill="#eef0ff" style="animation-delay:-.15s"/></g></svg>';}
 
 var H={step:'hero',job:{title:'',city:'',pay:'',openings:2},vol:20,cal:false,chatQ:null,prompt:''};
 var VOLS=[{n:10,plan:'Starter',mo:299},{n:20,plan:'Growth',mo:499},{n:30,plan:'Scale',mo:699}];
@@ -143,7 +179,10 @@ var EXAMPLES=['I want to hire a registered nurse in Houston','I need two forklif
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function go(s){H.step=s;render();window.scrollTo(0,0);}
-function dots(n){var h='<div class="dots">';for(var i=1;i<=5;i++)h+='<i class="'+(i<=n?'on':'')+'"></i>';return h+'</div>';}
+function winTop(n,label){
+ var prog='';for(var i=1;i<=5;i++)prog+='<i class="'+(i<=n?'on':'')+'"></i>';
+ return `<div class="winbar"><span class="d d1"></span><span class="d d2"></span><span class="d d3"></span><span class="t">jobagentx — ${label}</span><span class="prog">${prog}</span></div>`;
+}
 function render(){
  var f={hero:vHero,chat:vChat,draft:vDraft,volume:vVolume,activate:vActivate,live:vLive}[H.step];
  document.getElementById('stage').innerHTML=f();
@@ -153,15 +192,19 @@ function render(){
 
 /* ---------- hero ---------- */
 function vHero(){
- return `<div class="center" style="margin-top:26px">${MASCOT}</div>
- <h1>Hire with one sentence.</h1>
- <p class="sub">Tell your agent who you're hiring. It sources from 800M+ profiles, screens,<br>and books qualified candidates straight onto your calendar.</p>
- <div class="promptbox"><input id="hPrompt" placeholder="I want to hire a…" autocomplete="off" onkeydown="if(event.key==='Enter')heroGo()"><button class="pbtn" onclick="heroGo()">Start hiring</button></div>
- <div class="hints">${EXAMPLES.map(function(e){return '<button onclick="heroPick(this.textContent)">'+e+'</button>';}).join('')}</div>
- <div class="steps3">
-  <div><span class="n">1</span><b>You describe the hire</b><span>One sentence. No forms, no filters. Your agent asks anything it's missing.</span></div>
-  <div><span class="n">2</span><b>Your agent does the recruiting</b><span>Sources, screens, and qualifies — then candidates book themselves into your calendar.</span></div>
-  <div><span class="n">3</span><b>You interview and decide</b><span>Show up, judge, hire. You only pay for the interviews you accept.</span></div>
+ return `<div class="eyebrow">Interviews on autopilot</div>
+ <h1>Hire with <span class="g">one sentence.</span></h1>
+ <p class="sub">Tell your agent who you're hiring. It sources from <b>800M+ profiles</b>, screens, and books qualified candidates straight onto your calendar.</p>
+ <div class="win glow">${winTop(0,'your agent')}
+  <div class="winbody" style="min-height:0;padding:22px">
+   <div class="promptline"><span class="car">❯</span><input id="hPrompt" placeholder="I want to hire a…" autocomplete="off" onkeydown="if(event.key==='Enter')heroGo()"><button class="gbtn" onclick="heroGo()">Start hiring</button></div>
+   <div class="hints">${EXAMPLES.map(function(e){return '<button onclick="heroPick(this.textContent)">'+e+'</button>';}).join('')}</div>
+  </div>
+ </div>
+ <div class="bigsteps">
+  <div><div class="num">STEP — 01</div><b>You describe the hire</b><span>One sentence. No forms, no filters. Your agent asks anything it's missing.</span></div>
+  <div><div class="num">STEP — 02</div><b>Your agent recruits</b><span>Sources, screens, qualifies — candidates book themselves into your calendar.</span></div>
+  <div><div class="num">STEP — 03</div><b>You interview &amp; decide</b><span>Show up, judge, hire. You only pay for the interviews you accept.</span></div>
  </div>`;
 }
 var _phT;
@@ -195,10 +238,15 @@ function parsePrompt(v){
 
 /* ---------- chat ---------- */
 function vChat(){
- return `${dots(1)}<h2>Your agent has a couple of questions</h2>
+ return `<div class="eyebrow">Step 1 of 5 — describe</div>
+ <h2>Your agent has <span class="g">a couple of questions.</span></h2>
  <p class="sub">Only what it can't figure out on its own.</p>
- <div class="chat" id="chat"></div>
- <div class="chatrow"><input id="chatIn" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')chatSend()"><button class="pbtn" onclick="chatSend()">Send</button></div>`;
+ <div class="win">${winTop(1,'agent setup')}
+  <div class="winbody">
+   <div class="chat" id="chat"></div>
+   <div class="chatrow"><input id="chatIn" placeholder="Type your answer…" onkeydown="if(event.key==='Enter')chatSend()"><button class="gbtn" onclick="chatSend()">Send</button></div>
+  </div>
+ </div>`;
 }
 function bub(t,who,label){
  var c=document.getElementById('chat');var d=document.createElement('div');
@@ -232,28 +280,37 @@ function chatSend(){
  setTimeout(nextQ,450);
 }
 
-/* ---------- draft: activity log then review ---------- */
-var ACTS=['Reading your role','Choosing sourcing channels · 3 selected','Drafting screening criteria','Writing qualifying questions','Setting up SMS confirmations & reminders'];
+/* ---------- draft ---------- */
+var ACTS=['reading your role','choosing sourcing channels — 3 selected','drafting screening criteria','writing qualifying questions','arming SMS confirmations + reminders'];
 function vDraft(){
  if(!H._drafted){
-  return `${dots(2)}<div class="center">${MASCOT}</div><h2>Your agent is building itself</h2>
-  <p class="sub">Watch it work — this takes a few seconds.</p>
-  <ul class="act" id="act">${ACTS.map(function(a){return '<li><span class="spin"></span><span>'+a+'</span></li>';}).join('')}</ul>`;
+  return `<div class="eyebrow">Step 2 of 5 — building</div>
+  <h2>Your agent is <span class="g">building itself.</span></h2>
+  <p class="sub">Watch it work.</p>
+  <div class="win glow">${winTop(2,'agent build · running')}
+   <div class="winbody"><div class="center" style="margin-bottom:16px">${mascot(72)}</div>
+   <ul class="act" id="act">${ACTS.map(function(a){return '<li><span class="spin"></span><span>'+a+'</span></li>';}).join('')}</ul></div>
+  </div>`;
  }
  var j=H.job;
- return `${dots(2)}<h2>Review your agent&rsquo;s draft</h2>
- <p class="sub">It won&rsquo;t get everything right — <b>edit anything that&rsquo;s off</b>, then continue.</p>
- <div class="rc"><h4><span class="t">Agent draft</span>Job description<button class="e" onclick="edit('d1')">Edit</button></h4>
- <div class="bd" id="d1">${esc(j.title)}${j.city?' — '+esc(j.city):''}${j.pay?' · '+esc(j.pay):''}
+ return `<div class="eyebrow">Step 2 of 5 — review</div>
+ <h2>Review your agent's <span class="g">draft.</span></h2>
+ <p class="sub">It won't get everything right — <b>edit anything that's off</b>, then continue.</p>
+ <div class="win">${winTop(2,'agent build · complete')}
+  <div class="winbody">
+  <div class="rc"><h4><span class="t">Agent draft</span>Job description<button class="e" onclick="edit('d1')">Edit</button></h4>
+  <div class="bd" id="d1">${esc(j.title)}${j.city?' — '+esc(j.city):''}${j.pay?' · '+esc(j.pay):''}
 
-We&rsquo;re hiring a ${esc(j.title)} to join the team. Real pay, real growth, and interviews that respect your time.</div></div>
- <div class="rc"><h4><span class="t">Agent draft</span>Screening criteria<button class="e" onclick="edit('d2')">Edit</button></h4>
- <ul id="d2"><li>1+ year of relevant ${esc(j.title)} experience</li><li>${j.city?'Located in or willing to commute to '+esc(j.city):'Located near the role'}</li><li>Comp expectation within range${j.pay?' ('+esc(j.pay)+')':''}</li><li>Authorized to work in the US</li></ul></div>
- <div class="rc"><h4><span class="t">Agent draft</span>Qualifying questions<button class="e" onclick="edit('d3')">Edit</button></h4>
- <ul id="d3"><li>How many years of ${esc(j.title)} experience do you have?</li><li>What shift or schedule works best for you?</li><li>What&rsquo;s your expected pay?</li><li>When could you start?</li></ul></div>
- <div class="rc"><h4><span class="t">Agent draft</span>Automatic messaging<button class="e" onclick="edit('d4')">Edit</button></h4>
- <ul id="d4"><li>Booking confirmation ✓</li><li>Prep &amp; details ✓</li><li>Day-before reminder ✓</li><li>1-hour reminder ✓</li><li>No-show recovery ✓</li><li>Follow-up ✓</li></ul></div>
- <div class="navr"><button class="ghost" onclick="go('chat')">Back</button><button class="pbtn" onclick="go('volume')">Looks right — continue</button></div>`;
+We're hiring a ${esc(j.title)} to join the team. Real pay, real growth, and interviews that respect your time.</div></div>
+  <div class="rc"><h4><span class="t">Agent draft</span>Screening criteria<button class="e" onclick="edit('d2')">Edit</button></h4>
+  <ul id="d2"><li>1+ year of relevant ${esc(j.title)} experience</li><li>${j.city?'Located in or willing to commute to '+esc(j.city):'Located near the role'}</li><li>Comp expectation within range${j.pay?' ('+esc(j.pay)+')':''}</li><li>Authorized to work in the US</li></ul></div>
+  <div class="rc"><h4><span class="t">Agent draft</span>Qualifying questions<button class="e" onclick="edit('d3')">Edit</button></h4>
+  <ul id="d3"><li>How many years of ${esc(j.title)} experience do you have?</li><li>What shift or schedule works best for you?</li><li>What's your expected pay?</li><li>When could you start?</li></ul></div>
+  <div class="rc"><h4><span class="t">Agent draft</span>Automatic messaging<button class="e" onclick="edit('d4')">Edit</button></h4>
+  <ul id="d4"><li>Booking confirmation ✓</li><li>Prep &amp; details ✓</li><li>Day-before reminder ✓</li><li>1-hour reminder ✓</li><li>No-show recovery ✓</li><li>Follow-up ✓</li></ul></div>
+  <div class="navr"><button class="ghost" onclick="go('chat')">Back</button><button class="gbtn" onclick="go('volume')">Looks right — continue</button></div>
+  </div>
+ </div>`;
 }
 function draftBoot(){
  if(H._drafted)return;
@@ -278,42 +335,56 @@ function edit(id){
 function recVol(){var o=H.job.openings;return o<=1?10:(o<=3?20:30);}
 function vVolume(){
  var rec=recVol();
- return `${dots(3)}<h2>How many interviews do you want<br>each month?</h2>
- <p class="sub">Every plan includes unlimited agents, roles, and seats — you&rsquo;re only metered on interviews.</p>
- <div class="openrow">Openings for this role: <input type="number" min="1" max="99" value="${H.job.openings}" onchange="H.job.openings=Math.max(1,parseInt(this.value)||1);H.vol=recVol();render()"></div>
- <div class="whyrec" id="why">${H.job.openings} opening${H.job.openings>1?'s':''} usually takes <b>${H.job.openings*5}–${H.job.openings*8} interviews</b> to fill — your agent recommends <b>${rec} / month</b>.</div>
- <div class="vols">${VOLS.map(function(v){
-   return '<div class="vol '+(H.vol===v.n?'on':'')+'" onclick="H.vol='+v.n+';render()">'+(recVol()===v.n?'<span class="rec">Agent recommends</span>':'')+
-   '<div class="n">'+v.n+'</div><div class="l">interviews / mo</div><div class="p">$'+v.mo+'/mo</div><div class="per">$'+Math.round(v.mo/v.n)+' per interview</div></div>';
- }).join('')}</div>
- <div class="navr"><button class="ghost" onclick="H._drafted=true;go('draft')">Back</button><button class="pbtn" onclick="go('activate')">Continue</button></div>`;
+ return `<div class="eyebrow">Step 3 of 5 — volume</div>
+ <h2>How many interviews<br>do you want <span class="g">each month?</span></h2>
+ <p class="sub">Unlimited agents, roles, and seats on every plan — you're only metered on interviews.</p>
+ <div class="win">${winTop(3,'pick your volume')}
+  <div class="winbody">
+  <div class="openrow">Openings for this role: <input type="number" min="1" max="99" value="${H.job.openings}" onchange="H.job.openings=Math.max(1,parseInt(this.value)||1);H.vol=recVol();render()"></div>
+  <div class="whyrec">${H.job.openings} opening${H.job.openings>1?'s':''} usually takes <b>${H.job.openings*5}–${H.job.openings*8} interviews</b> to fill — your agent recommends <b>${rec}/month</b></div>
+  <div class="vols">${VOLS.map(function(v){
+    return '<div class="vol '+(H.vol===v.n?'on':'')+'" onclick="H.vol='+v.n+';render()">'+(recVol()===v.n?'<span class="rec">Agent recommends</span>':'')+
+    '<div class="n">'+v.n+'</div><div class="l">interviews / mo</div><div class="p">$'+v.mo+'/mo</div><div class="per">$'+Math.round(v.mo/v.n)+' per interview</div></div>';
+  }).join('')}</div>
+  <div class="navr"><button class="ghost" onclick="H._drafted=true;go('draft')">Back</button><button class="gbtn" onclick="go('activate')">Continue</button></div>
+  </div>
+ </div>`;
 }
 
 /* ---------- activate ---------- */
 function vActivate(){
  var v=VOLS.filter(function(x){return x.n===H.vol;})[0];
- return `${dots(4)}<h2>Activate your agent</h2>
- <p class="sub">Connect your calendar, add a card, and your agent starts sourcing today.</p>
- <div class="sumline"><b>${esc(H.job.title)}</b>${H.job.city?' · '+esc(H.job.city):''} · ${H.job.openings} opening${H.job.openings>1?'s':''} · <b>${v.n} interviews/mo — $${v.mo}/mo</b> (${v.plan})</div>
- <div class="acard"><div class="cal"><div><b style="font-size:13.5px">Calendar</b><div class="cs ${H.cal?'ok':''}">${H.cal?'Connected ✓ — interviews book straight to your calendar':'Connect Google or Outlook so candidates book real slots'}</div></div>${H.cal?'':'<button class="ghost" onclick="H.cal=true;render()">Connect</button>'}</div></div>
- <div class="acard"><div class="field"><label>Card number</label><input placeholder="4242 4242 4242 4242" inputmode="numeric"></div>
- <div class="row2"><div class="field"><label>Expiry</label><input placeholder="MM / YY"></div><div class="field"><label>CVC</label><input placeholder="123" inputmode="numeric"></div></div></div>
- <button class="big" ${H.cal?'':'disabled title="Connect your calendar first"'} onclick="go('live')">Pay $${v.mo} · Activate agent</button>
- <p class="fine">Accepting a candidate books the interview and uses one of your ${v.n} monthly interviews. Your agent works confirmations and reminders hard — you&rsquo;re paying for the scheduled interview. Cancel anytime.</p>
- <div class="navr"><button class="ghost" onclick="go('volume')">Back</button><span></span></div>`;
+ return `<div class="eyebrow">Step 4 of 5 — activate</div>
+ <h2>Turn your agent <span class="g">on.</span></h2>
+ <p class="sub">Connect your calendar, add a card — your agent starts sourcing today.</p>
+ <div class="win">${winTop(4,'activation')}
+  <div class="winbody">
+  <div class="sumline"><b>${esc(H.job.title)}</b>${H.job.city?' · '+esc(H.job.city):''} · ${H.job.openings} opening${H.job.openings>1?'s':''} · <b>${v.n} interviews/mo — $${v.mo}/mo</b> (${v.plan})</div>
+  <div class="acard"><div class="cal"><div><b style="font-size:13.5px">Calendar</b><div class="cs ${H.cal?'ok':''}">${H.cal?'Connected ✓ — interviews book straight to your calendar':'Connect Google or Outlook so candidates book real slots'}</div></div>${H.cal?'':'<button class="ghost" onclick="H.cal=true;render()">Connect</button>'}</div></div>
+  <div class="acard"><div class="field"><label>Card number</label><input placeholder="4242 4242 4242 4242" inputmode="numeric"></div>
+  <div class="row2"><div class="field"><label>Expiry</label><input placeholder="MM / YY"></div><div class="field"><label>CVC</label><input placeholder="123" inputmode="numeric"></div></div></div>
+  <button class="gbtn full" ${H.cal?'':'disabled title="Connect your calendar first"'} onclick="go('live')">Pay $${v.mo} · Activate agent</button>
+  <p class="fine">Accepting a candidate books the interview and uses one of your ${v.n} monthly interviews. Your agent works confirmations and reminders hard — you're paying for the scheduled interview. Cancel anytime.</p>
+  <div class="navr"><button class="ghost" onclick="go('volume')">Back</button><span></span></div>
+  </div>
+ </div>`;
 }
 
 /* ---------- live ---------- */
 function vLive(){
- return `${dots(5)}<div class="center">${MASCOT}</div>
- <h2>${esc(H.job.title)} agent is live</h2>
- <p class="sub">It&rsquo;s out sourcing right now. First interview requests usually land within a few days —<br>we&rsquo;ll text and email you the moment one does.</p>
- <div class="feed" id="feed">
-  <div><span class="tm">now</span><span>Sourcing started — scanning 800M+ profiles for ${esc(H.job.title)} matches${H.job.city?' near '+esc(H.job.city):''}</span></div>
-  <div><span class="tm">now</span><span>Outreach queued — screening questions ready</span></div>
-  <div><span class="tm">next</span><span>Qualified candidates will request interview times on your calendar</span></div>
- </div>
- <div class="center" style="margin-top:26px"><button class="pbtn" onclick="location.href='interview-agent.html'">Go to my dashboard</button></div>`;
+ return `<div class="eyebrow">Step 5 of 5 — live</div>
+ <h2><span class="g">${esc(H.job.title)}</span> agent is live.</h2>
+ <p class="sub">It's out sourcing right now. First interview requests usually land within a few days — we'll text and email you the moment one does.</p>
+ <div class="win glow">${winTop(5,'agent live · sourcing')}
+  <div class="winbody"><div class="center" style="margin-bottom:14px">${mascot(72)}</div>
+  <div class="feed" id="feed">
+   <div><span class="tm">now</span><span><span class="g2">●</span> sourcing started — scanning 800M+ profiles for ${esc(H.job.title)} matches${H.job.city?' near '+esc(H.job.city):''}</span></div>
+   <div><span class="tm">now</span><span>outreach queued — screening questions armed</span></div>
+   <div><span class="tm">next</span><span>qualified candidates request interview times on your calendar</span></div>
+  </div>
+  <div class="center" style="margin-top:24px"><button class="gbtn" onclick="location.href='interview-agent.html'">Go to my dashboard</button></div>
+  </div>
+ </div>`;
 }
 function liveBoot(){
  var rows=document.querySelectorAll('#feed div');
