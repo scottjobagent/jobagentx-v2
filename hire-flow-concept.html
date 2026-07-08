@@ -6,7 +6,7 @@
 <title>JobAgentX — Hire with one sentence</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
  --char:#1c1b18; --char2:#141310; --char3:#22211d;
@@ -15,8 +15,7 @@
  --paper:#ffffff; --inkL:#1c1b18; --grayL:#6b6862; --lineL:#e6e2d8;
  --accent:#fa8f14; --accent-dim:rgba(250,143,20,.10); --accent-line:rgba(250,143,20,.32);
  --great:#3ecf8e; --poor:#f87171; --okay:#fbbf24;
- --serif:'Instrument Serif',Georgia,serif;
- --sans:'Geist',-apple-system,system-ui,'Segoe UI',sans-serif;
+ --sans:-apple-system,system-ui,'Segoe UI',Roboto,'Helvetica Neue',sans-serif;
  --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
 }
 *{box-sizing:border-box;margin:0;padding:0}
@@ -45,8 +44,8 @@ section{padding:110px 40px}
 .eyebrow::before{content:'┌ ';color:var(--faintD)}
 .eyebrow::after{content:' ┐';color:var(--faintD)}
 .light .eyebrow::before,.light .eyebrow::after{color:#c9c4b8}
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(46px,7vw,76px);line-height:1.06;letter-spacing:-.5px;text-align:center}
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.6vw,46px);line-height:1.12;letter-spacing:-.3px;text-align:center;margin-bottom:16px}
+h1{font-family:var(--sans);font-weight:800;font-size:clamp(40px,6vw,66px);line-height:1.04;letter-spacing:-2.2px;text-align:center}
+h2{font-family:var(--sans);font-weight:800;font-size:clamp(28px,4.2vw,42px);line-height:1.08;letter-spacing:-1.3px;text-align:center;margin-bottom:16px}
 .em{color:var(--accent)}
 .sub{color:var(--grayD);font-size:16.5px;line-height:1.65;text-align:center;max-width:620px;margin:18px auto 0}
 .sub b{color:var(--inkD);font-weight:500}
@@ -72,6 +71,20 @@ h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.6vw,46px);lin
 .hints button:hover{border-color:var(--accent);color:var(--accent)}
 .rolestrip{margin-top:56px;text-align:center;font-family:var(--mono);font-size:11.5px;letter-spacing:.18em;color:var(--faintD);text-transform:uppercase}
 .rolestrip b{color:var(--grayD);font-weight:400}
+/* hero demo */
+.demo{margin-bottom:16px;min-height:250px;display:flex;flex-direction:column;gap:10px}
+.dline{font-family:var(--mono);font-size:13.5px;color:var(--inkD);display:flex;gap:10px;align-items:baseline;padding:2px 0 8px}
+.dline .car{color:var(--accent)}
+.dline .cur{color:var(--accent);animation:blink 1s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.demo .msg{animation:dfade .3s ease}
+@keyframes dfade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+.demo .act{margin:2px 0}
+.demo .act li{padding:6px 0}
+.dbook{font-family:var(--mono);font-size:12.5px;color:var(--inkD);border:1px solid var(--accent-line);background:var(--accent-dim);padding:11px 14px;animation:dfade .3s ease}
+.dbook .o{color:var(--accent)}
+.dbook .f{color:var(--faintD)}
+.tryline{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--faintD);text-align:center;margin:16px 0 10px}
 /* chat inside console */
 .chat{display:flex;flex-direction:column;gap:12px;min-height:210px;margin-bottom:16px}
 .msg{max-width:84%;padding:11px 15px;font-size:14px;line-height:1.55}
@@ -163,6 +176,40 @@ h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.6vw,46px);lin
 .diffvis .logls .c{color:var(--great)}
 .diffvis .logls .o{color:var(--accent)}
 .diffvis .logls .f{color:var(--faintD)}
+/* ===== HOW IT WORKS ===== */
+.hiw{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:60px}
+.hcard{background:var(--char2);border:1px solid var(--lineD);padding:28px}
+.hcard .sn{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;color:var(--accent);margin-bottom:12px}
+.hcard b{display:block;font-size:18px;font-weight:700;letter-spacing:-.3px;margin-bottom:8px}
+.hcard p{font-size:13.5px;color:var(--grayD);line-height:1.7;margin-bottom:20px}
+.mock{border:1px solid var(--lineD2);background:var(--char);padding:16px}
+.mock .mline{font-family:var(--mono);font-size:12.5px;color:var(--inkD);display:flex;gap:9px;align-items:baseline}
+.mock .mline .car{color:var(--accent)}
+.cand{display:flex;flex-direction:column;gap:9px}
+.cand .idrow{display:flex;align-items:center;gap:10px}
+.cand .blur{width:120px;height:13px;background:repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 8px,rgba(255,255,255,.05) 8px 16px);filter:blur(.5px)}
+.cand .fit{margin-left:auto;font-family:var(--mono);font-size:11px;color:var(--char);background:var(--accent);padding:3px 9px;font-weight:500}
+.cand .crit{font-family:var(--mono);font-size:11.5px;color:#c9c5bc;line-height:2}
+.cand .crit .c{color:var(--great)}
+.smsrow{display:flex;flex-direction:column;gap:8px}
+.sms{max-width:86%;padding:9px 12px;font-size:12.5px;line-height:1.5}
+.sms.a{background:var(--accent-dim);border:1px solid var(--accent-line);color:#e8e4dc;align-self:flex-start}
+.sms.c{background:rgba(255,255,255,.06);border:1px solid var(--lineD2);color:var(--inkD);align-self:flex-end}
+.sms .wh{display:block;font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:3px}
+.calrow{display:flex;align-items:center;gap:12px;border:1px solid var(--lineD2);padding:11px 14px;margin-top:10px;font-family:var(--mono);font-size:12px;color:var(--inkD)}
+.calrow .dot{width:8px;height:8px;background:var(--great);border-radius:50%}
+.calrow .f{color:var(--faintD);margin-left:auto}
+.togrow{display:flex;flex-direction:column;gap:10px}
+.tog{display:flex;align-items:flex-start;gap:14px;border:1px solid var(--lineD2);padding:14px 16px}
+.tog.on{border-color:var(--accent-line);background:var(--accent-dim)}
+.tog .sw{width:34px;height:19px;border-radius:999px;background:rgba(255,255,255,.14);position:relative;flex:none;margin-top:2px}
+.tog.on .sw{background:var(--accent)}
+.tog .sw i{position:absolute;top:2.5px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff}
+.tog.on .sw i{left:17px}
+.tog b{font-size:13.5px;display:block;margin-bottom:2px;letter-spacing:0}
+.tog span{font-size:12px;color:var(--grayD);line-height:1.55}
+.seeapp{text-align:center;margin-top:30px}
+@media(max-width:900px){.hiw{grid-template-columns:1fr}}
 /* ===== WHY ===== */
 .whycols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:64px;border-top:1px solid var(--lineD)}
 .whycols>div{padding:30px 28px 10px;border-right:1px solid var(--lineD2)}
@@ -173,7 +220,7 @@ h2{font-family:var(--serif);font-weight:400;font-size:clamp(32px,4.6vw,46px);lin
 .stats{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--lineD2);margin-top:64px}
 .stats>div{padding:38px 20px;text-align:center;border-right:1px solid var(--lineD2)}
 .stats>div:last-child{border-right:none}
-.stats .v{font-family:var(--serif);font-size:52px;line-height:1;color:var(--inkD)}
+.stats .v{font-family:var(--sans);font-weight:800;font-size:46px;letter-spacing:-2px;line-height:1;color:var(--inkD)}
 .stats .k{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--faintD);margin-top:12px}
 /* ===== light sections ===== */
 .light{background:var(--paper);color:var(--inkL)}
@@ -282,6 +329,40 @@ footer a:hover{color:var(--grayD)}
  </div>
 </section>
 
+<!-- ===== HOW IT WORKS ===== -->
+<section style="padding-top:0">
+ <div class="inner">
+  <div class="eyebrow">How it works</div>
+  <h2>Your agent runs the recruiting.<br><span class="em">You run the interview.</span></h2>
+  <p class="sub">One agent per job. It sources, screens, and schedules — everything up to the interview itself. You decide how hands-on to be.</p>
+  <div class="hiw">
+   <div class="hcard"><div class="sn">01 — SAY THE HIRE</div><b>Describe the job in a sentence</b><p>Or paste a posting you already have. Your agent drafts the description, screening criteria, and qualifying questions — you approve them once.</p>
+    <div class="mock"><div class="mline"><span class="car">❯</span><span>I want to hire a registered nurse in Houston</span></div></div>
+   </div>
+   <div class="hcard"><div class="sn">02 — SOURCED &amp; SCREENED</div><b>It finds and qualifies real candidates</b><p>Sourcing across 800M+ profiles, screening against your criteria, qualifying over SMS. Candidates arrive scored — identity hidden until you accept.</p>
+    <div class="mock"><div class="cand">
+     <div class="idrow"><span class="blur"></span><span class="fit">92 FIT</span></div>
+     <div class="crit"><span class="c">✓</span> 4 yrs ICU experience&nbsp;&nbsp;<span class="c">✓</span> Houston metro<br><span class="c">✓</span> comp in range&nbsp;&nbsp;<span class="c">✓</span> nights OK</div>
+    </div></div>
+   </div>
+   <div class="hcard"><div class="sn">03 — SCHEDULED FOR YOU</div><b>Interviews land on your calendar</b><p>Candidates book into your real availability. Your agent runs confirmations, reminders, and no-show recovery by SMS — automatically.</p>
+    <div class="mock"><div class="smsrow">
+     <div class="sms a"><span class="wh">Interview Agent · automatic SMS</span>You're confirmed for Thursday at 1:00 PM — reply RESCHEDULE any time.</div>
+     <div class="sms c">See you then!</div>
+    </div>
+    <div class="calrow"><span class="dot"></span>THU 1:00 PM — RN INTERVIEW<span class="f">GOOGLE CAL</span></div></div>
+   </div>
+   <div class="hcard"><div class="sn">04 — YOUR CALL</div><b>Approve each one, or let it run</b><p>Choose how hands-on you want to be. Approval mode books interviews only after you accept a candidate — or turn it off and your agent books every qualified match automatically.</p>
+    <div class="mock"><div class="togrow">
+     <div class="tog on"><span class="sw"><i></i></span><div><b>Approval mode — on</b><span>Review each candidate; accepting unlocks identity and books the interview. Pay per accepted interview.</span></div></div>
+     <div class="tog"><span class="sw"><i></i></span><div><b>Auto-book — off</b><span>Your agent books every qualified candidate straight to your calendar. Pay per booked interview.</span></div></div>
+    </div></div>
+   </div>
+  </div>
+  <div class="seeapp"><a class="ghostD" style="padding:13px 24px" href="interview-agent.html">See the app it runs in →</a></div>
+ </div>
+</section>
+
 <!-- ===== WHY ===== -->
 <section>
  <div class="inner">
@@ -380,26 +461,65 @@ function render(){
 
 /* ---- prompt ---- */
 function vPrompt(){
- return `<div class="promptline"><span class="car">❯</span><input id="hPrompt" placeholder="I want to hire a…" autocomplete="off" onkeydown="if(event.key==='Enter')heroGo()"><button class="btn" onclick="heroGo()">Start hiring</button></div>
+ return `<div class="demo" id="demo"></div>
+ <div class="tryline">— or type your own —</div>
+ <div class="promptline"><span class="car">❯</span><input id="hPrompt" placeholder="I want to hire a…" autocomplete="off" onfocus="stopDemo()" onkeydown="if(event.key==='Enter')heroGo()"><button class="btn" onclick="heroGo()">Start hiring</button></div>
  <div class="hints">${EXAMPLES.map(function(e){return '<button onclick="heroPick(this.textContent)">'+e+'</button>';}).join('')}</div>`;
 }
-var _phT;
-function promptBoot(){
- var i=0,ch=0,el=document.getElementById('hPrompt');
- clearInterval(_phT);
- _phT=setInterval(function(){
-  if(!document.getElementById('hPrompt')){clearInterval(_phT);return;}
-  if(document.activeElement===el&&el.value){clearInterval(_phT);return;}
-  ch++;var ex=EXAMPLES[i%EXAMPLES.length];
-  el.placeholder=ex.slice(0,ch)+(ch<ex.length?'▏':'');
-  if(ch>ex.length+14){ch=0;i++;}
- },55);
+/* auto-playing demo: types a hire, agent works, interview lands */
+var DEMOS=[
+ {q:'I want to hire a registered nurse in Houston',known:'role: registered nurse · location: Houston',when:'Thu 1:00 PM'},
+ {q:'I need two forklift operators in Fort Worth, $22/hr',known:'role: forklift operator ×2 · Fort Worth · $22/hr',when:'Mon 9:30 AM'},
+ {q:'Hiring a bilingual call center rep, remote',known:'role: bilingual call center rep · Remote (US)',when:'Wed 11:00 AM'}
+];
+var DLOG=['sourcing 800M+ profiles','screening against your criteria','qualifying by SMS'];
+var _dT=[],_dOn=false,_dIdx=0;
+function dwait(fn,ms){_dT.push(setTimeout(fn,ms));}
+function stopDemo(){_dOn=false;_dT.forEach(clearTimeout);_dT=[];}
+function promptBoot(){stopDemo();_dOn=true;_dIdx=0;runDemo();}
+function runDemo(){
+ if(!_dOn)return;
+ var d=document.getElementById('demo');if(!d)return;
+ var demo=DEMOS[_dIdx%DEMOS.length];_dIdx++;
+ d.innerHTML='<div class="dline"><span class="car">❯</span><span id="dtxt"></span><span class="cur">▏</span></div>';
+ var i=0;
+ var typer=setInterval(function(){
+  var el=document.getElementById('dtxt');
+  if(!el||!_dOn){clearInterval(typer);return;}
+  el.textContent=demo.q.slice(0,++i);
+  if(i>=demo.q.length){clearInterval(typer);dwait(function(){demoAgent(d,demo);},500);}
+ },42);
+ _dT.push(typer);
 }
-function heroPick(t){document.getElementById('hPrompt').value=t;heroGo();}
+function demoAgent(d,demo){
+ if(!_dOn)return;
+ var m=document.createElement('div');m.className='msg agent';
+ m.innerHTML='<span class="who">Your agent</span>Got it — '+demo.known+'. Building your agent…';
+ d.appendChild(m);
+ var ul=document.createElement('ul');ul.className='act';d.appendChild(ul);
+ DLOG.forEach(function(line,j){
+  dwait(function(){
+   if(!_dOn)return;
+   var li=document.createElement('li');li.className='show';
+   li.innerHTML='<span class="ok">✓</span><span>'+line+'</span>';
+   ul.appendChild(li);
+   if(j===DLOG.length-1){
+    dwait(function(){
+     if(!_dOn)return;
+     var b=document.createElement('div');b.className='dbook';
+     b.innerHTML='<span class="o">→</span> interview requested — <span class="o">'+demo.when+'</span> <span class="f">· booked to your calendar · identity unlocked on accept</span>';
+     d.appendChild(b);
+     dwait(runDemo,3400);
+    },700);
+   }
+  },600+j*650);
+ });
+}
+function heroPick(t){stopDemo();document.getElementById('hPrompt').value=t;heroGo();}
 function heroGo(){
  var v=document.getElementById('hPrompt').value.trim();
  if(!v){document.getElementById('hPrompt').focus();return;}
- H.prompt=v;parsePrompt(v);go('chat');
+ stopDemo();H.prompt=v;parsePrompt(v);go('chat');
 }
 function parsePrompt(v){
  var m=v.match(/hir(?:e|ing)\s+(?:an?\s+|two\s+|three\s+|\d+\s+)?(.+)$/i);
